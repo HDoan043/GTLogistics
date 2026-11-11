@@ -1,0 +1,65 @@
+name: Deploy GT Logistics to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to Production Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_SSH_PORT || 22 }}
+          script_stop: true
+          script: |
+            echo "==========================================="
+            echo "🚀 BẮT ĐẦU TRIỂN KHAI LÊN VPS"
+            echo "==========================================="
+
+            # 1. Di chuyển vào thư mục dự án
+            cd /var/www/gt-logistics || exit 1
+
+            # 2. Nhận diện Node.js và NPM trong môi trường non-interactive shell
+            export NVM_DIR="$HOME/.nvm"
+            if [ -s "$NVM_DIR/nvm.sh" ]; then
+              . "$NVM_DIR/nvm.sh"
+            fi
+            export PATH=$PATH:/usr/local/bin:/usr/bin:~/.nvm/versions/node/$(ls ~/.nvm/versions/node 2>/dev/null | tail -n 1)/bin
+
+            # 3. Kéo code mới nhất từ GitHub
+            echo "📥 Đang kéo code mới từ nhánh main..."
+            git reset --hard HEAD
+            git pull origin main
+
+            # 4. Cài đặt các package (bỏ qua các cảnh báo thừa)
+            echo "📦 Cài đặt thư viện..."
+            npm install --production=false
+
+            # 5. Đồng bộ cấu trúc Database Prisma
+            echo "🗄️ Cập nhật Prisma Schema..."
+            npx prisma generate
+            npx prisma db push
+
+            # 6. Build ứng dụng Next.js
+            echo "⚙️ Đang build Next.js..."
+            npm run build
+
+            # 7. Khởi động lại dịch vụ qua PM2
+            echo "🔄 Khởi động lại ứng dụng qua PM2..."
+            pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
+            pm2 save
+
+            echo "==========================================="
+            echo "✅ DEPLOY THÀNH CÔNG! WEBSITE ĐÃ ĐƯỢC CẬP NHẬT."
+            echo "==========================================="

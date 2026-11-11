@@ -1,0 +1,96 @@
+# ==============================================================================
+# GT LOGISTICS - .gitignore
+# Chặn các file bảo mật, file tạm, thư viện nặng và ảnh gốc 1.2GB đẩy lên GitHub
+# ==============================================================================
+
+# 1. BẢO MẬT: Biến môi trường, chuỗi kết nối Database & Token bí mật
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.vercel
+*.pem
+*.key
+*.cert
+
+# Chỉ cho phép file mẫu .env.example được đẩy lên Git
+!.env.example
+
+# 2. FILE DUNG LƯỢNG KHỦNG: Chỉ chặn thư mục ảnh gốc 1.2GB ở thư mục gốc
+/VIỆT PHÚC/
+/VIỆT PHÚC
+/VI?T PHUC/
+/VIET PHUC/
+
+# Đảm bảo ảnh WebP tối ưu trong public/ bắt buộc phải được đẩy lên GitHub
+!/public/images/vietphuc/
+!/public/images/vietphuc/**
+
+# 3. THƯ VIỆN & DEPENDENCIES
+node_modules/
+/node_modules
+/.pnp
+.pnp.js
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# 4. NEXT.JS BUILD & PACKAGING
+.next/
+/out/
+/build
+/dist
+*.tsbuildinfo
+next-env.d.ts
+
+# 5. VERCEL DEPLOYMENT CACHE
+.vercel
+/.vercel
+
+# 6. DATABASE LOCAL & FILE NHẬT KÝ DATABASE
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+dev.db
+prod.db
+prisma/*.db
+prisma/*.db-journal
+
+# 7. LOGS & FILE GỠ LỖI
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 8. HỆ ĐIỀU HÀNH & TRÌNH SOẠN THẢO (OS & IDE)
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+
+# Editors (VSCode, JetBrains)
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 9. DOCKER OVERRIDES NỘI BỘ
+docker-compose.override.yml

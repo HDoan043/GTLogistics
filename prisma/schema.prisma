@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Tài khoản quản trị viên
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  fullName     String
+  role         String    @default("ADMIN") // ADMIN, EDITOR
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  posts        Post[]
+}
+
+// Bài viết tin tức & cẩm nang xuất nhập khẩu
+model Post {
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  excerpt     String     @db.Text
+  content     String     @db.Text
+  coverImage  String     @db.Text
+  category    String     @default("Tin tức ngành")
+  isPublished Boolean    @default(true)
+  viewCount   Int        @default(0)
+  publishedAt DateTime   @default(now())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  authorId    String?
+  author      AdminUser? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+}
+
+// Dịch vụ Logistics
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  shortDesc   String   @db.Text
+  fullContent String   @db.Text
+  iconName    String   @default("Truck")
+  bannerImage String   @db.Text
+  sortOrder   Int      @default(0)
+  isFeatured  Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Khách hàng gửi form yêu cầu báo giá / liên hệ (Leads)
+model Lead {
+  id               String   @id @default(cuid())
+  fullName         String
+  phone            String
+  email            String?
+  company          String?
+  serviceType      String   @default("Vận tải đường bộ")
+  routeOrigin      String?
+  routeDestination String?
+  cargoDetails     String?  @db.Text
+  message          String?  @db.Text
+  status           String   @default("NEW")
+  notes            String?  @db.Text
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+// Vận đơn tra cứu mẫu
+model TrackingOrder {
+  id                String    @id @default(cuid())
+  trackingCode      String    @unique
+  customerName      String
+  origin            String
+  destination       String
+  status            String    @default("IN_TRANSIT")
+  statusLabel       String    @default("Đang vận chuyển")
+  currentHub        String
+  estimatedDelivery DateTime?
+  timelineJson      String    @default("[]") @db.Text
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+// Cấu hình thông tin hệ thống động (Admin có thể tự đổi mà không cần sửa code)
+model SiteSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String   @db.Text
+  description String?
+  updatedAt   DateTime @updatedAt
+}

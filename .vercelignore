@@ -1,0 +1,11 @@
+# Exclude raw 1.2GB photography folder
+VIỆT PHÚC
+VI?T PHUC
+VIET PHUC
+
+# Standard exclusions
+node_modules
+.git
+.next
+docker
+*.log

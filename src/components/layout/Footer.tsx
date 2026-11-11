@@ -35,7 +35,7 @@ export function Footer({
   const cleanPhone = hotline.replace(/[^0-9]/g, "");
 
   return (
-    <footer className="bg-slate-950 text-slate-300 pt-16 pb-8 border-t-2 border-blue-600">
+    <footer className="bg-slate-950 text-slate-300 pt-16 pb-8 border-t-2 border-amber-500">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
           {/* Cột 1: Thông tin công ty & Nhận diện GT LOGISTICS */}
@@ -51,7 +51,7 @@ export function Footer({
             <div className="pt-2 text-xs text-slate-400 space-y-1.5 border-t border-slate-800/80">
               <div>
                 <span className="font-semibold text-slate-200">Mã số thuế:</span>{" "}
-                <span className="text-sky-400 font-mono font-bold">{taxCode}</span>
+                <span className="text-amber-400 font-mono font-bold">{taxCode}</span>
               </div>
               <div>
                 <span className="font-semibold text-slate-200">Đại diện pháp luật:</span> Lê Thanh Tâm
@@ -64,7 +64,7 @@ export function Footer({
 
           {/* Cột 2: Dịch vụ cốt lõi */}
           <div>
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-blue-500 pl-3">
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-3">
               Dịch Vụ Trọng Tâm
             </h3>
             <ul className="space-y-2.5 text-sm">
@@ -72,9 +72,9 @@ export function Footer({
                 <li key={s.slug}>
                   <Link
                     href={`/services/${s.slug}`}
-                    className="hover:text-sky-300 transition-colors flex items-center gap-1.5 text-slate-400 group"
+                    className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400 group"
                   >
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-sky-400 transition-colors" />
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-amber-400 transition-colors" />
                     <span>{s.title}</span>
                   </Link>
                 </li>
@@ -84,7 +84,7 @@ export function Footer({
 
           {/* Cột 3: Liên kết nhanh */}
           <div>
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-blue-500 pl-3">
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-3">
               Liên Kết Nhanh
             </h3>
             <ul className="space-y-2.5 text-sm">
@@ -151,10 +151,10 @@ export function Footer({
               </div>
 
               <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-sky-400 shrink-0" />
+                <Phone className="w-4 h-4 text-amber-400 shrink-0" />
                 <div>
                   <span className="text-slate-400">Hotline 24/7: </span>
-                  <a href={`tel:${cleanPhone}`} className="text-white font-bold hover:text-sky-300 transition-colors">
+                  <a href={`tel:${cleanPhone}`} className="text-amber-300 font-bold hover:text-amber-200 transition-colors">
                     {hotline}
                   </a>
                 </div>

@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "accent" | "outline" | "ghost" | "danger" | "gradient";
+  variant?: "primary" | "accent" | "gold" | "outline" | "ghost" | "danger" | "gradient";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
 }
@@ -21,14 +21,24 @@ export function Button({
     "inline-flex items-center justify-center font-semibold transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]";
 
   const variants = {
+    // Primary: Xanh Azure hoàng gia của chữ GT
     primary:
       "bg-blue-700 hover:bg-blue-800 text-white focus:ring-blue-500 shadow-md shadow-blue-700/20",
+    
+    // Accent: Gradient Vàng Hoàng Kim 3D đẳng cấp chuẩn Logo GT
     accent:
-      "bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:via-indigo-500 hover:to-blue-600 text-white focus:ring-blue-400 shadow-lg shadow-blue-600/25",
+      "bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:via-yellow-300 hover:to-amber-400 text-slate-950 font-bold focus:ring-amber-400 shadow-lg shadow-amber-500/25 border border-amber-300/50",
+    
+    // Gold: Vàng Kim đồng nhất
+    gold:
+      "bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold focus:ring-amber-400 shadow-md shadow-amber-500/20",
+
     gradient:
-      "bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-900 hover:from-blue-600 hover:via-indigo-600 hover:to-slate-800 text-white shadow-md",
+      "bg-gradient-to-r from-blue-700 via-sky-600 to-blue-800 hover:from-blue-600 hover:to-sky-500 text-white shadow-md",
+    
     outline:
       "border border-slate-300 bg-white text-slate-800 hover:bg-slate-50 hover:border-slate-400 focus:ring-blue-500 shadow-sm",
+    
     ghost: "text-slate-700 hover:bg-slate-100 focus:ring-slate-400",
     danger: "bg-red-600 hover:bg-red-700 text-white focus:ring-red-400 shadow-sm",
   };

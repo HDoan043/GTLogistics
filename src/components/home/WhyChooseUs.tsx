@@ -51,7 +51,7 @@ export function WhyChooseUs() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
             <div className="absolute bottom-6 left-6 right-6 text-white">
-              <span className="inline-block px-3 py-1 rounded-full bg-blue-600/90 text-white text-xs font-bold mb-2 backdrop-blur-sm">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-amber-500 text-slate-950 text-xs font-black mb-2 backdrop-blur-sm shadow-md">
                 Trụ Sở Điều Hành Móng Cái
               </span>
               <h3 className="text-lg sm:text-xl font-bold">
@@ -100,9 +100,9 @@ export function WhyChooseUs() {
           {wallPillars.map((p, idx) => (
             <div
               key={idx}
-              className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-blue-500/50 hover:bg-blue-50/30 hover:shadow-md transition-all duration-200 text-center flex flex-col justify-between"
+              className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-amber-400/80 hover:bg-amber-50/20 hover:shadow-lg transition-all duration-200 text-center flex flex-col justify-between group"
             >
-              <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-black text-sm mx-auto mb-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200 text-amber-950 border border-amber-300/80 flex items-center justify-center font-black text-sm mx-auto mb-3 shadow-sm group-hover:scale-110 transition-transform">
                 0{idx + 1}
               </div>
               <div>

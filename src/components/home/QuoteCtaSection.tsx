@@ -67,7 +67,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Cột trái: Lời kêu gọi */}
           <div className="lg:col-span-5 space-y-6">
-            <span className="inline-block px-3.5 py-1 bg-blue-900/60 text-sky-300 text-xs font-bold rounded-full border border-blue-500/30 uppercase tracking-wider backdrop-blur-sm">
+            <span className="inline-block px-3.5 py-1 bg-amber-500/15 text-amber-300 text-xs font-bold rounded-full border border-amber-500/30 uppercase tracking-wider backdrop-blur-sm">
               Báo Giá Nhanh 15 Phút
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
@@ -77,16 +77,16 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
               Điền nhanh thông tin lô hàng của bạn. Đội ngũ chuyên viên chứng từ của <strong>Logistics GT</strong> tại Cửa khẩu Móng Cái sẽ phân tích biểu thuế, lộ trình và gửi phương án tối ưu chi phí nhất tới bạn trong vòng 15 phút.
             </p>
 
-            <div className="p-6 rounded-3xl bg-white/5 border border-white/10 space-y-4 backdrop-blur-md">
+            <div className="p-6 rounded-3xl bg-white/5 border border-amber-500/20 space-y-4 backdrop-blur-md">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white font-bold shrink-0 shadow-lg shadow-blue-600/30">
-                  <PhoneCall className="w-6 h-6" />
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center text-slate-950 font-black shrink-0 shadow-lg shadow-amber-500/30">
+                  <PhoneCall className="w-6 h-6 text-slate-950" />
                 </div>
                 <div>
                   <div className="text-xs text-slate-400">Tư vấn trực tiếp 24/7:</div>
                   <a
                     href={`tel:${cleanPhone}`}
-                    className="text-xl font-black text-sky-400 hover:text-sky-300 hover:underline transition-colors"
+                    className="text-xl font-black text-amber-300 hover:text-amber-200 hover:underline transition-colors"
                   >
                     {hotline}
                   </a>

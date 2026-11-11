@@ -38,16 +38,16 @@ export function StatsCounter() {
             return (
               <div
                 key={idx}
-                className="text-center p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-blue-500/40 transition-colors"
+                className="text-center p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-amber-500/40 transition-colors"
               >
-                <Icon className="w-7 h-7 mx-auto text-sky-400 mb-2" />
-                <div className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-sky-100 to-blue-200 tracking-tight">
+                <Icon className="w-7 h-7 mx-auto text-amber-400 mb-2" />
+                <div className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-100 to-white tracking-tight">
                   {s.value}
                 </div>
-                <div className="text-xs sm:text-sm font-bold text-sky-300 mt-1 uppercase tracking-wider">
+                <div className="text-xs sm:text-sm font-bold text-amber-300 mt-1 uppercase tracking-wider">
                   {s.label}
                 </div>
-                <div className="text-xs text-slate-400 mt-1 line-clamp-2">
+                <div className="text-xs text-slate-300 mt-1 line-clamp-2">
                   {s.desc}
                 </div>
               </div>

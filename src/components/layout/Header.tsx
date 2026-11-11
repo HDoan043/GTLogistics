@@ -70,14 +70,14 @@ export function Header({
               href={`mailto:${email}`}
               className="flex items-center gap-1.5 hover:text-white transition-colors text-slate-300"
             >
-              <Mail className="w-3.5 h-3.5 text-sky-400" />
+              <Mail className="w-3.5 h-3.5 text-amber-400" />
               <span>{email}</span>
             </a>
             <a
               href={`tel:${cleanPhone}`}
-              className="flex items-center gap-1.5 font-bold text-sky-300 hover:text-white transition-colors"
+              className="flex items-center gap-1.5 font-bold text-amber-300 hover:text-amber-200 transition-colors"
             >
-              <Phone className="w-3.5 h-3.5 text-sky-400" />
+              <Phone className="w-3.5 h-3.5 text-amber-400" />
               <span>Hotline: {hotline}</span>
             </a>
           </div>

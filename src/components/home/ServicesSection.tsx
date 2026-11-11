@@ -67,10 +67,10 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
                   <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
-                    <span className="w-10 h-10 rounded-xl bg-blue-600/90 backdrop-blur-sm flex items-center justify-center shadow-lg border border-white/20">
-                      <Icon className="w-5 h-5 text-white" />
+                    <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500 text-slate-950 font-bold backdrop-blur-sm flex items-center justify-center shadow-lg border border-amber-200/50 group-hover:scale-110 transition-transform">
+                      <Icon className="w-5 h-5 text-slate-950" />
                     </span>
-                    <span className="text-[11px] font-bold tracking-wider uppercase bg-black/40 px-2.5 py-1 rounded-full backdrop-blur-sm border border-white/10">
+                    <span className="text-[11px] font-bold tracking-wider uppercase bg-slate-950/80 text-amber-300 px-2.5 py-1 rounded-full backdrop-blur-sm border border-amber-500/30">
                       Chính Ngạch
                     </span>
                   </div>

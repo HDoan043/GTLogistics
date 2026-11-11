@@ -45,14 +45,14 @@ export function HeroSection({ hotline = "0904.382.268" }: { hotline?: string }) 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Cột trái: Tiêu đề & Thông điệp GT LOGISTICS */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-950/80 border border-blue-500/30 text-sky-300 text-xs font-semibold tracking-wide backdrop-blur-md shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-amber-500/40 text-amber-300 text-xs font-semibold tracking-wide backdrop-blur-md shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
               <span>Chuyên Tuyến Biên Mậu Móng Cái - Đông Hưng • Cửa Khẩu Bắc Luân 2</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight sm:leading-none text-white">
               TIẾP VẬN BIÊN MẬU & <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-300 to-indigo-200">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-200">
                 THÔNG QUAN CỬA KHẨU GT
               </span>
             </h1>
@@ -62,9 +62,9 @@ export function HeroSection({ hotline = "0904.382.268" }: { hotline?: string }) 
             </p>
 
             {/* Slogan chính thức trên biển hiệu */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm text-xs sm:text-sm text-slate-200">
-              <span className="text-sky-400 font-bold">Khẩu hiệu:</span>
-              <span className="font-semibold tracking-wide uppercase">Đồng hành tin cậy - Phát triển bền vững</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-amber-500/20 backdrop-blur-sm text-xs sm:text-sm text-slate-200">
+              <span className="text-amber-400 font-bold">Khẩu hiệu:</span>
+              <span className="font-semibold tracking-wide uppercase text-amber-200">Đồng hành tin cậy - Phát triển bền vững</span>
             </div>
 
             {/* Quick Actions Buttons */}
@@ -89,15 +89,15 @@ export function HeroSection({ hotline = "0904.382.268" }: { hotline?: string }) 
             {/* Key Trust Badges */}
             <div className="pt-6 border-t border-slate-800/80 grid grid-cols-3 gap-4 text-xs text-slate-300">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-sky-400 shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
                 <span>Bảo Hiểm Hàng Hóa 100%</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-sky-400 shrink-0" />
+                <Clock className="w-4 h-4 text-amber-400 shrink-0" />
                 <span>Thông Quan Trong Ngày</span>
               </div>
               <div className="flex items-center gap-2">
-                <Award className="w-4 h-4 text-sky-400 shrink-0" />
+                <Award className="w-4 h-4 text-amber-400 shrink-0" />
                 <span>Trực Cửa Khẩu 24/7</span>
               </div>
             </div>

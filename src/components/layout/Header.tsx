@@ -226,20 +226,6 @@ export function Header({
             })}
           </nav>
 
-          {/* Action Button */}
-          <div className="hidden lg:flex items-center gap-4">
-            <Link href="/quote">
-              <Button
-                variant="accent"
-                size="md"
-                className="font-bold"
-              >
-                <span>{t.common.requestQuote}</span>
-                <ArrowRight className="w-4 h-4 ml-1" />
-              </Button>
-            </Link>
-          </div>
-
           {/* Mobile Menu Button & Mini Switcher */}
           <div className="flex items-center gap-2 lg:hidden">
             <LanguageSwitcher />

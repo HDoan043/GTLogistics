@@ -58,57 +58,54 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
   };
 
   return (
-    <section className="py-16 sm:py-24 bg-slate-50 text-slate-900 border-b border-slate-200/80">
+    <section className="py-16 sm:py-24 bg-slate-50/70 text-slate-900 border-b border-slate-200/80 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Đưa toàn bộ Header và các thẻ Dịch vụ vào 1 khối thống nhất, liền mạch */}
-        <div className="rounded-3xl border border-slate-300 bg-white overflow-hidden shadow-xs grid grid-cols-1 lg:grid-cols-12 items-stretch">
-          {/* Cột Trái: Header dịch vụ lấy ảnh làm nền, tiêu đề căn dọc chính giữa */}
-          <div className="lg:col-span-5 relative p-8 sm:p-10 lg:p-12 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-slate-300 min-h-[440px]">
-            {/* Ảnh nền thực tế vận tải đa phương thức */}
-            <div className="absolute inset-0 pointer-events-none">
-              <Image
-                src="/images/vietphuc/presentation_multimodal.webp"
-                alt="GT Logistics Services Overview"
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover object-center"
-              />
-              {/* Lớp phủ sáng trong suốt vừa đủ để nổi bật ảnh nền */}
-              <div className="absolute inset-0 bg-white/80" />
-              <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-white/75" />
-            </div>
+        {/* Bố cục so le tương tự như phần Vì sao chọn GT Logistics: 1 bên Header và 1 bên các thẻ dịch vụ, tràn viền tự nhiên không viền bao quanh */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Cột Trái: Header dịch vụ lấy ảnh làm nền rõ nét, tiêu đề căn dọc chính giữa */}
+          <div className="lg:col-span-5 relative rounded-2xl overflow-hidden shadow-md min-h-[440px] sm:min-h-[470px] p-8 sm:p-10 flex flex-col justify-center group border border-slate-200">
+            {/* Ảnh nền thực tế hiển thị rõ nét */}
+            <Image
+              src="/images/vietphuc/presentation_multimodal.webp"
+              alt="GT Logistics Multimodal Operations"
+              fill
+              sizes="(max-width: 1024px) 100vw, 40vw"
+              className="object-cover object-center"
+            />
+            {/* Lớp phủ chuyển màu vừa đủ để ảnh nền hiển thị rõ ràng, đồng thời chữ trắng và vàng nổi bật sắc nét */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/70 to-slate-950/50" />
 
-            {/* Nội dung Header căn dọc ở giữa khối, không bị dính lên đỉnh */}
-            <div className="relative z-10 space-y-5 my-auto">
+            {/* Nội dung Header căn dọc chính giữa khối */}
+            <div className="relative z-10 space-y-5 text-white my-auto">
               <div>
-                <div className="h-1 w-12 bg-azure-600 rounded-full mb-3" />
-                <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight leading-tight">
+                <div className="h-1 w-12 bg-gold-400 rounded-full mb-3" />
+                <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
                   {t.services.heading}
                 </h2>
               </div>
 
-              <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-medium">
+              <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
                 {t.services.desc}
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-3">
                 <Link
                   href="/services"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-azure-600 hover:bg-azure-700 text-white font-bold text-sm shadow-xs transition-colors duration-150 tap-press"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-azure-600 hover:bg-azure-700 text-white font-bold text-sm shadow-md transition-colors duration-150 tap-press"
                 >
                   <span>{t.common.allServices}</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   href="/quote"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold text-sm transition-colors duration-150 tap-press"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white border border-white/40 font-semibold text-sm transition-colors duration-150 tap-press"
                 >
                   <span>{t.common.quote}</span>
                 </Link>
               </div>
 
-              <div className="pt-2 flex items-center gap-2.5 text-xs text-slate-700 font-semibold">
-                <PhoneCall className="w-4 h-4 text-gold-600 shrink-0" />
+              <div className="pt-2 flex items-center gap-2.5 text-xs text-gold-300 font-semibold">
+                <PhoneCall className="w-4 h-4 text-gold-400 shrink-0" />
                 <span>
                   {locale === "zh"
                     ? "口岸现场 24/7 专人对接: 0904.382.268"
@@ -120,8 +117,8 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
             </div>
           </div>
 
-          {/* Cột Phải: Các thẻ dịch vụ xếp dọc nằm trong cùng khối, viền đậm rõ nét */}
-          <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-center gap-3.5 bg-slate-50/50">
+          {/* Cột Phải: Danh sách các thẻ dịch vụ xếp dọc, viền đậm rõ nét, không có đường ngăn cách giữa 2 cột */}
+          <div className="lg:col-span-7 flex flex-col justify-center gap-3.5">
             {activeServices.map((s) => {
               const Icon = iconMap[s.iconName] || Truck;
               const title = getTitle(s);
@@ -131,7 +128,7 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
                 <Link
                   key={s.slug}
                   href={`/services/${s.slug}`}
-                  className="group bg-white rounded-xl p-4 sm:p-4.5 border border-slate-300 hover:border-azure-600 hover:bg-slate-50/80 shadow-xs hover:shadow-sm transition-colors duration-150 flex items-center justify-between gap-4 tap-press"
+                  className="group bg-white rounded-xl p-4 sm:p-4.5 border border-slate-300 hover:border-azure-500 hover:bg-slate-50/80 shadow-xs hover:shadow-sm transition-colors duration-150 flex items-center justify-between gap-4 tap-press"
                 >
                   <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
                     <div className="w-11 h-11 rounded-lg bg-azure-50 text-azure-700 border border-azure-200 flex items-center justify-center shrink-0 group-hover:bg-azure-600 group-hover:text-white transition-colors duration-150">

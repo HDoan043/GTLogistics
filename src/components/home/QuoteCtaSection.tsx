@@ -10,9 +10,11 @@ import { useLanguage } from "@/lib/i18n/context";
 export function QuoteCtaSection({
   hotline = "0904.382.268",
   isStandalonePage = false,
+  defaultService,
 }: {
   hotline?: string;
   isStandalonePage?: boolean;
+  defaultService?: string;
 }) {
   const { t, locale } = useLanguage();
 
@@ -21,12 +23,18 @@ export function QuoteCtaSection({
     phone: "",
     email: "",
     company: "",
-    serviceType: "Vận tải đường bộ",
+    serviceType: defaultService || "Vận tải đường bộ",
     routeOrigin: "",
     routeDestination: "",
     cargoDetails: "",
     message: "",
   });
+
+  React.useEffect(() => {
+    if (defaultService) {
+      setFormData((prev) => ({ ...prev, serviceType: defaultService }));
+    }
+  }, [defaultService]);
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{

@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { getSiteSettings } from "@/modules/settings/actions";
 import { Badge } from "@/components/ui/Badge";
+import { PageBanner } from "@/components/layout/PageBanner";
 import { QuoteCtaSection } from "@/components/home/QuoteCtaSection";
 import { getServerDictionary } from "@/lib/i18n/server";
 
@@ -28,20 +29,15 @@ export default async function ContactPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
-      {/* Banner Tiêu đề Trang */}
-      <section className="relative py-16 bg-slate-950 text-white text-center border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Badge variant="accent" className="mb-2">
-            {t.contactPage.badge}
-          </Badge>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
-            {t.contactPage.title}
-          </h1>
-          <p className="mt-2 text-sm text-slate-300 max-w-xl mx-auto">
-            {t.contactPage.desc}
-          </p>
-        </div>
-      </section>
+      {/* Banner Tiêu đề Trang tinh gọn */}
+      <PageBanner
+        breadcrumbs={[
+          { label: t.common.home, href: "/" },
+          { label: t.common.contact },
+        ]}
+        title={t.contactPage.title}
+        subtitle={t.contactPage.desc}
+      />
 
       {/* Thông tin chi tiết các chi nhánh */}
       <section className="py-16">

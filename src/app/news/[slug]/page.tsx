@@ -139,9 +139,9 @@ export default async function NewsDetailPage({
               />
             </div>
 
-            {/* Nội dung bài viết (Sanitized HTML) */}
+            {/* Nội dung bài viết (Sanitized HTML & Rich Content Typography) */}
             <article
-              className="prose prose-slate max-w-none text-slate-700 leading-relaxed prose-headings:text-slate-950 prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-a:text-azure-600 prose-img:rounded-2xl"
+              className="rich-content text-slate-700 leading-relaxed"
               dangerouslySetInnerHTML={{ __html: localized.content }}
             />
 

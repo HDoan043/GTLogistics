@@ -102,6 +102,30 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
   animation: halo 2s infinite;
 }
 
+/* Rich HTML Content Typography (Services, Posts, Articles) */
+.rich-content {
+  @apply text-slate-700 leading-relaxed text-base;
+}
+.rich-content h3 {
+  @apply text-xl sm:text-2xl font-extrabold text-slate-950 mt-8 mb-3 tracking-tight;
+}
+.rich-content h4 {
+  @apply text-lg sm:text-xl font-bold text-slate-900 mt-6 mb-2;
+}
+.rich-content p {
+  @apply mb-4 text-slate-600 leading-relaxed;
+}
+.rich-content ul {
+  @apply list-none pl-0 my-4 space-y-2.5;
+}
+.rich-content ul li {
+  @apply relative pl-5 text-slate-700 leading-relaxed;
+}
+.rich-content ul li::before {
+  content: "";
+  @apply absolute left-1 top-2.5 w-1.5 h-1.5 rounded-full bg-azure-600;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

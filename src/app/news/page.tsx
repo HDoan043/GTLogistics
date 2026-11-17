@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Calendar, Eye, ArrowRight, BookOpen } from "lucide-react";
 import { getPosts } from "@/modules/posts/actions";
 import { Badge } from "@/components/ui/Badge";
+import { PageBanner } from "@/components/layout/PageBanner";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getLocalizedPost } from "@/lib/i18n";
 
@@ -36,28 +37,15 @@ export default async function NewsPage({
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
-      {/* Banner Tiêu đề Trang */}
-      <section className="relative py-20 bg-slate-950 text-white overflow-hidden text-center border-b border-slate-800">
-        <div
-          className="absolute inset-0 opacity-20 bg-cover bg-center mix-blend-luminosity scale-100"
-          style={{
-            backgroundImage: "url('/images/vietphuc/hero_office_panoramic.webp')",
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/95 to-slate-900/80" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Badge variant="accent" className="mb-3">
-            {t.newsPage.badge}
-          </Badge>
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
-            {t.newsPage.title}
-          </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-2xl mx-auto">
-            {t.newsPage.desc}
-          </p>
-        </div>
-      </section>
+      {/* Banner Tiêu đề Trang tinh gọn */}
+      <PageBanner
+        breadcrumbs={[
+          { label: t.common.home, href: "/" },
+          { label: t.common.news },
+        ]}
+        title={t.newsPage.title}
+        subtitle={t.newsPage.desc}
+      />
 
       {/* Bộ Lọc Chuyên Mục */}
       <section className="py-6 bg-white border-b border-slate-200">

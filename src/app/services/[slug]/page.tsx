@@ -2,17 +2,10 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  Phone,
-  ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-  ChevronRight,
-} from "lucide-react";
+import { Phone, ArrowRight } from "lucide-react";
 import { getServiceBySlug, getServices } from "@/modules/services/actions";
 import { getSiteSettings } from "@/modules/settings/actions";
-import { Button } from "@/components/ui/Button";
-import { QuoteCtaSection } from "@/components/home/QuoteCtaSection";
+import { PageBanner } from "@/components/layout/PageBanner";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getLocalizedService } from "@/lib/i18n";
 
@@ -51,45 +44,32 @@ export default async function ServiceDetailPage({
   const localized = getLocalizedService(service, locale);
   const cleanPhone = (settings.hotline || "0904.382.268").replace(/[^0-9]/g, "");
 
+  const activeServices = allServices.filter(
+    (s) =>
+      s.slug !== "kho-bai-chuoi-cung-ung" &&
+      s.slug !== "van-tai-thuy-tuyen-dao"
+  );
+
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Banner Tiêu đề & Breadcrumb */}
-      <section className="relative py-16 bg-slate-950 text-white overflow-hidden border-b border-slate-800">
-        <div
-          className="absolute inset-0 opacity-20 bg-cover bg-center mix-blend-luminosity scale-100"
-          style={{ backgroundImage: `url('${service.bannerImage}')` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/95 to-slate-900/80" />
+      {/* Banner trang tinh gọn, đúng chuẩn thiết kế người dùng mong muốn */}
+      <PageBanner
+        breadcrumbs={[
+          { label: t.common.home, href: "/" },
+          { label: t.common.allServices, href: "/services" },
+          { label: localized.title },
+        ]}
+        title={localized.title}
+        subtitle={localized.shortDesc}
+      />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-xs text-slate-400 mb-3">
-            <Link href="/" className="hover:text-gold-300 transition-colors">
-              {t.common.home}
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/services" className="hover:text-gold-300 transition-colors">
-              {t.servicesPage.detailBreadcrumbServices}
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-azure-300 font-semibold">{localized.title}</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white max-w-3xl">
-            {localized.title}
-          </h1>
-          <p className="mt-3 text-slate-300 text-sm sm:text-base max-w-2xl">
-            {localized.shortDesc}
-          </p>
-        </div>
-      </section>
-
-      {/* Nội dung chi tiết dịch vụ - Clean Light Theme */}
-      <section className="py-16 bg-white text-slate-900 border-b border-slate-200/80">
+      {/* Nội dung chi tiết dịch vụ */}
+      <section className="py-12 sm:py-16 bg-white text-slate-900 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            {/* Cột trái: Nội dung chính */}
-            <div className="lg:col-span-8 space-y-8">
-              <div className="relative h-80 sm:h-96 w-full rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            {/* Cột trái: Ảnh minh họa thực tế & Nội dung định dạng chuyên nghiệp */}
+            <div className="lg:col-span-8 space-y-6">
+              <div className="relative h-72 sm:h-96 w-full rounded-2xl overflow-hidden shadow-xs border border-slate-200">
                 <Image
                   src={service.bannerImage}
                   alt={localized.title}
@@ -99,47 +79,51 @@ export default async function ServiceDetailPage({
                 />
               </div>
 
+              {/* Nội dung dịch vụ với typography đẹp mắt, tiêu đề phân cấp và khoảng cách thoáng đãng */}
               <div
-                className="prose prose-slate prose-lg max-w-none text-slate-700 prose-headings:text-slate-900 prose-headings:font-bold prose-h3:text-2xl prose-h4:text-xl prose-a:text-azure-600 prose-li:my-1"
+                className="rich-content pt-2"
                 dangerouslySetInnerHTML={{ __html: localized.fullContent }}
               />
 
-              {/* Box cam kết dịch vụ */}
-              <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <h4 className="font-bold text-slate-900 text-base flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-gold-600" />
-                  <span>{t.servicesPage.commitmentTitle}</span>
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-slate-600">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>{t.servicesPage.commitment1}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>{t.servicesPage.commitment2}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>{t.servicesPage.commitment3}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>{t.servicesPage.commitment4}</span>
-                  </div>
+              {/* Hộp Báo Giá Ngữ Cảnh Dành Riêng Cho Dịch Vụ Này (thay cho form tổng cồng kềnh) */}
+              <div className="mt-8 p-6 rounded-2xl bg-slate-950 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 border border-slate-800 shadow-sm">
+                <div>
+                  <span className="text-[11px] font-bold text-gold-400 block mb-1">
+                    {t.common.requestQuote}
+                  </span>
+                  <h4 className="text-base sm:text-lg font-bold text-white leading-snug">
+                    {locale === "zh"
+                      ? `需要 ${localized.title} 的即时专属运价？`
+                      : locale === "en"
+                      ? `Need an optimized quotation for ${localized.title}?`
+                      : `Cần báo giá cước và phương án tối ưu cho ${localized.title}?`}
+                  </h4>
+                  <p className="text-xs text-slate-300 mt-1">
+                    {locale === "zh"
+                      ? "中越双语专员 15 分钟内即时回电制定省费方案。"
+                      : locale === "en"
+                      ? "Specialists will respond within 15 minutes with competitive rates."
+                      : "Chuyên viên phản hồi trong 15 phút với lộ trình và chi phí tối ưu nhất."}
+                  </p>
                 </div>
+                <Link
+                  href={`/quote?service=${encodeURIComponent(service.title)}`}
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gold-500 hover:bg-gold-400 text-slate-950 font-bold text-sm shrink-0 transition-colors duration-150 tap-press"
+                >
+                  <span>{t.common.quote}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </div>
 
-            {/* Cột phải: Sidebar điều hướng & CTA */}
-            <div className="lg:col-span-4 space-y-6">
-              {/* Danh sách các dịch vụ khác */}
-              <div className="bg-slate-50/80 p-6 rounded-2xl border border-slate-200">
-                <h3 className="font-bold text-base text-slate-900 mb-4 border-b border-slate-200 pb-3">
+            {/* Cột phải: Danh sách điều hướng tất cả dịch vụ & Liên hệ nhanh */}
+            <div className="lg:col-span-4 space-y-5 sticky top-24">
+              <div className="bg-slate-50/80 p-5 rounded-2xl border border-slate-200">
+                <h3 className="font-bold text-sm text-slate-900 mb-3 border-b border-slate-200 pb-2.5">
                   {t.servicesPage.allServicesSidebar}
                 </h3>
                 <div className="space-y-2">
-                  {allServices.map((s) => {
+                  {activeServices.map((s) => {
                     const locS = getLocalizedService(s, locale);
                     const isActive = s.slug === service.slug;
                     return (
@@ -148,7 +132,7 @@ export default async function ServiceDetailPage({
                         href={`/services/${s.slug}`}
                         className={`flex items-center justify-between p-3 rounded-xl text-sm font-semibold transition-colors duration-150 ${
                           isActive
-                            ? "bg-azure-600 text-white shadow-sm"
+                            ? "bg-azure-600 text-white shadow-xs"
                             : "bg-white text-slate-700 hover:bg-slate-100 hover:text-azure-700 border border-slate-200"
                         }`}
                       >
@@ -160,35 +144,35 @@ export default async function ServiceDetailPage({
                 </div>
               </div>
 
-              {/* Hộp Hotline tư vấn */}
-              <div className="bg-slate-900/90 text-white p-6 sm:p-8 rounded-2xl shadow-md text-center space-y-4 border border-slate-800">
-                <div className="w-14 h-14 rounded-2xl bg-gold-500 flex items-center justify-center mx-auto text-slate-950 shadow-lg shadow-gold-500/20">
-                  <Phone className="w-7 h-7" />
+              {/* Thẻ liên hệ Hotline trực tiếp */}
+              <div className="p-4 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-3 shadow-xs">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-azure-50 text-azure-700 flex items-center justify-center shrink-0 border border-azure-100">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-semibold text-slate-500 block">
+                      {locale === "zh" ? "口岸 24/7 直通专线" : locale === "en" ? "24/7 Border Hotline" : "Hotline Trực Cửa Khẩu"}
+                    </span>
+                    <a
+                      href={`tel:${cleanPhone}`}
+                      className="text-sm font-bold text-slate-900 hover:text-azure-600 transition-colors"
+                    >
+                      {settings.hotline}
+                    </a>
+                  </div>
                 </div>
-                <h4 className="font-bold text-lg text-white">
-                  {t.servicesPage.consultationTitle}
-                </h4>
-                <p className="text-xs text-slate-400">
-                  {t.servicesPage.consultationDesc}
-                </p>
                 <a
                   href={`tel:${cleanPhone}`}
-                  className="block text-2xl font-black font-mono tabular-nums text-gold-300 hover:text-gold-200 hover:underline transition-colors"
+                  className="px-3.5 py-1.5 rounded-lg bg-azure-600 hover:bg-azure-700 text-white text-xs font-bold transition-colors"
                 >
-                  {settings.hotline}
+                  {t.common.contact}
                 </a>
-                <Link href="/quote" className="block pt-2">
-                  <Button variant="accent" size="md" className="w-full font-bold tap-press shadow-md shadow-gold-500/10">
-                    {t.common.requestQuote}
-                  </Button>
-                </Link>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      <QuoteCtaSection hotline={settings.hotline} />
     </div>
   );
 }

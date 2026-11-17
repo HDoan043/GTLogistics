@@ -128,103 +128,116 @@ export function Header({
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center group">
-            <GtLogo showSlogan={false} />
-          </Link>
+          {/* Logo & Navigation Group with Natural Proximity */}
+          <div className="flex items-center gap-6 xl:gap-8">
+            <Link href="/" className="flex items-center group shrink-0">
+              <GtLogo showSlogan={false} />
+            </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-            {NAVIGATION_LINKS.map((link) => {
-              const isActive = pathname === link.href;
-              const label = getNavLabel(link.href, link.label);
+            {/* Desktop Navigation Links */}
+            <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
+              {NAVIGATION_LINKS.map((link) => {
+                const isActive = pathname === link.href;
+                const label = getNavLabel(link.href, link.label);
 
-              if (link.href === "/services") {
-                return (
-                  <div
-                    key={link.href}
-                    className="relative py-2"
-                    onMouseEnter={() => setServicesDropdown(true)}
-                    onMouseLeave={() => setServicesDropdown(false)}
-                  >
-                    <Link
-                      href={link.href}
-                      className={`px-3.5 py-2 text-sm font-semibold rounded-lg flex items-center gap-1 transition-colors duration-150 ${
-                        isActive
-                          ? "text-azure-600 bg-azure-50 font-bold"
-                          : "text-slate-700 hover:text-azure-600 hover:bg-slate-50"
-                      }`}
+                if (link.href === "/services") {
+                  return (
+                    <div
+                      key={link.href}
+                      className="relative py-2"
+                      onMouseEnter={() => setServicesDropdown(true)}
+                      onMouseLeave={() => setServicesDropdown(false)}
                     >
-                      <span>{label}</span>
-                      <ChevronDown
-                        className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
-                          servicesDropdown ? "rotate-180 text-azure-600" : ""
+                      <Link
+                        href={link.href}
+                        className={`px-3 py-2 text-sm font-semibold rounded-lg flex items-center gap-1 transition-colors duration-150 ${
+                          isActive
+                            ? "text-azure-600 bg-azure-50 font-bold"
+                            : "text-slate-700 hover:text-azure-600 hover:bg-slate-50"
                         }`}
-                      />
-                    </Link>
+                      >
+                        <span>{label}</span>
+                        <ChevronDown
+                          className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
+                            servicesDropdown ? "rotate-180 text-azure-600" : ""
+                          }`}
+                        />
+                      </Link>
 
-                    {/* Services Dropdown */}
-                    {servicesDropdown && (
-                      <div className="absolute top-full left-0 pt-2 z-50">
-                        <div className="w-[390px] bg-white rounded-2xl shadow-lg border border-slate-200/80 p-2.5 animate-in fade-in slide-in-from-top-2 duration-150">
-                          <div className="px-3 py-2 text-xs font-semibold text-slate-500 border-b border-slate-100 mb-1">
-                            {t.header.servicesDropdownTitle}
-                          </div>
-                          <div className="space-y-1">
-                            {SERVICE_CATEGORIES.map((service) => {
-                              const IconComponent = serviceIconMap[service.iconName] || Truck;
-                              return (
-                                <Link
-                                  key={service.slug}
-                                  href={`/services/${service.slug}`}
-                                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-azure-50/80 transition-colors group"
-                                >
-                                  <div className="w-9 h-9 rounded-xl bg-azure-50 text-azure-600 flex items-center justify-center shrink-0 group-hover:bg-azure-600 group-hover:text-white transition-colors">
-                                    <IconComponent className="w-4 h-4" />
-                                  </div>
-                                  <div className="flex-1 min-w-0">
-                                    <div className="text-sm font-bold text-slate-800 group-hover:text-azure-600 transition-colors leading-snug">
-                                      {getServiceTitle(service)}
+                      {/* Services Dropdown */}
+                      {servicesDropdown && (
+                        <div className="absolute top-full left-0 pt-2 z-50">
+                          <div className="w-[390px] bg-white rounded-2xl shadow-lg border border-slate-200/80 p-2.5 animate-in fade-in slide-in-from-top-2 duration-150">
+                            <div className="px-3 py-2 text-xs font-semibold text-slate-500 border-b border-slate-100 mb-1">
+                              {t.header.servicesDropdownTitle}
+                            </div>
+                            <div className="space-y-1">
+                              {SERVICE_CATEGORIES.map((service) => {
+                                const IconComponent = serviceIconMap[service.iconName] || Truck;
+                                return (
+                                  <Link
+                                    key={service.slug}
+                                    href={`/services/${service.slug}`}
+                                    className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-azure-50/80 transition-colors group"
+                                  >
+                                    <div className="w-9 h-9 rounded-xl bg-azure-50 text-azure-600 flex items-center justify-center shrink-0 group-hover:bg-azure-600 group-hover:text-white transition-colors">
+                                      <IconComponent className="w-4 h-4" />
                                     </div>
-                                    <div className="text-xs text-slate-500 line-clamp-1 mt-0.5">
-                                      {getServiceDesc(service)}
+                                    <div className="flex-1 min-w-0">
+                                      <div className="text-sm font-bold text-slate-800 group-hover:text-azure-600 transition-colors leading-snug">
+                                        {getServiceTitle(service)}
+                                      </div>
+                                      <div className="text-xs text-slate-500 line-clamp-1 mt-0.5">
+                                        {getServiceDesc(service)}
+                                      </div>
                                     </div>
-                                  </div>
-                                </Link>
-                              );
-                            })}
-                          </div>
-                          <div className="mt-2 pt-2 border-t border-slate-100 px-3 py-1 flex items-center justify-between text-xs">
-                            <Link
-                              href="/services"
-                              className="font-bold text-azure-600 hover:text-azure-700 flex items-center gap-1 transition-colors"
-                            >
-                              <span>{t.header.viewAllCapabilities}</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </Link>
+                                  </Link>
+                                );
+                              })}
+                            </div>
+                            <div className="mt-2 pt-2 border-t border-slate-100 px-3 py-1 flex items-center justify-between text-xs">
+                              <Link
+                                href="/services"
+                                className="font-bold text-azure-600 hover:text-azure-700 flex items-center gap-1 transition-colors"
+                              >
+                                <span>{t.header.viewAllCapabilities}</span>
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </Link>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              }
+                      )}
+                    </div>
+                  );
+                }
 
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`px-3.5 py-2 text-sm font-semibold rounded-lg transition-colors duration-150 ${
-                    isActive
-                      ? "text-azure-600 bg-azure-50 font-bold"
-                      : "text-slate-700 hover:text-azure-600 hover:bg-slate-50"
-                  }`}
-                >
-                  {label}
-                </Link>
-              );
-            })}
-          </nav>
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`px-3 py-2 text-sm font-semibold rounded-lg transition-colors duration-150 ${
+                      isActive
+                        ? "text-azure-600 bg-azure-50 font-bold"
+                        : "text-slate-700 hover:text-azure-600 hover:bg-slate-50"
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+
+          {/* Right Action: Clean hotline pill */}
+          <div className="hidden lg:flex items-center gap-3">
+            <a
+              href={`tel:${cleanPhone}`}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-50 hover:bg-gold-50/50 text-slate-800 hover:text-gold-700 border border-slate-200 hover:border-gold-300 text-xs font-bold transition-colors tap-press"
+            >
+              <Phone className="w-3.5 h-3.5 text-gold-500" />
+              <span>{hotline}</span>
+            </a>
+          </div>
 
           {/* Mobile Menu Button & Mini Switcher */}
           <div className="flex items-center gap-2 lg:hidden">

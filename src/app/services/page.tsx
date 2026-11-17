@@ -40,16 +40,24 @@ export default async function ServicesPage() {
       s.slug !== "van-tai-thuy-tuyen-dao"
   );
 
+  const servicesTitle =
+    locale === "zh"
+      ? "核心物流服务"
+      : locale === "en"
+      ? "GT Logistics Services"
+      : "Dịch Vụ GT Logistics";
+
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Banner trang tinh gọn, đồng bộ phong cách */}
+      {/* Banner trang chính rộng thoáng, tiêu đề to ngắn gọn và watermark logo GT */}
       <PageBanner
         breadcrumbs={[
           { label: t.common.home, href: "/" },
           { label: t.common.allServices },
         ]}
-        title={t.servicesPage.title}
+        title={servicesTitle}
         subtitle={t.servicesPage.desc}
+        size="main"
       />
 
       {/* Trình bày các thẻ dịch vụ lớn chuyên sâu với ảnh, tiêu đề, mô tả và nút xem chi tiết */}

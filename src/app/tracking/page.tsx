@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { PageBanner } from "@/components/layout/PageBanner";
 import { trackOrder, TimelineEvent } from "@/modules/tracking/actions";
 import { useLanguage } from "@/lib/i18n/context";
 
@@ -209,22 +210,25 @@ function TrackingContent() {
 }
 
 function TrackingPageWrapper() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const trackingTitle =
+    locale === "zh"
+      ? "运单轨迹查询"
+    : locale === "en"
+    ? "Shipment Tracking"
+    : "Tra Cứu Vận Đơn";
+
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
-      <section className="relative py-16 bg-slate-950 text-white text-center border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Badge variant="accent" className="mb-2">
-            {t.trackingPage.badge}
-          </Badge>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
-            {t.trackingPage.title}
-          </h1>
-          <p className="mt-2 text-sm text-slate-300 max-w-xl mx-auto">
-            {t.trackingPage.subtitle}
-          </p>
-        </div>
-      </section>
+      <PageBanner
+        breadcrumbs={[
+          { label: t.common.home, href: "/" },
+          { label: t.common.trackOrder },
+        ]}
+        title={trackingTitle}
+        subtitle={t.trackingPage.subtitle}
+        size="main"
+      />
 
       <Suspense fallback={<div className="text-center py-20 text-slate-400 font-mono">Đang tải dữ liệu...</div>}>
         <TrackingContent />

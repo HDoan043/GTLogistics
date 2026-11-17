@@ -34,17 +34,24 @@ export default async function NewsPage({
 
   const currentCategory = category || "";
   const dateLocale = locale === "zh" ? "zh-CN" : locale === "en" ? "en-US" : "vi-VN";
+  const newsTitle =
+    locale === "zh"
+      ? "新闻与外贸指南"
+      : locale === "en"
+      ? "News & Trade Guides"
+      : "Tin Tức & Cẩm Nang";
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
-      {/* Banner Tiêu đề Trang tinh gọn */}
+      {/* Banner Tiêu đề Trang chính: Rộng thoáng, to đẹp với watermark logo GT */}
       <PageBanner
         breadcrumbs={[
           { label: t.common.home, href: "/" },
           { label: t.common.news },
         ]}
-        title={t.newsPage.title}
+        title={newsTitle}
         subtitle={t.newsPage.desc}
+        size="main"
       />
 
       {/* Bộ Lọc Chuyên Mục */}

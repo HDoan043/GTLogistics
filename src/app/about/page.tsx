@@ -34,16 +34,24 @@ export default async function AboutPage() {
     getSiteSettings(),
   ]);
 
+  const aboutTitle =
+    locale === "zh"
+      ? "关于 GT 物流"
+      : locale === "en"
+      ? "About GT Logistics"
+      : "Giới Thiệu GT Logistics";
+
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Banner Tiêu đề Trang tinh gọn, đồng bộ hệ thống */}
+      {/* Banner Tiêu đề Trang chính: Rộng thoáng, tiêu đề ngắn gọn to đẹp và watermark logo GT */}
       <PageBanner
         breadcrumbs={[
           { label: t.common.home, href: "/" },
           { label: t.common.aboutUs },
         ]}
-        title={t.aboutPage.title}
+        title={aboutTitle}
         subtitle={t.aboutPage.desc}
+        size="main"
       />
 
       {/* Đẩy tất cả Big Numbers (Số liệu ấn tượng) lên đầu trang theo yêu cầu */}

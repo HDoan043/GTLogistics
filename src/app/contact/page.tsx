@@ -20,23 +20,30 @@ export const metadata = {
 };
 
 export default async function ContactPage() {
-  const [{ t }, settings] = await Promise.all([
+  const [{ locale, t }, settings] = await Promise.all([
     getServerDictionary(),
     getSiteSettings(),
   ]);
 
   const cleanPhone = (settings.hotline || "0904.382.268").replace(/[^0-9]/g, "");
+  const contactTitle =
+    locale === "zh"
+      ? "联系我们与办公网络"
+      : locale === "en"
+      ? "Contact & Branch Network"
+      : "Liên Hệ & Trụ Sở";
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
-      {/* Banner Tiêu đề Trang tinh gọn */}
+      {/* Banner Tiêu đề Trang chính: Rộng thoáng, to đẹp với watermark logo GT */}
       <PageBanner
         breadcrumbs={[
           { label: t.common.home, href: "/" },
           { label: t.common.contact },
         ]}
-        title={t.contactPage.title}
+        title={contactTitle}
         subtitle={t.contactPage.desc}
+        size="main"
       />
 
       {/* Thông tin chi tiết các chi nhánh */}

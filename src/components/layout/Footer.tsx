@@ -21,6 +21,7 @@ interface FooterProps {
   email?: string;
   headquarters?: string;
   branchHaiPhong?: string;
+  branchLangSon?: string;
   taxCode?: string;
 }
 
@@ -31,6 +32,7 @@ export function Footer({
   email = "contact@logisticsgt.vn",
   headquarters = "Căn ĐLTC-41, KĐT Vinhomes Golden Avenue, Cửa khẩu Bắc Luân 2, Phường Hải Hòa, TP. Móng Cái, Tỉnh Quảng Ninh",
   branchHaiPhong = "Cụm Cảng Đình Vũ, Phường Đông Hải 2, Quận Hải An, TP. Hải Phòng",
+  branchLangSon,
   taxCode = "5701750095",
 }: FooterProps) {
   const { t, locale } = useLanguage();
@@ -148,7 +150,17 @@ export function Footer({
                   <strong className="text-slate-200 block">
                     {locale === "zh" ? "芒街总部运营中心:" : locale === "en" ? "Mong Cai Headquarters:" : "Trụ Sở Điều Hành Móng Cái:"}
                   </strong>
-                  <span>{t.common.hqAddress}</span>
+                  <span>{headquarters || t.common.hqAddress}</span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2.5">
+                <Building className="w-4 h-4 text-gold-400 mt-0.5 shrink-0" />
+                <div>
+                  <strong className="text-slate-200 block">
+                    {locale === "zh" ? "谅山友谊关分支机构:" : locale === "en" ? "Lang Son Huu Nghi Branch:" : "Chi Nhánh Lạng Sơn (Hữu Nghị):"}
+                  </strong>
+                  <span>{branchLangSon || t.common.langSonOffice}</span>
                 </div>
               </div>
 
@@ -158,7 +170,7 @@ export function Footer({
                   <strong className="text-slate-200 block">
                     {locale === "zh" ? "海防港口分支办事处:" : locale === "en" ? "Hai Phong Port Branch:" : "Văn Phòng Cảng Hải Phòng:"}
                   </strong>
-                  <span>{t.common.haiPhongOffice}</span>
+                  <span>{branchHaiPhong || t.common.haiPhongOffice}</span>
                 </div>
               </div>
 

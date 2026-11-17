@@ -11,8 +11,8 @@ import {
   ShieldCheck,
   Globe,
   ArrowRight,
+  PhoneCall,
 } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
 import { useLanguage } from "@/lib/i18n/context";
 
 interface ServiceItem {
@@ -46,90 +46,89 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
     return s.title;
   };
 
-  const getShortDesc = (s: ServiceItem) => {
-    if (locale === "zh") return s.shortDescZh || s.shortDesc;
-    if (locale === "en") return s.shortDescEn || s.shortDesc;
-    return s.shortDesc;
-  };
-
   return (
-    <section className="py-20 bg-slate-50/70 text-slate-900 border-b border-slate-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <Badge variant="brand" className="mb-3">
-            {t.services.badge}
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
-            {t.services.heading}
-          </h2>
-          <p className="mt-4 text-slate-600 text-base">
-            {t.services.desc}
-          </p>
-        </div>
+    <section className="relative py-16 sm:py-24 bg-slate-50 text-slate-900 border-b border-slate-200/80 overflow-hidden">
+      {/* Nền ảnh thực tế hoạt động đa phương thức có phủ lớp sáng tương phản cao */}
+      <div className="absolute inset-0 pointer-events-none">
+        <Image
+          src="/images/vietphuc/presentation_multimodal.webp"
+          alt="GT Logistics Multimodal Operations"
+          fill
+          sizes="100vw"
+          className="object-cover opacity-15"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-50/98 via-white/95 to-slate-50/98" />
+      </div>
 
-        {/* Grid Danh sách Dịch vụ - Wayfind Clean Light Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((s) => {
-            const Icon = iconMap[s.iconName] || Truck;
-            const title = getTitle(s);
-            const desc = getShortDesc(s);
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Cột Trái: Tiêu đề ngắn gọn & Giới thiệu (So le trái) */}
+          <div className="lg:col-span-5 space-y-6">
+            <div>
+              <div className="h-1 w-12 bg-azure-600 rounded-full mb-4" />
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+                {t.services.heading}
+              </h2>
+              <p className="mt-4 text-slate-600 text-base leading-relaxed">
+                {t.services.desc}
+              </p>
+            </div>
 
-            return (
-              <div
-                key={s.slug}
-                className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-xs hover:shadow-md hover:border-azure-300 transition-colors duration-200 flex flex-col"
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              <Link
+                href="/services"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-azure-600 hover:bg-azure-700 text-white font-bold text-sm shadow-xs transition-colors duration-150 tap-press"
               >
-                {/* Ảnh dịch vụ */}
-                <div className="relative h-52 w-full overflow-hidden bg-slate-100">
-                  <Image
-                    src={s.bannerImage}
-                    alt={title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
-                    <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-500 to-gold-600 text-slate-950 font-bold flex items-center justify-center shadow-md border border-gold-200/50">
-                      <Icon className="w-5 h-5 text-slate-950" />
-                    </span>
-                    <span className="text-xs font-semibold bg-slate-950/80 text-gold-300 px-2.5 py-1 rounded-full border border-gold-500/40">
-                      {t.services.officialTag}
-                    </span>
-                  </div>
-                </div>
+                <span>{t.common.allServices}</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/quote"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold text-sm transition-colors duration-150 tap-press"
+              >
+                <span>{t.common.quote}</span>
+              </Link>
+            </div>
 
-                {/* Nội dung dịch vụ */}
-                <div className="p-6 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-azure-600 transition-colors">
-                      <Link href={`/services/${s.slug}`}>{title}</Link>
-                    </h3>
-                    <p className="mt-2 text-sm text-slate-600 leading-relaxed line-clamp-3">
-                      {desc}
-                    </p>
-                  </div>
+            <div className="pt-4 border-t border-slate-200/80 flex items-center gap-3 text-xs text-slate-500">
+              <PhoneCall className="w-4 h-4 text-gold-600 shrink-0" />
+              <span>
+                {locale === "zh"
+                  ? "口岸现场 24/7 专人对接: 0904.382.268"
+                  : locale === "en"
+                  ? "Direct Border Clearance 24/7 Hotline: 0904.382.268"
+                  : "Trực tiếp thông quan tại cửa khẩu 24/7: 0904.382.268"}
+              </span>
+            </div>
+          </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <Link
-                      href={`/services/${s.slug}`}
-                      className="text-sm font-bold text-azure-600 hover:text-gold-600 inline-flex items-center gap-1.5 transition-colors tap-press"
-                    >
-                      <span>{t.common.viewDetails}</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                    <Link
-                      href="/quote"
-                      className="text-xs font-semibold text-slate-500 hover:text-slate-800 px-2.5 py-1 rounded-lg hover:bg-slate-100 transition-colors tap-press"
-                    >
-                      {t.services.quotePrompt}
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {/* Cột Phải: Danh sách các thẻ dịch vụ tinh gọn (Chỉ icon + tiêu đề) */}
+          <div className="lg:col-span-7">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              {services.map((s) => {
+                const Icon = iconMap[s.iconName] || Truck;
+                const title = getTitle(s);
+
+                return (
+                  <Link
+                    key={s.slug}
+                    href={`/services/${s.slug}`}
+                    className="group bg-white rounded-xl p-4 sm:p-5 border border-slate-200/90 shadow-xs hover:border-azure-500 hover:shadow-md hover:bg-slate-50/60 transition-colors duration-150 flex items-center justify-between gap-3.5 tap-press"
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div className="w-11 h-11 rounded-lg bg-azure-50 text-azure-700 border border-azure-100 flex items-center justify-center shrink-0 group-hover:bg-azure-600 group-hover:text-white transition-colors duration-150">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <h3 className="font-bold text-slate-900 text-sm sm:text-base leading-snug group-hover:text-azure-700 transition-colors duration-150 truncate">
+                        {title}
+                      </h3>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-azure-600 group-hover:translate-x-0.5 transition-transform duration-200 shrink-0" />
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </section>

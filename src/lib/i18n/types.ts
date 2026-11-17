@@ -18,6 +18,7 @@ export interface Dictionary {
     quote: string;
     operatingHours: string;
     hqAddress: string;
+    langSonOffice: string;
     haiPhongOffice: string;
     taxCode: string;
     legalRepresentative: string;

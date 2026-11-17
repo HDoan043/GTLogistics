@@ -214,94 +214,49 @@ async function main() {
       sortOrder: 3,
     },
     {
-      title: "Kho bãi & sang tải",
-      titleEn: "Warehousing & Cross-Dock",
-      titleZh: "过驳仓储与中转",
-      slug: "kho-bai-chuoi-cung-ung",
-      shortDesc: "Hạ tầng kho bãi, xe nâng sang cont và gia cố pallet chuyên nghiệp",
-      shortDescEn: "Modern bonded storage, forklift cross-docking & palletizing",
-      shortDescZh: "高标准仓储堆场、集装箱机械过驳与托盘加固包装",
+      title: "Hàng quá cảnh & chuyển cảng",
+      titleEn: "Transit & Transshipment Cargo",
+      titleZh: "过境货物与转港运输",
+      slug: "hang-qua-canh",
+      shortDesc: "Vận chuyển hàng quá cảnh, sang tải kẹp chì niêm phong từ cảng về cửa khẩu",
+      shortDescEn: "Customs-sealed transit and transshipment cargo from ports to border gates",
+      shortDescZh: "保税封条海关监管过境货物运输，海港至边境口岸无缝转运",
       fullContent: `
-        <h3>Hạ tầng kho bãi và dịch vụ sang tải container tại Móng Cái</h3>
-        <p>Logistics GT cung cấp hệ thống kho bãi rộng rãi, trang thiết bị xe nâng hiện đại phục vụ việc sang xe, bốc xếp và lưu kho tạm thời trước khi thông quan.</p>
-        <h4>Dịch vụ kho bãi bao gồm:</h4>
+        <h3>Giải pháp vận tải hàng quá cảnh và chuyển cảng chuyên nghiệp</h3>
+        <p>Logistics GT chuyên cung cấp dịch vụ vận chuyển hàng quá cảnh từ các cảng biển quốc tế (Hải Phòng, Cái Lân) sang các cửa khẩu biên mậu phía Bắc (Móng Cái, Lạng Sơn) và ngược lại theo hình thức kẹp chì niêm phong hải quan.</p>
+        <h4>Năng lực hàng quá cảnh & chuyển cảng:</h4>
         <ul>
-          <li>Kho bãi tiêu chuẩn cao, có camera giám sát an ninh 24/7 và hệ thống PCCC đạt chuẩn.</li>
-          <li>Dịch vụ sang cont, rút ruột container và bốc xếp hàng hóa cẩn thận, hạn chế tối đa rủi ro móp méo.</li>
-          <li>Đóng gói, quấn màng PE, gia cố pallet gỗ theo quy chuẩn xuất khẩu.</li>
-          <li>Lưu bãi ngắn hạn và dài hạn với chi phí lưu kho cạnh tranh nhất khu vực cửa khẩu.</li>
+          <li>Đội xe đầu kéo chuyên dụng có định vị GPS hành trình phục vụ hàng quá cảnh có giám sát hải quan.</li>
+          <li>Thủ tục khai báo vận chuyển độc lập, kẹp chì niêm phong nhanh chóng tại chi cục hải quan.</li>
+          <li>Bốc xếp, sang tải và sang xe container chuyên nghiệp tại các kho bãi bến cảng và cửa khẩu.</li>
+          <li>Bảo hiểm trách nhiệm vận chuyển và cam kết đúng thời gian hành trình quy định của Hải quan.</li>
         </ul>
       `,
       fullContentEn: `
-        <h3>Warehousing Infrastructure & Container Transshipment in Mong Cai</h3>
-        <p>GT Logistics operates expansive modern storage facilities and heavy forklift equipment for rapid cross-docking, de-vanning, and temporary warehousing prior to clearance.</p>
-        <h4>Warehousing Capabilities:</h4>
+        <h3>Professional In-Transit and Port-to-Border Transshipment Logistics</h3>
+        <p>GT Logistics specializes in customs-sealed bonded transit cargo transportation connecting international seaports to northern border gates (Mong Cai, Lang Son) and vice versa.</p>
+        <h4>Transit Capabilities:</h4>
         <ul>
-          <li>High-standard warehouse facility with 24/7 CCTV surveillance and certified fire protection.</li>
-          <li>Container de-stuffing, cross-docking, and careful cargo handling to eliminate transit damage.</li>
-          <li>Export-grade palletizing, stretch wrapping, and fumigated wooden crating services.</li>
-          <li>Flexible short-term and long-term storage with the most competitive rates at Mong Cai border.</li>
+          <li>Dedicated GPS-tracked container truck fleet tailored for customs-supervised transit corridors.</li>
+          <li>Independent transit declaration procedures and rapid customs seal verification.</li>
+          <li>Professional cross-docking, container de-stuffing, and cargo handling at border hub yards.</li>
+          <li>Full transit liability coverage ensuring strict adherence to designated customs schedules.</li>
         </ul>
       `,
       fullContentZh: `
-        <h3>芒街口岸高标准仓储设施与集装箱过驳服务</h3>
-        <p>GT 物流在芒街口岸区域拥有大型仓储中转中心及大吨位叉车装卸设备，为跨境货物提供快速过驳、掏箱及验关前暂存服务。</p>
-        <h4>仓储服务涵盖：</h4>
+        <h3>专业国际过境货物与海港—口岸转运服务</h3>
+        <p>GT 物流专注于国际海港至越南北部边境口岸（芒街、谅山口岸）的海关监管过境与保税转运直达专线。</p>
+        <h4>过境运力特色：</h4>
         <ul>
-          <li>标准化通风保税仓储，全天候 24/7 高清监控与消防认证，确保货物万无一失。</li>
-          <li>快速集装箱掏箱、车对车机械过驳，规范理货装卸，严防货物碰撞破损。</li>
-          <li>专业托盘打包、防水缠绕膜加固及出口熏蒸木箱定制包装。</li>
-          <li>提供灵活的短期中转与长期仓储方案，享芒街口岸极具竞争力的仓储成本。</li>
-        </ul>
-      `,
-      iconName: "Warehouse",
-      bannerImage: "/images/vietphuc/office_main_floor.webp",
-      sortOrder: 4,
-    },
-    {
-      title: "Logistics chuỗi lạnh",
-      titleEn: "Cold Chain Logistics",
-      titleZh: "冷链农产品物流",
-      slug: "van-tai-thuy-tuyen-dao",
-      shortDesc: "Bảo quản container lạnh phục vụ xuất khẩu nông thủy sản",
-      shortDescEn: "Reefer container transport for agricultural & seafood exports",
-      shortDescZh: "温控冷藏集装箱运输，服务中越农林生鲜及水海产品",
-      fullContent: `
-        <h3>Giải pháp logistics chuỗi cung ứng lạnh cho nông thủy sản xuất khẩu</h3>
-        <p>Với lợi thế thông quan nhanh tại Cửa khẩu Bắc Luân 2, Logistics GT là đối tác hàng đầu của các doanh nghiệp xuất khẩu trái cây (sầu riêng, thanh long, xoài, mít) và thủy hải sản đông lạnh sang thị trường Trung Quốc.</p>
-        <h4>Đặc điểm dịch vụ chuỗi lạnh GT:</h4>
-        <ul>
-          <li>Dàn xe container lạnh 40 feet thế hệ mới, dải nhiệt độ điều chỉnh từ -25°C đến +15°C.</li>
-          <li>Thiết bị giám sát nhiệt độ và độ ẩm liên tục, cung cấp biểu đồ dữ liệu nhiệt độ cho chủ hàng.</li>
-          <li>Ưu tiên bố trí luồng thông quan nhanh tại cửa khẩu để đảm bảo độ tươi ngon tuyệt đối của nông sản.</li>
-          <li>Dịch vụ cắm điện bảo quản container lạnh tại bãi kiểm hóa trong suốt quá trình chờ thông quan.</li>
-        </ul>
-      `,
-      fullContentEn: `
-        <h3>Cold Chain Supply Solutions for Agricultural & Seafood Exports</h3>
-        <p>Leveraging fast-track clearance at Bac Luan 2 Gate, GT Logistics is the preferred partner for exporters of tropical fruits (durian, dragon fruit, mango, jackfruit) and frozen seafood bound for China.</p>
-        <h4>Cold Chain Highlights:</h4>
-        <ul>
-          <li>Modern 40-foot reefer container fleet with precision temperature control (-25°C to +15°C).</li>
-          <li>Continuous real-time temperature and humidity logging with downloadable charts for cargo owners.</li>
-          <li>Priority green-channel customs clearance protocol to preserve peak freshness and shelf life.</li>
-          <li>On-site plug-in power stations at inspection yards during customs waiting intervals.</li>
-        </ul>
-      `,
-      fullContentZh: `
-        <h3>中越生鲜果蔬与冷冻水产品冷链供应链方案</h3>
-        <p>依托北仑二桥口岸农产品绿色通道的通关时效优势，GT 物流是越南热带水果（榴莲、火龙果、芒果、菠萝蜜）及冷冻水产输华核心物流商。</p>
-        <h4>GT 冷链核心保障：</h4>
-        <ul>
-          <li>配备新型 40 尺超温控冷藏集装箱车队，温度可精准调控在 -25°C 至 +15°C 之间。</li>
-          <li>全程温湿度传感自动记录，支持货主实时查阅与导出温度温控曲线图表。</li>
-          <li>口岸优先报检与查验协同，缩短滞留时间，最大化锁鲜保质。</li>
-          <li>在芒街查验堆场提供充足冷插座打冷电源服务，全程不断电保障货品新鲜。</li>
+          <li>全天候 GPS 定位监管车队，满足海关在途监控与封条监管要求。</li>
+          <li>高效代办海关独立转关申报手续，口岸现场验封与快速放行。</li>
+          <li>边境集散中心专业集装箱机械过驳、掏箱装卸与理货换车。</li>
+          <li>全程货物运输保障，严格遵守海关规定的在途运输时限。</li>
         </ul>
       `,
       iconName: "Ship",
       bannerImage: "/images/vietphuc/presentation_multimodal.webp",
-      sortOrder: 5,
+      sortOrder: 4,
     },
     {
       title: "Vận tải đa phương thức",

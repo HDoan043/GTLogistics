@@ -108,6 +108,18 @@ export default async function AboutPage() {
                 </p>
               </div>
 
+              {/* Mạng lưới chi nhánh cửa khẩu chiến lược Móng Cái & Lạng Sơn */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <div className="p-3 rounded-lg bg-azure-50/70 border border-azure-200 text-xs">
+                  <span className="font-bold text-azure-950 block">Trụ Sở Móng Cái (Bắc Luân 2)</span>
+                  <span className="text-slate-600 text-[11px] leading-tight block mt-0.5">{t.common.hqAddress}</span>
+                </div>
+                <div className="p-3 rounded-lg bg-gold-50/70 border border-gold-200 text-xs">
+                  <span className="font-bold text-gold-950 block">Chi Nhánh Lạng Sơn (Hữu Nghị)</span>
+                  <span className="text-slate-600 text-[11px] leading-tight block mt-0.5">{t.common.langSonOffice}</span>
+                </div>
+              </div>
+
               <div className="grid grid-cols-2 gap-4 pt-2">
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
                   <Target className="w-5 h-5 text-azure-600 shrink-0 mt-0.5" />

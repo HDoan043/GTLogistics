@@ -38,7 +38,7 @@ export function HeroSection({ hotline = "0904.382.268" }: { hotline?: string }) 
           {/* Dòng kẻ ngăn cách rõ nét giữa cụm tiêu đề và nội dung */}
           <div className="my-8 sm:my-9 h-1 w-24 bg-gradient-to-r from-azure-400 to-gold-400 rounded-full" />
 
-          {/* 3 Dòng nội dung đồng bộ hoàn toàn: cùng kiểu bullet, cùng cỡ chữ, font chữ và màu sắc */}
+          {/* 2 Dòng nội dung đồng bộ hoàn toàn: cùng kiểu bullet, cùng cỡ chữ, font chữ và màu sắc */}
           <ul className="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
             <li className="flex items-start gap-3">
               <span className="w-2 h-2 rounded-full bg-gold-400 shrink-0 mt-2" />
@@ -47,10 +47,6 @@ export function HeroSection({ hotline = "0904.382.268" }: { hotline?: string }) 
             <li className="flex items-start gap-3">
               <span className="w-2 h-2 rounded-full bg-gold-400 shrink-0 mt-2" />
               <span>{t.hero.borderNotice}</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="w-2 h-2 rounded-full bg-gold-400 shrink-0 mt-2" />
-              <span>{t.hero.bullet3}</span>
             </li>
           </ul>
 

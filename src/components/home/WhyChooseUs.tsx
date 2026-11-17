@@ -12,17 +12,17 @@ export function WhyChooseUs() {
   const { t } = useLanguage();
 
   return (
-    <section className="py-20 bg-white overflow-hidden">
+    <section className="py-20 bg-slate-950 text-white border-b border-slate-800 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Tiêu đề & Thông điệp */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <Badge variant="accent" className="mb-3">
             {t.whyUs.badge}
           </Badge>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
             {t.whyUs.heading}
           </h2>
-          <p className="mt-4 text-slate-600 text-base leading-relaxed">
+          <p className="mt-4 text-slate-400 text-base leading-relaxed">
             {t.whyUs.desc}
           </p>
         </div>
@@ -30,7 +30,7 @@ export function WhyChooseUs() {
         {/* Lưới hình ảnh thực tế của Trụ sở & Đội ngũ */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-16 items-center">
           {/* Ảnh lớn bên trái: Biển hiệu thương hiệu phát sáng 3D */}
-          <div className="md:col-span-7 relative h-[360px] sm:h-[440px] rounded-3xl overflow-hidden shadow-lg border border-slate-200">
+          <div className="md:col-span-7 relative h-[360px] sm:h-[440px] rounded-3xl overflow-hidden shadow-lg border border-slate-800">
             <Image
               src="/images/vietphuc/gt_brand_wall_illuminated.webp"
               alt="Biển hiệu GT Logistics tại văn phòng Vinhomes Golden Avenue Móng Cái"
@@ -54,7 +54,7 @@ export function WhyChooseUs() {
 
           {/* 2 Ảnh bên phải: Đội ngũ & Sàn làm việc thực tế */}
           <div className="md:col-span-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-6">
-            <div className="relative h-[208px] rounded-3xl overflow-hidden shadow-sm border border-slate-200">
+            <div className="relative h-[208px] rounded-3xl overflow-hidden shadow-sm border border-slate-800">
               <Image
                 src="/images/vietphuc/office_main_floor.webp"
                 alt="Sàn làm việc chuyên viên chứng từ Logistics GT"
@@ -69,7 +69,7 @@ export function WhyChooseUs() {
               </div>
             </div>
 
-            <div className="relative h-[208px] rounded-3xl overflow-hidden shadow-sm border border-slate-200">
+            <div className="relative h-[208px] rounded-3xl overflow-hidden shadow-sm border border-slate-800">
               <Image
                 src="/images/vietphuc/customs_document_review.webp"
                 alt="Kiểm tra tờ khai và bộ chứng từ xuất nhập khẩu"
@@ -93,16 +93,16 @@ export function WhyChooseUs() {
             return (
               <div
                 key={idx}
-                className="p-6 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:border-gold-400/80 hover:bg-white hover:shadow-md transition-colors duration-150 flex flex-col justify-between group"
+                className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-gold-500/50 hover:bg-slate-900/90 shadow-sm transition-colors duration-150 flex flex-col justify-between group tap-press"
               >
                 <div>
-                  <div className="w-11 h-11 rounded-xl bg-gold-500/10 text-gold-600 border border-gold-500/20 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
-                    <IconComponent className="w-5 h-5 text-gold-600" />
+                  <div className="w-11 h-11 rounded-xl bg-gold-500/10 text-gold-400 border border-gold-500/20 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                    <IconComponent className="w-5 h-5 text-gold-400" />
                   </div>
-                  <h4 className="font-bold text-sm sm:text-base text-slate-900 mb-2 leading-snug">
+                  <h4 className="font-bold text-sm sm:text-base text-white mb-2 leading-snug group-hover:text-gold-300 transition-colors">
                     {p.title}
                   </h4>
-                  <p className="text-xs text-slate-600 leading-relaxed">
+                  <p className="text-xs text-slate-400 leading-relaxed">
                     {p.desc}
                   </p>
                 </div>

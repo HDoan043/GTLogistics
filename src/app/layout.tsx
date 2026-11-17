@@ -59,7 +59,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} className={`scroll-smooth ${beVietnamPro.variable}`}>
-      <body className="min-h-screen flex flex-col antialiased text-slate-900 bg-[var(--color-paper)] selection:bg-gold-500/20 selection:text-slate-950">
+      <body className="min-h-screen flex flex-col antialiased text-[var(--color-ink)] bg-[var(--color-paper)] selection:bg-gold-500/20 selection:text-white">
         <LanguageProvider initialLocale={locale}>
           <Header
             companyName={settings.companyName}

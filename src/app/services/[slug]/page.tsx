@@ -83,13 +83,13 @@ export default async function ServiceDetailPage({
         </div>
       </section>
 
-      {/* Nội dung chi tiết dịch vụ */}
-      <section className="py-16 bg-white">
+      {/* Nội dung chi tiết dịch vụ - Dark Theme */}
+      <section className="py-16 bg-slate-950 text-white border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             {/* Cột trái: Nội dung chính */}
             <div className="lg:col-span-8 space-y-8">
-              <div className="relative h-80 sm:h-96 w-full rounded-3xl overflow-hidden shadow-md border border-slate-200">
+              <div className="relative h-80 sm:h-96 w-full rounded-2xl overflow-hidden shadow-md border border-slate-800">
                 <Image
                   src={service.bannerImage}
                   alt={localized.title}
@@ -100,31 +100,31 @@ export default async function ServiceDetailPage({
               </div>
 
               <div
-                className="prose prose-lg max-w-none text-slate-700 prose-headings:text-slate-900 prose-headings:font-bold prose-h3:text-2xl prose-h4:text-xl prose-a:text-azure-600 prose-li:my-1"
+                className="prose prose-invert prose-lg max-w-none text-slate-300 prose-headings:text-white prose-headings:font-bold prose-h3:text-2xl prose-h4:text-xl prose-a:text-azure-400 prose-li:my-1"
                 dangerouslySetInnerHTML={{ __html: localized.fullContent }}
               />
 
               {/* Box cam kết dịch vụ */}
-              <div className="p-6 rounded-3xl bg-azure-50/50 border border-azure-100 space-y-3">
-                <h4 className="font-bold text-slate-900 text-base flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-azure-600" />
+              <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3">
+                <h4 className="font-bold text-white text-base flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-gold-400" />
                   <span>{t.servicesPage.commitmentTitle}</span>
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-slate-700">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-slate-300">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span>{t.servicesPage.commitment1}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span>{t.servicesPage.commitment2}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span>{t.servicesPage.commitment3}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span>{t.servicesPage.commitment4}</span>
                   </div>
                 </div>
@@ -134,8 +134,8 @@ export default async function ServiceDetailPage({
             {/* Cột phải: Sidebar điều hướng & CTA */}
             <div className="lg:col-span-4 space-y-6">
               {/* Danh sách các dịch vụ khác */}
-              <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200">
-                <h3 className="font-bold text-base text-slate-900 mb-4 border-b border-slate-200 pb-3">
+              <div className="bg-slate-900/90 p-6 rounded-2xl border border-slate-800">
+                <h3 className="font-bold text-base text-white mb-4 border-b border-slate-800 pb-3">
                   {t.servicesPage.allServicesSidebar}
                 </h3>
                 <div className="space-y-2">
@@ -146,10 +146,10 @@ export default async function ServiceDetailPage({
                       <Link
                         key={s.slug}
                         href={`/services/${s.slug}`}
-                        className={`flex items-center justify-between p-3 rounded-2xl text-sm font-semibold transition-colors duration-150 ${
+                        className={`flex items-center justify-between p-3 rounded-xl text-sm font-semibold transition-colors duration-150 ${
                           isActive
                             ? "bg-azure-600 text-white shadow-sm"
-                            : "bg-white text-slate-700 hover:bg-slate-100 hover:text-azure-600 border border-slate-200/60"
+                            : "bg-slate-950 text-slate-300 hover:bg-slate-850 hover:text-azure-400 border border-slate-800"
                         }`}
                       >
                         <span className="line-clamp-1">{locS.title}</span>
@@ -161,24 +161,24 @@ export default async function ServiceDetailPage({
               </div>
 
               {/* Hộp Hotline tư vấn */}
-              <div className="bg-slate-950 text-white p-6 sm:p-8 rounded-3xl shadow-md text-center space-y-4 border border-slate-800">
+              <div className="bg-slate-900/90 text-white p-6 sm:p-8 rounded-2xl shadow-md text-center space-y-4 border border-slate-800">
                 <div className="w-14 h-14 rounded-2xl bg-gold-500 flex items-center justify-center mx-auto text-slate-950 shadow-lg shadow-gold-500/20">
                   <Phone className="w-7 h-7" />
                 </div>
                 <h4 className="font-bold text-lg text-white">
                   {t.servicesPage.consultationTitle}
                 </h4>
-                <p className="text-xs text-slate-300">
+                <p className="text-xs text-slate-400">
                   {t.servicesPage.consultationDesc}
                 </p>
                 <a
                   href={`tel:${cleanPhone}`}
-                  className="block text-2xl font-black text-gold-300 hover:text-gold-200 hover:underline transition-colors"
+                  className="block text-2xl font-black font-mono tabular-nums text-gold-300 hover:text-gold-200 hover:underline transition-colors"
                 >
                   {settings.hotline}
                 </a>
                 <Link href="/quote" className="block pt-2">
-                  <Button variant="accent" size="md" className="w-full font-bold">
+                  <Button variant="accent" size="md" className="w-full font-bold tap-press shadow-md shadow-gold-500/10">
                     {t.common.requestQuote}
                   </Button>
                 </Link>

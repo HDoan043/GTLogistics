@@ -9,33 +9,33 @@
   --container: 1440px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 144px; --section-gap-l: 176px;
   --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
 
-  /* Hallmark Wayfind: Platform Palette (Daylight Transit & Logistics Hub) */
-  --color-paper: oklch(98.5% 0.005 245);
-  --color-paper-2: oklch(95.5% 0.008 245);
-  --color-paper-3: oklch(99.6% 0.003 245);
-  --color-ink: oklch(15% 0.02 260);
-  --color-ink-2: oklch(28% 0.02 260);
-  --color-muted: oklch(48% 0.02 255);
-  --color-rule: oklch(88% 0.01 245);
-  --color-rule-2: oklch(80% 0.015 245);
+  /* Hallmark Wayfind: Night Palette (Modern Dark Theme) */
+  --color-paper: oklch(12.5% 0.015 260);
+  --color-paper-2: oklch(16.5% 0.018 260);
+  --color-paper-3: oklch(21% 0.02 260);
+  --color-ink: oklch(96% 0.005 240);
+  --color-ink-2: oklch(82% 0.012 240);
+  --color-muted: oklch(62% 0.018 240);
+  --color-rule: oklch(24% 0.018 260);
+  --color-rule-2: oklch(32% 0.02 260);
 
   /* Brand Accents & Transit Signals */
   --color-accent: oklch(75% 0.17 75);
   --color-accent-ink: oklch(14% 0.03 260);
-  --color-focus: oklch(52% 0.22 264);
-  --color-focus-glow: oklch(52% 0.22 264 / 18%);
+  --color-focus: oklch(58% 0.22 264);
+  --color-focus-glow: oklch(58% 0.22 264 / 25%);
   --color-gold: oklch(75% 0.17 75);
-  --color-gold-royal: oklch(62% 0.18 68);
-  --color-azure: oklch(52% 0.22 264);
-  --color-azure-deep: oklch(44% 0.22 264);
-  --color-navy: oklch(14% 0.025 260);
-  --color-navy-light: oklch(20% 0.035 260);
+  --color-gold-royal: oklch(65% 0.18 68);
+  --color-azure: oklch(58% 0.22 264);
+  --color-azure-deep: oklch(48% 0.22 264);
+  --color-navy: oklch(12.5% 0.015 260);
+  --color-navy-light: oklch(18% 0.025 260);
 
   /* Wayfind Dedicated Signals */
-  --color-transit-live: oklch(52% 0.22 264);
+  --color-transit-live: oklch(58% 0.22 264);
   --color-transit-amber: oklch(75% 0.17 75);
   --color-transit-clear: oklch(60% 0.18 145);
-  --color-transit-ground: oklch(98.5% 0.005 245);
+  --color-transit-ground: oklch(12.5% 0.015 260);
 
   /* Night Ops Admin Tokens */
   --color-ops-paper: oklch(12% 0.015 260);

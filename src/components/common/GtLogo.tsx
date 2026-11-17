@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { useLanguage } from "@/lib/i18n/context";
 
 interface GtLogoProps {
   className?: string;
@@ -15,6 +16,19 @@ export function GtLogo({
   showSlogan = false,
 }: GtLogoProps) {
   const isDark = variant === "dark";
+
+  let subtitle = showSlogan
+    ? "Đồng hành tin cậy - Phát triển bền vững"
+    : "Tiếp vận & xuất nhập khẩu chính ngạch";
+
+  try {
+    const { t } = useLanguage();
+    if (t?.common) {
+      subtitle = showSlogan ? t.common.slogan : t.common.companySubtitle;
+    }
+  } catch {
+    // Outside LanguageProvider context fallback
+  }
 
   return (
     <div className={`inline-flex items-center gap-3.5 ${className}`}>
@@ -51,9 +65,7 @@ export function GtLogo({
               isDark ? "text-gold-400/90" : "text-slate-500"
             }`}
           >
-            {showSlogan
-              ? "Đồng hành tin cậy - Phát triển bền vững"
-              : "Tiếp vận & xuất nhập khẩu chính ngạch"}
+            {subtitle}
           </span>
         </div>
       )}

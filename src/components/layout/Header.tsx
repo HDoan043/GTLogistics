@@ -263,9 +263,11 @@ export function Header({
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-slate-200 px-4 pt-3 pb-6 space-y-2 animate-in fade-in duration-200 shadow-xl">
+        <div className="lg:hidden bg-white border-t border-slate-200 px-4 pt-3 pb-6 space-y-2 animate-in fade-in duration-200 shadow-lg">
           <div className="pb-3 border-b border-slate-100 flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-semibold">Ngôn ngữ / Language:</span>
+            <span className="text-xs text-slate-500 font-semibold">
+              {locale === "zh" ? "语言 / Language:" : locale === "en" ? "Language:" : "Ngôn ngữ / Language:"}
+            </span>
             <LanguageSwitcher />
           </div>
 

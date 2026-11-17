@@ -49,7 +49,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
       )}
 
       <div className="space-y-4">
-        <h3 className="font-bold text-sm text-brand-950 uppercase tracking-wider border-b border-slate-100 pb-2">
+        <h3 className="font-bold text-sm text-brand-950 border-b border-slate-100 pb-2">
           Thông Tin Doanh Nghiệp
         </h3>
 
@@ -100,7 +100,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
       </div>
 
       <div className="space-y-4 pt-4 border-t border-slate-100">
-        <h3 className="font-bold text-sm text-brand-950 uppercase tracking-wider border-b border-slate-100 pb-2">
+        <h3 className="font-bold text-sm text-brand-950 border-b border-slate-100 pb-2">
           Kênh Liên Hệ & Nút Nổi
         </h3>
 
@@ -156,7 +156,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
       </div>
 
       <div className="space-y-4 pt-4 border-t border-slate-100">
-        <h3 className="font-bold text-sm text-brand-950 uppercase tracking-wider border-b border-slate-100 pb-2">
+        <h3 className="font-bold text-sm text-brand-950 border-b border-slate-100 pb-2">
           Địa Chỉ Văn Phòng & Chi Nhánh
         </h3>
 

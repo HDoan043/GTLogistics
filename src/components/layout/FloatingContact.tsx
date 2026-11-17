@@ -52,7 +52,7 @@ export function FloatingContact({
             Hotline: {hotline}
           </div>
         </div>
-        <div className="relative flex items-center justify-center w-14 h-14 bg-emerald-600 text-white rounded-full shadow-xl hover:bg-emerald-700 transition-transform duration-200 motion-safe:hover:scale-105">
+        <div className="relative flex items-center justify-center w-14 h-14 bg-emerald-600 text-white rounded-full shadow-lg hover:bg-emerald-700 transition-transform duration-200 motion-safe:hover:scale-105">
           <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 motion-safe:animate-ping" />
           <Phone className="w-6 h-6 relative z-10" />
         </div>
@@ -71,7 +71,7 @@ export function FloatingContact({
             Chat Zalo với chúng tôi
           </div>
         </div>
-        <div className="relative flex items-center justify-center w-14 h-14 bg-azure-500 text-white rounded-full shadow-xl hover:bg-azure-600 transition-transform duration-200 motion-safe:hover:scale-105">
+        <div className="relative flex items-center justify-center w-14 h-14 bg-azure-500 text-white rounded-full shadow-lg hover:bg-azure-600 transition-transform duration-200 motion-safe:hover:scale-105">
           <span className="absolute inline-flex h-full w-full rounded-full bg-azure-300 opacity-75 motion-safe:animate-ping" />
           <div className="relative z-10 flex flex-col items-center justify-center font-bold">
             <span className="text-xs font-bold leading-none">Zalo</span>

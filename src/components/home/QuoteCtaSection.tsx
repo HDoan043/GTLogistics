@@ -1,12 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { Send, CheckCircle2, PhoneCall, AlertCircle } from "lucide-react";
+import Link from "next/link";
+import { Send, CheckCircle2, PhoneCall, AlertCircle, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { submitLead } from "@/modules/leads/actions";
 import { useLanguage } from "@/lib/i18n/context";
 
-export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string }) {
+export function QuoteCtaSection({
+  hotline = "0904.382.268",
+  isStandalonePage = false,
+}: {
+  hotline?: string;
+  isStandalonePage?: boolean;
+}) {
   const { t, locale } = useLanguage();
 
   const [formData, setFormData] = useState({
@@ -14,7 +21,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
     phone: "",
     email: "",
     company: "",
-    serviceType: "Vận tải đường bộ & liên vận Móng Cái",
+    serviceType: "Vận tải đường bộ",
     routeOrigin: "",
     routeDestination: "",
     cargoDetails: "",
@@ -48,7 +55,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
         phone: "",
         email: "",
         company: "",
-        serviceType: "Vận tải đường bộ & liên vận Móng Cái",
+        serviceType: "Vận tải đường bộ",
         routeOrigin: "",
         routeDestination: "",
         cargoDetails: "",
@@ -65,17 +72,32 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
   const cleanPhone = hotline.replace(/[^0-9]/g, "");
 
   return (
-    <section className="py-20 bg-slate-950 text-white relative border-t border-slate-800">
+    <section className={`bg-slate-950 text-white relative border-t border-slate-800 ${isStandalonePage ? "py-14 sm:py-20" : "py-20"}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Cột trái: Lời kêu gọi */}
           <div className="lg:col-span-5 space-y-6">
+            {isStandalonePage && (
+              <div className="flex items-center gap-2 text-xs text-slate-400 mb-2">
+                <Link href="/" className="hover:text-gold-300 transition-colors">
+                  {t.common.home}
+                </Link>
+                <ChevronRight className="w-3.5 h-3.5" />
+                <span className="text-azure-300 font-semibold">{t.common.quote}</span>
+              </div>
+            )}
             <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-slate-900 text-gold-300 text-xs font-semibold rounded-full border border-gold-500/25">
               <span>{t.quoteForm.badge}</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
-              {t.quoteForm.heading}
-            </h2>
+            {isStandalonePage ? (
+              <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+                {t.quoteForm.heading}
+              </h1>
+            ) : (
+              <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+                {t.quoteForm.heading}
+              </h2>
+            )}
             <p className="text-slate-300 text-sm leading-relaxed">
               {t.quoteForm.desc}
             </p>

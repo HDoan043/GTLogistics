@@ -24,7 +24,7 @@ export default async function AdminLayout({
     <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row">
       {/* Sidebar (Chỉ hiện khi đã đăng nhập) */}
       {admin && (
-        <aside className="w-full md:w-64 bg-brand-950 text-slate-300 flex flex-col justify-between shrink-0 shadow-xl">
+        <aside className="w-full md:w-64 bg-brand-950 text-slate-300 flex flex-col justify-between shrink-0 shadow-lg border-r border-slate-900">
           <div>
             {/* Logo Admin GT */}
             <div className="p-6 border-b border-brand-900 flex items-center gap-3">

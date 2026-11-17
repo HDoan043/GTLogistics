@@ -8,8 +8,8 @@
   --color-error: oklch(52% 0.19 27); --color-success: oklch(50% 0.12 150);
   --container: 1440px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 144px; --section-gap-l: 176px;
   --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
-  --color-paper: oklch(100% 0 0);
-  --color-paper-2: oklch(98.5% 0.003 240);
+  --color-paper: oklch(99.4% 0.006 85);
+  --color-paper-2: oklch(98.5% 0.006 240);
   --color-paper-3: oklch(96.2% 0.006 240);
   --color-ink: oklch(14% 0.03 260);
   --color-ink-2: oklch(28% 0.03 260);

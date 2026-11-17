@@ -1,6 +1,6 @@
-/* Hallmark · shape: modern · genre: modern-minimal · theme: brand · redesign: full
- * paper: #fdfcfb · accent: #f59e0b · display: system-ui · body: system-ui · hero: Settled · nav: edge-aligned · footer: mast · signature: real-time shipment tracker and border logistics verification
- * axes: light/grotesk-sans/chromatic-gold · posture: Settled · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · shape: modern · genre: modern-minimal · theme: wayfind · redesign: full
+ * paper: var(--color-paper) · accent: var(--color-gold) · display: system-ui · body: system-ui · hero: Split Studio · nav: edge-aligned · footer: mast · signature: border logistics transit corridor and live status dispatch
+ * axes: light/grotesk-sans/transit-signals · posture: committed · contrast: pass · fold: pass · v2.1.0 */
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 · weakest: S, refined spacing and visual hierarchy across all viewports */
 @import "./tokens.css";
 @tailwind base;
@@ -47,19 +47,39 @@ body {
   background: var(--color-scrollbar-hover);
 }
 
-/* Interactive touch & button micro-press */
+/* Impeccable interactive touch & button micro-press */
 .tap-press {
-  transition: transform 0.12s var(--ease-out), box-shadow 0.12s var(--ease-out);
+  transition: transform 0.12s var(--ease-out), box-shadow 0.12s var(--ease-out), background-color 0.12s var(--ease-out), border-color 0.12s var(--ease-out);
 }
 .tap-press:active {
   transform: scale(0.98);
 }
 
-/* Focus styles for inputs with gold glow */
+/* Focus styles for inputs with focus glow */
 input:focus-visible, textarea:focus-visible, select:focus-visible {
   outline: none;
-  border-color: var(--color-gold);
+  border-color: var(--color-focus);
   box-shadow: 0 0 0 3px var(--color-focus-glow);
+}
+
+/* Wayfind live departure status ping */
+@keyframes transit-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-transit-ping {
+  animation: transit-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 /* Animation pulsing ripple cho nút Zalo & Hotline */

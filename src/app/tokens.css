@@ -8,33 +8,56 @@
   --color-error: oklch(52% 0.19 27); --color-success: oklch(50% 0.12 150);
   --container: 1440px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 144px; --section-gap-l: 176px;
   --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
-  --color-paper: oklch(99.4% 0.006 85);
-  --color-paper-2: oklch(98.5% 0.006 240);
-  --color-paper-3: oklch(96.2% 0.006 240);
-  --color-ink: oklch(14% 0.03 260);
-  --color-ink-2: oklch(28% 0.03 260);
-  --color-muted: oklch(54% 0.03 250);
-  --color-rule: oklch(92% 0.008 240);
-  --color-rule-2: oklch(86% 0.012 240);
+
+  /* Hallmark Wayfind: Platform Palette (Daylight Transit & Logistics Hub) */
+  --color-paper: oklch(98.5% 0.005 245);
+  --color-paper-2: oklch(95.5% 0.008 245);
+  --color-paper-3: oklch(99.6% 0.003 245);
+  --color-ink: oklch(15% 0.02 260);
+  --color-ink-2: oklch(28% 0.02 260);
+  --color-muted: oklch(48% 0.02 255);
+  --color-rule: oklch(88% 0.01 245);
+  --color-rule-2: oklch(80% 0.015 245);
+
+  /* Brand Accents & Transit Signals */
   --color-accent: oklch(75% 0.17 75);
   --color-accent-ink: oklch(14% 0.03 260);
-  --color-focus: oklch(68% 0.16 230);
-  --color-focus-glow: oklch(75% 0.17 75 / 20%);
+  --color-focus: oklch(52% 0.22 264);
+  --color-focus-glow: oklch(52% 0.22 264 / 18%);
   --color-gold: oklch(75% 0.17 75);
   --color-gold-royal: oklch(62% 0.18 68);
-  --color-azure: oklch(68% 0.16 230);
-  --color-azure-deep: oklch(58% 0.18 240);
-  --color-navy: oklch(14% 0.03 260);
-  --color-navy-light: oklch(20% 0.04 260);
+  --color-azure: oklch(52% 0.22 264);
+  --color-azure-deep: oklch(44% 0.22 264);
+  --color-navy: oklch(14% 0.025 260);
+  --color-navy-light: oklch(20% 0.035 260);
+
+  /* Wayfind Dedicated Signals */
+  --color-transit-live: oklch(52% 0.22 264);
+  --color-transit-amber: oklch(75% 0.17 75);
+  --color-transit-clear: oklch(60% 0.18 145);
+  --color-transit-ground: oklch(98.5% 0.005 245);
+
+  /* Night Ops Admin Tokens */
+  --color-ops-paper: oklch(12% 0.015 260);
+  --color-ops-paper-card: oklch(16% 0.018 260);
+  --color-ops-paper-surface: oklch(20% 0.02 260);
+  --color-ops-ink: oklch(96% 0.005 240);
+  --color-ops-ink-2: oklch(82% 0.012 240);
+  --color-ops-muted: oklch(60% 0.018 240);
+  --color-ops-rule: oklch(24% 0.018 260);
+
   --color-scrollbar-thumb: oklch(70% 0.02 250);
   --color-scrollbar-hover: oklch(54% 0.03 250);
   --color-zalo-glow: oklch(58% 0.22 255 / 70%);
+
   --font-display: var(--font-sans), "Be Vietnam Pro", "Plus Jakarta Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-body: var(--font-sans), "Be Vietnam Pro", "Plus Jakarta Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-outlier: var(--font-body);
-  --radius-card: 16px;
+
+  --radius-card: 14px;
   --radius-pill: 999px;
   --rule-hair: 1px;
+  --rule-bar: 2px;
   --shadow-card: 0 4px 20px -2px oklch(14% 0.03 260 / 6%);
-  --tracking-display: -0.02em;
+  --tracking-display: -0.025em;
 }

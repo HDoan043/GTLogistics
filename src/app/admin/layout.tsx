@@ -21,71 +21,77 @@ export default async function AdminLayout({
   const admin = await getCurrentAdmin();
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row">
-      {/* Sidebar (Chỉ hiện khi đã đăng nhập) */}
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col md:flex-row">
+      {/* Sidebar (Chỉ hiện khi đã đăng nhập) - Wayfind Night Ops */}
       {admin && (
-        <aside className="w-full md:w-64 bg-brand-950 text-slate-300 flex flex-col justify-between shrink-0 shadow-lg border-r border-slate-900">
+        <aside className="w-full md:w-64 bg-slate-900/90 text-slate-300 flex flex-col justify-between shrink-0 shadow-2xl border-r border-slate-800">
           <div>
-            {/* Logo Admin GT */}
-            <div className="p-6 border-b border-brand-900 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-accent-500 text-white flex items-center justify-center font-black text-xl shadow-md">
-                GT
+            {/* Logo Admin GT - Operations Console */}
+            <div className="p-5 border-b border-slate-800 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-azure-600 text-white flex items-center justify-center font-black text-lg shadow-md font-mono">
+                  GT
+                </div>
+                <div>
+                  <span className="font-black text-white text-sm block tracking-tight">
+                    GT LOGISTICS
+                  </span>
+                  <span className="text-[11px] text-azure-400 font-semibold block">
+                    NIGHT OPS CONSOLE
+                  </span>
+                </div>
               </div>
-              <div>
-                <span className="font-black text-white text-base block tracking-tight">
-                  LOGISTICS GT
-                </span>
-                <span className="text-xs text-gold-400 font-medium block">
-                  Cổng quản trị hệ thống
-                </span>
-              </div>
+              <span className="relative flex h-2 w-2">
+                <span className="animate-transit-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
             </div>
 
             {/* Menu điều hướng */}
             <nav className="p-4 space-y-1.5 text-xs font-semibold">
               <Link
                 href="/admin/dashboard"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-brand-900 hover:text-white transition-colors"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-colors text-slate-300 border border-transparent hover:border-slate-700/80"
               >
-                <LayoutDashboard className="w-4 h-4 text-accent-400" />
+                <LayoutDashboard className="w-4 h-4 text-azure-400" />
                 <span>Bảng Tổng Quan</span>
               </Link>
 
               <Link
                 href="/admin/posts"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-brand-900 hover:text-white transition-colors"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-colors text-slate-300 border border-transparent hover:border-slate-700/80"
               >
-                <FileText className="w-4 h-4 text-accent-400" />
+                <FileText className="w-4 h-4 text-azure-400" />
                 <span>Quản Lý Bài Viết</span>
               </Link>
 
               <Link
                 href="/admin/leads"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-brand-900 hover:text-white transition-colors"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-colors text-slate-300 border border-transparent hover:border-slate-700/80"
               >
-                <Users className="w-4 h-4 text-accent-400" />
+                <Users className="w-4 h-4 text-azure-400" />
                 <span>Khách Hàng (Leads)</span>
               </Link>
 
               <Link
                 href="/admin/settings"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-brand-900 hover:text-white transition-colors"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-colors text-slate-300 border border-transparent hover:border-slate-700/80"
               >
-                <Settings className="w-4 h-4 text-accent-400" />
+                <Settings className="w-4 h-4 text-azure-400" />
                 <span>Cấu Hình Website</span>
               </Link>
             </nav>
           </div>
 
           {/* Phần dưới cùng sidebar: Thông tin Admin & Đăng xuất */}
-          <div className="p-4 border-t border-brand-900 space-y-3">
-            <div className="px-3 py-2 bg-brand-900/60 rounded-xl flex items-center gap-2.5 text-xs">
+          <div className="p-4 border-t border-slate-800 space-y-3">
+            <div className="px-3 py-2 bg-slate-950/80 rounded-xl flex items-center gap-2.5 text-xs border border-slate-800/80">
               <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
               <div className="overflow-hidden">
                 <span className="text-white font-bold block truncate">
                   {admin.fullName}
                 </span>
-                <span className="text-[10px] text-slate-400 truncate block">
+                <span className="text-[10px] text-slate-400 truncate block font-mono">
                   {admin.email}
                 </span>
               </div>
@@ -122,7 +128,7 @@ export default async function AdminLayout({
       )}
 
       {/* Main Content Area */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto bg-slate-950">
         {children}
       </div>
     </div>

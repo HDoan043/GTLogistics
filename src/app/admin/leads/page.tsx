@@ -36,23 +36,33 @@ export default async function AdminLeadsPage({
   });
 
   return (
-    <div className="p-6 sm:p-10 max-w-7xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-brand-950 tracking-tight">
-          Quản Lý Leads & Báo Giá
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
-          Theo dõi và xử lý các yêu cầu báo giá cước, tư vấn hải quan từ khách hàng.
-        </p>
+    <div className="p-6 sm:p-10 max-w-7xl mx-auto space-y-6 bg-slate-950 text-slate-100">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-azure-950 text-azure-400 border border-azure-800/60">
+              Lead Dispatch
+            </span>
+            <span className="text-[11px] text-slate-400">
+              <strong className="font-mono tabular-nums text-slate-200">{leads.length}</strong> yêu cầu
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            Quản Lý Leads & Báo Giá
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+            Theo dõi và xử lý các yêu cầu báo giá cước, tư vấn hải quan từ khách hàng.
+          </p>
+        </div>
       </div>
 
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-slate-900/90 rounded-2xl border border-slate-800 shadow-sm overflow-hidden">
         {leads.length === 0 ? (
-          <div className="p-12 text-center text-slate-400">
+          <div className="p-12 text-center text-slate-400 text-xs">
             Chưa có yêu cầu báo giá nào từ khách hàng.
           </div>
         ) : (
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-slate-800">
             {leads.map((lead) => {
               const dateStr = new Date(lead.createdAt).toLocaleString("vi-VN", {
                 day: "2-digit",
@@ -63,80 +73,80 @@ export default async function AdminLeadsPage({
               });
 
               return (
-                <div key={lead.id} className="p-6 hover:bg-slate-50/50 transition-colors">
+                <div key={lead.id} className="p-6 hover:bg-slate-800/30 transition-colors">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     {/* Thông tin khách hàng */}
                     <div className="space-y-2">
                       <div className="flex items-center gap-3">
-                        <span className="text-base font-bold text-slate-900">
+                        <span className="text-base font-bold text-white">
                           {lead.fullName}
                         </span>
                         {lead.company && (
-                          <span className="text-xs text-slate-500 flex items-center gap-1">
-                            <Building className="w-3.5 h-3.5 text-slate-400" />
+                          <span className="text-xs text-slate-400 flex items-center gap-1">
+                            <Building className="w-3.5 h-3.5 text-slate-500" />
                             <span>{lead.company}</span>
                           </span>
                         )}
-                        <Badge
-                          variant={
+                        <span
+                          className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
                             lead.status === "NEW"
-                              ? "accent"
+                              ? "bg-amber-950 text-amber-300 border border-amber-800/60"
                               : lead.status === "CONTACTED"
-                              ? "warning"
-                              : "success"
-                          }
+                              ? "bg-azure-950 text-azure-300 border border-azure-800/60"
+                              : "bg-emerald-950 text-emerald-300 border border-emerald-800/60"
+                          }`}
                         >
                           {lead.status === "NEW"
                             ? "Mới tiếp nhận"
                             : lead.status === "CONTACTED"
                             ? "Đang tư vấn"
-                            : "Đã chốt"}
-                        </Badge>
+                            : "Đã chốt hợp đồng"}
+                        </span>
                       </div>
 
-                      <div className="flex flex-wrap items-center gap-4 text-xs text-slate-600">
+                      <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400">
                         <a
                           href={`tel:${lead.phone.replace(/[^0-9]/g, "")}`}
-                          className="flex items-center gap-1.5 font-bold text-brand-700 hover:underline"
+                          className="flex items-center gap-1.5 font-bold text-azure-400 hover:text-azure-300 hover:underline"
                         >
                           <Phone className="w-3.5 h-3.5" />
-                          <span>{lead.phone}</span>
+                          <span className="font-mono tabular-nums">{lead.phone}</span>
                         </a>
 
                         {lead.email && (
-                          <span className="flex items-center gap-1.5 text-slate-500">
+                          <span className="flex items-center gap-1.5 text-slate-400 font-mono">
                             <Mail className="w-3.5 h-3.5" />
                             <span>{lead.email}</span>
                           </span>
                         )}
 
-                        <span className="flex items-center gap-1.5 text-slate-400">
+                        <span className="flex items-center gap-1.5 text-slate-500">
                           <Clock className="w-3.5 h-3.5" />
-                          <span>Gửi lúc: {dateStr}</span>
+                          <span>Gửi lúc: <strong className="font-mono tabular-nums text-slate-400">{dateStr}</strong></span>
                         </span>
                       </div>
 
                       {/* Chi tiết tuyến đường & lô hàng */}
                       <div className="pt-2 text-xs space-y-1">
                         <div>
-                          <span className="font-semibold text-slate-700">Dịch vụ:</span>{" "}
-                          <span className="text-brand-800 font-bold">{lead.serviceType}</span>
+                          <span className="font-semibold text-slate-400">Dịch vụ:</span>{" "}
+                          <span className="text-gold-300 font-bold">{lead.serviceType}</span>
                         </div>
                         {(lead.routeOrigin || lead.routeDestination) && (
-                          <div className="flex items-center gap-1 text-slate-600">
-                            <MapPin className="w-3.5 h-3.5 text-accent-600 shrink-0" />
+                          <div className="flex items-center gap-1 text-slate-300 text-[11px]">
+                            <MapPin className="w-3.5 h-3.5 text-azure-400 shrink-0" />
                             <span>
                               {lead.routeOrigin || "Chưa rõ"} ➔ {lead.routeDestination || "Chưa rõ"}
                             </span>
                           </div>
                         )}
                         {lead.cargoDetails && (
-                          <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl text-slate-700 mt-2">
-                            <strong>Chi tiết hàng hóa:</strong> {lead.cargoDetails}
+                          <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl text-slate-300 mt-2 text-xs">
+                            <strong className="text-slate-400">Chi tiết hàng hóa:</strong> {lead.cargoDetails}
                           </div>
                         )}
                         {lead.notes && (
-                          <div className="text-[11px] text-amber-800 bg-amber-50 p-2 rounded-lg mt-1">
+                          <div className="text-[11px] text-amber-300 bg-amber-950/80 border border-amber-800/60 p-2 rounded-lg mt-1">
                             <strong>Ghi chú nội bộ:</strong> {lead.notes}
                           </div>
                         )}
@@ -156,7 +166,7 @@ export default async function AdminLeadsPage({
                         <select
                           name="status"
                           defaultValue={lead.status}
-                          className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700"
+                          className="px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs font-semibold text-slate-200 focus:border-azure-500 focus:outline-none"
                         >
                           <option value="NEW">Mới tiếp nhận</option>
                           <option value="CONTACTED">Đang tư vấn</option>
@@ -165,7 +175,7 @@ export default async function AdminLeadsPage({
                         </select>
                         <button
                           type="submit"
-                          className="px-3 py-1.5 bg-brand-700 hover:bg-brand-800 text-white rounded-lg text-xs font-bold transition-colors"
+                          className="px-3 py-1.5 bg-azure-600 hover:bg-azure-500 text-white rounded-lg text-xs font-bold transition-colors tap-press"
                         >
                           Lưu
                         </button>

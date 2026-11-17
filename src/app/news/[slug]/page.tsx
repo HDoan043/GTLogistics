@@ -124,7 +124,7 @@ export default async function NewsDetailPage({
             </div>
 
             {/* Đoạn tóm tắt nổi bật */}
-            <div className="p-5 rounded-2xl bg-azure-50/40 border-l-4 border-azure-600 text-sm text-slate-700 font-medium italic mb-8">
+            <div className="p-5 sm:p-6 rounded-2xl bg-azure-50/50 border border-azure-200/80 text-sm sm:text-base text-slate-800 font-medium leading-relaxed mb-8 shadow-sm">
               {localized.excerpt}
             </div>
 

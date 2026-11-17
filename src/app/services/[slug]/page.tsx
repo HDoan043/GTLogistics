@@ -94,6 +94,7 @@ export default async function ServiceDetailPage({
                   src={service.bannerImage}
                   alt={localized.title}
                   fill
+                  sizes="(max-width: 1024px) 100vw, 66vw"
                   className="object-cover"
                 />
               </div>

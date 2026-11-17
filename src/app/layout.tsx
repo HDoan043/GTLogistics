@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -6,6 +7,13 @@ import { FloatingContact } from "@/components/layout/FloatingContact";
 import { getSiteSettings } from "@/modules/settings/actions";
 import { getServerLocale } from "@/lib/i18n/server";
 import { LanguageProvider } from "@/lib/i18n/context";
+
+const beVietnamPro = Be_Vietnam_Pro({
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-sans",
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
@@ -50,7 +58,7 @@ export default async function RootLayout({
   ]);
 
   return (
-    <html lang={locale} className="scroll-smooth">
+    <html lang={locale} className={`scroll-smooth ${beVietnamPro.variable}`}>
       <body className="min-h-screen flex flex-col antialiased text-slate-900 bg-[var(--color-paper)] selection:bg-gold-500/20 selection:text-slate-950">
         <LanguageProvider initialLocale={locale}>
           <Header

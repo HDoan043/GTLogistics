@@ -87,7 +87,7 @@ function TrackingContent() {
             variant="accent"
             size="md"
             isLoading={loading}
-            className="font-bold py-3 px-6"
+            className="font-bold py-3 px-6 tap-press shadow-md shadow-gold-500/10"
           >
             <Search className="w-4 h-4 mr-2" />
             <span>{t.trackingPage.btnTrack}</span>
@@ -95,14 +95,14 @@ function TrackingContent() {
         </form>
 
         <div className="mt-4 text-xs text-slate-500 flex items-center gap-2 flex-wrap">
-          <span>{t.hero.trackingSamples}</span>
+          <span className="font-semibold text-slate-700">{t.hero.trackingSamples}:</span>
           <button
             type="button"
             onClick={() => {
               setCode("GT889922");
               handleSearch("GT889922");
             }}
-            className="font-mono text-azure-600 font-bold hover:text-azure-700 bg-azure-50 px-2 py-0.5 rounded-lg transition-colors"
+            className="font-mono text-azure-700 font-bold hover:text-azure-800 bg-azure-50 hover:bg-azure-100 px-2.5 py-1 rounded-lg transition-colors border border-azure-200/60 tap-press"
           >
             GT889922
           </button>
@@ -112,7 +112,7 @@ function TrackingContent() {
               setCode("GT556677");
               handleSearch("GT556677");
             }}
-            className="font-mono text-azure-600 font-bold hover:text-azure-700 bg-azure-50 px-2 py-0.5 rounded-lg transition-colors"
+            className="font-mono text-azure-700 font-bold hover:text-azure-800 bg-azure-50 hover:bg-azure-100 px-2.5 py-1 rounded-lg transition-colors border border-azure-200/60 tap-press"
           >
             GT556677
           </button>

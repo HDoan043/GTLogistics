@@ -2,8 +2,11 @@
 
 import React from "react";
 import Image from "next/image";
+import { MapPin, Building2, ShieldCheck, Clock, Award, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { useLanguage } from "@/lib/i18n/context";
+
+const pillarIcons = [MapPin, Building2, ShieldCheck, Clock, Award, TrendingUp];
 
 export function WhyChooseUs() {
   const { t } = useLanguage();
@@ -32,6 +35,7 @@ export function WhyChooseUs() {
               src="/images/vietphuc/gt_brand_wall_illuminated.webp"
               alt="Biển hiệu GT Logistics tại văn phòng Vinhomes Golden Avenue Móng Cái"
               fill
+              sizes="(max-width: 768px) 100vw, 60vw"
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
@@ -55,6 +59,7 @@ export function WhyChooseUs() {
                 src="/images/vietphuc/office_main_floor.webp"
                 alt="Sàn làm việc chuyên viên chứng từ Logistics GT"
                 fill
+                sizes="(max-width: 768px) 100vw, 40vw"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -69,6 +74,7 @@ export function WhyChooseUs() {
                 src="/images/vietphuc/customs_document_review.webp"
                 alt="Kiểm tra tờ khai và bộ chứng từ xuất nhập khẩu"
                 fill
+                sizes="(max-width: 768px) 100vw, 40vw"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -80,26 +86,29 @@ export function WhyChooseUs() {
           </div>
         </div>
 
-        {/* 6 Trụ cột giá trị cốt lõi đúc kết từ biển hiệu */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {t.whyUs.pillars.map((p, idx) => (
-            <div
-              key={idx}
-              className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-gold-400 hover:bg-gold-50/20 transition-colors duration-150 text-center flex flex-col justify-between group"
-            >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-100 to-gold-200 text-gold-950 border border-gold-300/80 flex items-center justify-center font-bold text-sm mx-auto mb-3 shadow-sm">
-                0{idx + 1}
+        {/* 6 Trụ cột năng lực cốt lõi */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {t.whyUs.pillars.map((p, idx) => {
+            const IconComponent = pillarIcons[idx] || ShieldCheck;
+            return (
+              <div
+                key={idx}
+                className="p-6 rounded-2xl bg-slate-50/80 border border-slate-200/80 hover:border-gold-400/80 hover:bg-white hover:shadow-md transition-colors duration-150 flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="w-11 h-11 rounded-xl bg-gold-500/10 text-gold-600 border border-gold-500/20 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                    <IconComponent className="w-5 h-5 text-gold-600" />
+                  </div>
+                  <h4 className="font-bold text-sm sm:text-base text-slate-900 mb-2 leading-snug">
+                    {p.title}
+                  </h4>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {p.desc}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h4 className="font-bold text-sm text-slate-900 mb-1">
-                  {p.title}
-                </h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  {p.desc}
-                </p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

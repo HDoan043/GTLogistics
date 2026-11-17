@@ -5,6 +5,12 @@ import {
   Target,
   Compass,
   Building,
+  Globe2,
+  ShieldCheck,
+  Zap,
+  Gauge,
+  Award,
+  Coins,
 } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { StatsCounter } from "@/components/home/StatsCounter";
@@ -17,6 +23,8 @@ export const metadata = {
   description:
     "Tìm hiểu về lịch sử hình thành, năng lực vận tải, pháp lý doanh nghiệp và cam kết dịch vụ của Công ty TNHH Logistics GT tại Cửa khẩu Quốc tế Móng Cái.",
 };
+
+const pillarIcons = [Globe2, ShieldCheck, Zap, Gauge, Award, Coins];
 
 export default async function AboutPage() {
   const [{ t }, settings] = await Promise.all([
@@ -59,6 +67,7 @@ export default async function AboutPage() {
                 src="/images/vietphuc/office_workstations_wide.webp"
                 alt="Văn phòng điều hành Logistics GT tại Vinhomes Golden Avenue Móng Cái"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
@@ -133,7 +142,7 @@ export default async function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-6">
-              <Badge variant="brand">
+              <Badge variant="brand" className="mb-2">
                 {t.aboutPage.teamBadge}
               </Badge>
               <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-tight">
@@ -144,15 +153,15 @@ export default async function AboutPage() {
               </p>
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-sm text-slate-700">
-                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-azure-600 shrink-0" />
                   <span>{t.aboutPage.leader1}</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-slate-700">
-                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-azure-600 shrink-0" />
                   <span>{t.aboutPage.leader2}</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-slate-700">
-                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-azure-600 shrink-0" />
                   <span>{t.aboutPage.leader3}</span>
                 </div>
               </div>
@@ -160,11 +169,12 @@ export default async function AboutPage() {
 
             <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Ảnh lãnh đạo */}
-              <div className="relative h-64 rounded-3xl overflow-hidden shadow-md border border-slate-200">
+              <div className="relative h-64 rounded-3xl overflow-hidden shadow-lg border border-slate-200">
                 <Image
                   src="/images/vietphuc/director_leadership.webp"
                   alt="Ban lãnh đạo điều hành chiến lược Logistics GT"
                   fill
+                  sizes="(max-width: 768px) 100vw, 30vw"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
@@ -172,18 +182,19 @@ export default async function AboutPage() {
                   <span className="text-xs font-bold block">
                     {t.aboutPage.directorsCaption}
                   </span>
-                  <span className="text-xs text-slate-300">
+                  <span className="text-[11px] text-slate-300">
                     {t.aboutPage.directorsSub}
                   </span>
                 </div>
               </div>
 
               {/* Ảnh phòng họp toàn thể */}
-              <div className="relative h-64 rounded-3xl overflow-hidden shadow-md border border-slate-200">
+              <div className="relative h-64 rounded-3xl overflow-hidden shadow-lg border border-slate-200">
                 <Image
                   src="/images/vietphuc/boardroom_conference.webp"
                   alt="Họp giao ban nghiệp vụ vận tải và thông quan tại phòng hội nghị"
                   fill
+                  sizes="(max-width: 768px) 100vw, 30vw"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
@@ -191,7 +202,7 @@ export default async function AboutPage() {
                   <span className="text-xs font-bold block">
                     {t.aboutPage.conferenceCaption}
                   </span>
-                  <span className="text-xs text-slate-300">
+                  <span className="text-[11px] text-slate-300">
                     {t.aboutPage.conferenceSub}
                   </span>
                 </div>
@@ -220,18 +231,21 @@ export default async function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {t.aboutPage.pillars.map((v, i) => (
-              <div
-                key={i}
-                className="p-6 rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-gold-400 hover:bg-gold-50/20 transition-colors duration-150"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-gold-100 text-gold-900 flex items-center justify-center mb-4 font-bold text-base">
-                  0{i + 1}
+            {t.aboutPage.pillars.map((v, i) => {
+              const PillarIcon = pillarIcons[i] || ShieldCheck;
+              return (
+                <div
+                  key={i}
+                  className="p-6 rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-gold-400 hover:bg-white hover:shadow-md transition-colors duration-150 group"
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-gold-500/10 text-gold-600 border border-gold-500/20 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                    <PillarIcon className="w-6 h-6 text-gold-600" />
+                  </div>
+                  <h3 className="font-bold text-lg text-slate-900 mb-2">{v.title}</h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">{v.desc}</p>
                 </div>
-                <h3 className="font-bold text-lg text-slate-900 mb-2">{v.title}</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">{v.desc}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

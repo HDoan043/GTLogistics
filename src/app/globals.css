@@ -28,10 +28,10 @@ body {
   outline-offset: 2px;
 }
 
-/* Custom scrollbar */
+/* Custom slim scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -40,11 +40,26 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: var(--color-scrollbar-thumb);
-  border-radius: 4px;
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-scrollbar-hover);
+}
+
+/* Interactive touch & button micro-press */
+.tap-press {
+  transition: transform 0.12s var(--ease-out), box-shadow 0.12s var(--ease-out);
+}
+.tap-press:active {
+  transform: scale(0.98);
+}
+
+/* Focus styles for inputs with gold glow */
+input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: none;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px var(--color-focus-glow);
 }
 
 /* Animation pulsing ripple cho nút Zalo & Hotline */

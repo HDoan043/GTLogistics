@@ -66,7 +66,7 @@ export function HeroSection({ hotline = "0904.382.268" }: { hotline?: string }) 
             {/* Quick Actions Buttons */}
             <div className="flex flex-wrap items-center gap-4 pt-1">
               <Link href="/quote">
-                <Button variant="accent" size="lg" className="font-bold">
+                <Button variant="accent" size="lg" className="font-bold tap-press shadow-md shadow-gold-500/10">
                   <span>{t.hero.btnQuote}</span>
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
@@ -75,7 +75,7 @@ export function HeroSection({ hotline = "0904.382.268" }: { hotline?: string }) 
                 <Button
                   variant="outline"
                   size="lg"
-                  className="bg-white/5 border-slate-700 text-white hover:bg-white/15 hover:border-slate-500 font-semibold"
+                  className="bg-white/5 border-slate-700 text-white hover:bg-white/15 hover:border-slate-500 font-semibold tap-press"
                 >
                   {t.hero.btnProfile}
                 </Button>
@@ -130,7 +130,7 @@ export function HeroSection({ hotline = "0904.382.268" }: { hotline?: string }) 
                   </div>
                 </div>
 
-                <Button type="submit" variant="accent" size="lg" className="w-full font-bold">
+                <Button type="submit" variant="accent" size="lg" className="w-full font-bold tap-press shadow-md shadow-gold-500/10">
                   <span>{t.hero.trackingBtn}</span>
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
@@ -138,18 +138,24 @@ export function HeroSection({ hotline = "0904.382.268" }: { hotline?: string }) 
 
               {/* Gợi ý tra cứu nhanh */}
               <div className="mt-4 pt-3.5 border-t border-slate-100 text-xs text-slate-500 flex items-center gap-2 flex-wrap">
-                <span className="font-semibold text-slate-700">{t.hero.trackingSamples}</span>
+                <span className="font-semibold text-slate-700">{t.hero.trackingSamples}:</span>
                 <button
                   type="button"
-                  onClick={() => setTrackingInput("GT889922")}
-                  className="font-mono text-azure-600 hover:text-azure-700 font-bold bg-azure-50 hover:bg-azure-100 px-2 py-0.5 rounded-lg transition-colors"
+                  onClick={() => {
+                    setTrackingInput("GT889922");
+                    router.push("/tracking?code=GT889922");
+                  }}
+                  className="font-mono text-azure-700 hover:text-azure-800 font-bold bg-azure-50 hover:bg-azure-100 px-2.5 py-1 rounded-lg transition-colors tap-press border border-azure-200/60"
                 >
                   GT889922
                 </button>
                 <button
                   type="button"
-                  onClick={() => setTrackingInput("GT556677")}
-                  className="font-mono text-azure-600 hover:text-azure-700 font-bold bg-azure-50 hover:bg-azure-100 px-2 py-0.5 rounded-lg transition-colors"
+                  onClick={() => {
+                    setTrackingInput("GT556677");
+                    router.push("/tracking?code=GT556677");
+                  }}
+                  className="font-mono text-azure-700 hover:text-azure-800 font-bold bg-azure-50 hover:bg-azure-100 px-2.5 py-1 rounded-lg transition-colors tap-press border border-azure-200/60"
                 >
                   GT556677
                 </button>

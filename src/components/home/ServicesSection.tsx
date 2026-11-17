@@ -78,7 +78,7 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
             return (
               <div
                 key={s.slug}
-                className="group bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-md hover:border-azure-500/50 transition-colors duration-200 flex flex-col"
+                className="group bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-lg hover:border-gold-400/80 transition-colors duration-200 flex flex-col"
               >
                 {/* Ảnh dịch vụ */}
                 <div className="relative h-52 w-full overflow-hidden bg-slate-200">

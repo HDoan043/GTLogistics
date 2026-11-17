@@ -94,7 +94,7 @@ export default async function ContactPage() {
                   href={`https://zalo.me/${settings.zaloPhone}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-2.5 bg-azure-600 hover:bg-azure-700 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-sm"
+                  className="w-full py-2.5 bg-azure-600 hover:bg-azure-700 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-sm tap-press"
                 >
                   <span>{t.contactPage.chatZalo}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -138,7 +138,7 @@ export default async function ContactPage() {
               <div className="pt-4 border-t border-slate-100">
                 <a
                   href={`tel:${cleanPhone}`}
-                  className="block text-center w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-semibold transition-colors"
+                  className="block text-center w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-semibold transition-colors tap-press"
                 >
                   {t.contactPage.callPort}
                 </a>
@@ -181,7 +181,7 @@ export default async function ContactPage() {
               <div className="pt-4 border-t border-slate-100">
                 <a
                   href={`tel:${cleanPhone}`}
-                  className="block text-center w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-semibold transition-colors"
+                  className="block text-center w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-semibold transition-colors tap-press"
                 >
                   {t.contactPage.callHanoi}
                 </a>

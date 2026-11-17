@@ -298,7 +298,7 @@ export function QuoteCtaSection({
                   type="submit"
                   variant="accent"
                   size="lg"
-                  className="w-full font-bold mt-2"
+                  className="w-full font-bold mt-2 tap-press shadow-md shadow-gold-500/10 hover:shadow-lg transition-transform"
                   isLoading={loading}
                 >
                   <Send className="w-4 h-4 mr-2" />

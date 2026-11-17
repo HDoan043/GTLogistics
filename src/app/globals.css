@@ -1,17 +1,25 @@
+/* Hallmark · shape: modern · genre: modern-minimal · theme: brand · redesign: full
+ * paper: #ffffff · accent: #f59e0b · display: system-ui · body: system-ui · hero: Settled · nav: edge-aligned · footer: mast · signature: real-time shipment tracker and border logistics verification
+ * axes: light/grotesk-sans/chromatic-gold · posture: Settled · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 · weakest: S, refined spacing and visual hierarchy across all viewports */
+@import "./tokens.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #0f172a;
+html, body {
+  overflow-x: clip;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  overflow-x: hidden;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  font-family: var(--font-body);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
 /* Custom scrollbar */
@@ -21,34 +29,43 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--color-paper-3);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #94a3b8;
+  background: var(--color-scrollbar-thumb);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  background: var(--color-scrollbar-hover);
 }
 
 /* Animation pulsing ripple cho nút Zalo & Hotline */
 @keyframes halo {
   0% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(0, 104, 255, 0.7);
+    box-shadow: 0 0 0 0 var(--color-zalo-glow);
   }
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 15px rgba(0, 104, 255, 0);
+    box-shadow: 0 0 0 15px transparent;
   }
   100% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(0, 104, 255, 0);
+    box-shadow: 0 0 0 0 transparent;
   }
 }
 
 .zalo-pulse {
   animation: halo 2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

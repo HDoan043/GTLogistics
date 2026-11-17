@@ -43,7 +43,7 @@ export function Footer({
   };
 
   return (
-    <footer className="bg-slate-950 text-slate-300 pt-16 pb-8 border-t-2 border-amber-500">
+    <footer className="bg-slate-950 text-slate-300 pt-16 pb-8 border-t-2 border-gold-500">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
           {/* Cột 1: Thông tin công ty & Nhận diện GT LOGISTICS */}
@@ -59,7 +59,7 @@ export function Footer({
             <div className="pt-2 text-xs text-slate-400 space-y-1.5 border-t border-slate-800/80">
               <div>
                 <span className="font-semibold text-slate-200">{t.common.taxCode}:</span>{" "}
-                <span className="text-amber-400 font-mono font-bold">{taxCode}</span>
+                <span className="text-gold-400 font-mono font-bold">{taxCode}</span>
               </div>
               <div>
                 <span className="font-semibold text-slate-200">{t.common.legalRepresentative}:</span> Lê Thanh Tâm
@@ -72,7 +72,7 @@ export function Footer({
 
           {/* Cột 2: Dịch vụ cốt lõi */}
           <div>
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-3">
+            <h3 className="text-sm font-bold text-white mb-4 border-l-2 border-gold-500 pl-3">
               {t.footer.coreServices}
             </h3>
             <ul className="space-y-2.5 text-sm">
@@ -80,9 +80,9 @@ export function Footer({
                 <li key={s.slug}>
                   <Link
                     href={`/services/${s.slug}`}
-                    className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400 group"
+                    className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400 group"
                   >
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-amber-400 transition-colors" />
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-gold-400 transition-colors" />
                     <span>{getServiceTitle(s)}</span>
                   </Link>
                 </li>
@@ -92,42 +92,42 @@ export function Footer({
 
           {/* Cột 3: Liên kết nhanh */}
           <div>
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-3">
+            <h3 className="text-sm font-bold text-white mb-4 border-l-2 border-gold-500 pl-3">
               {t.footer.quickLinks}
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/about" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400">
+                <Link href="/about" className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400">
                   <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
                   <span>{t.common.aboutUs}</span>
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400">
+                <Link href="/services" className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400">
                   <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
                   <span>{t.common.allServices}</span>
                 </Link>
               </li>
               <li>
-                <Link href="/tracking" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400">
+                <Link href="/tracking" className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400">
                   <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
                   <span>{t.common.trackOrder}</span>
                 </Link>
               </li>
               <li>
-                <Link href="/news" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400">
+                <Link href="/news" className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400">
                   <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
                   <span>{t.common.news}</span>
                 </Link>
               </li>
               <li>
-                <Link href="/quote" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400">
+                <Link href="/quote" className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400">
                   <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
                   <span>{t.common.quote}</span>
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400">
+                <Link href="/contact" className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400">
                   <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
                   <span>{t.common.contact}</span>
                 </Link>
@@ -137,13 +137,13 @@ export function Footer({
 
           {/* Cột 4: Mạng lưới văn phòng */}
           <div className="space-y-4">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider border-l-2 border-amber-500 pl-3">
+            <h3 className="text-sm font-bold text-white border-l-2 border-gold-500 pl-3">
               {t.footer.contactHeadquarters}
             </h3>
 
             <div className="space-y-3 text-xs text-slate-400">
               <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-sky-400 mt-0.5 shrink-0" />
+                <MapPin className="w-4 h-4 text-azure-400 mt-0.5 shrink-0" />
                 <div>
                   <strong className="text-slate-200 block">
                     {locale === "zh" ? "芒街总部运营中心:" : locale === "en" ? "Mong Cai Headquarters:" : "Trụ Sở Điều Hành Móng Cái:"}
@@ -153,7 +153,7 @@ export function Footer({
               </div>
 
               <div className="flex items-start gap-2.5">
-                <Building className="w-4 h-4 text-sky-400 mt-0.5 shrink-0" />
+                <Building className="w-4 h-4 text-azure-400 mt-0.5 shrink-0" />
                 <div>
                   <strong className="text-slate-200 block">
                     {locale === "zh" ? "海防港口分支办事处:" : locale === "en" ? "Hai Phong Port Branch:" : "Văn Phòng Cảng Hải Phòng:"}
@@ -163,24 +163,24 @@ export function Footer({
               </div>
 
               <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-amber-400 shrink-0" />
+                <Phone className="w-4 h-4 text-gold-400 shrink-0" />
                 <div>
                   <span className="text-slate-400">{t.common.hotline}: </span>
-                  <a href={`tel:${cleanPhone}`} className="text-amber-300 font-bold hover:text-amber-200 transition-colors">
+                  <a href={`tel:${cleanPhone}`} className="text-gold-300 font-bold hover:text-gold-200 transition-colors">
                     {hotline}
                   </a>
                 </div>
               </div>
 
               <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-sky-400 shrink-0" />
+                <Mail className="w-4 h-4 text-azure-400 shrink-0" />
                 <a href={`mailto:${email}`} className="text-slate-300 hover:text-white transition-colors">
                   {email}
                 </a>
               </div>
 
               <div className="flex items-center gap-2.5">
-                <Clock className="w-4 h-4 text-sky-400 shrink-0" />
+                <Clock className="w-4 h-4 text-azure-400 shrink-0" />
                 <span>{t.common.operatingHours}</span>
               </div>
             </div>

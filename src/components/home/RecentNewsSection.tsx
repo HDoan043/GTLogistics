@@ -49,7 +49,7 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
-            <Badge variant="brand" className="mb-2 uppercase tracking-wider">
+            <Badge variant="brand" className="mb-2">
               {t.common.news}
             </Badge>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
@@ -58,7 +58,7 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
           </div>
           <Link
             href="/news"
-            className="mt-4 md:mt-0 text-sm font-bold text-blue-700 hover:text-amber-600 inline-flex items-center gap-1.5 transition-colors"
+            className="mt-4 md:mt-0 text-sm font-bold text-azure-600 hover:text-gold-600 inline-flex items-center gap-1.5 transition-colors"
           >
             <span>{t.common.viewDetails}</span>
             <ArrowRight className="w-4 h-4" />
@@ -82,7 +82,7 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
             return (
               <article
                 key={post.slug}
-                className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col group hover:-translate-y-1"
+                className="bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-md hover:border-azure-500/50 transition-colors duration-200 flex flex-col group"
               >
                 <div className="relative h-52 w-full overflow-hidden bg-slate-200">
                   <Image
@@ -90,10 +90,10 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
                     alt={title}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/90 text-blue-900 shadow-sm backdrop-blur-sm">
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-white/95 text-slate-900 shadow-sm">
                       {post.category}
                     </span>
                   </div>
@@ -108,11 +108,11 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
                       </span>
                       <span className="flex items-center gap-1">
                         <Eye className="w-3.5 h-3.5 text-slate-400" />
-                        <span>{post.viewCount} {viewCountLabels[locale] || viewCountLabels.vi}</span>
+                        <span className="tabular-nums">{post.viewCount} {viewCountLabels[locale] || viewCountLabels.vi}</span>
                       </span>
                     </div>
 
-                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
+                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-azure-600 transition-colors line-clamp-2 leading-snug">
                       <Link href={`/news/${post.slug}`}>{title}</Link>
                     </h3>
                     <p className="mt-2 text-sm text-slate-600 leading-relaxed line-clamp-3">
@@ -123,7 +123,7 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
                   <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
                     <Link
                       href={`/news/${post.slug}`}
-                      className="text-sm font-bold text-blue-700 hover:text-amber-600 inline-flex items-center gap-1.5 transition-colors"
+                      className="text-sm font-bold text-azure-600 hover:text-gold-600 inline-flex items-center gap-1.5 transition-colors"
                     >
                       <span>{readMoreLabels[locale] || readMoreLabels.vi}</span>
                       <ArrowRight className="w-4 h-4" />

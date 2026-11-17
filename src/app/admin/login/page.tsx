@@ -32,7 +32,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-slate-100">
+      <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 shadow-lg border border-slate-200">
         <div className="text-center mb-8">
           <div className="w-14 h-14 rounded-2xl bg-brand-900 flex items-center justify-center text-accent-400 mx-auto mb-3 shadow-md font-black text-2xl border border-brand-700">
             GT
@@ -102,10 +102,10 @@ export default function AdminLoginPage() {
         </form>
 
         <div className="mt-8 pt-6 border-t border-slate-100 text-center">
-          <p className="text-[11px] text-slate-400">
-            Tài khoản: <span className="font-mono text-slate-600 font-semibold">admin@logisticsgt.vn</span> (hoặc <span className="font-mono text-slate-600 font-semibold">admin@htclogistics.vn</span>)
+          <p className="text-xs text-slate-500">
+            Tài khoản: <span className="text-slate-700 font-semibold">admin@logisticsgt.vn</span> (hoặc <span className="text-slate-700 font-semibold">admin@htclogistics.vn</span>)
             <br />
-            Mật khẩu: <span className="font-mono text-slate-600 font-semibold">Admin@GT2026!</span>
+            Mật khẩu: <span className="text-slate-700 font-semibold">Admin@GT2026!</span>
           </p>
         </div>
       </div>

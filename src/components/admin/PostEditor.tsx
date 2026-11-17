@@ -170,7 +170,7 @@ export function PostEditor({ initialData, isEdit = false }: PostEditorProps) {
         <div className="lg:col-span-8 space-y-6">
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase">
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
                 Tiêu Đề Bài Viết *
               </label>
               <input
@@ -186,7 +186,7 @@ export function PostEditor({ initialData, isEdit = false }: PostEditorProps) {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase">
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
                 Đoạn Trích Tóm Tắt (Excerpt) *
               </label>
               <textarea
@@ -205,7 +205,7 @@ export function PostEditor({ initialData, isEdit = false }: PostEditorProps) {
           {/* Trình Soạn Thảo Nội Dung (Rich Text / HTML Editor) */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <label className="block text-xs font-bold text-slate-700 uppercase">
+              <label className="block text-xs font-bold text-slate-700">
                 Nội Dung Chi Tiết (Hỗ trợ HTML / Định dạng) *
               </label>
 
@@ -260,7 +260,7 @@ export function PostEditor({ initialData, isEdit = false }: PostEditorProps) {
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase">
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
                 Chuyên Mục Bài Viết
               </label>
               <select
@@ -280,7 +280,7 @@ export function PostEditor({ initialData, isEdit = false }: PostEditorProps) {
           {/* Chọn Ảnh Bìa */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase flex items-center justify-between">
+              <label className="block text-xs font-bold text-slate-700 mb-1.5 flex items-center justify-between">
                 <span>Ảnh Bìa Bài Viết (Cover Image)</span>
                 <ImageIcon className="w-4 h-4 text-slate-400" />
               </label>
@@ -310,7 +310,7 @@ export function PostEditor({ initialData, isEdit = false }: PostEditorProps) {
 
             {/* Thư viện ảnh chọn nhanh chất lượng cao */}
             <div>
-              <span className="block text-[11px] font-bold text-slate-500 mb-2 uppercase">
+              <span className="block text-xs font-semibold text-slate-600 mb-2">
                 Chọn Nhanh Ảnh Đẹp Ngành Logistics:
               </span>
               <div className="grid grid-cols-2 gap-2">
@@ -321,7 +321,7 @@ export function PostEditor({ initialData, isEdit = false }: PostEditorProps) {
                     onClick={() =>
                       setFormData({ ...formData, coverImage: img.url })
                     }
-                    className={`relative h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                    className={`relative h-20 rounded-lg overflow-hidden border-2 transition-transform duration-150 ${
                       formData.coverImage === img.url
                         ? "border-accent-500 ring-2 ring-accent-400 scale-[1.02]"
                         : "border-transparent opacity-75 hover:opacity-100"

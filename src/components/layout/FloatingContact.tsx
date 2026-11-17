@@ -35,7 +35,7 @@ export function FloatingContact({
         <button
           onClick={scrollToTop}
           title="Lên đầu trang"
-          className="pointer-events-auto w-11 h-11 bg-slate-800/80 hover:bg-slate-900 text-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:-translate-y-1"
+          className="pointer-events-auto w-11 h-11 bg-slate-900/90 hover:bg-slate-950 text-white rounded-full flex items-center justify-center shadow-lg transition-transform duration-200 motion-safe:hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
         >
           <ArrowUp className="w-5 h-5" />
         </button>
@@ -44,17 +44,17 @@ export function FloatingContact({
       {/* Nút Gọi Hotline Nhanh */}
       <a
         href={`tel:${cleanPhone}`}
-        className="pointer-events-auto group relative flex items-center"
+        className="pointer-events-auto group relative flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 rounded-full"
         title="Gọi hotline tư vấn ngay"
       >
-        <div className="absolute right-12 pr-2 hidden group-hover:block transition-all duration-200">
-          <div className="bg-slate-900 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap">
+        <div className="absolute right-12 pr-2 hidden group-hover:block transition-opacity duration-200">
+          <div className="bg-slate-950 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap border border-slate-800">
             Hotline: {hotline}
           </div>
         </div>
-        <div className="relative flex items-center justify-center w-14 h-14 bg-emerald-500 text-white rounded-full shadow-xl hover:bg-emerald-600 transition-all duration-300 hover:scale-105">
-          <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
-          <Phone className="w-6 h-6 relative z-10 animate-bounce" />
+        <div className="relative flex items-center justify-center w-14 h-14 bg-emerald-600 text-white rounded-full shadow-xl hover:bg-emerald-700 transition-transform duration-200 motion-safe:hover:scale-105">
+          <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 motion-safe:animate-ping" />
+          <Phone className="w-6 h-6 relative z-10" />
         </div>
       </a>
 
@@ -63,19 +63,18 @@ export function FloatingContact({
         href={`https://zalo.me/${zaloPhone}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="pointer-events-auto group relative flex items-center"
+        className="pointer-events-auto group relative flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-400 rounded-full"
         title="Chat Zalo trực tiếp"
       >
-        <div className="absolute right-12 pr-2 hidden group-hover:block transition-all duration-200">
-          <div className="bg-blue-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap">
+        <div className="absolute right-12 pr-2 hidden group-hover:block transition-opacity duration-200">
+          <div className="bg-slate-950 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap border border-slate-800">
             Chat Zalo với chúng tôi
           </div>
         </div>
-        <div className="relative flex items-center justify-center w-14 h-14 bg-[#0068ff] text-white rounded-full shadow-xl hover:bg-blue-600 transition-all duration-300 hover:scale-105">
-          <span className="absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75 animate-ping" />
-          {/* Custom SVG logo Zalo hoặc MessageCircle */}
+        <div className="relative flex items-center justify-center w-14 h-14 bg-azure-500 text-white rounded-full shadow-xl hover:bg-azure-600 transition-transform duration-200 motion-safe:hover:scale-105">
+          <span className="absolute inline-flex h-full w-full rounded-full bg-azure-300 opacity-75 motion-safe:animate-ping" />
           <div className="relative z-10 flex flex-col items-center justify-center font-bold">
-            <span className="text-xs uppercase tracking-tighter font-extrabold leading-none">ZALO</span>
+            <span className="text-xs font-bold leading-none">Zalo</span>
             <MessageCircle className="w-3.5 h-3.5 mt-0.5" />
           </div>
         </div>

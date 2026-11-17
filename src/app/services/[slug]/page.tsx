@@ -56,22 +56,22 @@ export default async function ServiceDetailPage({
       {/* Banner Tiêu đề & Breadcrumb */}
       <section className="relative py-16 bg-slate-950 text-white overflow-hidden border-b border-slate-800">
         <div
-          className="absolute inset-0 opacity-20 bg-cover bg-center mix-blend-luminosity scale-105"
+          className="absolute inset-0 opacity-20 bg-cover bg-center mix-blend-luminosity scale-100"
           style={{ backgroundImage: `url('${service.bannerImage}')` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-blue-950/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/95 to-slate-900/80" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-xs text-slate-400 mb-3">
-            <Link href="/" className="hover:text-white transition-colors">
+            <Link href="/" className="hover:text-gold-300 transition-colors">
               {t.common.home}
             </Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/services" className="hover:text-white transition-colors">
+            <Link href="/services" className="hover:text-gold-300 transition-colors">
               {t.servicesPage.detailBreadcrumbServices}
             </Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-sky-300 font-semibold">{localized.title}</span>
+            <span className="text-azure-300 font-semibold">{localized.title}</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white max-w-3xl">
@@ -89,7 +89,7 @@ export default async function ServiceDetailPage({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             {/* Cột trái: Nội dung chính */}
             <div className="lg:col-span-8 space-y-8">
-              <div className="relative h-80 sm:h-96 w-full rounded-3xl overflow-hidden shadow-xl border border-slate-200">
+              <div className="relative h-80 sm:h-96 w-full rounded-3xl overflow-hidden shadow-md border border-slate-200">
                 <Image
                   src={service.bannerImage}
                   alt={localized.title}
@@ -99,14 +99,14 @@ export default async function ServiceDetailPage({
               </div>
 
               <div
-                className="prose prose-lg max-w-none text-slate-700 prose-headings:text-slate-900 prose-headings:font-bold prose-h3:text-2xl prose-h4:text-xl prose-a:text-blue-700 prose-li:my-1"
+                className="prose prose-lg max-w-none text-slate-700 prose-headings:text-slate-900 prose-headings:font-bold prose-h3:text-2xl prose-h4:text-xl prose-a:text-azure-600 prose-li:my-1"
                 dangerouslySetInnerHTML={{ __html: localized.fullContent }}
               />
 
               {/* Box cam kết dịch vụ */}
-              <div className="p-6 rounded-3xl bg-blue-50/50 border border-blue-100 space-y-3">
+              <div className="p-6 rounded-3xl bg-azure-50/50 border border-azure-100 space-y-3">
                 <h4 className="font-bold text-slate-900 text-base flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-blue-700" />
+                  <ShieldCheck className="w-5 h-5 text-azure-600" />
                   <span>{t.servicesPage.commitmentTitle}</span>
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-slate-700">
@@ -145,10 +145,10 @@ export default async function ServiceDetailPage({
                       <Link
                         key={s.slug}
                         href={`/services/${s.slug}`}
-                        className={`flex items-center justify-between p-3 rounded-2xl text-sm font-semibold transition-all ${
+                        className={`flex items-center justify-between p-3 rounded-2xl text-sm font-semibold transition-colors duration-150 ${
                           isActive
-                            ? "bg-blue-700 text-white shadow-sm"
-                            : "bg-white text-slate-700 hover:bg-slate-100 hover:text-blue-700 border border-slate-200/60"
+                            ? "bg-azure-600 text-white shadow-sm"
+                            : "bg-white text-slate-700 hover:bg-slate-100 hover:text-azure-600 border border-slate-200/60"
                         }`}
                       >
                         <span className="line-clamp-1">{locS.title}</span>
@@ -160,8 +160,8 @@ export default async function ServiceDetailPage({
               </div>
 
               {/* Hộp Hotline tư vấn */}
-              <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white p-6 sm:p-8 rounded-3xl shadow-xl text-center space-y-4 border border-slate-800">
-                <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center mx-auto text-white shadow-lg shadow-blue-600/30">
+              <div className="bg-slate-950 text-white p-6 sm:p-8 rounded-3xl shadow-md text-center space-y-4 border border-slate-800">
+                <div className="w-14 h-14 rounded-2xl bg-gold-500 flex items-center justify-center mx-auto text-slate-950 shadow-lg shadow-gold-500/20">
                   <Phone className="w-7 h-7" />
                 </div>
                 <h4 className="font-bold text-lg text-white">
@@ -172,12 +172,12 @@ export default async function ServiceDetailPage({
                 </p>
                 <a
                   href={`tel:${cleanPhone}`}
-                  className="block text-2xl font-black text-sky-400 hover:text-sky-300 hover:underline"
+                  className="block text-2xl font-black text-gold-300 hover:text-gold-200 hover:underline transition-colors"
                 >
                   {settings.hotline}
                 </a>
                 <Link href="/quote" className="block pt-2">
-                  <Button variant="accent" size="md" className="w-full font-bold shadow-md shadow-blue-600/20">
+                  <Button variant="accent" size="md" className="w-full font-bold">
                     {t.common.requestQuote}
                   </Button>
                 </Link>

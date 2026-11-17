@@ -18,29 +18,29 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center font-semibold transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]";
+    "inline-flex items-center justify-center font-semibold transition-colors duration-150 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.99] motion-safe:transition-transform";
 
   const variants = {
     // Primary: Xanh Azure hoàng gia của chữ GT
     primary:
-      "bg-blue-700 hover:bg-blue-800 text-white focus:ring-blue-500 shadow-md shadow-blue-700/20",
+      "bg-azure-600 hover:bg-azure-700 text-white focus-visible:ring-azure-500 shadow-sm",
     
-    // Accent: Gradient Vàng Hoàng Kim 3D đẳng cấp chuẩn Logo GT
+    // Accent: Vàng Hoàng Kim 3D đẳng cấp chuẩn Logo GT
     accent:
-      "bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:via-yellow-300 hover:to-amber-400 text-slate-950 font-bold focus:ring-amber-400 shadow-lg shadow-amber-500/25 border border-amber-300/50",
+      "bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-slate-950 font-bold focus-visible:ring-gold-400 shadow-md shadow-gold-500/20 border border-gold-300/40",
     
     // Gold: Vàng Kim đồng nhất
     gold:
-      "bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold focus:ring-amber-400 shadow-md shadow-amber-500/20",
+      "bg-gold-500 hover:bg-gold-400 text-slate-950 font-bold focus-visible:ring-gold-400 shadow-sm",
 
     gradient:
-      "bg-gradient-to-r from-blue-700 via-sky-600 to-blue-800 hover:from-blue-600 hover:to-sky-500 text-white shadow-md",
+      "bg-gradient-to-r from-azure-600 to-brand-700 hover:from-azure-500 hover:to-brand-600 text-white shadow-sm",
     
     outline:
-      "border border-slate-300 bg-white text-slate-800 hover:bg-slate-50 hover:border-slate-400 focus:ring-blue-500 shadow-sm",
+      "border border-slate-300 bg-white text-slate-800 hover:bg-slate-50 hover:border-slate-400 focus-visible:ring-azure-500 shadow-sm",
     
-    ghost: "text-slate-700 hover:bg-slate-100 focus:ring-slate-400",
-    danger: "bg-red-600 hover:bg-red-700 text-white focus:ring-red-400 shadow-sm",
+    ghost: "text-slate-700 hover:bg-slate-100 focus-visible:ring-slate-400",
+    danger: "bg-red-600 hover:bg-red-700 text-white focus-visible:ring-red-400 shadow-sm",
   };
 
   const sizes = {
@@ -57,6 +57,7 @@ export function Button({
     >
       {isLoading && (
         <svg
+          aria-hidden="true"
           className="animate-spin -ml-1 mr-2 h-4 w-4 text-current"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

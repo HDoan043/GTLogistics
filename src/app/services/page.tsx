@@ -23,15 +23,15 @@ export default async function ServicesPage() {
     <div className="flex flex-col min-h-screen">
       <section className="relative py-20 bg-slate-950 text-white overflow-hidden text-center border-b border-slate-800">
         <div
-          className="absolute inset-0 opacity-25 bg-cover bg-center mix-blend-luminosity scale-105"
+          className="absolute inset-0 opacity-20 bg-cover bg-center mix-blend-luminosity scale-100"
           style={{
             backgroundImage: "url('/images/vietphuc/hero_office_panoramic.webp')",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-blue-950/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/95 to-slate-900/80" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Badge variant="accent" className="mb-3 uppercase tracking-wider">
+          <Badge variant="accent" className="mb-3">
             {t.servicesPage.badge}
           </Badge>
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">

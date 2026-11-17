@@ -35,8 +35,8 @@ export default async function AdminLayout({
                 <span className="font-black text-white text-base block tracking-tight">
                   LOGISTICS GT
                 </span>
-                <span className="text-[10px] text-accent-400 font-semibold tracking-wider uppercase">
-                  Cổng Quản Trị Hệ Thống
+                <span className="text-xs text-gold-400 font-medium block">
+                  Cổng quản trị hệ thống
                 </span>
               </div>
             </div>

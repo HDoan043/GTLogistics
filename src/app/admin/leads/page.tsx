@@ -39,7 +39,7 @@ export default async function AdminLeadsPage({
     <div className="p-6 sm:p-10 max-w-7xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl sm:text-3xl font-black text-brand-950 tracking-tight">
-          Hộp Thư Khách Hàng Tiềm Năng (Leads & Báo Giá)
+          Quản Lý Leads & Báo Giá
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-1">
           Theo dõi và xử lý các yêu cầu báo giá cước, tư vấn hải quan từ khách hàng.

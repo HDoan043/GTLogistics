@@ -79,7 +79,7 @@ function TrackingContent() {
               value={code}
               onChange={(e) => setCode(e.target.value)}
               placeholder={t.trackingPage.inputPlaceholder}
-              className="w-full px-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white uppercase font-mono tracking-wider font-semibold"
+              className="w-full px-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 focus:bg-white font-mono font-semibold"
             />
           </div>
           <Button
@@ -87,14 +87,14 @@ function TrackingContent() {
             variant="accent"
             size="md"
             isLoading={loading}
-            className="font-bold py-3 px-6 shadow-md shadow-amber-500/20"
+            className="font-bold py-3 px-6"
           >
             <Search className="w-4 h-4 mr-2" />
             <span>{t.trackingPage.btnTrack}</span>
           </Button>
         </form>
 
-        <div className="mt-4 text-xs text-slate-500 flex items-center gap-2">
+        <div className="mt-4 text-xs text-slate-500 flex items-center gap-2 flex-wrap">
           <span>{t.hero.trackingSamples}</span>
           <button
             type="button"
@@ -102,18 +102,17 @@ function TrackingContent() {
               setCode("GT889922");
               handleSearch("GT889922");
             }}
-            className="font-mono text-blue-700 font-bold hover:underline"
+            className="font-mono text-azure-600 font-bold hover:text-azure-700 bg-azure-50 px-2 py-0.5 rounded-lg transition-colors"
           >
             GT889922
           </button>
-          <span>•</span>
           <button
             type="button"
             onClick={() => {
               setCode("GT556677");
               handleSearch("GT556677");
             }}
-            className="font-mono text-blue-700 font-bold hover:underline"
+            className="font-mono text-azure-600 font-bold hover:text-azure-700 bg-azure-50 px-2 py-0.5 rounded-lg transition-colors"
           >
             GT556677
           </button>
@@ -135,14 +134,14 @@ function TrackingContent() {
 
       {/* Kết quả Vận đơn */}
       {order && (
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden space-y-6">
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-md overflow-hidden space-y-6">
           {/* Header kết quả */}
           <div className="p-6 sm:p-8 bg-slate-950 text-white flex flex-col sm:flex-row justify-between sm:items-center gap-4">
             <div>
-              <div className="text-xs text-slate-400 uppercase tracking-widest font-semibold">
+              <div className="text-xs text-slate-400 font-medium">
                 {locale === "zh" ? "GT 跨境物流专属提单号" : locale === "en" ? "GT Logistics Tracking Number" : "Mã Vận Đơn Logistics GT"}
               </div>
-              <div className="text-2xl sm:text-3xl font-black font-mono text-amber-400 mt-1">
+              <div className="text-2xl sm:text-3xl font-black font-mono text-gold-400 mt-1">
                 {order.trackingCode}
               </div>
               <div className="text-xs text-slate-300 mt-1">
@@ -178,7 +177,7 @@ function TrackingContent() {
               </div>
               <div>
                 <span className="text-slate-400 block font-semibold">{t.trackingPage.currentLocation}:</span>
-                <span className="font-bold text-blue-700 text-sm mt-0.5 block">
+                <span className="font-bold text-azure-600 text-sm mt-0.5 block">
                   {order.currentHub}
                 </span>
               </div>
@@ -187,14 +186,14 @@ function TrackingContent() {
             {/* Dòng thời gian lịch trình */}
             <div>
               <h3 className="font-bold text-slate-900 text-base mb-4 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-amber-500" />
+                <Clock className="w-5 h-5 text-gold-500" />
                 <span>{t.trackingPage.timeline}</span>
               </h3>
 
               <div className="relative border-l-2 border-slate-200 ml-4 space-y-6">
                 {order.timeline.map((event, idx) => (
                   <div key={idx} className="relative pl-6">
-                    <div className="absolute -left-2 top-0.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-white shadow-sm" />
+                    <div className="absolute -left-2 top-0.5 w-4 h-4 rounded-full bg-gold-500 border-4 border-white shadow-sm" />
                     <div className="text-xs text-slate-400 font-mono">{event.time}</div>
                     <div className="text-sm font-bold text-slate-800 mt-0.5">{event.location}</div>
                     <div className="text-xs text-slate-600 mt-1">{event.desc}</div>
@@ -215,7 +214,7 @@ function TrackingPageWrapper() {
     <div className="flex flex-col min-h-screen bg-slate-50">
       <section className="relative py-16 bg-slate-950 text-white text-center border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Badge variant="accent" className="mb-2 uppercase tracking-wider">
+          <Badge variant="accent" className="mb-2">
             {t.trackingPage.badge}
           </Badge>
           <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white">

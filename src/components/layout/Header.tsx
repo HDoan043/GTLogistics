@@ -86,17 +86,17 @@ export function Header({
   };
 
   return (
-    <header className="w-full bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-40 transition-all duration-200 border-b border-slate-200/80">
-      {/* Top Bar - Thông tin nhanh & Bộ chọn 3 ngôn ngữ (Executive Midnight Slate) */}
-      <div className="bg-slate-950 text-slate-300 text-xs py-2 px-4 border-b border-slate-800/80 hidden md:block">
+    <header className="w-full bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b border-slate-200/80">
+      {/* Top Bar - Midnight Slate Navy */}
+      <div className="bg-brand-950 text-slate-300 text-xs py-2 px-4 border-b border-slate-800/80 hidden md:block">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-1.5 text-slate-300">
-              <MapPin className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+              <MapPin className="w-3.5 h-3.5 text-azure-400 shrink-0" />
               <span>{t.header.borderGateNotice}</span>
             </div>
             <div className="flex items-center gap-1.5 text-slate-300">
-              <Clock className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+              <Clock className="w-3.5 h-3.5 text-azure-400 shrink-0" />
               <span>{t.header.schedule247}</span>
             </div>
           </div>
@@ -106,18 +106,18 @@ export function Header({
               href={`mailto:${email}`}
               className="flex items-center gap-1.5 hover:text-white transition-colors text-slate-300"
             >
-              <Mail className="w-3.5 h-3.5 text-amber-400" />
+              <Mail className="w-3.5 h-3.5 text-gold-400" />
               <span>{email}</span>
             </a>
             <a
               href={`tel:${cleanPhone}`}
-              className="flex items-center gap-1.5 font-bold text-amber-300 hover:text-amber-200 transition-colors"
+              className="flex items-center gap-1.5 font-bold text-gold-300 hover:text-gold-200 transition-colors"
             >
-              <Phone className="w-3.5 h-3.5 text-amber-400" />
+              <Phone className="w-3.5 h-3.5 text-gold-400" />
               <span>{t.common.hotline}: {hotline}</span>
             </a>
 
-            {/* Bộ chuyển đổi 3 ngôn ngữ VN | EN | 中文 */}
+            {/* Trilingual Switcher */}
             <div className="border-l border-slate-700/80 pl-4">
               <LanguageSwitcher />
             </div>
@@ -128,7 +128,7 @@ export function Header({
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo & Thương hiệu GT LOGISTICS */}
+          {/* Logo */}
           <Link href="/" className="flex items-center group">
             <GtLogo showSlogan={false} />
           </Link>
@@ -149,25 +149,25 @@ export function Header({
                   >
                     <Link
                       href={link.href}
-                      className={`px-3.5 py-2 text-sm font-semibold rounded-lg flex items-center gap-1 transition-all duration-150 ${
+                      className={`px-3.5 py-2 text-sm font-semibold rounded-lg flex items-center gap-1 transition-colors duration-150 ${
                         isActive
-                          ? "text-blue-700 bg-blue-50 font-bold"
-                          : "text-slate-700 hover:text-blue-700 hover:bg-slate-50"
+                          ? "text-azure-600 bg-azure-50 font-bold"
+                          : "text-slate-700 hover:text-azure-600 hover:bg-slate-50"
                       }`}
                     >
                       <span>{label}</span>
                       <ChevronDown
                         className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
-                          servicesDropdown ? "rotate-180 text-blue-700" : ""
+                          servicesDropdown ? "rotate-180 text-azure-600" : ""
                         }`}
                       />
                     </Link>
 
-                    {/* Dropdown Dịch vụ hiện đại, hỗ trợ đa ngôn ngữ */}
+                    {/* Services Dropdown */}
                     {servicesDropdown && (
                       <div className="absolute top-full left-0 pt-2 z-50">
-                        <div className="w-[390px] bg-white rounded-2xl shadow-2xl border border-slate-200/80 p-2.5 animate-in fade-in slide-in-from-top-2 duration-150">
-                          <div className="px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 mb-1">
+                        <div className="w-[390px] bg-white rounded-2xl shadow-lg border border-slate-200/80 p-2.5 animate-in fade-in slide-in-from-top-2 duration-150">
+                          <div className="px-3 py-2 text-xs font-semibold text-slate-500 border-b border-slate-100 mb-1">
                             {t.header.servicesDropdownTitle}
                           </div>
                           <div className="space-y-1">
@@ -177,13 +177,13 @@ export function Header({
                                 <Link
                                   key={service.slug}
                                   href={`/services/${service.slug}`}
-                                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-blue-50/80 transition-colors group"
+                                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-azure-50/80 transition-colors group"
                                 >
-                                  <div className="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                  <div className="w-9 h-9 rounded-xl bg-azure-50 text-azure-600 flex items-center justify-center shrink-0 group-hover:bg-azure-600 group-hover:text-white transition-colors">
                                     <IconComponent className="w-4 h-4" />
                                   </div>
                                   <div className="flex-1 min-w-0">
-                                    <div className="text-sm font-bold text-slate-800 group-hover:text-blue-700 transition-colors leading-snug">
+                                    <div className="text-sm font-bold text-slate-800 group-hover:text-azure-600 transition-colors leading-snug">
                                       {getServiceTitle(service)}
                                     </div>
                                     <div className="text-xs text-slate-500 line-clamp-1 mt-0.5">
@@ -197,7 +197,7 @@ export function Header({
                           <div className="mt-2 pt-2 border-t border-slate-100 px-3 py-1 flex items-center justify-between text-xs">
                             <Link
                               href="/services"
-                              className="font-bold text-blue-700 hover:text-blue-800 flex items-center gap-1"
+                              className="font-bold text-azure-600 hover:text-azure-700 flex items-center gap-1 transition-colors"
                             >
                               <span>{t.header.viewAllCapabilities}</span>
                               <ArrowRight className="w-3.5 h-3.5" />
@@ -214,10 +214,10 @@ export function Header({
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-3.5 py-2 text-sm font-semibold rounded-lg transition-all duration-150 ${
+                  className={`px-3.5 py-2 text-sm font-semibold rounded-lg transition-colors duration-150 ${
                     isActive
-                      ? "text-blue-700 bg-blue-50 font-bold"
-                      : "text-slate-700 hover:text-blue-700 hover:bg-slate-50"
+                      ? "text-azure-600 bg-azure-50 font-bold"
+                      : "text-slate-700 hover:text-azure-600 hover:bg-slate-50"
                   }`}
                 >
                   {label}
@@ -232,7 +232,7 @@ export function Header({
               <Button
                 variant="accent"
                 size="md"
-                className="font-bold shadow-md shadow-amber-500/20"
+                className="font-bold"
               >
                 <span>{t.common.requestQuote}</span>
                 <ArrowRight className="w-4 h-4 ml-1" />
@@ -245,14 +245,14 @@ export function Header({
             <LanguageSwitcher />
             <a
               href={`tel:${cleanPhone}`}
-              className="p-2 text-blue-700 hover:bg-blue-50 rounded-lg"
+              className="p-2 text-azure-600 hover:bg-azure-50 rounded-lg transition-colors"
               title="Hotline"
             >
-              <Phone className="w-5 h-5 text-amber-500" />
+              <Phone className="w-5 h-5 text-gold-500" />
             </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-700 hover:text-blue-700 rounded-lg"
+              className="p-2 text-slate-700 hover:text-azure-600 rounded-lg transition-colors"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -265,7 +265,7 @@ export function Header({
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white border-t border-slate-200 px-4 pt-3 pb-6 space-y-2 animate-in fade-in duration-200 shadow-xl">
           <div className="pb-3 border-b border-slate-100 flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-bold uppercase">Ngôn ngữ / Language:</span>
+            <span className="text-xs text-slate-500 font-semibold">Ngôn ngữ / Language:</span>
             <LanguageSwitcher />
           </div>
 
@@ -277,10 +277,10 @@ export function Header({
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3 py-2.5 rounded-xl text-base font-semibold ${
+                className={`block px-3 py-2.5 rounded-xl text-base font-semibold transition-colors ${
                   isActive
-                    ? "text-blue-700 bg-blue-50 font-bold"
-                    : "text-slate-700 hover:bg-slate-50 hover:text-blue-700"
+                    ? "text-azure-600 bg-azure-50 font-bold"
+                    : "text-slate-700 hover:bg-slate-50 hover:text-azure-600"
                 }`}
               >
                 {label}
@@ -297,7 +297,7 @@ export function Header({
               href={`tel:${cleanPhone}`}
               className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 text-slate-800 rounded-xl font-bold text-sm"
             >
-              <Phone className="w-4 h-4 text-amber-500" />
+              <Phone className="w-4 h-4 text-gold-500" />
               <span>{t.common.hotline}: {hotline}</span>
             </a>
           </div>

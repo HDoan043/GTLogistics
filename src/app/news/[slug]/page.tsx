@@ -75,11 +75,11 @@ export default async function NewsDetailPage({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-xs text-slate-500 mb-6">
-          <Link href="/" className="hover:text-blue-700 transition-colors">
+          <Link href="/" className="hover:text-gold-600 transition-colors">
             {t.common.home}
           </Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/news" className="hover:text-blue-700 transition-colors">
+          <Link href="/news" className="hover:text-gold-600 transition-colors">
             {t.common.news}
           </Link>
           <ChevronRight className="w-3.5 h-3.5" />
@@ -92,7 +92,7 @@ export default async function NewsDetailPage({
           {/* Cột trái: Nội dung bài viết */}
           <main className="lg:col-span-8 bg-white p-6 sm:p-10 rounded-3xl border border-slate-200 shadow-sm">
             <div className="mb-4">
-              <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200/80">
+              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-azure-50 text-azure-900 border border-azure-200/80">
                 {post.category}
               </span>
             </div>
@@ -117,14 +117,14 @@ export default async function NewsDetailPage({
               </div>
               <div className="flex items-center gap-1.5">
                 <Eye className="w-3.5 h-3.5 text-slate-400" />
-                <span>
+                <span className="tabular-nums">
                   {post.viewCount} {t.newsPage.viewsCount}
                 </span>
               </div>
             </div>
 
             {/* Đoạn tóm tắt nổi bật */}
-            <div className="p-5 rounded-2xl bg-blue-50/50 border-l-4 border-blue-600 text-sm text-slate-700 font-medium italic mb-8">
+            <div className="p-5 rounded-2xl bg-azure-50/40 border-l-4 border-azure-600 text-sm text-slate-700 font-medium italic mb-8">
               {localized.excerpt}
             </div>
 
@@ -141,13 +141,13 @@ export default async function NewsDetailPage({
 
             {/* Nội dung bài viết (Sanitized HTML) */}
             <article
-              className="prose prose-slate max-w-none text-slate-700 leading-relaxed prose-headings:text-slate-900 prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-a:text-blue-700 prose-img:rounded-2xl"
+              className="prose prose-slate max-w-none text-slate-700 leading-relaxed prose-headings:text-slate-900 prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-a:text-azure-600 prose-img:rounded-2xl"
               dangerouslySetInnerHTML={{ __html: localized.content }}
             />
 
             {/* Chia sẻ bài viết */}
             <div className="mt-12 pt-6 border-t border-slate-100 flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5">
+              <span className="text-xs font-semibold text-slate-500 flex items-center gap-1.5">
                 <Share2 className="w-4 h-4 text-slate-400" />
                 {t.newsPage.shareArticle}
               </span>
@@ -156,7 +156,7 @@ export default async function NewsDetailPage({
                   href={`https://zalo.me/share`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3.5 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition-colors shadow-sm"
+                  className="px-3.5 py-1.5 bg-azure-600 text-white rounded-xl text-xs font-semibold hover:bg-azure-700 transition-colors shadow-sm"
                 >
                   Zalo
                 </a>
@@ -164,7 +164,7 @@ export default async function NewsDetailPage({
                   href={`https://www.facebook.com/sharer/sharer.php`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3.5 py-1.5 bg-slate-800 text-white rounded-xl text-xs font-bold hover:bg-slate-900 transition-colors shadow-sm"
+                  className="px-3.5 py-1.5 bg-slate-800 text-white rounded-xl text-xs font-semibold hover:bg-slate-900 transition-colors shadow-sm"
                 >
                   Facebook
                 </a>
@@ -199,14 +199,14 @@ export default async function NewsDetailPage({
                             src={p.coverImage}
                             alt={locP.title}
                             fill
-                            className="object-cover group-hover:scale-105 transition-transform"
+                            className="object-cover"
                           />
                         </div>
                         <div>
-                          <h4 className="text-xs font-bold text-slate-800 group-hover:text-blue-700 line-clamp-2 transition-colors">
+                          <h4 className="text-xs font-bold text-slate-800 group-hover:text-azure-600 line-clamp-2 transition-colors">
                             {locP.title}
                           </h4>
-                          <span className="text-[11px] text-slate-400 mt-1 block">
+                          <span className="text-xs text-slate-400 mt-1 block">
                             {pDate}
                           </span>
                         </div>
@@ -217,8 +217,8 @@ export default async function NewsDetailPage({
             </div>
 
             {/* Hotline liên hệ nhanh */}
-            <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white p-6 sm:p-8 rounded-3xl shadow-xl text-center space-y-3 border border-slate-800">
-              <Phone className="w-8 h-8 mx-auto text-sky-400" />
+            <div className="bg-slate-950 text-white p-6 sm:p-8 rounded-3xl shadow-md text-center space-y-3 border border-slate-800">
+              <Phone className="w-8 h-8 mx-auto text-gold-400" />
               <h4 className="font-bold text-base text-white">
                 {t.newsPage.consultationTitle}
               </h4>
@@ -227,12 +227,12 @@ export default async function NewsDetailPage({
               </p>
               <a
                 href={`tel:${cleanPhone}`}
-                className="block text-xl font-black text-sky-400 hover:text-sky-300 hover:underline"
+                className="block text-xl font-black text-gold-300 hover:text-gold-200 hover:underline transition-colors"
               >
                 {settings.hotline}
               </a>
               <Link href="/quote" className="block pt-2">
-                <Button variant="accent" size="sm" className="w-full font-bold shadow-md shadow-blue-600/20">
+                <Button variant="accent" size="sm" className="w-full font-bold">
                   {t.common.requestQuote}
                 </Button>
               </Link>

@@ -65,14 +65,14 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
   const cleanPhone = hotline.replace(/[^0-9]/g, "");
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white relative border-t border-slate-800">
+    <section className="py-20 bg-slate-950 text-white relative border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Cột trái: Lời kêu gọi */}
           <div className="lg:col-span-5 space-y-6">
-            <span className="inline-block px-3.5 py-1 bg-amber-500/15 text-amber-300 text-xs font-bold rounded-full border border-amber-500/30 uppercase tracking-wider backdrop-blur-sm">
-              {t.quoteForm.badge}
-            </span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-slate-900 text-gold-300 text-xs font-semibold rounded-full border border-gold-500/25">
+              <span>{t.quoteForm.badge}</span>
+            </div>
             <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
               {t.quoteForm.heading}
             </h2>
@@ -80,16 +80,16 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
               {t.quoteForm.desc}
             </p>
 
-            <div className="p-6 rounded-3xl bg-white/5 border border-amber-500/20 space-y-4 backdrop-blur-md">
+            <div className="p-6 rounded-3xl bg-slate-900 border border-gold-500/20 space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center text-slate-950 font-black shrink-0 shadow-lg shadow-amber-500/30">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold-500 to-gold-600 flex items-center justify-center text-slate-950 font-black shrink-0 shadow-lg shadow-gold-500/20">
                   <PhoneCall className="w-6 h-6 text-slate-950" />
                 </div>
                 <div>
                   <div className="text-xs text-slate-400">{t.quoteForm.callExpert}</div>
                   <a
                     href={`tel:${cleanPhone}`}
-                    className="text-xl font-black text-amber-300 hover:text-amber-200 hover:underline transition-colors"
+                    className="text-xl font-black text-gold-300 hover:text-gold-200 hover:underline transition-colors"
                   >
                     {hotline}
                   </a>
@@ -104,7 +104,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
 
           {/* Cột phải: Form Báo Giá */}
           <div className="lg:col-span-7">
-            <div className="bg-white rounded-3xl p-6 sm:p-10 text-slate-800 shadow-2xl border border-slate-100">
+            <div className="bg-white rounded-3xl p-6 sm:p-10 text-slate-800 shadow-md border border-slate-100">
               <h3 className="text-2xl font-black text-slate-900 mb-2">
                 {t.quoteForm.formTitle}
               </h3>
@@ -129,7 +129,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       {t.quoteForm.fullName} *
                     </label>
                     <input
@@ -140,11 +140,11 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                         setFormData({ ...formData, fullName: e.target.value })
                       }
                       placeholder={locale === "zh" ? "张三 (Mr. Zhang)" : locale === "en" ? "John Doe" : "Nguyễn Văn A"}
-                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 focus:bg-white transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       {t.quoteForm.phone} *
                     </label>
                     <input
@@ -155,14 +155,14 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                         setFormData({ ...formData, phone: e.target.value })
                       }
                       placeholder={locale === "zh" ? "+86 138-0000-0000 / 微信" : "0912.345.678"}
-                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 focus:bg-white transition-colors"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       {t.quoteForm.serviceType} *
                     </label>
                     <select
@@ -170,7 +170,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                       onChange={(e) =>
                         setFormData({ ...formData, serviceType: e.target.value })
                       }
-                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 focus:bg-white transition-colors"
                     >
                       <option value="Vận tải đường bộ">
                         {locale === "zh" ? "跨境公路运输 (Road Trucking)" : locale === "en" ? "Cross-Border Trucking" : "Vận tải đường bộ"}
@@ -193,7 +193,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       {t.quoteForm.company}
                     </label>
                     <input
@@ -203,14 +203,14 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                         setFormData({ ...formData, company: e.target.value })
                       }
                       placeholder={locale === "zh" ? "某某进出口贸易有限公司" : "Công ty TNHH / Company"}
-                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 focus:bg-white transition-colors"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       {t.quoteForm.routeOrigin}
                     </label>
                     <input
@@ -220,11 +220,11 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                         setFormData({ ...formData, routeOrigin: e.target.value })
                       }
                       placeholder={locale === "zh" ? "东兴 / 广州 / 义乌 / 防城港" : "Đông Hưng / Phật Sơn / Hải Phòng..."}
-                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 focus:bg-white transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       {t.quoteForm.routeDestination}
                     </label>
                     <input
@@ -237,13 +237,13 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                         })
                       }
                       placeholder={locale === "zh" ? "芒街 / 河内 / 海防 / 平阳" : "Móng Cái / Hà Nội / Bắc Ninh..."}
-                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+                      className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 focus:bg-white transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     {t.quoteForm.cargoDetails}
                   </label>
                   <textarea
@@ -253,12 +253,12 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                       setFormData({ ...formData, cargoDetails: e.target.value })
                     }
                     placeholder={locale === "zh" ? "品名、集装箱柜型 (40HC/冷柜)、重量、HS编码等" : "Ví dụ: 2 container 40HC linh kiện điện tử, 45 tấn hoa quả lạnh..."}
-                    className="w-full px-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+                    className="w-full px-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 focus:bg-white transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     {t.quoteForm.message}
                   </label>
                   <input
@@ -268,7 +268,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                       setFormData({ ...formData, message: e.target.value })
                     }
                     placeholder={locale === "zh" ? "提货时间、特殊装卸要求等" : "Ghi chú thêm về thời gian giao nhận..."}
-                    className="w-full px-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+                    className="w-full px-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 focus:bg-white transition-colors"
                   />
                 </div>
 
@@ -276,7 +276,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                   type="submit"
                   variant="accent"
                   size="lg"
-                  className="w-full font-bold shadow-lg shadow-amber-500/25 mt-2"
+                  className="w-full font-bold mt-2"
                   isLoading={loading}
                 >
                   <Send className="w-4 h-4 mr-2" />

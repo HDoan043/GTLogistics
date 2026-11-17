@@ -25,7 +25,7 @@ export function GtLogo({
           alt="GT Logistics Logo"
           width={180}
           height={108}
-          className="h-10 sm:h-12 w-auto object-contain drop-shadow-sm hover:scale-105 transition-transform duration-300"
+          className="h-10 sm:h-12 w-auto object-contain drop-shadow-sm"
           priority
         />
       </div>
@@ -41,19 +41,19 @@ export function GtLogo({
             >
               GT LOGISTICS
             </span>
-            <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/30 tracking-wider">
+            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-gold-500/10 text-gold-700 dark:text-gold-400 border border-gold-500/20">
               Móng Cái
             </span>
           </div>
 
           <span
-            className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-wider mt-0.5 ${
-              isDark ? "text-amber-400/90" : "text-slate-500"
+            className={`text-xs font-medium mt-0.5 ${
+              isDark ? "text-gold-400/90" : "text-slate-500"
             }`}
           >
             {showSlogan
               ? "Đồng hành tin cậy - Phát triển bền vững"
-              : "Tiếp Vận & Xuất Nhập Khẩu Chính Ngạch"}
+              : "Tiếp vận & xuất nhập khẩu chính ngạch"}
           </span>
         </div>
       )}

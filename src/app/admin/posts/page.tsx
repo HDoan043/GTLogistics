@@ -51,7 +51,7 @@ export default async function AdminPostsPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase font-bold tracking-wider">
+              <thead className="bg-slate-50 border-b border-slate-200 text-slate-700 font-semibold">
                 <tr>
                   <th className="py-4 px-6">Bài Viết</th>
                   <th className="py-4 px-6">Chuyên Mục</th>

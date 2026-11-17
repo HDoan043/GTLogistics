@@ -39,15 +39,15 @@ export default async function NewsPage({
       {/* Banner Tiêu đề Trang */}
       <section className="relative py-20 bg-slate-950 text-white overflow-hidden text-center border-b border-slate-800">
         <div
-          className="absolute inset-0 opacity-20 bg-cover bg-center mix-blend-luminosity scale-105"
+          className="absolute inset-0 opacity-20 bg-cover bg-center mix-blend-luminosity scale-100"
           style={{
             backgroundImage: "url('/images/vietphuc/hero_office_panoramic.webp')",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-blue-950/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/95 to-slate-900/80" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Badge variant="accent" className="mb-3 uppercase tracking-wider">
+          <Badge variant="accent" className="mb-3">
             {t.newsPage.badge}
           </Badge>
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
@@ -73,9 +73,9 @@ export default async function NewsPage({
                 <Link
                   key={cat.filterVal || "all"}
                   href={href}
-                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-colors duration-150 ${
                     isActive
-                      ? "bg-blue-700 text-white shadow-sm"
+                      ? "bg-azure-600 text-white shadow-sm"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                   }`}
                 >
@@ -116,7 +116,7 @@ export default async function NewsPage({
                 return (
                   <article
                     key={post.slug}
-                    className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col group hover:-translate-y-1"
+                    className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-transform duration-200 flex flex-col group motion-safe:hover:-translate-y-1"
                   >
                     <div className="relative h-52 w-full overflow-hidden bg-slate-200">
                       <Image
@@ -124,10 +124,10 @@ export default async function NewsPage({
                         alt={localized.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover"
                       />
                       <div className="absolute top-3 left-3">
-                        <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/95 text-blue-900 shadow-sm backdrop-blur-sm">
+                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-white/95 text-slate-900 shadow-sm">
                           {post.category}
                         </span>
                       </div>
@@ -142,13 +142,13 @@ export default async function NewsPage({
                           </span>
                           <span className="flex items-center gap-1">
                             <Eye className="w-3.5 h-3.5 text-slate-400" />
-                            <span>
+                            <span className="tabular-nums">
                               {post.viewCount} {t.newsPage.viewsCount}
                             </span>
                           </span>
                         </div>
 
-                        <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2">
+                        <h3 className="text-base font-bold text-slate-900 group-hover:text-azure-600 transition-colors line-clamp-2">
                           <Link href={`/news/${post.slug}`}>{localized.title}</Link>
                         </h3>
 
@@ -160,7 +160,7 @@ export default async function NewsPage({
                       <div className="mt-6 pt-4 border-t border-slate-100">
                         <Link
                           href={`/news/${post.slug}`}
-                          className="text-xs font-bold text-blue-700 hover:text-blue-800 inline-flex items-center gap-1 transition-colors"
+                          className="text-xs font-bold text-azure-600 hover:text-gold-600 inline-flex items-center gap-1 transition-colors"
                         >
                           <span>{t.newsPage.readMore}</span>
                           <ArrowRight className="w-3.5 h-3.5" />

@@ -31,7 +31,7 @@ export default async function ContactPage() {
       {/* Banner Tiêu đề Trang */}
       <section className="relative py-16 bg-slate-950 text-white text-center border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Badge variant="accent" className="mb-2 uppercase tracking-wider">
+          <Badge variant="accent" className="mb-2">
             {t.contactPage.badge}
           </Badge>
           <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
@@ -48,15 +48,15 @@ export default async function ContactPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {/* Trụ sở Móng Cái */}
-            <div className="bg-white p-8 rounded-3xl border border-blue-200/80 shadow-md space-y-4 relative overflow-hidden flex flex-col justify-between">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-blue-600/10 rounded-bl-full pointer-events-none" />
+            <div className="bg-white p-8 rounded-3xl border border-azure-200/80 shadow-md space-y-4 relative overflow-hidden flex flex-col justify-between">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-azure-500/10 rounded-bl-full pointer-events-none" />
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+                  <div className="w-12 h-12 rounded-2xl bg-azure-50 text-azure-700 flex items-center justify-center font-bold">
                     <Building className="w-6 h-6" />
                   </div>
                   <div>
-                    <Badge variant="brand" className="text-[11px] font-bold">
+                    <Badge variant="brand" className="text-xs font-semibold">
                       {t.contactPage.mainHqBadge}
                     </Badge>
                     <h2 className="text-lg font-bold text-slate-900 mt-0.5">
@@ -67,23 +67,23 @@ export default async function ContactPage() {
 
                 <div className="space-y-3 text-xs text-slate-600 pt-2 border-t border-slate-100">
                   <div className="flex items-start gap-2.5">
-                    <MapPin className="w-4 h-4 text-blue-700 mt-0.5 shrink-0" />
+                    <MapPin className="w-4 h-4 text-azure-600 mt-0.5 shrink-0" />
                     <span className="font-medium text-slate-800">
                       {t.contactPage.mainHqAddress}
                     </span>
                   </div>
                   <div className="flex items-center gap-2.5">
-                    <Phone className="w-4 h-4 text-blue-700 shrink-0" />
-                    <a href={`tel:${cleanPhone}`} className="font-bold text-slate-900 hover:text-blue-700">
+                    <Phone className="w-4 h-4 text-azure-600 shrink-0" />
+                    <a href={`tel:${cleanPhone}`} className="font-bold text-slate-900 hover:text-azure-600 transition-colors">
                       {t.common.hotline}: {settings.hotline}
                     </a>
                   </div>
                   <div className="flex items-center gap-2.5">
-                    <Mail className="w-4 h-4 text-blue-700 shrink-0" />
+                    <Mail className="w-4 h-4 text-azure-600 shrink-0" />
                     <span>{settings.email}</span>
                   </div>
                   <div className="flex items-center gap-2.5">
-                    <Clock className="w-4 h-4 text-blue-700 shrink-0" />
+                    <Clock className="w-4 h-4 text-azure-600 shrink-0" />
                     <span>{t.contactPage.schedule247}</span>
                   </div>
                 </div>
@@ -94,7 +94,7 @@ export default async function ContactPage() {
                   href={`https://zalo.me/${settings.zaloPhone}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-sm"
+                  className="w-full py-2.5 bg-azure-600 hover:bg-azure-700 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-sm"
                 >
                   <span>{t.contactPage.chatZalo}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -110,7 +110,7 @@ export default async function ContactPage() {
                     <Building className="w-6 h-6" />
                   </div>
                   <div>
-                    <Badge variant="neutral" className="text-[11px]">
+                    <Badge variant="neutral" className="text-xs">
                       {t.contactPage.seaPortBadge}
                     </Badge>
                     <h2 className="text-lg font-bold text-slate-900 mt-0.5">
@@ -138,7 +138,7 @@ export default async function ContactPage() {
               <div className="pt-4 border-t border-slate-100">
                 <a
                   href={`tel:${cleanPhone}`}
-                  className="block text-center w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition-colors"
+                  className="block text-center w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-semibold transition-colors"
                 >
                   {t.contactPage.callPort}
                 </a>
@@ -153,7 +153,7 @@ export default async function ContactPage() {
                     <Building className="w-6 h-6" />
                   </div>
                   <div>
-                    <Badge variant="neutral" className="text-[11px]">
+                    <Badge variant="neutral" className="text-xs">
                       {t.contactPage.repBadge}
                     </Badge>
                     <h2 className="text-lg font-bold text-slate-900 mt-0.5">
@@ -181,7 +181,7 @@ export default async function ContactPage() {
               <div className="pt-4 border-t border-slate-100">
                 <a
                   href={`tel:${cleanPhone}`}
-                  className="block text-center w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition-colors"
+                  className="block text-center w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-semibold transition-colors"
                 >
                   {t.contactPage.callHanoi}
                 </a>
@@ -205,7 +205,7 @@ export default async function ContactPage() {
                 <span className="text-slate-400 block mb-1">
                   {t.contactPage.legalTaxCode}:
                 </span>
-                <strong className="text-blue-700 font-mono text-sm">5701750095</strong>
+                <strong className="text-azure-700 font-mono text-sm">5701750095</strong>
               </div>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <span className="text-slate-400 block mb-1">

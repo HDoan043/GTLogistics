@@ -57,7 +57,7 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <Badge variant="brand" className="mb-3 uppercase tracking-wider">
+          <Badge variant="brand" className="mb-3">
             {t.services.badge}
           </Badge>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
@@ -78,7 +78,7 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
             return (
               <div
                 key={s.slug}
-                className="group bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col hover:-translate-y-1"
+                className="group bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-md hover:border-azure-500/50 transition-colors duration-200 flex flex-col"
               >
                 {/* Ảnh dịch vụ */}
                 <div className="relative h-52 w-full overflow-hidden bg-slate-200">
@@ -87,14 +87,14 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
                     alt={title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
                   <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
-                    <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500 text-slate-950 font-bold backdrop-blur-sm flex items-center justify-center shadow-lg border border-amber-200/50 group-hover:scale-110 transition-transform">
+                    <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-500 to-gold-600 text-slate-950 font-bold flex items-center justify-center shadow-lg border border-gold-200/50">
                       <Icon className="w-5 h-5 text-slate-950" />
                     </span>
-                    <span className="text-[11px] font-bold tracking-wider uppercase bg-slate-950/80 text-amber-300 px-2.5 py-1 rounded-full backdrop-blur-sm border border-amber-500/30">
+                    <span className="text-xs font-semibold bg-slate-950 text-gold-300 px-2.5 py-1 rounded-full border border-gold-500/30">
                       {t.services.officialTag}
                     </span>
                   </div>
@@ -103,7 +103,7 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
                 {/* Nội dung dịch vụ */}
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-700 transition-colors">
+                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-azure-600 transition-colors">
                       <Link href={`/services/${s.slug}`}>{title}</Link>
                     </h3>
                     <p className="mt-2 text-sm text-slate-600 leading-relaxed line-clamp-3">
@@ -114,7 +114,7 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
                   <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
                     <Link
                       href={`/services/${s.slug}`}
-                      className="text-sm font-bold text-blue-700 hover:text-amber-600 inline-flex items-center gap-1.5 transition-colors"
+                      className="text-sm font-bold text-azure-600 hover:text-gold-600 inline-flex items-center gap-1.5 transition-colors"
                     >
                       <span>{t.common.viewDetails}</span>
                       <ArrowRight className="w-4 h-4" />

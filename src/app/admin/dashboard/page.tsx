@@ -51,13 +51,13 @@ export default async function AdminDashboardPage() {
 
         <div className="flex items-center gap-3">
           <Link href="/admin/posts/new">
-            <Button variant="accent" size="sm" className="font-bold shadow-md">
+            <Button variant="accent" size="sm" className="font-bold shadow-md active:scale-95 disabled:opacity-50">
               <PlusCircle className="w-4 h-4 mr-1.5" />
               <span>Viết Bài Mới</span>
             </Button>
           </Link>
           <Link href="/admin/settings">
-            <Button variant="outline" size="sm" className="font-semibold bg-white">
+            <Button variant="outline" size="sm" className="font-semibold bg-white active:scale-95 disabled:opacity-50">
               <Settings className="w-4 h-4 mr-1.5" />
               <span>Cấu Hình</span>
             </Button>
@@ -72,8 +72,8 @@ export default async function AdminDashboardPage() {
             <FileText className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider block">
-              Tổng Bài Viết
+            <span className="text-xs text-slate-500 font-medium block">
+              Tổng bài viết
             </span>
             <span className="text-2xl font-black text-slate-900 mt-1 block">
               {postCount}
@@ -86,8 +86,8 @@ export default async function AdminDashboardPage() {
             <Eye className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider block">
-              Lượt Đọc Bài Viết
+            <span className="text-xs text-slate-500 font-medium block">
+              Lượt đọc bài viết
             </span>
             <span className="text-2xl font-black text-slate-900 mt-1 block">
               {totalViews._sum.viewCount || 0}
@@ -100,8 +100,8 @@ export default async function AdminDashboardPage() {
             <Users className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider block">
-              Leads Mới Chờ Xử Lý
+            <span className="text-xs text-slate-500 font-medium block">
+              Leads mới chờ xử lý
             </span>
             <span className="text-2xl font-black text-accent-600 mt-1 block">
               {newLeadsCount}
@@ -114,11 +114,11 @@ export default async function AdminDashboardPage() {
             <TrendingUp className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider block">
-              Trạng Thái Hệ Thống
+            <span className="text-xs text-slate-500 font-medium block">
+              Trạng thái hệ thống
             </span>
             <span className="text-sm font-bold text-emerald-600 mt-1 block">
-              Hoạt Động Tốt 100%
+              Hoạt động tốt 100%
             </span>
           </div>
         </div>
@@ -179,7 +179,7 @@ export default async function AdminDashboardPage() {
                   </div>
 
                   <Link href="/admin/leads">
-                    <Button variant="outline" size="sm" className="text-xs bg-white">
+                    <Button variant="outline" size="sm" className="text-xs bg-white active:scale-95 disabled:opacity-50">
                       Xử Lý
                     </Button>
                   </Link>

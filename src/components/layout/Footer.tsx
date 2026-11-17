@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import {
@@ -5,13 +7,12 @@ import {
   Phone,
   Mail,
   Clock,
-  ShieldCheck,
   ArrowRight,
-  ExternalLink,
   Building,
 } from "lucide-react";
 import { SERVICE_CATEGORIES } from "@/lib/constants";
 import { GtLogo } from "@/components/common/GtLogo";
+import { useLanguage } from "@/lib/i18n/context";
 
 interface FooterProps {
   companyName?: string;
@@ -32,7 +33,14 @@ export function Footer({
   branchHaiPhong = "Cụm Cảng Đình Vũ, Phường Đông Hải 2, Quận Hải An, TP. Hải Phòng",
   taxCode = "5701750095",
 }: FooterProps) {
+  const { t, locale } = useLanguage();
   const cleanPhone = hotline.replace(/[^0-9]/g, "");
+
+  const getServiceTitle = (s: (typeof SERVICE_CATEGORIES)[0]) => {
+    if (locale === "zh") return s.titleZh || s.title;
+    if (locale === "en") return s.titleEn || s.title;
+    return s.title;
+  };
 
   return (
     <footer className="bg-slate-950 text-slate-300 pt-16 pb-8 border-t-2 border-amber-500">
@@ -45,19 +53,19 @@ export function Footer({
             </Link>
 
             <p className="text-sm text-slate-400 leading-relaxed pt-1">
-              Doanh nghiệp logistics chuyên tuyến biên mậu Việt - Trung, khai thuê hải quan, vận tải đường bộ liên vận và kho bãi sang tải tiêu chuẩn cao tại Cửa khẩu Quốc tế Móng Cái & Bắc Luân 2.
+              {t.footer.companySummary}
             </p>
 
             <div className="pt-2 text-xs text-slate-400 space-y-1.5 border-t border-slate-800/80">
               <div>
-                <span className="font-semibold text-slate-200">Mã số thuế:</span>{" "}
+                <span className="font-semibold text-slate-200">{t.common.taxCode}:</span>{" "}
                 <span className="text-amber-400 font-mono font-bold">{taxCode}</span>
               </div>
               <div>
-                <span className="font-semibold text-slate-200">Đại diện pháp luật:</span> Lê Thanh Tâm
+                <span className="font-semibold text-slate-200">{t.common.legalRepresentative}:</span> Lê Thanh Tâm
               </div>
               <div>
-                <span className="font-semibold text-slate-200">Đối tác hệ sinh thái:</span> CÔNG TY TNHH VIỆT PHÚC LOGISTICS (MST: 4900940684)
+                <span className="font-semibold text-slate-200">{t.common.partnerEcosystem}:</span> CÔNG TY TNHH VIỆT PHÚC LOGISTICS (MST: 4900940684)
               </div>
             </div>
           </div>
@@ -65,7 +73,7 @@ export function Footer({
           {/* Cột 2: Dịch vụ cốt lõi */}
           <div>
             <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-3">
-              Dịch Vụ Trọng Tâm
+              {t.footer.coreServices}
             </h3>
             <ul className="space-y-2.5 text-sm">
               {SERVICE_CATEGORIES.map((s) => (
@@ -75,7 +83,7 @@ export function Footer({
                     className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400 group"
                   >
                     <ArrowRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-amber-400 transition-colors" />
-                    <span>{s.title}</span>
+                    <span>{getServiceTitle(s)}</span>
                   </Link>
                 </li>
               ))}
@@ -85,43 +93,43 @@ export function Footer({
           {/* Cột 3: Liên kết nhanh */}
           <div>
             <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-3">
-              Liên Kết Nhanh
+              {t.footer.quickLinks}
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/about" className="hover:text-sky-300 transition-colors flex items-center gap-1.5 text-slate-400">
+                <Link href="/about" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400">
                   <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span>Về Chúng Tôi (Hồ Sơ Năng Lực)</span>
+                  <span>{t.common.aboutUs}</span>
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-sky-300 transition-colors flex items-center gap-1.5 text-slate-400">
+                <Link href="/services" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400">
                   <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span>Bảng Giá & Dịch Vụ Cung Ứng</span>
+                  <span>{t.common.allServices}</span>
                 </Link>
               </li>
               <li>
-                <Link href="/tracking" className="hover:text-sky-300 transition-colors flex items-center gap-1.5 text-slate-400">
+                <Link href="/tracking" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400">
                   <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span>Tra Cứu Vận Đơn Trực Tuyến</span>
+                  <span>{t.common.trackOrder}</span>
                 </Link>
               </li>
               <li>
-                <Link href="/news" className="hover:text-sky-300 transition-colors flex items-center gap-1.5 text-slate-400">
+                <Link href="/news" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400">
                   <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span>Cẩm Nang & Biểu Thuế XNK 2026</span>
+                  <span>{t.common.news}</span>
                 </Link>
               </li>
               <li>
-                <Link href="/quote" className="hover:text-sky-300 transition-colors flex items-center gap-1.5 text-slate-400">
+                <Link href="/quote" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400">
                   <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span>Yêu Cầu Báo Giá Nhanh 15 Phút</span>
+                  <span>{t.common.quote}</span>
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-sky-300 transition-colors flex items-center gap-1.5 text-slate-400">
+                <Link href="/contact" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-slate-400">
                   <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span>Văn Phòng Móng Cái & Hải Phòng</span>
+                  <span>{t.common.contact}</span>
                 </Link>
               </li>
             </ul>
@@ -129,31 +137,35 @@ export function Footer({
 
           {/* Cột 4: Mạng lưới văn phòng */}
           <div className="space-y-4">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider border-l-2 border-blue-500 pl-3">
-              Mạng Lưới Trực Cửa Khẩu
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider border-l-2 border-amber-500 pl-3">
+              {t.footer.contactHeadquarters}
             </h3>
 
             <div className="space-y-3 text-xs text-slate-400">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-sky-400 mt-0.5 shrink-0" />
                 <div>
-                  <strong className="text-slate-200 block">Trụ Sở Điều Hành Móng Cái:</strong>
-                  <span>{headquarters}</span>
+                  <strong className="text-slate-200 block">
+                    {locale === "zh" ? "芒街总部运营中心:" : locale === "en" ? "Mong Cai Headquarters:" : "Trụ Sở Điều Hành Móng Cái:"}
+                  </strong>
+                  <span>{t.common.hqAddress}</span>
                 </div>
               </div>
 
               <div className="flex items-start gap-2.5">
                 <Building className="w-4 h-4 text-sky-400 mt-0.5 shrink-0" />
                 <div>
-                  <strong className="text-slate-200 block">Văn Phòng Cảng Hải Phòng:</strong>
-                  <span>{branchHaiPhong}</span>
+                  <strong className="text-slate-200 block">
+                    {locale === "zh" ? "海防港口分支办事处:" : locale === "en" ? "Hai Phong Port Branch:" : "Văn Phòng Cảng Hải Phòng:"}
+                  </strong>
+                  <span>{t.common.haiPhongOffice}</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-amber-400 shrink-0" />
                 <div>
-                  <span className="text-slate-400">Hotline 24/7: </span>
+                  <span className="text-slate-400">{t.common.hotline}: </span>
                   <a href={`tel:${cleanPhone}`} className="text-amber-300 font-bold hover:text-amber-200 transition-colors">
                     {hotline}
                   </a>
@@ -169,7 +181,7 @@ export function Footer({
 
               <div className="flex items-center gap-2.5">
                 <Clock className="w-4 h-4 text-sky-400 shrink-0" />
-                <span>Trực thông quan cửa khẩu: 24/7</span>
+                <span>{t.common.operatingHours}</span>
               </div>
             </div>
           </div>
@@ -178,12 +190,12 @@ export function Footer({
         {/* Bottom bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <div>
-            © {new Date().getFullYear()} CÔNG TY TNHH LOGISTICS GT. Giữ toàn bộ bản quyền thương hiệu.
+            © {new Date().getFullYear()} {t.common.companyName}. {t.footer.copyright}
           </div>
           <div className="flex items-center gap-6">
-            <span>Slogan: Đồng Hành Tin Cậy - Phát Triển Bền Vững</span>
+            <span>{t.common.slogan}</span>
             <Link href="/admin/login" className="text-slate-600 hover:text-slate-400 transition-colors">
-              Hệ thống Quản trị
+              Admin CMS
             </Link>
           </div>
         </div>

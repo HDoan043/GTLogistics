@@ -4,6 +4,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingContact } from "@/components/layout/FloatingContact";
 import { getSiteSettings } from "@/modules/settings/actions";
+import { getServerLocale } from "@/lib/i18n/server";
+import { LanguageProvider } from "@/lib/i18n/context";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
@@ -42,30 +44,35 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const settings = await getSiteSettings();
+  const [settings, locale] = await Promise.all([
+    getSiteSettings(),
+    getServerLocale(),
+  ]);
 
   return (
-    <html lang="vi" className="scroll-smooth">
+    <html lang={locale} className="scroll-smooth">
       <body className="min-h-screen flex flex-col antialiased text-slate-800 bg-white">
-        <Header
-          companyName={settings.companyName}
-          hotline={settings.hotline}
-          email={settings.email}
-        />
-        <main className="flex-1">{children}</main>
-        <Footer
-          companyName={settings.companyName}
-          hotline={settings.hotline}
-          zaloPhone={settings.zaloPhone}
-          email={settings.email}
-          headquarters={settings.headquarters}
-          branchHaiPhong={settings.branchHaiPhong}
-          taxCode={settings.taxCode}
-        />
-        <FloatingContact
-          hotline={settings.hotline}
-          zaloPhone={settings.zaloPhone}
-        />
+        <LanguageProvider initialLocale={locale}>
+          <Header
+            companyName={settings.companyName}
+            hotline={settings.hotline}
+            email={settings.email}
+          />
+          <main className="flex-1">{children}</main>
+          <Footer
+            companyName={settings.companyName}
+            hotline={settings.hotline}
+            zaloPhone={settings.zaloPhone}
+            email={settings.email}
+            headquarters={settings.headquarters}
+            branchHaiPhong={settings.branchHaiPhong}
+            taxCode={settings.taxCode}
+          />
+          <FloatingContact
+            hotline={settings.hotline}
+            zaloPhone={settings.zaloPhone}
+          />
+        </LanguageProvider>
       </body>
     </html>
   );

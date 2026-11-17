@@ -8,13 +8,13 @@ import {
   User,
   ChevronRight,
   Share2,
-  ArrowRight,
   Phone,
 } from "lucide-react";
 import { getPostBySlug, getPosts } from "@/modules/posts/actions";
 import { getSiteSettings } from "@/modules/settings/actions";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { getServerDictionary } from "@/lib/i18n/server";
+import { getLocalizedPost } from "@/lib/i18n";
 
 export async function generateMetadata({
   params,
@@ -42,7 +42,8 @@ export default async function NewsDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [post, recentPosts, settings] = await Promise.all([
+  const [{ locale, t }, post, recentPosts, settings] = await Promise.all([
+    getServerDictionary(),
     getPostBySlug(slug),
     getPosts({ limit: 5 }),
     getSiteSettings(),
@@ -52,11 +53,20 @@ export default async function NewsDetailPage({
     notFound();
   }
 
-  const dateStr = new Date(post.publishedAt).toLocaleDateString("vi-VN", {
+  const localized = getLocalizedPost(post, locale);
+  const dateLocale = locale === "zh" ? "zh-CN" : locale === "en" ? "en-US" : "vi-VN";
+  const dateStr = new Date(post.publishedAt).toLocaleDateString(dateLocale, {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
   });
+
+  const defaultAuthor =
+    locale === "zh"
+      ? "GT物流编辑部"
+      : locale === "en"
+      ? "GT Logistics Editorial Board"
+      : "Ban Biên Tập Logistics GT";
 
   const cleanPhone = (settings.hotline || "0904.382.268").replace(/[^0-9]/g, "");
 
@@ -65,11 +75,17 @@ export default async function NewsDetailPage({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-xs text-slate-500 mb-6">
-          <Link href="/" className="hover:text-blue-700 transition-colors">Trang chủ</Link>
+          <Link href="/" className="hover:text-blue-700 transition-colors">
+            {t.common.home}
+          </Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/news" className="hover:text-blue-700 transition-colors">Tin tức</Link>
+          <Link href="/news" className="hover:text-blue-700 transition-colors">
+            {t.common.news}
+          </Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-slate-800 font-semibold line-clamp-1">{post.title}</span>
+          <span className="text-slate-800 font-semibold line-clamp-1">
+            {localized.title}
+          </span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -82,35 +98,41 @@ export default async function NewsDetailPage({
             </div>
 
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-tight">
-              {post.title}
+              {localized.title}
             </h1>
 
             {/* Thông tin metadata bài viết */}
             <div className="flex flex-wrap items-center gap-4 py-4 my-4 border-y border-slate-100 text-xs text-slate-500">
               <div className="flex items-center gap-1.5">
                 <User className="w-3.5 h-3.5 text-slate-400" />
-                <span>Tác giả: {post.author?.fullName || "Ban Biên Tập Logistics GT"}</span>
+                <span>
+                  {t.newsPage.author}: {post.author?.fullName || defaultAuthor}
+                </span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                <span>Ngày đăng: {dateStr}</span>
+                <span>
+                  {t.newsPage.publishedDate}: {dateStr}
+                </span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Eye className="w-3.5 h-3.5 text-slate-400" />
-                <span>{post.viewCount} lượt xem</span>
+                <span>
+                  {post.viewCount} {t.newsPage.viewsCount}
+                </span>
               </div>
             </div>
 
             {/* Đoạn tóm tắt nổi bật */}
             <div className="p-5 rounded-2xl bg-blue-50/50 border-l-4 border-blue-600 text-sm text-slate-700 font-medium italic mb-8">
-              {post.excerpt}
+              {localized.excerpt}
             </div>
 
             {/* Ảnh bìa */}
             <div className="relative h-80 sm:h-96 w-full rounded-3xl overflow-hidden mb-8 shadow-md border border-slate-200">
               <Image
                 src={post.coverImage}
-                alt={post.title}
+                alt={localized.title}
                 fill
                 priority
                 className="object-cover"
@@ -120,14 +142,14 @@ export default async function NewsDetailPage({
             {/* Nội dung bài viết (Sanitized HTML) */}
             <article
               className="prose prose-slate max-w-none text-slate-700 leading-relaxed prose-headings:text-slate-900 prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-a:text-blue-700 prose-img:rounded-2xl"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: localized.content }}
             />
 
             {/* Chia sẻ bài viết */}
             <div className="mt-12 pt-6 border-t border-slate-100 flex items-center justify-between">
               <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5">
                 <Share2 className="w-4 h-4 text-slate-400" />
-                Chia sẻ bài viết này
+                {t.newsPage.shareArticle}
               </span>
               <div className="flex gap-2">
                 <a
@@ -155,45 +177,53 @@ export default async function NewsDetailPage({
             {/* Tin mới nhất */}
             <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
               <h3 className="font-bold text-base text-slate-900 mb-4 pb-2 border-b border-slate-100">
-                Bài Viết Mới Nhất
+                {t.newsPage.recentNewsTitle}
               </h3>
               <div className="space-y-4">
                 {recentPosts
                   .filter((p) => p.slug !== post.slug)
                   .slice(0, 4)
-                  .map((p) => (
-                    <Link
-                      key={p.slug}
-                      href={`/news/${p.slug}`}
-                      className="group flex gap-3 items-start"
-                    >
-                      <div className="relative w-20 h-16 rounded-xl overflow-hidden shrink-0 bg-slate-100 border border-slate-200/80">
-                        <Image
-                          src={p.coverImage}
-                          alt={p.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform"
-                        />
-                      </div>
-                      <div>
-                        <h4 className="text-xs font-bold text-slate-800 group-hover:text-blue-700 line-clamp-2 transition-colors">
-                          {p.title}
-                        </h4>
-                        <span className="text-[11px] text-slate-400 mt-1 block">
-                          {new Date(p.publishedAt).toLocaleDateString("vi-VN")}
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
+                  .map((p) => {
+                    const locP = getLocalizedPost(p, locale);
+                    const pDate = new Date(p.publishedAt).toLocaleDateString(
+                      dateLocale
+                    );
+                    return (
+                      <Link
+                        key={p.slug}
+                        href={`/news/${p.slug}`}
+                        className="group flex gap-3 items-start"
+                      >
+                        <div className="relative w-20 h-16 rounded-xl overflow-hidden shrink-0 bg-slate-100 border border-slate-200/80">
+                          <Image
+                            src={p.coverImage}
+                            alt={locP.title}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="text-xs font-bold text-slate-800 group-hover:text-blue-700 line-clamp-2 transition-colors">
+                            {locP.title}
+                          </h4>
+                          <span className="text-[11px] text-slate-400 mt-1 block">
+                            {pDate}
+                          </span>
+                        </div>
+                      </Link>
+                    );
+                  })}
               </div>
             </div>
 
             {/* Hotline liên hệ nhanh */}
             <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white p-6 sm:p-8 rounded-3xl shadow-xl text-center space-y-3 border border-slate-800">
               <Phone className="w-8 h-8 mx-auto text-sky-400" />
-              <h4 className="font-bold text-base text-white">Bạn Cần Hỗ Trợ Pháp Lý Hải Quan?</h4>
+              <h4 className="font-bold text-base text-white">
+                {t.newsPage.consultationTitle}
+              </h4>
               <p className="text-xs text-slate-300">
-                Đội ngũ chuyên viên Logistics GT trực tại Bắc Luân 2 sẵn sàng tư vấn miễn phí quy trình và mã thuế:
+                {t.newsPage.consultationDesc}
               </p>
               <a
                 href={`tel:${cleanPhone}`}
@@ -203,7 +233,7 @@ export default async function NewsDetailPage({
               </a>
               <Link href="/quote" className="block pt-2">
                 <Button variant="accent" size="sm" className="w-full font-bold shadow-md shadow-blue-600/20">
-                  Gửi Yêu Cầu Báo Giá
+                  {t.common.requestQuote}
                 </Button>
               </Link>
             </div>

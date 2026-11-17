@@ -1,14 +1,21 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, ArrowRight, Eye } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
+import { useLanguage } from "@/lib/i18n/context";
 
 interface PostItem {
   id: string;
   title: string;
+  titleEn?: string | null;
+  titleZh?: string | null;
   slug: string;
   excerpt: string;
+  excerptEn?: string | null;
+  excerptZh?: string | null;
   coverImage: string;
   category: string;
   viewCount: number;
@@ -16,7 +23,26 @@ interface PostItem {
 }
 
 export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
+  const { t, locale } = useLanguage();
   if (!posts || posts.length === 0) return null;
+
+  const sectionHeadings = {
+    vi: "Tin Tức Xuất Nhập Khẩu & Thông Quan Cửa Khẩu Mới Nhất",
+    en: "Latest Cross-Border Trade & Customs Clearance Insights",
+    zh: "最新中越边贸快讯与口岸通关实务指南",
+  };
+
+  const readMoreLabels = {
+    vi: "Đọc tiếp",
+    en: "Read article",
+    zh: "阅读全文",
+  };
+
+  const viewCountLabels = {
+    vi: "lượt xem",
+    en: "views",
+    zh: "次浏览",
+  };
 
   return (
     <section className="py-20 bg-slate-50 border-t border-slate-200/80">
@@ -24,28 +50,34 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
             <Badge variant="brand" className="mb-2 uppercase tracking-wider">
-              Bản Tin & Cẩm Nang
+              {t.common.news}
             </Badge>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              Tin Tức Xuất Nhập Khẩu & Thông Quan Cửa Khẩu Mới Nhất
+              {sectionHeadings[locale] || sectionHeadings.vi}
             </h2>
           </div>
           <Link
             href="/news"
-            className="mt-4 md:mt-0 text-sm font-bold text-blue-700 hover:text-blue-800 inline-flex items-center gap-1.5 transition-colors"
+            className="mt-4 md:mt-0 text-sm font-bold text-blue-700 hover:text-amber-600 inline-flex items-center gap-1.5 transition-colors"
           >
-            <span>Xem tất cả bài viết</span>
+            <span>{t.common.viewDetails}</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {posts.slice(0, 3).map((post) => {
-            const dateStr = new Date(post.publishedAt).toLocaleDateString("vi-VN", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            });
+            const title = locale === "zh" ? post.titleZh || post.title : locale === "en" ? post.titleEn || post.title : post.title;
+            const excerpt = locale === "zh" ? post.excerptZh || post.excerpt : locale === "en" ? post.excerptEn || post.excerpt : post.excerpt;
+
+            const dateStr = new Date(post.publishedAt).toLocaleDateString(
+              locale === "zh" ? "zh-CN" : locale === "en" ? "en-US" : "vi-VN",
+              {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              }
+            );
 
             return (
               <article
@@ -55,7 +87,7 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
                 <div className="relative h-52 w-full overflow-hidden bg-slate-200">
                   <Image
                     src={post.coverImage}
-                    alt={post.title}
+                    alt={title}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -76,26 +108,25 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
                       </span>
                       <span className="flex items-center gap-1">
                         <Eye className="w-3.5 h-3.5 text-slate-400" />
-                        <span>{post.viewCount} lượt xem</span>
+                        <span>{post.viewCount} {viewCountLabels[locale] || viewCountLabels.vi}</span>
                       </span>
                     </div>
 
-                    <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2">
-                      <Link href={`/news/${post.slug}`}>{post.title}</Link>
+                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
+                      <Link href={`/news/${post.slug}`}>{title}</Link>
                     </h3>
-
-                    <p className="mt-2 text-xs text-slate-600 line-clamp-3 leading-relaxed">
-                      {post.excerpt}
+                    <p className="mt-2 text-sm text-slate-600 leading-relaxed line-clamp-3">
+                      {excerpt}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100">
+                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
                     <Link
                       href={`/news/${post.slug}`}
-                      className="text-xs font-bold text-blue-700 hover:text-blue-800 inline-flex items-center gap-1 transition-colors"
+                      className="text-sm font-bold text-blue-700 hover:text-amber-600 inline-flex items-center gap-1.5 transition-colors"
                     >
-                      <span>Đọc tiếp</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <span>{readMoreLabels[locale] || readMoreLabels.vi}</span>
+                      <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
                 </div>

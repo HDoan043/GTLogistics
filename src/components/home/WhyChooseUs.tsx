@@ -1,27 +1,12 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
-import {
-  ShieldCheck,
-  Compass,
-  Clock,
-  Headphones,
-  CheckCircle2,
-  Anchor,
-  Sparkles,
-  Award,
-} from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
+import { useLanguage } from "@/lib/i18n/context";
 
 export function WhyChooseUs() {
-  // 6 Giá trị cốt lõi đúc kết trực tiếp từ biểu tượng thương hiệu trên tường văn phòng
-  const wallPillars = [
-    { title: "KẾT NỐI", desc: "Mạng lưới tiếp vận đa phương thức xuyên suốt hai chiều Việt - Trung" },
-    { title: "AN TOÀN", desc: "Bảo hiểm 100% trách nhiệm, quy chuẩn kiểm đếm & bảo quản chặt chẽ" },
-    { title: "TỐI ƯU", desc: "Tối ưu hóa cung đường, biểu thuế ACFTA và thời gian lưu bãi" },
-    { title: "HIỆU QUẢ", desc: "Thông quan giải phóng phương tiện nhanh chóng ngay trong ngày" },
-    { title: "UY TÍN", desc: "Đồng hành minh bạch, pháp lý chính ngạch, cam kết tiến độ chuẩn xác" },
-    { title: "TIẾT KIỆM", desc: "Chi phí cước cạnh tranh nhất khu vực cửa khẩu Móng Cái" },
-  ];
+  const { t } = useLanguage();
 
   return (
     <section className="py-20 bg-white overflow-hidden">
@@ -29,13 +14,13 @@ export function WhyChooseUs() {
         {/* Tiêu đề & Thông điệp */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <Badge variant="accent" className="mb-3 uppercase tracking-wider">
-            Năng Lực & Cam Kết Thực Tế
+            {t.whyUs.badge}
           </Badge>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            Đồng Hành Tin Cậy - Phát Triển Bền Vững
+            {t.whyUs.heading}
           </h2>
           <p className="mt-4 text-slate-600 text-base leading-relaxed">
-            Hạ tầng làm việc hiện đại tại Khu đô thị Vinhomes Golden Avenue (khu vực Cửa khẩu Bắc Luân 2, TP. Móng Cái) cùng đội ngũ chuyên viên thường trực 24/7 bảo đảm giải phóng hàng hóa lưu thông nhanh nhất.
+            {t.whyUs.desc}
           </p>
         </div>
 
@@ -52,13 +37,13 @@ export function WhyChooseUs() {
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
             <div className="absolute bottom-6 left-6 right-6 text-white">
               <span className="inline-block px-3.5 py-1 rounded-full bg-amber-500 text-slate-950 text-xs font-black mb-2 backdrop-blur-sm shadow-md">
-                Trụ Sở Điều Hành Móng Cái
+                {t.whyUs.officeCaptionTitle}
               </span>
               <h3 className="text-lg sm:text-xl font-bold">
-                Căn ĐLTC-41, KĐT Vinhomes Golden Avenue, Cửa khẩu Bắc Luân 2
+                {t.common.hqAddress}
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 mt-1">
-                Không gian làm việc tiêu chuẩn cao, kết nối trực tiếp các cơ quan kiểm hóa và hải quan cửa khẩu.
+                {t.whyUs.officeCaptionDesc}
               </p>
             </div>
           </div>
@@ -74,8 +59,8 @@ export function WhyChooseUs() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 text-white">
-                <span className="text-xs font-bold block">Sàn Giao Dịch & Chứng Từ</span>
-                <span className="text-[11px] text-slate-300">Túc trực khai báo hải quan điện tử VNACCS 24/7</span>
+                <span className="text-xs font-bold block">{t.whyUs.docCaptionTitle}</span>
+                <span className="text-[11px] text-slate-300">{t.whyUs.docCaptionDesc}</span>
               </div>
             </div>
 
@@ -88,8 +73,8 @@ export function WhyChooseUs() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 text-white">
-                <span className="text-xs font-bold block">Nghiệp Vụ Hải Quan Chính Ngạch</span>
-                <span className="text-[11px] text-slate-300">Thẩm định chứng từ & xin C/O Form E ưu đãi thuế</span>
+                <span className="text-xs font-bold block">{t.whyUs.customsCaptionTitle}</span>
+                <span className="text-[11px] text-slate-300">{t.whyUs.customsCaptionDesc}</span>
               </div>
             </div>
           </div>
@@ -97,7 +82,7 @@ export function WhyChooseUs() {
 
         {/* 6 Trụ cột giá trị cốt lõi đúc kết từ biển hiệu */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {wallPillars.map((p, idx) => (
+          {t.whyUs.pillars.map((p, idx) => (
             <div
               key={idx}
               className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-amber-400/80 hover:bg-amber-50/20 hover:shadow-lg transition-all duration-200 text-center flex flex-col justify-between group"

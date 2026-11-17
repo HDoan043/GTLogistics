@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import { Send, CheckCircle2, PhoneCall, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { submitLead } from "@/modules/leads/actions";
+import { useLanguage } from "@/lib/i18n/context";
 
 export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string }) {
+  const { t, locale } = useLanguage();
+
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -38,7 +41,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
     if (result.success) {
       setStatus({
         type: "success",
-        message: result.message,
+        message: t.quoteForm.successMsg,
       });
       setFormData({
         fullName: "",
@@ -54,7 +57,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
     } else {
       setStatus({
         type: "error",
-        message: result.message,
+        message: result.message || t.quoteForm.errorMsg,
       });
     }
   };
@@ -68,13 +71,13 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
           {/* Cột trái: Lời kêu gọi */}
           <div className="lg:col-span-5 space-y-6">
             <span className="inline-block px-3.5 py-1 bg-amber-500/15 text-amber-300 text-xs font-bold rounded-full border border-amber-500/30 uppercase tracking-wider backdrop-blur-sm">
-              Báo Giá Nhanh 15 Phút
+              {t.quoteForm.badge}
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
-              Cần Báo Giá Cước Hoặc Tư Vấn Thông Quan Cửa Khẩu?
+              {t.quoteForm.heading}
             </h2>
             <p className="text-slate-300 text-sm leading-relaxed">
-              Điền nhanh thông tin lô hàng của bạn. Đội ngũ chuyên viên chứng từ của <strong>Logistics GT</strong> tại Cửa khẩu Móng Cái sẽ phân tích biểu thuế, lộ trình và gửi phương án tối ưu chi phí nhất tới bạn trong vòng 15 phút.
+              {t.quoteForm.desc}
             </p>
 
             <div className="p-6 rounded-3xl bg-white/5 border border-amber-500/20 space-y-4 backdrop-blur-md">
@@ -83,7 +86,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                   <PhoneCall className="w-6 h-6 text-slate-950" />
                 </div>
                 <div>
-                  <div className="text-xs text-slate-400">Tư vấn trực tiếp 24/7:</div>
+                  <div className="text-xs text-slate-400">{t.quoteForm.callExpert}</div>
                   <a
                     href={`tel:${cleanPhone}`}
                     className="text-xl font-black text-amber-300 hover:text-amber-200 hover:underline transition-colors"
@@ -93,8 +96,8 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                 </div>
               </div>
               <div className="text-xs text-slate-300 space-y-1">
-                <div>✓ Trực tiếp tại Cửa khẩu Quốc tế Móng Cái & Bắc Luân 2.</div>
-                <div>✓ Miễn phí tư vấn mã HS Code và tối ưu thuế ACFTA.</div>
+                <div>{t.quoteForm.benefit1}</div>
+                <div>{t.quoteForm.benefit2}</div>
               </div>
             </div>
           </div>
@@ -103,10 +106,10 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
           <div className="lg:col-span-7">
             <div className="bg-white rounded-3xl p-6 sm:p-10 text-slate-800 shadow-2xl border border-slate-100">
               <h3 className="text-2xl font-black text-slate-900 mb-2">
-                Yêu Cầu Báo Giá Trực Tuyến
+                {t.quoteForm.formTitle}
               </h3>
               <p className="text-xs text-slate-500 mb-6">
-                Vui lòng cung cấp thông tin liên hệ và chi tiết lô hàng của Quý khách.
+                {t.quoteForm.formSubtitle}
               </p>
 
               {status.type === "success" && (
@@ -127,7 +130,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Họ và Tên *
+                      {t.quoteForm.fullName} *
                     </label>
                     <input
                       type="text"
@@ -136,13 +139,13 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                       onChange={(e) =>
                         setFormData({ ...formData, fullName: e.target.value })
                       }
-                      placeholder="Nguyễn Văn A"
+                      placeholder={locale === "zh" ? "张三 (Mr. Zhang)" : locale === "en" ? "John Doe" : "Nguyễn Văn A"}
                       className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Số Điện Thoại / Zalo *
+                      {t.quoteForm.phone} *
                     </label>
                     <input
                       type="tel"
@@ -151,7 +154,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
                       }
-                      placeholder="0912.345.678"
+                      placeholder={locale === "zh" ? "+86 138-0000-0000 / 微信" : "0912.345.678"}
                       className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
                     />
                   </div>
@@ -160,7 +163,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Dịch Vụ Cần Tư Vấn *
+                      {t.quoteForm.serviceType} *
                     </label>
                     <select
                       value={formData.serviceType}
@@ -169,17 +172,29 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                       }
                       className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
                     >
-                      <option value="Vận tải đường bộ">Vận tải đường bộ</option>
-                      <option value="Thủ tục hải quan & C/O">Thủ tục hải quan & C/O</option>
-                      <option value="Ủy thác xuất nhập khẩu">Ủy thác xuất nhập khẩu</option>
-                      <option value="Kho bãi & sang tải">Kho bãi & sang tải</option>
-                      <option value="Logistics chuỗi lạnh">Logistics chuỗi lạnh</option>
-                      <option value="Vận tải đa phương thức">Vận tải đa phương thức</option>
+                      <option value="Vận tải đường bộ">
+                        {locale === "zh" ? "跨境公路运输 (Road Trucking)" : locale === "en" ? "Cross-Border Trucking" : "Vận tải đường bộ"}
+                      </option>
+                      <option value="Thủ tục hải quan & C/O">
+                        {locale === "zh" ? "海关报关与 C/O Form E" : locale === "en" ? "Customs & C/O Form E" : "Thủ tục hải quan & C/O"}
+                      </option>
+                      <option value="Ủy thác xuất nhập khẩu">
+                        {locale === "zh" ? "进出口外贸代理 (Entrustment)" : locale === "en" ? "Trade Entrustment" : "Ủy thác xuất nhập khẩu"}
+                      </option>
+                      <option value="Kho bãi & sang tải">
+                        {locale === "zh" ? "边贸仓储与过驳 (Warehousing)" : locale === "en" ? "Warehousing & Cross-Dock" : "Kho bãi & sang tải"}
+                      </option>
+                      <option value="Logistics chuỗi lạnh">
+                        {locale === "zh" ? "冷链农产品物流 (Cold Chain)" : locale === "en" ? "Cold Chain Logistics" : "Logistics chuỗi lạnh"}
+                      </option>
+                      <option value="Vận tải đa phương thức">
+                        {locale === "zh" ? "国际多式联运 (Multimodal)" : locale === "en" ? "Multimodal Transport" : "Vận tải đa phương thức"}
+                      </option>
                     </select>
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Tên Doanh Nghiệp (Nếu có)
+                      {t.quoteForm.company}
                     </label>
                     <input
                       type="text"
@@ -187,7 +202,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                       onChange={(e) =>
                         setFormData({ ...formData, company: e.target.value })
                       }
-                      placeholder="Công ty TNHH XYZ"
+                      placeholder={locale === "zh" ? "某某进出口贸易有限公司" : "Công ty TNHH / Company"}
                       className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
                     />
                   </div>
@@ -196,7 +211,7 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Điểm Gửi (Nơi đi)
+                      {t.quoteForm.routeOrigin}
                     </label>
                     <input
                       type="text"
@@ -204,21 +219,24 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                       onChange={(e) =>
                         setFormData({ ...formData, routeOrigin: e.target.value })
                       }
-                      placeholder="Đông Hưng (TQ) / Hà Nội / Hải Phòng..."
+                      placeholder={locale === "zh" ? "东兴 / 广州 / 义乌 / 防城港" : "Đông Hưng / Phật Sơn / Hải Phòng..."}
                       className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Điểm Đến (Nơi nhận)
+                      {t.quoteForm.routeDestination}
                     </label>
                     <input
                       type="text"
                       value={formData.routeDestination}
                       onChange={(e) =>
-                        setFormData({ ...formData, routeDestination: e.target.value })
+                        setFormData({
+                          ...formData,
+                          routeDestination: e.target.value,
+                        })
                       }
-                      placeholder="Móng Cái / KCN Bắc Ninh / Toàn quốc..."
+                      placeholder={locale === "zh" ? "芒街 / 河内 / 海防 / 平阳" : "Móng Cái / Hà Nội / Bắc Ninh..."}
                       className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
                     />
                   </div>
@@ -226,16 +244,31 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Mô Tả Lô Hàng / Yêu Cầu Cụ Thể
+                    {t.quoteForm.cargoDetails}
                   </label>
                   <textarea
-                    rows={3}
+                    rows={2}
                     value={formData.cargoDetails}
                     onChange={(e) =>
                       setFormData({ ...formData, cargoDetails: e.target.value })
                     }
-                    placeholder="Loại hàng hóa, quy cách đóng gói (container / kiện / pallet), trọng lượng dự kiến và thời gian cần giao nhận..."
-                    className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+                    placeholder={locale === "zh" ? "品名、集装箱柜型 (40HC/冷柜)、重量、HS编码等" : "Ví dụ: 2 container 40HC linh kiện điện tử, 45 tấn hoa quả lạnh..."}
+                    className="w-full px-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    {t.quoteForm.message}
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.message}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
+                    placeholder={locale === "zh" ? "提货时间、特殊装卸要求等" : "Ghi chú thêm về thời gian giao nhận..."}
+                    className="w-full px-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all"
                   />
                 </div>
 
@@ -243,11 +276,11 @@ export function QuoteCtaSection({ hotline = "0904.382.268" }: { hotline?: string
                   type="submit"
                   variant="accent"
                   size="lg"
+                  className="w-full font-bold shadow-lg shadow-amber-500/25 mt-2"
                   isLoading={loading}
-                  className="w-full font-black text-base py-3.5 shadow-lg shadow-blue-600/30"
                 >
-                  <Send className="w-5 h-5 mr-2" />
-                  <span>Gửi Yêu Cầu Báo Giá Nhanh</span>
+                  <Send className="w-4 h-4 mr-2" />
+                  <span>{loading ? t.quoteForm.submitting : t.quoteForm.btnSubmit}</span>
                 </Button>
               </form>
             </div>

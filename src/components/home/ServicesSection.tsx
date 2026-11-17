@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,12 +13,17 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
+import { useLanguage } from "@/lib/i18n/context";
 
 interface ServiceItem {
   id: string;
   title: string;
+  titleEn?: string | null;
+  titleZh?: string | null;
   slug: string;
   shortDesc: string;
+  shortDescEn?: string | null;
+  shortDescZh?: string | null;
   iconName: string;
   bannerImage: string;
 }
@@ -31,19 +38,33 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 export function ServicesSection({ services }: { services: ServiceItem[] }) {
+  const { t, locale } = useLanguage();
+
+  const getTitle = (s: ServiceItem) => {
+    if (locale === "zh") return s.titleZh || s.title;
+    if (locale === "en") return s.titleEn || s.title;
+    return s.title;
+  };
+
+  const getShortDesc = (s: ServiceItem) => {
+    if (locale === "zh") return s.shortDescZh || s.shortDesc;
+    if (locale === "en") return s.shortDescEn || s.shortDesc;
+    return s.shortDesc;
+  };
+
   return (
     <section className="py-20 bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <Badge variant="brand" className="mb-3 uppercase tracking-wider">
-            Năng Lực Cung Ứng Thực Tế
+            {t.services.badge}
           </Badge>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            Dịch Vụ Logistics & Hải Quan Cửa Khẩu Trọng Tâm
+            {t.services.heading}
           </h2>
           <p className="mt-4 text-slate-600 text-base">
-            Logistics GT cung cấp giải pháp toàn diện từ khai báo hải quan, vận tải đường bộ liên vận Việt - Trung qua Cửa khẩu Quốc tế Móng Cái đến kho bãi sang tải và ủy thác ngoại thương.
+            {t.services.desc}
           </p>
         </div>
 
@@ -51,6 +72,9 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((s) => {
             const Icon = iconMap[s.iconName] || Truck;
+            const title = getTitle(s);
+            const desc = getShortDesc(s);
+
             return (
               <div
                 key={s.slug}
@@ -60,7 +84,7 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
                 <div className="relative h-52 w-full overflow-hidden bg-slate-200">
                   <Image
                     src={s.bannerImage}
-                    alt={s.title}
+                    alt={title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -71,7 +95,7 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
                       <Icon className="w-5 h-5 text-slate-950" />
                     </span>
                     <span className="text-[11px] font-bold tracking-wider uppercase bg-slate-950/80 text-amber-300 px-2.5 py-1 rounded-full backdrop-blur-sm border border-amber-500/30">
-                      Chính Ngạch
+                      {t.services.officialTag}
                     </span>
                   </div>
                 </div>
@@ -80,26 +104,26 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
                     <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-700 transition-colors">
-                      <Link href={`/services/${s.slug}`}>{s.title}</Link>
+                      <Link href={`/services/${s.slug}`}>{title}</Link>
                     </h3>
                     <p className="mt-2 text-sm text-slate-600 leading-relaxed line-clamp-3">
-                      {s.shortDesc}
+                      {desc}
                     </p>
                   </div>
 
                   <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
                     <Link
                       href={`/services/${s.slug}`}
-                      className="text-sm font-bold text-blue-700 hover:text-blue-800 inline-flex items-center gap-1.5 transition-colors"
+                      className="text-sm font-bold text-blue-700 hover:text-amber-600 inline-flex items-center gap-1.5 transition-colors"
                     >
-                      <span>Xem chi tiết</span>
+                      <span>{t.common.viewDetails}</span>
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                     <Link
                       href="/quote"
                       className="text-xs font-semibold text-slate-500 hover:text-slate-900 px-2.5 py-1 rounded-lg hover:bg-slate-100 transition-colors"
                     >
-                      Báo giá nhanh
+                      {t.services.quotePrompt}
                     </Link>
                   </div>
                 </div>

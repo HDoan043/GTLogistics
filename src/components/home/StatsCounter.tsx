@@ -1,31 +1,36 @@
+"use client";
+
 import React from "react";
 import { TrendingUp, Users, CheckCircle, Award } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/context";
 
 export function StatsCounter() {
+  const { t } = useLanguage();
+
   const stats = [
     {
       icon: Award,
-      value: "10+",
-      label: "Năm Hoạt Động",
-      desc: "Thành lập từ 2015, vững chắc trong tiếp vận biên mậu",
+      value: t.stats.years.value,
+      label: t.stats.years.label,
+      desc: t.stats.years.desc,
     },
     {
       icon: TrendingUp,
-      value: "65,000+",
-      label: "Tấn Hàng / Năm",
-      desc: "Thông quan an toàn qua Cửa khẩu Bắc Luân 2 & Móng Cái",
+      value: t.stats.cargo.value,
+      label: t.stats.cargo.label,
+      desc: t.stats.cargo.desc,
     },
     {
       icon: Users,
-      value: "1,500+",
-      label: "Doanh Nghiệp Tin Chọn",
-      desc: "Chủ hàng XNK, nhà máy chế biến nông sản và chuỗi phân phối",
+      value: t.stats.clients.value,
+      label: t.stats.clients.label,
+      desc: t.stats.clients.desc,
     },
     {
       icon: CheckCircle,
-      value: "100%",
-      label: "An Toàn & Minh Bạch",
-      desc: "Bảo hiểm lô hàng, cam kết đền bù và hóa đơn hợp lệ",
+      value: t.stats.safety.value,
+      label: t.stats.safety.label,
+      desc: t.stats.safety.desc,
     },
   ];
 

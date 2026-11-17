@@ -23,9 +23,15 @@ model AdminUser {
 model Post {
   id          String     @id @default(cuid())
   title       String
+  titleEn     String?
+  titleZh     String?
   slug        String     @unique
   excerpt     String     @db.Text
+  excerptEn   String?    @db.Text
+  excerptZh   String?    @db.Text
   content     String     @db.Text
+  contentEn   String?    @db.Text
+  contentZh   String?    @db.Text
   coverImage  String     @db.Text
   category    String     @default("Tin tức ngành")
   isPublished Boolean    @default(true)
@@ -42,9 +48,15 @@ model Post {
 model Service {
   id          String   @id @default(cuid())
   title       String
+  titleEn     String?
+  titleZh     String?
   slug        String   @unique
   shortDesc   String   @db.Text
+  shortDescEn String?  @db.Text
+  shortDescZh String?  @db.Text
   fullContent String   @db.Text
+  fullContentEn String? @db.Text
+  fullContentZh String? @db.Text
   iconName    String   @default("Truck")
   bannerImage String   @db.Text
   sortOrder   Int      @default(0)

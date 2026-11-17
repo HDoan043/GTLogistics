@@ -41,6 +41,7 @@ export const zhDictionary: Dictionary = {
     titleMain: "中越跨境边贸物流 &",
     titleHighlight: "GT专业口岸通关服务",
     desc: "GT物流有限责任公司为您提供中越跨境公路集装箱联运、芒街国际口岸正贸合规通关、东盟原产地证（C/O Form E）申领以及高标准边境保税仓储转运方案。",
+    bullet3: "中越双语清关专员 24/7 口岸现场常驻，保障货物快速放行通关。",
     sloganLabel: "企业理念",
     btnQuote: "快速获取运价",
     btnProfile: "企业实力名录",

@@ -41,6 +41,7 @@ export interface Dictionary {
     titleMain: string;
     titleHighlight: string;
     desc: string;
+    bullet3: string;
     sloganLabel: string;
     btnQuote: string;
     btnProfile: string;

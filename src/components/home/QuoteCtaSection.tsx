@@ -203,11 +203,8 @@ export function QuoteCtaSection({
                       <option value="Ủy thác xuất nhập khẩu">
                         {locale === "zh" ? "进出口外贸代理 (Entrustment)" : locale === "en" ? "Trade Entrustment" : "Ủy thác xuất nhập khẩu"}
                       </option>
-                      <option value="Kho bãi & sang tải">
-                        {locale === "zh" ? "边贸仓储与过驳 (Warehousing)" : locale === "en" ? "Warehousing & Cross-Dock" : "Kho bãi & sang tải"}
-                      </option>
-                      <option value="Logistics chuỗi lạnh">
-                        {locale === "zh" ? "冷链农产品物流 (Cold Chain)" : locale === "en" ? "Cold Chain Logistics" : "Logistics chuỗi lạnh"}
+                      <option value="Hàng quá cảnh & chuyển cảng">
+                        {locale === "zh" ? "过境货物与转港 (Transit & Transshipment)" : locale === "en" ? "Transit & Transshipment Cargo" : "Hàng quá cảnh & chuyển cảng"}
                       </option>
                       <option value="Vận tải đa phương thức">
                         {locale === "zh" ? "国际多式联运 (Multimodal)" : locale === "en" ? "Multimodal Transport" : "Vận tải đa phương thức"}

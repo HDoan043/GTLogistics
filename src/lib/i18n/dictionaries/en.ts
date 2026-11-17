@@ -41,6 +41,7 @@ export const enDictionary: Dictionary = {
     titleMain: "CROSS-BORDER LOGISTICS &",
     titleHighlight: "GT BORDER CUSTOMS CLEARANCE",
     desc: "GT Logistics Co., Ltd provides cross-border intermodal road freight, official customs clearance at Mong Cai International Border Gate, C/O Form E consultation, and high-standard transshipment warehousing.",
+    bullet3: "Bilingual Vietnamese-Chinese specialists stationed 24/7 for prompt border clearance.",
     sloganLabel: "Motto",
     btnQuote: "Request Quick Quote",
     btnProfile: "Company Profile",

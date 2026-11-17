@@ -41,6 +41,7 @@ export const viDictionary: Dictionary = {
     titleMain: "TIẾP VẬN BIÊN MẬU &",
     titleHighlight: "THÔNG QUAN CỬA KHẨU GT",
     desc: "Công ty TNHH Logistics GT mang đến giải pháp vận tải đường bộ liên vận, thông quan chính ngạch tại Cửa khẩu Quốc tế Móng Cái, C/O Form E và sang tải kho bãi tiêu chuẩn cao.",
+    bullet3: "Đội ngũ chuyên viên song ngữ Việt - Trung thường trực 24/7 giải phóng hàng hóa nhanh chóng.",
     sloganLabel: "Khẩu hiệu",
     btnQuote: "Yêu Cầu Báo Giá Nhanh",
     btnProfile: "Hồ Sơ Năng Lực",

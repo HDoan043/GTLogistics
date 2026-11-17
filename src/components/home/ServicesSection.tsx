@@ -62,50 +62,50 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Bố cục so le tương tự như phần Vì sao chọn GT Logistics: 1 bên Header và 1 bên các thẻ dịch vụ, tràn viền tự nhiên không viền bao quanh */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Cột Trái: Header dịch vụ lấy ảnh làm nền rõ nét, tiêu đề căn dọc chính giữa */}
-          <div className="lg:col-span-5 relative rounded-2xl overflow-hidden shadow-md min-h-[440px] sm:min-h-[470px] p-8 sm:p-10 flex flex-col justify-center group border border-slate-200">
-            {/* Ảnh nền thực tế hiển thị rõ nét */}
+          {/* Cột Trái: Header dịch vụ nền sáng thanh lịch, ảnh nền hơi nổi nhẹ nhàng, chữ màu đen nổi bật sắc nét */}
+          <div className="lg:col-span-5 relative rounded-2xl overflow-hidden shadow-xs min-h-[440px] sm:min-h-[470px] p-8 sm:p-10 flex flex-col justify-center bg-white border border-slate-300">
+            {/* Ảnh nền thực tế hơi nổi nhẹ nhàng trên nền trắng */}
             <Image
               src="/images/vietphuc/presentation_multimodal.webp"
               alt="GT Logistics Multimodal Operations"
               fill
               sizes="(max-width: 1024px) 100vw, 40vw"
-              className="object-cover object-center"
+              className="object-cover object-center opacity-30"
             />
-            {/* Lớp phủ chuyển màu vừa đủ để ảnh nền hiển thị rõ ràng, đồng thời chữ trắng và vàng nổi bật sắc nét */}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/70 to-slate-950/50" />
+            {/* Lớp phủ chuyển sắc trắng nhẹ để chữ đen tương phản tuyệt đối */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/80 to-white/60 pointer-events-none" />
 
-            {/* Nội dung Header căn dọc chính giữa khối */}
-            <div className="relative z-10 space-y-5 text-white my-auto">
+            {/* Nội dung Header chữ màu đen sắc nét, căn dọc chính giữa khối */}
+            <div className="relative z-10 space-y-5 text-slate-900 my-auto">
               <div>
-                <div className="h-1 w-12 bg-gold-400 rounded-full mb-3" />
-                <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+                <div className="h-1 w-12 bg-azure-600 rounded-full mb-3" />
+                <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight leading-tight">
                   {t.services.heading}
                 </h2>
               </div>
 
-              <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
+              <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-medium">
                 {t.services.desc}
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-3">
                 <Link
                   href="/services"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-azure-600 hover:bg-azure-700 text-white font-bold text-sm shadow-md transition-colors duration-150 tap-press"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-azure-600 hover:bg-azure-700 text-white font-bold text-sm shadow-xs transition-colors duration-150 tap-press"
                 >
                   <span>{t.common.allServices}</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   href="/quote"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white border border-white/40 font-semibold text-sm transition-colors duration-150 tap-press"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold text-sm transition-colors duration-150 tap-press"
                 >
                   <span>{t.common.quote}</span>
                 </Link>
               </div>
 
-              <div className="pt-2 flex items-center gap-2.5 text-xs text-gold-300 font-semibold">
-                <PhoneCall className="w-4 h-4 text-gold-400 shrink-0" />
+              <div className="pt-2 flex items-center gap-2.5 text-xs text-slate-700 font-semibold">
+                <PhoneCall className="w-4 h-4 text-gold-600 shrink-0" />
                 <span>
                   {locale === "zh"
                     ? "口岸现场 24/7 专人对接: 0904.382.268"

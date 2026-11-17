@@ -60,35 +60,20 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
   return (
     <section className="py-16 sm:py-24 bg-slate-50/70 text-slate-900 border-b border-slate-200/80 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Bố cục so le tương tự như phần Vì sao chọn GT Logistics: 1 bên Header và 1 bên các thẻ dịch vụ, tràn viền tự nhiên không viền bao quanh */}
+        {/* Thiết kế tương đồng 100% với mục Vì sao chọn GT Logistics: 1 bên Header kèm ảnh minh họa bên dưới, 1 bên các thẻ dịch vụ */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Cột Trái: Header dịch vụ nền sáng thanh lịch, ảnh nền hơi nổi nhẹ nhàng, chữ màu đen nổi bật sắc nét */}
-          <div className="lg:col-span-5 relative rounded-2xl overflow-hidden shadow-xs min-h-[440px] sm:min-h-[470px] p-8 sm:p-10 flex flex-col justify-center bg-white border border-slate-300">
-            {/* Ảnh nền thực tế hơi nổi nhẹ nhàng trên nền trắng */}
-            <Image
-              src="/images/vietphuc/presentation_multimodal.webp"
-              alt="GT Logistics Multimodal Operations"
-              fill
-              sizes="(max-width: 1024px) 100vw, 40vw"
-              className="object-cover object-center opacity-30"
-            />
-            {/* Lớp phủ chuyển sắc trắng nhẹ để chữ đen tương phản tuyệt đối */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/80 to-white/60 pointer-events-none" />
-
-            {/* Nội dung Header chữ màu đen sắc nét, căn dọc chính giữa khối */}
-            <div className="relative z-10 space-y-5 text-slate-900 my-auto">
-              <div>
-                <div className="h-1 w-12 bg-azure-600 rounded-full mb-3" />
-                <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight leading-tight">
-                  {t.services.heading}
-                </h2>
-              </div>
-
-              <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-medium">
+          {/* Cột Trái: Tiêu đề, giới thiệu, nút bấm và ảnh minh họa tạo điểm nhấn đặt ngay bên dưới */}
+          <div className="lg:col-span-5 space-y-6">
+            <div>
+              <div className="h-1 w-12 bg-azure-600 rounded-full mb-4" />
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+                {t.services.heading}
+              </h2>
+              <p className="mt-4 text-slate-600 text-base leading-relaxed">
                 {t.services.desc}
               </p>
 
-              <div className="pt-2 flex flex-wrap items-center gap-3">
+              <div className="pt-4 flex flex-wrap items-center gap-3">
                 <Link
                   href="/services"
                   className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-azure-600 hover:bg-azure-700 text-white font-bold text-sm shadow-xs transition-colors duration-150 tap-press"
@@ -103,21 +88,36 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
                   <span>{t.common.quote}</span>
                 </Link>
               </div>
+            </div>
 
-              <div className="pt-2 flex items-center gap-2.5 text-xs text-slate-700 font-semibold">
-                <PhoneCall className="w-4 h-4 text-gold-600 shrink-0" />
-                <span>
-                  {locale === "zh"
-                    ? "口岸现场 24/7 专人对接: 0904.382.268"
-                    : locale === "en"
-                    ? "Direct Border Clearance 24/7 Hotline: 0904.382.268"
-                    : "Trực tiếp thông quan tại cửa khẩu 24/7: 0904.382.268"}
-                </span>
+            {/* Ảnh minh họa nghiệp vụ tiếp vận đặt ngay dưới Header để tạo điểm nhấn trực quan */}
+            <div className="relative h-60 sm:h-64 rounded-2xl overflow-hidden shadow-sm border border-slate-200 group">
+              <Image
+                src="/images/vietphuc/presentation_multimodal.webp"
+                alt="Vận tải đa phương thức & tiếp vận biên mậu Logistics GT"
+                fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 text-white flex items-center justify-between">
+                <div>
+                  <span className="inline-block px-2.5 py-0.5 rounded-md bg-azure-600 text-white text-[11px] font-bold mb-1">
+                    {locale === "zh" ? "多式联运网络" : locale === "en" ? "Multimodal Network" : "Mạng Lưới Đa Phương Thức"}
+                  </span>
+                  <p className="text-xs text-slate-200">
+                    {locale === "zh" ? "芒街 - 海防 - 陆海联运通道" : locale === "en" ? "Mong Cai - Hai Phong Route" : "Chuyên tuyến Móng Cái - Hải Phòng - Toàn quốc"}
+                  </p>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-gold-300 font-semibold">
+                  <PhoneCall className="w-3.5 h-3.5 text-gold-400 shrink-0" />
+                  <span>0904.382.268</span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Cột Phải: Danh sách các thẻ dịch vụ xếp dọc, viền đậm rõ nét, không có đường ngăn cách giữa 2 cột */}
+          {/* Cột Phải: Danh sách các thẻ dịch vụ xếp dọc, viền đậm và dày hơn 1 chút (border-2) */}
           <div className="lg:col-span-7 flex flex-col justify-center gap-3.5">
             {activeServices.map((s) => {
               const Icon = iconMap[s.iconName] || Truck;
@@ -128,7 +128,7 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
                 <Link
                   key={s.slug}
                   href={`/services/${s.slug}`}
-                  className="group bg-white rounded-xl p-4 sm:p-4.5 border border-slate-300 hover:border-azure-500 hover:bg-slate-50/80 shadow-xs hover:shadow-sm transition-colors duration-150 flex items-center justify-between gap-4 tap-press"
+                  className="group bg-white rounded-xl p-4 sm:p-4.5 border-2 border-slate-300 hover:border-azure-600 hover:bg-slate-50/80 shadow-xs hover:shadow-sm transition-colors duration-150 flex items-center justify-between gap-4 tap-press"
                 >
                   <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
                     <div className="w-11 h-11 rounded-lg bg-azure-50 text-azure-700 border border-azure-200 flex items-center justify-center shrink-0 group-hover:bg-azure-600 group-hover:text-white transition-colors duration-150">

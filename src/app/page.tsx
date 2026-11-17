@@ -1,7 +1,5 @@
 import { HeroSection } from "@/components/home/HeroSection";
-import { StatsCounter } from "@/components/home/StatsCounter";
 import { ServicesSection } from "@/components/home/ServicesSection";
-import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 import { RecentNewsSection } from "@/components/home/RecentNewsSection";
 import { QuoteCtaSection } from "@/components/home/QuoteCtaSection";
 import { getServices } from "@/modules/services/actions";
@@ -20,9 +18,7 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       <HeroSection hotline={settings.hotline} />
-      <StatsCounter />
       <ServicesSection services={services} />
-      <WhyChooseUs />
       <RecentNewsSection posts={posts} />
       <QuoteCtaSection hotline={settings.hotline} />
     </div>

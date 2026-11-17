@@ -57,12 +57,12 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Lịch sử & Tổng quan với hình ảnh thực tế - Dark Theme */}
-      <section className="py-20 bg-slate-950 text-white border-b border-slate-800">
+      {/* Lịch sử & Tổng quan với hình ảnh thực tế - Clean Light Theme */}
+      <section className="py-20 bg-white text-slate-900 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Ảnh thực tế sàn làm việc văn phòng */}
-            <div className="lg:col-span-6 relative h-[440px] rounded-2xl overflow-hidden shadow-lg border border-slate-800">
+            <div className="lg:col-span-6 relative h-[440px] rounded-2xl overflow-hidden shadow-lg border border-slate-200">
               <Image
                 src="/images/vietphuc/office_workstations_wide.webp"
                 alt="Văn phòng điều hành Logistics GT tại Vinhomes Golden Avenue Móng Cái"
@@ -71,11 +71,11 @@ export default async function AboutPage() {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6 text-white p-5 rounded-xl bg-slate-900/90 border border-slate-800">
-                <span className="text-sm font-bold block text-azure-400">
+              <div className="absolute bottom-6 left-6 right-6 text-white p-5 rounded-xl bg-slate-950/90 border border-slate-800">
+                <span className="text-sm font-bold block text-gold-400">
                   {t.common.companyName}
                 </span>
-                <span className="text-xs text-slate-300">
+                <span className="text-xs text-slate-200">
                   {t.aboutPage.officeCaptionSub}
                 </span>
               </div>
@@ -83,50 +83,50 @@ export default async function AboutPage() {
 
             {/* Nội dung thông tin doanh nghiệp chính xác */}
             <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-azure-950/80 text-azure-300 text-xs font-semibold border border-azure-800/80">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-azure-50 text-azure-800 text-xs font-semibold border border-azure-200/80">
                 <span>{t.aboutPage.taxBadge}</span>
               </div>
 
-              <h2 className="text-3xl font-black text-white tracking-tight leading-tight">
+              <h2 className="text-3xl font-black text-slate-950 tracking-tight leading-tight">
                 {t.aboutPage.heading}
               </h2>
-              <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
+              <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
                 {t.aboutPage.p1}
               </p>
-              <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
+              <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
                 {t.aboutPage.p2}
               </p>
 
               {/* Tổ hợp đối tác hệ sinh thái */}
-              <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2 text-xs text-slate-300">
-                <div className="font-bold text-white text-sm flex items-center gap-2">
-                  <Building className="w-4 h-4 text-azure-400" />
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-600">
+                <div className="font-bold text-slate-900 text-sm flex items-center gap-2">
+                  <Building className="w-4 h-4 text-azure-600" />
                   <span>{t.aboutPage.ecosystemTitle}</span>
                 </div>
-                <p className="text-slate-400 leading-relaxed">
+                <p className="text-slate-600 leading-relaxed">
                   {t.aboutPage.ecosystemDesc}
                 </p>
               </div>
 
               <div className="grid grid-cols-2 gap-4 pt-2">
-                <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start gap-3">
-                  <Target className="w-5 h-5 text-azure-400 shrink-0 mt-0.5" />
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+                  <Target className="w-5 h-5 text-azure-600 shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-bold text-sm text-white">
+                    <h4 className="font-bold text-sm text-slate-900">
                       {t.aboutPage.missionTitle}
                     </h4>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-slate-600 mt-1">
                       {t.aboutPage.missionDesc}
                     </p>
                   </div>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start gap-3">
-                  <Compass className="w-5 h-5 text-azure-400 shrink-0 mt-0.5" />
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+                  <Compass className="w-5 h-5 text-azure-600 shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-bold text-sm text-white">
+                    <h4 className="font-bold text-sm text-slate-900">
                       {t.aboutPage.sloganTitle}
                     </h4>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-slate-600 mt-1">
                       {t.aboutPage.sloganDesc}
                     </p>
                   </div>
@@ -138,30 +138,30 @@ export default async function AboutPage() {
       </section>
 
       {/* Đội ngũ & Buổi họp chiến lược thực tế */}
-      <section className="py-20 bg-slate-900/50 text-white border-b border-slate-800">
+      <section className="py-20 bg-slate-50/70 text-slate-900 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-6">
               <Badge variant="brand" className="mb-2">
                 {t.aboutPage.teamBadge}
               </Badge>
-              <h2 className="text-3xl font-black text-white tracking-tight leading-tight">
+              <h2 className="text-3xl font-black text-slate-950 tracking-tight leading-tight">
                 {t.aboutPage.teamHeading}
               </h2>
-              <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
+              <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
                 {t.aboutPage.teamDesc}
               </p>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 text-sm text-slate-300">
-                  <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
+                <div className="flex items-center gap-3 text-sm text-slate-700">
+                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span>{t.aboutPage.leader1}</span>
                 </div>
-                <div className="flex items-center gap-3 text-sm text-slate-300">
-                  <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
+                <div className="flex items-center gap-3 text-sm text-slate-700">
+                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span>{t.aboutPage.leader2}</span>
                 </div>
-                <div className="flex items-center gap-3 text-sm text-slate-300">
-                  <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
+                <div className="flex items-center gap-3 text-sm text-slate-700">
+                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span>{t.aboutPage.leader3}</span>
                 </div>
               </div>
@@ -169,7 +169,7 @@ export default async function AboutPage() {
 
             <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Ảnh lãnh đạo */}
-              <div className="relative h-64 rounded-2xl overflow-hidden shadow-lg border border-slate-800">
+              <div className="relative h-64 rounded-2xl overflow-hidden shadow-sm border border-slate-200">
                 <Image
                   src="/images/vietphuc/director_leadership.webp"
                   alt="Ban lãnh đạo điều hành chiến lược Logistics GT"
@@ -182,14 +182,14 @@ export default async function AboutPage() {
                   <span className="text-xs font-bold block">
                     {t.aboutPage.directorsCaption}
                   </span>
-                  <span className="text-[11px] text-slate-300">
+                  <span className="text-[11px] text-slate-200">
                     {t.aboutPage.directorsSub}
                   </span>
                 </div>
               </div>
 
               {/* Ảnh phòng họp toàn thể */}
-              <div className="relative h-64 rounded-2xl overflow-hidden shadow-lg border border-slate-800">
+              <div className="relative h-64 rounded-2xl overflow-hidden shadow-sm border border-slate-200">
                 <Image
                   src="/images/vietphuc/boardroom_conference.webp"
                   alt="Họp giao ban nghiệp vụ vận tải và thông quan tại phòng hội nghị"
@@ -202,7 +202,7 @@ export default async function AboutPage() {
                   <span className="text-xs font-bold block">
                     {t.aboutPage.conferenceCaption}
                   </span>
-                  <span className="text-[11px] text-slate-300">
+                  <span className="text-[11px] text-slate-200">
                     {t.aboutPage.conferenceSub}
                   </span>
                 </div>
@@ -216,16 +216,16 @@ export default async function AboutPage() {
       <StatsCounter />
 
       {/* 6 Trụ cột giá trị cốt lõi đúc kết từ biển hiệu */}
-      <section className="py-20 bg-slate-950 text-white border-b border-slate-800">
+      <section className="py-20 bg-white text-slate-900 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <Badge variant="brand" className="mb-2">
               {t.aboutPage.coreValuesBadge}
             </Badge>
-            <h2 className="text-3xl font-black text-white tracking-tight">
+            <h2 className="text-3xl font-black text-slate-950 tracking-tight">
               {t.aboutPage.coreValuesHeading}
             </h2>
-            <p className="mt-3 text-slate-400 text-sm">
+            <p className="mt-3 text-slate-600 text-sm">
               {t.aboutPage.coreValuesDesc}
             </p>
           </div>
@@ -236,13 +236,13 @@ export default async function AboutPage() {
               return (
                 <div
                   key={i}
-                  className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-gold-500/50 hover:bg-slate-900/90 shadow-sm transition-colors duration-150 group tap-press"
+                  className="p-6 rounded-2xl bg-slate-50/70 border border-slate-200/80 hover:border-azure-300 hover:bg-white shadow-xs transition-colors duration-150 group tap-press"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gold-500/10 text-gold-400 border border-gold-500/20 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
-                    <PillarIcon className="w-6 h-6 text-gold-400" />
+                  <div className="w-12 h-12 rounded-xl bg-azure-50 text-azure-600 border border-azure-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                    <PillarIcon className="w-6 h-6 text-azure-600" />
                   </div>
-                  <h3 className="font-bold text-lg text-white mb-2 group-hover:text-gold-300 transition-colors">{v.title}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">{v.desc}</p>
+                  <h3 className="font-bold text-lg text-slate-900 mb-2 group-hover:text-azure-700 transition-colors">{v.title}</h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">{v.desc}</p>
                 </div>
               );
             })}

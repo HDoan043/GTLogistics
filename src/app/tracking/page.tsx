@@ -64,11 +64,11 @@ function TrackingContent() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Box Tìm kiếm Vận đơn */}
-      <div className="bg-slate-900/90 p-6 sm:p-8 rounded-2xl border border-slate-800 shadow-md mb-8 text-white">
-        <h2 className="text-xl font-bold text-white mb-2">
+      <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm mb-8 text-slate-900">
+        <h2 className="text-xl font-bold text-slate-900 mb-2">
           {t.hero.trackingTitle}
         </h2>
-        <p className="text-xs text-slate-400 mb-6">
+        <p className="text-xs text-slate-500 mb-6">
           {t.hero.trackingDesc}
         </p>
 
@@ -79,7 +79,7 @@ function TrackingContent() {
               value={code}
               onChange={(e) => setCode(e.target.value)}
               placeholder={t.trackingPage.inputPlaceholder}
-              className="w-full px-4 py-3 text-sm bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 font-mono font-semibold"
+              className="w-full px-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 font-mono font-semibold"
             />
           </div>
           <Button
@@ -94,15 +94,15 @@ function TrackingContent() {
           </Button>
         </form>
 
-        <div className="mt-4 text-xs text-slate-400 flex items-center gap-2 flex-wrap">
-          <span className="font-semibold text-slate-300">{t.hero.trackingSamples}:</span>
+        <div className="mt-4 text-xs text-slate-500 flex items-center gap-2 flex-wrap">
+          <span className="font-semibold text-slate-700">{t.hero.trackingSamples}:</span>
           <button
             type="button"
             onClick={() => {
               setCode("GT889922");
               handleSearch("GT889922");
             }}
-            className="font-mono text-azure-300 font-bold hover:text-white bg-azure-950/80 hover:bg-azure-900 px-2.5 py-1 rounded-lg transition-colors border border-azure-800/80 tap-press"
+            className="font-mono text-azure-700 font-bold hover:text-azure-900 bg-azure-50 hover:bg-azure-100 px-2.5 py-1 rounded-lg transition-colors border border-azure-200 tap-press"
           >
             GT889922
           </button>
@@ -112,7 +112,7 @@ function TrackingContent() {
               setCode("GT556677");
               handleSearch("GT556677");
             }}
-            className="font-mono text-azure-300 font-bold hover:text-white bg-azure-950/80 hover:bg-azure-900 px-2.5 py-1 rounded-lg transition-colors border border-azure-800/80 tap-press"
+            className="font-mono text-azure-700 font-bold hover:text-azure-900 bg-azure-50 hover:bg-azure-100 px-2.5 py-1 rounded-lg transition-colors border border-azure-200 tap-press"
           >
             GT556677
           </button>
@@ -121,8 +121,8 @@ function TrackingContent() {
 
       {/* Thông báo lỗi */}
       {error && (
-        <div className="p-6 bg-rose-950/80 border border-rose-800/80 rounded-2xl flex items-start gap-3 text-rose-300 mb-8">
-          <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+        <div className="p-6 bg-rose-50 border border-rose-200 rounded-2xl flex items-start gap-3 text-rose-800 mb-8">
+          <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
           <div>
             <h4 className="font-bold text-sm">
               {locale === "zh" ? "未查询到运单数据" : locale === "en" ? "Shipment Not Found" : "Không tìm thấy dữ liệu vận đơn"}
@@ -134,7 +134,7 @@ function TrackingContent() {
 
       {/* Kết quả Vận đơn */}
       {order && (
-        <div className="bg-slate-900/90 rounded-2xl border border-slate-800 shadow-md overflow-hidden space-y-6 text-white">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden space-y-6 text-slate-900">
           {/* Header kết quả */}
           <div className="p-6 sm:p-8 bg-slate-950 border-b border-slate-800 text-white flex flex-col sm:flex-row justify-between sm:items-center gap-4">
             <div>
@@ -162,22 +162,22 @@ function TrackingContent() {
 
           <div className="p-6 sm:p-8 space-y-8">
             {/* Tuyến đường & Vị trí hiện tại */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-slate-950/80 border border-slate-800 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 text-xs">
               <div>
-                <span className="text-slate-400 block font-semibold">{t.trackingPage.origin}:</span>
-                <span className="font-bold text-white text-sm mt-0.5 block">
+                <span className="text-slate-500 block font-semibold">{t.trackingPage.origin}:</span>
+                <span className="font-bold text-slate-900 text-sm mt-0.5 block">
                   {order.origin}
                 </span>
               </div>
               <div>
-                <span className="text-slate-400 block font-semibold">{t.trackingPage.destination}:</span>
-                <span className="font-bold text-white text-sm mt-0.5 block">
+                <span className="text-slate-500 block font-semibold">{t.trackingPage.destination}:</span>
+                <span className="font-bold text-slate-900 text-sm mt-0.5 block">
                   {order.destination}
                 </span>
               </div>
               <div>
-                <span className="text-slate-400 block font-semibold">{t.trackingPage.currentLocation}:</span>
-                <span className="font-bold text-azure-400 text-sm mt-0.5 block">
+                <span className="text-slate-500 block font-semibold">{t.trackingPage.currentLocation}:</span>
+                <span className="font-bold text-azure-700 text-sm mt-0.5 block">
                   {order.currentHub}
                 </span>
               </div>
@@ -185,18 +185,18 @@ function TrackingContent() {
 
             {/* Dòng thời gian lịch trình */}
             <div>
-              <h3 className="font-bold text-white text-base mb-4 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-gold-400" />
+              <h3 className="font-bold text-slate-900 text-base mb-4 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-gold-600" />
                 <span>{t.trackingPage.timeline}</span>
               </h3>
 
-              <div className="relative border-l-2 border-slate-800 ml-4 space-y-6">
+              <div className="relative border-l-2 border-slate-200 ml-4 space-y-6">
                 {order.timeline.map((event, idx) => (
                   <div key={idx} className="relative pl-6">
-                    <div className="absolute -left-2 top-0.5 w-4 h-4 rounded-full bg-gold-500 border-4 border-slate-900 shadow-sm" />
+                    <div className="absolute -left-2 top-0.5 w-4 h-4 rounded-full bg-gold-500 border-4 border-white shadow-sm" />
                     <div className="text-xs text-slate-400 font-mono">{event.time}</div>
-                    <div className="text-sm font-bold text-white mt-0.5">{event.location}</div>
-                    <div className="text-xs text-slate-400 mt-1">{event.desc}</div>
+                    <div className="text-sm font-bold text-slate-900 mt-0.5">{event.location}</div>
+                    <div className="text-xs text-slate-600 mt-1">{event.desc}</div>
                   </div>
                 ))}
               </div>
@@ -211,7 +211,7 @@ function TrackingContent() {
 function TrackingPageWrapper() {
   const { t } = useLanguage();
   return (
-    <div className="flex flex-col min-h-screen bg-slate-950 text-white">
+    <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
       <section className="relative py-16 bg-slate-950 text-white text-center border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Badge variant="accent" className="mb-2">

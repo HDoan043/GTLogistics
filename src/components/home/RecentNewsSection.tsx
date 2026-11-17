@@ -45,20 +45,20 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
   };
 
   return (
-    <section className="py-20 bg-slate-900/50 text-white border-b border-slate-800">
+    <section className="py-20 bg-slate-50/70 text-slate-900 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
             <Badge variant="brand" className="mb-2">
               {t.common.news}
             </Badge>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
               {sectionHeadings[locale] || sectionHeadings.vi}
             </h2>
           </div>
           <Link
             href="/news"
-            className="mt-4 md:mt-0 text-sm font-bold text-azure-400 hover:text-gold-400 inline-flex items-center gap-1.5 transition-colors tap-press"
+            className="mt-4 md:mt-0 text-sm font-bold text-azure-600 hover:text-gold-600 inline-flex items-center gap-1.5 transition-colors tap-press"
           >
             <span>{t.common.viewDetails}</span>
             <ArrowRight className="w-4 h-4" />
@@ -82,9 +82,9 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
             return (
               <article
                 key={post.slug}
-                className="bg-slate-950/90 rounded-2xl overflow-hidden border border-slate-800 shadow-md hover:border-azure-500/50 transition-colors duration-200 flex flex-col group"
+                className="bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-xs hover:shadow-md hover:border-azure-300 transition-colors duration-200 flex flex-col group"
               >
-                <div className="relative h-52 w-full overflow-hidden bg-slate-900">
+                <div className="relative h-52 w-full overflow-hidden bg-slate-100">
                   <Image
                     src={post.coverImage}
                     alt={title}
@@ -93,7 +93,7 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
                     className="object-cover"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-900/90 text-gold-300 border border-gold-500/30 shadow-sm">
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-950/80 text-gold-300 border border-gold-500/30 shadow-xs">
                       {post.category}
                     </span>
                   </div>
@@ -101,29 +101,29 @@ export function RecentNewsSection({ posts }: { posts: PostItem[] }) {
 
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center gap-4 text-xs text-slate-400 mb-2.5">
+                    <div className="flex items-center gap-4 text-xs text-slate-500 mb-2.5">
                       <span className="flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5 text-slate-500" />
+                        <Calendar className="w-3.5 h-3.5 text-slate-400" />
                         <span className="font-mono tabular-nums">{dateStr}</span>
                       </span>
                       <span className="flex items-center gap-1">
-                        <Eye className="w-3.5 h-3.5 text-slate-500" />
+                        <Eye className="w-3.5 h-3.5 text-slate-400" />
                         <span className="font-mono tabular-nums">{post.viewCount} {viewCountLabels[locale] || viewCountLabels.vi}</span>
                       </span>
                     </div>
 
-                    <h3 className="text-lg font-bold text-white group-hover:text-azure-400 transition-colors line-clamp-2 leading-snug">
+                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-azure-600 transition-colors line-clamp-2 leading-snug">
                       <Link href={`/news/${post.slug}`}>{title}</Link>
                     </h3>
-                    <p className="mt-2 text-sm text-slate-400 leading-relaxed line-clamp-3">
+                    <p className="mt-2 text-sm text-slate-600 leading-relaxed line-clamp-3">
                       {excerpt}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
                     <Link
                       href={`/news/${post.slug}`}
-                      className="text-sm font-bold text-azure-400 hover:text-gold-400 inline-flex items-center gap-1.5 transition-colors tap-press"
+                      className="text-sm font-bold text-azure-600 hover:text-gold-600 inline-flex items-center gap-1.5 transition-colors tap-press"
                     >
                       <span>{readMoreLabels[locale] || readMoreLabels.vi}</span>
                       <ArrowRight className="w-4 h-4" />

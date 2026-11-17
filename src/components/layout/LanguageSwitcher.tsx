@@ -16,11 +16,11 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
 
   return (
     <div
-      className={`inline-flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800 ${className}`}
+      className={`inline-flex items-center gap-1 bg-slate-100/90 p-1 rounded-xl border border-slate-200/80 ${className}`}
       role="group"
       aria-label="Chọn ngôn ngữ"
     >
-      <Globe className="w-3.5 h-3.5 text-gold-400 ml-1.5 mr-0.5 shrink-0" />
+      <Globe className="w-3.5 h-3.5 text-azure-600 ml-1.5 mr-0.5 shrink-0" />
       {LANGUAGES.map((lang) => {
         const isActive = locale === lang.code;
         return (
@@ -32,7 +32,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
             className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
               isActive
                 ? "bg-gold-500 text-slate-950 font-bold shadow-sm"
-                : "text-slate-300 hover:text-white hover:bg-slate-800"
+                : "text-slate-600 hover:text-slate-900 hover:bg-white"
             }`}
           >
             {lang.label}

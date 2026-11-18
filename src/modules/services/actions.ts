@@ -71,3 +71,37 @@ export async function getServiceBySlug(slug: string) {
     return null;
   }
 }
+
+export async function updateServiceContent(
+  slug: string,
+  data: {
+    title?: string;
+    titleEn?: string;
+    titleZh?: string;
+    shortDesc?: string;
+    shortDescEn?: string;
+    shortDescZh?: string;
+    bannerImage?: string;
+    fullContent?: string;
+    fullContentEn?: string;
+    fullContentZh?: string;
+  }
+) {
+  try {
+    const { revalidatePath } = await import("next/cache");
+    const updated = await prisma.service.update({
+      where: { slug },
+      data,
+    });
+    revalidatePath("/", "layout");
+    revalidatePath("/services");
+    revalidatePath(`/services/${slug}`);
+    return { success: true, message: "Đã cập nhật dịch vụ thành công!", service: updated };
+  } catch (error) {
+    console.error("Lỗi cập nhật dịch vụ:", error);
+    return {
+      success: false,
+      message: "Lỗi khi lưu dịch vụ: " + (error instanceof Error ? error.message : String(error)),
+    };
+  }
+}

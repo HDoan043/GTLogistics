@@ -11,6 +11,7 @@ import {
   ExternalLink,
   ShieldCheck,
   LayoutTemplate,
+  Eye,
 } from "lucide-react";
 import { getCurrentAdmin, deleteSession } from "@/lib/auth";
 
@@ -20,6 +21,14 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const admin = await getCurrentAdmin();
+  const headerList = await headers();
+  const pathname = headerList.get("x-pathname") || "";
+  const isVisualEditor = pathname.startsWith("/admin/editor");
+
+  // Nếu đang ở Trình Sửa Trực Quan, cho phép hiển thị tràn viền toàn màn hình y như web thật
+  if (isVisualEditor) {
+    return <div className="min-h-screen bg-slate-900 text-slate-100">{children}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col md:flex-row">
@@ -50,6 +59,17 @@ export default async function AdminLayout({
 
             {/* Menu điều hướng */}
             <nav className="p-4 space-y-1.5 text-xs font-semibold">
+              <Link
+                href="/admin/editor"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-gradient-to-r from-azure-900/60 to-gold-950/40 border border-gold-500/40 hover:border-gold-500 text-gold-300 hover:text-gold-200 transition-colors shadow-sm"
+              >
+                <Eye className="w-4 h-4 text-gold-400 shrink-0" />
+                <span className="font-bold">Sửa Trực Quan (Click-to-Edit)</span>
+                <span className="text-[9px] bg-gold-500 text-slate-950 font-black px-1.5 py-0.5 rounded ml-auto">
+                  LIVE
+                </span>
+              </Link>
+
               <Link
                 href="/admin/dashboard"
                 className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-colors text-slate-300 border border-transparent hover:border-slate-700/80"

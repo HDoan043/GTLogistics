@@ -41,8 +41,15 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(dashboardUrl);
   }
 
-  // 3. Đính kèm Security Headers cho toàn bộ phản hồi HTTP
-  const response = NextResponse.next();
+  // 3. Đính kèm x-pathname và Security Headers cho toàn bộ phản hồi HTTP
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", pathname);
+
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
   response.headers.set("X-Frame-Options", "SAMEORIGIN");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "origin-when-cross-origin");

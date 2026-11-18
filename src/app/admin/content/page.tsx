@@ -1,5 +1,7 @@
 import React from "react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Eye } from "lucide-react";
 import { getCurrentAdmin } from "@/lib/auth";
 import { getAllPageContents } from "@/modules/content/actions";
 import { ContentManagerTabs } from "@/components/admin/content/ContentManagerTabs";
@@ -32,6 +34,14 @@ export default async function AdminContentPage() {
             Tùy biến trực quan toàn bộ câu chữ, khẩu hiệu, gạch đầu dòng và hình ảnh trên website mà không cần can thiệp vào code.
           </p>
         </div>
+
+        <Link
+          href="/admin/editor"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-slate-950 font-black text-xs transition-colors shadow-lg shadow-gold-500/20 whitespace-nowrap self-start sm:self-center"
+        >
+          <Eye className="w-4 h-4" />
+          <span>Mở Trình Sửa Trực Quan (Click-to-Edit)</span>
+        </Link>
       </div>
 
       <ContentManagerTabs initialContents={contents} />

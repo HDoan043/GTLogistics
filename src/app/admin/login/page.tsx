@@ -1,15 +1,22 @@
 "use client";
 
 import React, { useState } from "react";
-import { Lock, Mail, AlertCircle, ArrowRight } from "lucide-react";
+import { Lock, Mail, AlertCircle, ArrowRight, Eye, EyeOff, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { loginAdmin } from "@/modules/auth/actions";
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("admin@logisticsgt.vn");
   const [password, setPassword] = useState("Admin@GT2026!");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const fillDefaults = () => {
+    setEmail("admin@logisticsgt.vn");
+    setPassword("Admin@GT2026!");
+    setError(null);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,7 +59,9 @@ export default function AdminLoginPage() {
         {error && (
           <div className="mb-6 p-4 bg-rose-950/80 border border-rose-800/80 text-rose-300 rounded-xl flex items-start gap-2.5 text-xs font-semibold">
             <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
-            <span>{error}</span>
+            <div className="flex-1">
+              <span>{error}</span>
+            </div>
           </div>
         )}
 
@@ -75,18 +84,37 @@ export default function AdminLoginPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1.5">
-              Mật Khẩu
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-xs font-bold text-slate-300">
+                Mật Khẩu
+              </label>
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-[11px] text-slate-400 hover:text-slate-200 flex items-center gap-1 transition-colors"
+              >
+                {showPassword ? (
+                  <>
+                    <EyeOff className="w-3.5 h-3.5" />
+                    <span>Ẩn</span>
+                  </>
+                ) : (
+                  <>
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>Hiện</span>
+                  </>
+                )}
+              </button>
+            </div>
             <div className="relative">
               <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-azure-500 font-mono"
+                className="w-full pl-10 pr-10 py-2.5 text-sm bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-azure-500 font-mono"
               />
             </div>
           </div>
@@ -99,18 +127,28 @@ export default function AdminLoginPage() {
               isLoading={loading}
               className="w-full font-bold py-3 tap-press shadow-md shadow-gold-500/10"
             >
-              <span>{loading ? "Đang chuyển hướng..." : "Đăng Nhập Quản Trị"}</span>
+              <span>{loading ? "Đang xác thực & chuyển hướng..." : "Đăng Nhập Quản Trị"}</span>
               <ArrowRight className="w-4 h-4 ml-1.5" />
             </Button>
           </div>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-slate-800 text-center">
-          <p className="text-xs text-slate-400">
-            Tài khoản: <span className="text-slate-200 font-semibold">admin@logisticsgt.vn</span>
+        <div className="mt-8 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+          <div>
+            <span>Tài khoản: </span>
+            <span className="text-slate-200 font-semibold">admin@logisticsgt.vn</span>
             <br />
-            Mật khẩu: <span className="text-slate-200 font-semibold">Admin@GT2026!</span>
-          </p>
+            <span>Mật khẩu: </span>
+            <span className="text-slate-200 font-semibold">Admin@GT2026!</span>
+          </div>
+          <button
+            type="button"
+            onClick={fillDefaults}
+            className="flex items-center gap-1 text-[11px] text-azure-400 hover:text-azure-300 transition-colors py-1 px-2 rounded-lg bg-slate-800/60 border border-slate-700/60 shrink-0"
+          >
+            <RotateCcw className="w-3 h-3" />
+            <span>Điền mặc định</span>
+          </button>
         </div>
       </div>
     </div>

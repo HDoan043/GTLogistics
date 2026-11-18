@@ -1,17 +1,20 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 
-const FALLBACK_JWT_SECRET = "htc-logistics-enterprise-secure-jwt-token-key-2026";
+const FALLBACK_JWT_SECRET = "gt-logistics-enterprise-secure-jwt-token-key-2026";
 
 const SECRET_KEY = new TextEncoder().encode(
   process.env.JWT_SECRET || FALLBACK_JWT_SECRET
 );
 
-const COOKIE_NAME = "htc_admin_session";
+const COOKIE_NAME = "gt_admin_session";
+const LEGACY_COOKIE_NAME = "htc_admin_session";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const token = request.cookies.get(COOKIE_NAME)?.value;
+  const token =
+    request.cookies.get(COOKIE_NAME)?.value ||
+    request.cookies.get(LEGACY_COOKIE_NAME)?.value;
 
   // Xác thực token JWT
   let isAuthenticated = false;

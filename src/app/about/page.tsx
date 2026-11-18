@@ -20,7 +20,7 @@ import { PageBanner } from "@/components/layout/PageBanner";
 import { getSiteSettings } from "@/modules/settings/actions";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getPageSectionContent } from "@/modules/content/actions";
-import { DEFAULT_HOME_STATS } from "@/modules/content/constants";
+import { DEFAULT_HOME_STATS, DEFAULT_BANNERS_CONTENT } from "@/modules/content/constants";
 
 export const metadata = {
   title: "Giới Thiệu Về Chúng Tôi | GT Logistics",
@@ -31,18 +31,28 @@ export const metadata = {
 const pillarIcons = [Globe2, ShieldCheck, Zap, Gauge, Award, Coins];
 
 export default async function AboutPage() {
-  const [{ locale, t }, settings, statsContent] = await Promise.all([
+  const [{ locale, t }, settings, statsContent, bannersContent] = await Promise.all([
     getServerDictionary(),
     getSiteSettings(),
     getPageSectionContent("content_home_stats", DEFAULT_HOME_STATS),
+    getPageSectionContent("content_banners", DEFAULT_BANNERS_CONTENT),
   ]);
 
+  const bannerCfg = bannersContent?.about || DEFAULT_BANNERS_CONTENT.about;
+
   const aboutTitle =
-    locale === "zh"
-      ? "关于 GT 物流"
-      : locale === "en"
-      ? "About GT Logistics"
-      : "Giới Thiệu GT Logistics";
+    locale === "zh" && bannerCfg.titleZh
+      ? bannerCfg.titleZh
+      : locale === "en" && bannerCfg.titleEn
+      ? bannerCfg.titleEn
+      : bannerCfg.title || (locale === "zh" ? "关于 GT 物流" : locale === "en" ? "About GT Logistics" : "Giới Thiệu GT Logistics");
+
+  const aboutSubtitle =
+    locale === "zh" && bannerCfg.subtitleZh
+      ? bannerCfg.subtitleZh
+      : locale === "en" && bannerCfg.subtitleEn
+      ? bannerCfg.subtitleEn
+      : bannerCfg.subtitle || t.aboutPage.desc;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -53,8 +63,12 @@ export default async function AboutPage() {
           { label: t.common.aboutUs },
         ]}
         title={aboutTitle}
-        subtitle={t.aboutPage.desc}
+        subtitle={aboutSubtitle}
         size="main"
+        bgImage={bannerCfg.bgImage}
+        bgScale={bannerCfg.bgScale}
+        bgPosition={bannerCfg.bgPosition}
+        bgOpacity={bannerCfg.bgOpacity}
       />
 
       {/* Đẩy tất cả Big Numbers (Số liệu ấn tượng) lên đầu trang theo yêu cầu */}

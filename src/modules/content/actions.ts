@@ -8,6 +8,7 @@ import {
   DEFAULT_HOME_STATS,
   DEFAULT_ABOUT_CONTENT,
   DEFAULT_BANNERS_CONTENT,
+  DEFAULT_HOME_SERVICES,
 } from "./constants";
 
 // Hàm lấy nội dung một section (kèm fallback mặc định)
@@ -60,13 +61,14 @@ export async function savePageSectionContent<T>(
 
 // Lấy toàn bộ dữ liệu nội dung phục vụ trang Admin
 export async function getAllPageContents() {
-  const [hero, whyUs, stats, about, banners] = await Promise.all([
+  const [hero, whyUs, stats, about, banners, homeServices] = await Promise.all([
     getPageSectionContent("content_home_hero", DEFAULT_HOME_HERO),
     getPageSectionContent("content_home_why_us", DEFAULT_HOME_WHY_US),
     getPageSectionContent("content_home_stats", DEFAULT_HOME_STATS),
     getPageSectionContent("content_about", DEFAULT_ABOUT_CONTENT),
     getPageSectionContent("content_banners", DEFAULT_BANNERS_CONTENT),
+    getPageSectionContent("content_home_services", DEFAULT_HOME_SERVICES),
   ]);
 
-  return { hero, whyUs, stats, about, banners };
+  return { hero, whyUs, stats, about, banners, homeServices };
 }

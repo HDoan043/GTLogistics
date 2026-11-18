@@ -6,6 +6,9 @@ export const DEFAULT_HOME_HERO = {
   sloganEn: "RELIABLE PARTNER - SUSTAINABLE GROWTH",
   sloganZh: "值得信赖的伙伴 - 可持续发展",
   bgImage: "/images/vietphuc/hero_office_panoramic.webp",
+  bgScale: 100,
+  bgPosition: "center",
+  bgOpacity: 35,
   bullets: [
     {
       vi: "Công ty TNHH Logistics GT mang đến giải pháp vận tải đường bộ liên vận, thông quan chính ngạch tại Cửa khẩu Quốc tế Móng Cái, C/O Form E và sang tải kho bãi tiêu chuẩn cao.",
@@ -18,6 +21,20 @@ export const DEFAULT_HOME_HERO = {
       zh: "专营中越边贸专线：芒街 - 东兴 • 北仑二桥口岸",
     },
   ],
+};
+
+// Dữ liệu mặc định cho Mục Dịch Vụ trên Trang Chủ
+export const DEFAULT_HOME_SERVICES = {
+  badge: "NĂNG LỰC DỊCH VỤ CỐT LÕI",
+  badgeEn: "CORE LOGISTICS CAPABILITIES",
+  badgeZh: "核心物流优势",
+  heading: "Dịch Vụ Tiếp Vận Biên Mậu Nổi Bật Tại Cửa Khẩu Móng Cái",
+  headingEn: "Featured Cross-Border Logistics Services at Mong Cai Border Gate",
+  headingZh: "芒街口岸特色中越跨境物流核心服务",
+  description: "Hệ sinh thái tiếp vận khép kín từ vận tải đường bộ liên vận, thông quan chính ngạch, C/O Form E và sang tải kho bãi tiêu chuẩn cao.",
+  descriptionEn: "End-to-end cross-border logistics ecosystem: dedicated trucking, customs clearance, C/O Form E and transshipment yards.",
+  descriptionZh: "从跨境公路甩挂、正规海关报关、东盟原产地证到高标准过驳仓储的全流程闭环生态。",
+  illustrationImage: "/images/vietphuc/presentation_multimodal.webp",
 };
 
 // Dữ liệu mặc định cho Why Choose Us
@@ -167,6 +184,18 @@ export const DEFAULT_ABOUT_CONTENT = {
 
 // Dữ liệu mặc định cho Page Banners
 export const DEFAULT_BANNERS_CONTENT = {
+  about: {
+    title: "CÂU CHUYỆN & NĂNG LỰC GT LOGISTICS",
+    titleEn: "OUR STORY & CAPABILITIES",
+    titleZh: "发展历程与核心实力",
+    subtitle: "Hơn 10 năm đồng hành cùng sự phát triển của dòng chảy thương mại song phương Việt Nam - Trung Quốc qua cửa ngõ Cửa khẩu Quốc tế Móng Cái.",
+    subtitleEn: "Over 10 years accompanying bilateral trade growth between Vietnam and China via Mong Cai International Gate.",
+    subtitleZh: "十余年深耕中越双向经贸物流通道，立足芒街国际口岸枢纽。",
+    bgImage: "",
+    bgScale: 100,
+    bgPosition: "center",
+    bgOpacity: 30,
+  },
   services: {
     title: "Tất Cả Dịch Vụ",
     titleEn: "All Services",
@@ -174,6 +203,10 @@ export const DEFAULT_BANNERS_CONTENT = {
     subtitle: "Giải pháp logistics toàn diện: đường bộ, hải quan chính ngạch, C/O Form E và hàng quá cảnh",
     subtitleEn: "Comprehensive logistics: cross-border trucking, customs clearance, C/O Form E and transit freight",
     subtitleZh: "一站式中越综合跨境物流：公路联运、正规海关报关、东盟原产地证与过境转关",
+    bgImage: "",
+    bgScale: 100,
+    bgPosition: "center",
+    bgOpacity: 30,
   },
   tracking: {
     title: "Tra Cứu Vận Đơn",
@@ -182,6 +215,10 @@ export const DEFAULT_BANNERS_CONTENT = {
     subtitle: "Theo dõi tiến độ hành trình và trạng thái thông quan hàng hóa thời gian thực",
     subtitleEn: "Real-time tracking of shipment milestones and border clearance status",
     subtitleZh: "实时追踪中越跨境货物在途位置与口岸海关验封放行动态",
+    bgImage: "",
+    bgScale: 100,
+    bgPosition: "center",
+    bgOpacity: 30,
   },
   news: {
     title: "Tin Tức & Cẩm Nang",
@@ -190,6 +227,10 @@ export const DEFAULT_BANNERS_CONTENT = {
     subtitle: "Cập nhật chính sách biên mậu, biểu thuế và kinh nghiệm thông quan cửa khẩu mới nhất",
     subtitleEn: "Latest updates on trade policies, tariffs, and customs procedures at Mong Cai",
     subtitleZh: "实时汇集越南口岸最新外贸政策、海关税率调整与实用清关通关实务经验",
+    bgImage: "",
+    bgScale: 100,
+    bgPosition: "center",
+    bgOpacity: 30,
   },
   quote: {
     title: "Yêu Cầu Báo Giá Nhanh",
@@ -198,6 +239,10 @@ export const DEFAULT_BANNERS_CONTENT = {
     subtitle: "Nhận tư vấn phương án vận tải và báo giá cước tối ưu trong vòng 15 phút",
     subtitleEn: "Get customized freight solutions and optimal quotes within 15 minutes",
     subtitleZh: "15分钟内快速获取专属中越跨境物流运输方案与最具性价比运费报价",
+    bgImage: "",
+    bgScale: 100,
+    bgPosition: "center",
+    bgOpacity: 30,
   },
   contact: {
     title: "Liên Hệ Hợp Tác",
@@ -206,5 +251,9 @@ export const DEFAULT_BANNERS_CONTENT = {
     subtitle: "Kết nối trực tiếp văn phòng Cửa khẩu Bắc Luân 2 Móng Cái và chi nhánh Hải Phòng",
     subtitleEn: "Connect directly with our Bac Luan 2 Mong Cai HQ and Hai Phong office",
     subtitleZh: "直接对接越南芒街北仑二桥口岸运营总部及海防深水港业务处",
+    bgImage: "",
+    bgScale: 100,
+    bgPosition: "center",
+    bgOpacity: 30,
   },
 };

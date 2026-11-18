@@ -29,6 +29,16 @@ import {
   Compass,
   Target,
   ChevronRight,
+  ChevronDown,
+  Sliders,
+  ZoomIn,
+  MoveVertical,
+  X,
+  MapPin,
+  Clock,
+  Mail,
+  Search,
+  Check,
 } from "lucide-react";
 import { MediaPickerModal } from "@/components/admin/MediaPickerModal";
 import { savePageSectionContent } from "@/modules/content/actions";
@@ -39,6 +49,8 @@ interface VisualEditorCanvasProps {
   initialWhyUs: any;
   initialStats: any;
   initialAbout: any;
+  initialBanners: any;
+  initialHomeServices?: any;
   initialServices: any[];
   settings: Record<string, string>;
 }
@@ -114,10 +126,12 @@ export function VisualEditorCanvas({
   initialWhyUs,
   initialStats,
   initialAbout,
+  initialBanners,
+  initialHomeServices,
   initialServices,
   settings,
 }: VisualEditorCanvasProps) {
-  // Page selector
+  // Page selector: 'home' | 'about' | 'services' | 'tracking' | 'news' | 'contact' | 'quote' | service slug
   const [selectedPage, setSelectedPage] = useState<string>("home");
   const [locale, setLocale] = useState<"vi" | "en" | "zh">("vi");
 
@@ -126,7 +140,23 @@ export function VisualEditorCanvas({
   const [whyUs, setWhyUs] = useState(initialWhyUs);
   const [stats, setStats] = useState(initialStats);
   const [about, setAbout] = useState(initialAbout);
+  const [banners, setBanners] = useState(initialBanners || {});
+  const [homeServices, setHomeServices] = useState(
+    initialHomeServices || {
+      badge: "NĂNG LỰC DỊCH VỤ CỐT LÕI",
+      heading: "Dịch Vụ Tiếp Vận Biên Mậu Nổi Bật Tại Cửa Khẩu Móng Cái",
+      description:
+        "Hệ sinh thái tiếp vận khép kín từ vận tải đường bộ, thông quan chính ngạch, C/O Form E và sang tải kho bãi tiêu chuẩn cao.",
+      illustrationImage: "/images/vietphuc/presentation_multimodal.webp",
+    }
+  );
   const [services, setServices] = useState<any[]>(initialServices);
+
+  // Navbar dropdown state
+  const [navDropdownOpen, setNavDropdownOpen] = useState(false);
+
+  // Background Control Toolbar active state
+  const [bgControlOpen, setBgControlOpen] = useState(false);
 
   // Modal image picker
   const [imageModalOpen, setImageModalOpen] = useState(false);
@@ -139,7 +169,7 @@ export function VisualEditorCanvas({
   // Service Content Mode: visual vs code
   const [serviceContentMode, setServiceContentMode] = useState<"visual" | "code">("visual");
 
-  // Active current service if page is service
+  // Active current service if page is a service slug
   const currentService = services.find((s) => s.slug === selectedPage);
 
   // Active parsed service content
@@ -188,54 +218,93 @@ export function VisualEditorCanvas({
     });
   };
 
+  // Helper to get active banner configuration for current page
+  const getActiveBannerConfig = () => {
+    if (selectedPage === "home") {
+      return {
+        bgImage: hero.bgImage || "/images/vietphuc/hero_office_panoramic.webp",
+        bgScale: hero.bgScale ?? 100,
+        bgPosition: hero.bgPosition || "center",
+        bgOpacity: hero.bgOpacity ?? 35,
+      };
+    }
+    const pageKey = currentService ? "service" : selectedPage;
+    if (currentService) {
+      return {
+        bgImage: currentService.bannerImage || "",
+        bgScale: currentService.bgScale ?? 100,
+        bgPosition: currentService.bgPosition || "center",
+        bgOpacity: currentService.bgOpacity ?? 30,
+      };
+    }
+    const b = banners[pageKey] || {};
+    return {
+      bgImage: b.bgImage || "",
+      bgScale: b.bgScale ?? 100,
+      bgPosition: b.bgPosition || "center",
+      bgOpacity: b.bgOpacity ?? 30,
+    };
+  };
+
+  // Helper to update active banner configuration
+  const updateActiveBannerConfig = (updates: Partial<{ bgImage: string; bgScale: number; bgPosition: string; bgOpacity: number }>) => {
+    if (selectedPage === "home") {
+      setHero((prev: any) => ({ ...prev, ...updates }));
+      return;
+    }
+    if (currentService) {
+      setServices((prev) =>
+        prev.map((s) => (s.slug === currentService.slug ? { ...s, ...updates } : s))
+      );
+      return;
+    }
+    setBanners((prev: any) => ({
+      ...prev,
+      [selectedPage]: {
+        ...(prev[selectedPage] || {}),
+        ...updates,
+      },
+    }));
+  };
+
   // Save changes
   const handlePublish = async () => {
     setSaving(true);
     setNotification(null);
 
     try {
-      if (selectedPage === "home") {
-        await Promise.all([
-          savePageSectionContent("content_home_hero", hero, "Nội dung Hero Section"),
-          savePageSectionContent("content_home_why_us", whyUs, "Nội dung Why Us Section"),
-          savePageSectionContent("content_home_stats", stats, "Nội dung 4 Big Numbers"),
-        ]);
-        setNotification({
-          type: "success",
-          text: "Đã lưu và xuất bản thay đổi Trang Chủ lên website chính!",
-        });
-      } else if (selectedPage === "about") {
-        await Promise.all([
-          savePageSectionContent("content_about", about, "Nội dung Trang Giới Thiệu"),
-          savePageSectionContent("content_home_stats", stats, "Nội dung 4 Big Numbers"),
-        ]);
-        setNotification({
-          type: "success",
-          text: "Đã lưu và xuất bản thay đổi Trang Giới Thiệu lên website chính!",
-        });
-      } else if (currentService) {
-        const res = await updateServiceContent(currentService.slug, {
-          title: currentService.title,
-          titleEn: currentService.titleEn,
-          titleZh: currentService.titleZh,
-          shortDesc: currentService.shortDesc,
-          shortDescEn: currentService.shortDescEn,
-          shortDescZh: currentService.shortDescZh,
-          bannerImage: currentService.bannerImage,
-          fullContent: currentService.fullContent,
-          fullContentEn: currentService.fullContentEn,
-          fullContentZh: currentService.fullContentZh,
-        });
+      // 1. Lưu nội dung các section của Trang chủ
+      await Promise.all([
+        savePageSectionContent("content_home_hero", hero, "Nội dung Hero Section"),
+        savePageSectionContent("content_home_why_us", whyUs, "Nội dung Why Us Section"),
+        savePageSectionContent("content_home_services", homeServices, "Nội dung mục Dịch Vụ Trang Chủ"),
+        savePageSectionContent("content_home_stats", stats, "Nội dung 4 Big Numbers"),
+        savePageSectionContent("content_about", about, "Nội dung Trang Giới Thiệu"),
+        savePageSectionContent("content_banners", banners, "Nội dung Banners Các Trang"),
+      ]);
 
-        if (res.success) {
-          setNotification({
-            type: "success",
-            text: `Đã lưu và xuất bản dịch vụ "${currentService.title}" lên website chính!`,
-          });
-        } else {
-          setNotification({ type: "error", text: res.message });
-        }
-      }
+      // 2. Lưu toàn bộ 5 dịch vụ đã được sửa đổi vào cơ sở dữ liệu
+      await Promise.all(
+        services.map((s) =>
+          updateServiceContent(s.slug, {
+            title: s.title,
+            titleEn: s.titleEn,
+            titleZh: s.titleZh,
+            shortDesc: s.shortDesc,
+            shortDescEn: s.shortDescEn,
+            shortDescZh: s.shortDescZh,
+            bannerImage: s.bannerImage,
+            fullContent: s.fullContent,
+            fullContentEn: s.fullContentEn,
+            fullContentZh: s.fullContentZh,
+          })
+        )
+      );
+
+      setNotification({
+        type: "success",
+        text: "Đã lưu và xuất bản toàn bộ thay đổi lên website chính thành công!",
+      });
     } catch (err) {
       setNotification({
         type: "error",
@@ -250,11 +319,15 @@ export function VisualEditorCanvas({
   // Callback when an image is picked in MediaPickerModal
   const handleImageSelected = (url: string) => {
     if (activeImageTarget === "heroBg") {
-      setHero({ ...hero, bgImage: url });
+      updateActiveBannerConfig({ bgImage: url });
+    } else if (activeImageTarget === "bannerBg") {
+      updateActiveBannerConfig({ bgImage: url });
     } else if (activeImageTarget === "whyUsImg") {
       setWhyUs({ ...whyUs, image: url });
     } else if (activeImageTarget === "aboutImg") {
       setAbout({ ...about, storyImage: url });
+    } else if (activeImageTarget === "homeServicesImg") {
+      setHomeServices({ ...homeServices, illustrationImage: url });
     } else if (activeImageTarget.startsWith("service_")) {
       const slug = activeImageTarget.replace("service_", "");
       setServices((prev) =>
@@ -270,6 +343,7 @@ export function VisualEditorCanvas({
   };
 
   const statIcons = [Award, TrendingUp, Users, ShieldCheck];
+  const activeBanner = getActiveBannerConfig();
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900 text-slate-100 flex flex-col overflow-y-auto">
@@ -294,7 +368,12 @@ export function VisualEditorCanvas({
             >
               <optgroup label="Các Trang Chính">
                 <option value="home">Trang Chủ (Homepage)</option>
-                <option value="about">Trang Giới Thiệu (/about)</option>
+                <option value="about">Giới Thiệu (/about)</option>
+                <option value="services">Tất Cả Dịch Vụ (/services)</option>
+                <option value="tracking">Tra Cứu Vận Đơn (/tracking)</option>
+                <option value="news">Tin Tức & Cẩm Nang (/news)</option>
+                <option value="quote">Báo Giá (/quote)</option>
+                <option value="contact">Liên Hệ (/contact)</option>
               </optgroup>
               <optgroup label="Từng Trang Dịch Vụ Cụ Thể">
                 {services.map((s) => (
@@ -346,6 +425,16 @@ export function VisualEditorCanvas({
                 ? "/"
                 : selectedPage === "about"
                 ? "/about"
+                : selectedPage === "services"
+                ? "/services"
+                : selectedPage === "tracking"
+                ? "/tracking"
+                : selectedPage === "news"
+                ? "/news"
+                : selectedPage === "contact"
+                ? "/contact"
+                : selectedPage === "quote"
+                ? "/quote"
                 : `/services/${selectedPage}`
             }
             target="_blank"
@@ -394,15 +483,127 @@ export function VisualEditorCanvas({
         </div>
       )}
 
-      {/* Thanh nhắc nhở Click-to-Edit */}
-      <div className="bg-azure-950/80 border-b border-azure-800/80 px-4 py-2 text-center text-xs text-azure-300 flex items-center justify-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>
-          <strong>Chế độ Trực Quan:</strong> Nhấp chuột trực tiếp vào dòng chữ bất kỳ để gõ sửa, nhấp vào nút máy ảnh để đổi hình ảnh.
-        </span>
+      {/* Thanh nhắc nhở Click-to-Edit & Bảng điều khiển ảnh nền / Zoom */}
+      <div className="bg-azure-950/90 border-b border-azure-800/80 px-4 py-2 flex flex-wrap items-center justify-between gap-3 text-xs text-azure-300">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>
+            <strong>Chế độ Trực Quan:</strong> Nhấp chuột trực tiếp vào dòng chữ bất kỳ để gõ sửa, bấm nút máy ảnh để đổi hình ảnh.
+          </span>
+        </div>
+
+        {/* Nút bật/tắt bảng điều khiển phóng to / thu nhỏ ảnh nền Hero/Banner */}
+        <button
+          type="button"
+          onClick={() => setBgControlOpen(!bgControlOpen)}
+          className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-azure-900/80 hover:bg-azure-800 text-white text-xs font-bold border border-azure-700 transition-colors"
+        >
+          <Sliders className="w-3.5 h-3.5 text-gold-400" />
+          <span>Tuỳ Chỉnh Ảnh Nền Banner & Thu Phóng</span>
+          <ChevronDown
+            className={`w-3.5 h-3.5 transition-transform ${bgControlOpen ? "rotate-180" : ""}`}
+          />
+        </button>
       </div>
 
-      {/* MÔ PHỎNG HEADER CỦA WEBSITE CHÍNH */}
+      {/* BẢNG ĐIỀU KHIỂN PHÓNG TO / THU NHỎ / VỊ TRÍ ẢNH NỀN HERO & BANNER */}
+      {bgControlOpen && (
+        <div className="bg-slate-950 border-b border-slate-800 px-6 py-3 text-xs text-slate-300 animate-in fade-in duration-150">
+          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="font-bold text-white flex items-center gap-1.5">
+                <Camera className="w-4 h-4 text-gold-400" />
+                <span>Ảnh nền trang hiện tại:</span>
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  triggerImagePicker(selectedPage === "home" ? "heroBg" : "bannerBg")
+                }
+                className="px-3 py-1 rounded-lg bg-azure-600 hover:bg-azure-500 text-white font-bold transition-colors shadow-xs"
+              >
+                Chọn / Tải Ảnh Mới
+              </button>
+              {activeBanner.bgImage && (
+                <button
+                  type="button"
+                  onClick={() => updateActiveBannerConfig({ bgImage: "" })}
+                  className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-400 hover:text-rose-400 transition-colors"
+                >
+                  Xóa Ảnh
+                </button>
+              )}
+            </div>
+
+            {/* Slider Phóng to / Thu nhỏ (Zoom Scale) */}
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1 text-slate-400">
+                <ZoomIn className="w-3.5 h-3.5 text-azure-400" />
+                <span>Thu phóng:</span>
+              </span>
+              <input
+                type="range"
+                min="100"
+                max="250"
+                step="5"
+                value={activeBanner.bgScale}
+                onChange={(e) =>
+                  updateActiveBannerConfig({ bgScale: parseInt(e.target.value, 10) })
+                }
+                className="w-28 sm:w-36 accent-gold-400 cursor-pointer"
+              />
+              <span className="font-mono text-gold-300 w-12 text-right">
+                {activeBanner.bgScale}%
+              </span>
+            </div>
+
+            {/* Vị trí hiển thị ảnh (Position) */}
+            <div className="flex items-center gap-2">
+              <span className="flex items-center gap-1 text-slate-400">
+                <MoveVertical className="w-3.5 h-3.5 text-azure-400" />
+                <span>Vị trí:</span>
+              </span>
+              <div className="flex items-center gap-1 bg-slate-900 p-0.5 rounded-lg border border-slate-800">
+                {(["top", "center", "bottom"] as const).map((pos) => (
+                  <button
+                    key={pos}
+                    type="button"
+                    onClick={() => updateActiveBannerConfig({ bgPosition: pos })}
+                    className={`px-2 py-0.5 rounded text-[11px] font-semibold capitalize transition-colors ${
+                      activeBanner.bgPosition === pos
+                        ? "bg-azure-600 text-white"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    {pos === "top" ? "Đỉnh" : pos === "center" ? "Giữa" : "Đáy"}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Độ mờ ảnh nền (Opacity) */}
+            <div className="flex items-center gap-3">
+              <span className="text-slate-400">Độ rõ:</span>
+              <input
+                type="range"
+                min="10"
+                max="80"
+                step="5"
+                value={activeBanner.bgOpacity}
+                onChange={(e) =>
+                  updateActiveBannerConfig({ bgOpacity: parseInt(e.target.value, 10) })
+                }
+                className="w-20 sm:w-28 accent-azure-500 cursor-pointer"
+              />
+              <span className="font-mono text-azure-300 w-10 text-right">
+                {activeBanner.bgOpacity}%
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MÔ PHỎNG HEADER CỦA WEBSITE CHÍNH VỚI NAVBAR HOẠT ĐỘNG HOÀN TOÀN (FIX POINT 5) */}
       <div className="bg-slate-950 border-b border-slate-800 text-white">
         {/* Topbar */}
         <div className="border-b border-slate-800/60 py-2 px-4 sm:px-8 text-xs text-slate-400 flex items-center justify-between">
@@ -420,7 +621,10 @@ export function VisualEditorCanvas({
 
         {/* Navbar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div
+            onClick={() => setSelectedPage("home")}
+            className="flex items-center gap-3 cursor-pointer group"
+          >
             <div className="w-8 h-8 rounded-lg bg-azure-600 text-white flex items-center justify-center font-black text-sm">
               GT
             </div>
@@ -434,44 +638,133 @@ export function VisualEditorCanvas({
             </div>
           </div>
 
+          {/* CÁC NÚT ĐIỀU HƯỚNG NAVBAR - BẤM VÀO LÀ CHUYỂN TRANG NGAY LẬP TỨC (FIX POINT 5) */}
           <nav className="hidden lg:flex items-center gap-6 text-xs font-bold text-slate-300">
             <button
               type="button"
               onClick={() => setSelectedPage("home")}
-              className={`hover:text-gold-400 transition-colors ${
-                selectedPage === "home" ? "text-gold-400 font-black border-b-2 border-gold-400 pb-1" : ""
+              className={`hover:text-gold-400 transition-colors py-1 ${
+                selectedPage === "home" ? "text-gold-400 font-black border-b-2 border-gold-400" : ""
               }`}
             >
               Trang Chủ
             </button>
+
             <button
               type="button"
               onClick={() => setSelectedPage("about")}
-              className={`hover:text-gold-400 transition-colors ${
-                selectedPage === "about" ? "text-gold-400 font-black border-b-2 border-gold-400 pb-1" : ""
+              className={`hover:text-gold-400 transition-colors py-1 ${
+                selectedPage === "about" ? "text-gold-400 font-black border-b-2 border-gold-400" : ""
               }`}
             >
               Giới Thiệu
             </button>
-            <div className="relative group">
-              <span
-                className={`cursor-pointer hover:text-gold-400 transition-colors ${
-                  currentService ? "text-gold-400 font-black border-b-2 border-gold-400 pb-1" : ""
+
+            {/* Mục Tất Cả Dịch Vụ kèm Menu Dropdown chọn từng dịch vụ cụ thể */}
+            <div
+              className="relative"
+              onMouseEnter={() => setNavDropdownOpen(true)}
+              onMouseLeave={() => setNavDropdownOpen(false)}
+            >
+              <button
+                type="button"
+                onClick={() => setSelectedPage("services")}
+                className={`flex items-center gap-1 hover:text-gold-400 transition-colors py-1 ${
+                  selectedPage === "services" || currentService
+                    ? "text-gold-400 font-black border-b-2 border-gold-400"
+                    : ""
                 }`}
               >
-                Dịch Vụ
-              </span>
+                <span>Tất Cả Dịch Vụ</span>
+                <ChevronDown className="w-3.5 h-3.5" />
+              </button>
+
+              {navDropdownOpen && (
+                <div className="absolute top-full left-0 pt-2 z-50">
+                  <div className="w-64 bg-slate-900 rounded-xl shadow-xl border border-slate-800 p-2 text-slate-200">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedPage("services");
+                        setNavDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-3 py-2 rounded-lg text-xs font-bold hover:bg-slate-800 text-azure-300 hover:text-white transition-colors border-b border-slate-800 mb-1"
+                    >
+                      Trang Tổng Hợp: Tất Cả Dịch Vụ
+                    </button>
+                    <div className="space-y-1">
+                      {services.map((s) => (
+                        <button
+                          key={s.slug}
+                          type="button"
+                          onClick={() => {
+                            setSelectedPage(s.slug);
+                            setNavDropdownOpen(false);
+                          }}
+                          className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center justify-between ${
+                            selectedPage === s.slug
+                              ? "bg-azure-600 text-white font-bold"
+                              : "hover:bg-slate-800 text-slate-300"
+                          }`}
+                        >
+                          <span className="truncate">{s.title}</span>
+                          <ChevronRight className="w-3.5 h-3.5 shrink-0 opacity-60" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-            <span className="text-slate-500">Tra Cứu Vận Đơn</span>
-            <span className="text-slate-500">Tin Tức</span>
-            <span className="text-slate-500">Liên Hệ</span>
+
+            <button
+              type="button"
+              onClick={() => setSelectedPage("tracking")}
+              className={`hover:text-gold-400 transition-colors py-1 ${
+                selectedPage === "tracking" ? "text-gold-400 font-black border-b-2 border-gold-400" : ""
+              }`}
+            >
+              Tra Cứu Vận Đơn
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setSelectedPage("news")}
+              className={`hover:text-gold-400 transition-colors py-1 ${
+                selectedPage === "news" ? "text-gold-400 font-black border-b-2 border-gold-400" : ""
+              }`}
+            >
+              Tin Tức
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setSelectedPage("quote")}
+              className={`hover:text-gold-400 transition-colors py-1 ${
+                selectedPage === "quote" ? "text-gold-400 font-black border-b-2 border-gold-400" : ""
+              }`}
+            >
+              Báo Giá
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setSelectedPage("contact")}
+              className={`hover:text-gold-400 transition-colors py-1 ${
+                selectedPage === "contact" ? "text-gold-400 font-black border-b-2 border-gold-400" : ""
+              }`}
+            >
+              Liên Hệ
+            </button>
           </nav>
 
-          <div className="flex items-center gap-2">
-            <span className="px-3 py-1.5 rounded-lg bg-azure-600 text-white text-xs font-bold">
-              Báo Giá Nhanh
-            </span>
-          </div>
+          <button
+            type="button"
+            onClick={() => setSelectedPage("quote")}
+            className="px-3.5 py-1.5 rounded-lg bg-azure-600 hover:bg-azure-500 text-white text-xs font-bold transition-colors"
+          >
+            Báo Giá Nhanh
+          </button>
         </div>
       </div>
 
@@ -484,26 +777,17 @@ export function VisualEditorCanvas({
           <div className="space-y-0">
             {/* HERO SECTION TRANG CHỦ */}
             <section className="relative bg-slate-950 text-white overflow-hidden py-20 sm:py-24 lg:py-28 border-b border-slate-800 group/hero">
-              {/* Nút đổi ảnh nền Hero */}
-              <div className="absolute top-4 right-4 z-20">
-                <button
-                  type="button"
-                  onClick={() => triggerImagePicker("heroBg")}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/90 hover:bg-azure-600 text-white text-xs font-bold border border-slate-700 shadow-sm transition-colors"
-                >
-                  <Camera className="w-4 h-4 text-gold-400" />
-                  <span>Đổi ảnh nền Hero</span>
-                </button>
-              </div>
-
-              {/* Ảnh nền */}
+              {/* Ảnh nền có zoom / scale / position linh hoạt */}
               <div
-                className="absolute inset-0 z-0 opacity-35 bg-cover bg-center pointer-events-none"
+                className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
                 style={{
-                  backgroundImage: `url('${hero.bgImage || "/images/vietphuc/hero_office_panoramic.webp"}')`,
+                  backgroundImage: `url('${activeBanner.bgImage}')`,
+                  backgroundSize: `${activeBanner.bgScale}%`,
+                  backgroundPosition: activeBanner.bgPosition,
+                  opacity: activeBanner.bgOpacity / 100,
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/20 z-0 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/30 z-0 pointer-events-none" />
 
               <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl">
@@ -631,101 +915,195 @@ export function VisualEditorCanvas({
               </div>
             </section>
 
-            {/* 4 BIG NUMBERS TRANG CHỦ (STATS COUNTER) */}
-            <section className="bg-slate-950 text-white py-10 sm:py-12 border-b border-slate-800">
+            {/* MỤC DỊCH VỤ TRANG CHỦ KÈM 5 THẺ DỊCH VỤ (FIX POINT 2) */}
+            <section className="py-16 sm:py-24 bg-slate-50/80 text-slate-900 border-b border-slate-200/80">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="text-xs font-bold text-gold-400 bg-gold-950/60 px-2.5 py-1 rounded-md border border-gold-800/60">
-                    4 Con Số Năng Lực (Click-to-Edit trực tiếp số và chữ)
-                  </span>
-                </div>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                  {stats.map((s: any, idx: number) => {
-                    const Icon = statIcons[idx] || Award;
-                    const labelVal =
-                      locale === "zh" ? s.labelZh || "" : locale === "en" ? s.labelEn || "" : s.label || "";
-                    const subVal =
-                      locale === "zh" ? s.subZh || "" : locale === "en" ? s.subEn || "" : s.sub || "";
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                  {/* Cột Trái: Tiêu đề & Ảnh minh họa dưới Header */}
+                  <div className="lg:col-span-5 space-y-6">
+                    <div>
+                      <div className="h-1 w-12 bg-azure-600 rounded-full mb-4" />
+                      <input
+                        type="text"
+                        value={
+                          locale === "zh"
+                            ? homeServices.headingZh || ""
+                            : locale === "en"
+                            ? homeServices.headingEn || ""
+                            : homeServices.heading || ""
+                        }
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setHomeServices((prev: any) => ({
+                            ...prev,
+                            ...(locale === "zh"
+                              ? { headingZh: val }
+                              : locale === "en"
+                              ? { headingEn: val }
+                              : { heading: val }),
+                          }));
+                        }}
+                        className="w-full text-2xl sm:text-3xl font-black text-slate-950 tracking-tight bg-transparent hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                        title="Nhấp để sửa tiêu đề mục dịch vụ"
+                      />
+                      <textarea
+                        rows={3}
+                        value={
+                          locale === "zh"
+                            ? homeServices.descriptionZh || ""
+                            : locale === "en"
+                            ? homeServices.descriptionEn || ""
+                            : homeServices.description || ""
+                        }
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setHomeServices((prev: any) => ({
+                            ...prev,
+                            ...(locale === "zh"
+                              ? { descriptionZh: val }
+                              : locale === "en"
+                              ? { descriptionEn: val }
+                              : { description: val }),
+                          }));
+                        }}
+                        className="w-full mt-3 text-slate-600 text-sm leading-relaxed bg-transparent hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
+                        title="Nhấp để sửa đoạn văn giới thiệu dịch vụ"
+                      />
+                    </div>
 
-                    return (
-                      <div
-                        key={idx}
-                        className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-gold-500/60 transition-colors flex flex-col justify-between"
-                      >
-                        <div>
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="w-8 h-8 rounded-lg bg-azure-600/20 text-azure-400 flex items-center justify-center">
-                              <Icon className="w-4 h-4" />
-                            </div>
-                            <input
-                              type="text"
-                              value={s.unit || ""}
-                              onChange={(e) => {
-                                const val = e.target.value;
-                                setStats((prev: any[]) => {
-                                  const next = [...prev];
-                                  next[idx] = { ...next[idx], unit: val };
-                                  return next;
-                                });
-                              }}
-                              className="w-20 bg-transparent text-right font-mono text-[11px] text-slate-400 hover:outline hover:outline-dashed hover:outline-gold-400 rounded px-1"
-                              title="Sửa đơn vị (unit)"
-                            />
-                          </div>
-                          <input
-                            type="text"
-                            value={s.num || ""}
-                            onChange={(e) => {
-                              const val = e.target.value;
-                              setStats((prev: any[]) => {
-                                const next = [...prev];
-                                next[idx] = { ...next[idx], num: val };
-                                return next;
-                              });
-                            }}
-                            className="w-full bg-transparent text-2xl sm:text-3xl font-black text-white font-mono hover:outline hover:outline-dashed hover:outline-gold-400 rounded px-1"
-                            title="Sửa con số chính"
-                          />
-                          <input
-                            type="text"
-                            value={labelVal}
-                            onChange={(e) => {
-                              const text = e.target.value;
-                              setStats((prev: any[]) => {
-                                const next = [...prev];
-                                const cur = { ...next[idx] };
-                                if (locale === "zh") cur.labelZh = text;
-                                else if (locale === "en") cur.labelEn = text;
-                                else cur.label = text;
-                                next[idx] = cur;
-                                return next;
-                              });
-                            }}
-                            className="w-full bg-transparent text-xs font-bold text-azure-300 mt-1 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
-                            title="Sửa tiêu đề con số"
-                          />
-                        </div>
-                        <input
-                          type="text"
-                          value={subVal}
-                          onChange={(e) => {
-                            const text = e.target.value;
-                            setStats((prev: any[]) => {
-                              const next = [...prev];
-                              const cur = { ...next[idx] };
-                              if (locale === "zh") cur.subZh = text;
-                              else if (locale === "en") cur.subEn = text;
-                              else cur.sub = text;
-                              next[idx] = cur;
-                              return next;
-                            });
-                          }}
-                          className="w-full bg-transparent text-[11px] text-slate-400 mt-3 pt-2 border-t border-slate-800 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 truncate"
-                          title="Sửa dòng mô tả phụ"
-                        />
+                    {/* Ảnh minh họa dưới Header */}
+                    <div
+                      onClick={() => triggerImagePicker("homeServicesImg")}
+                      className="group/hsimg relative h-60 sm:h-64 rounded-2xl overflow-hidden shadow-xs border-2 border-dashed border-azure-400 cursor-pointer"
+                      title="Nhấp vào đây để đổi ảnh minh họa mục dịch vụ"
+                    >
+                      <Image
+                        src={
+                          homeServices.illustrationImage ||
+                          "/images/vietphuc/presentation_multimodal.webp"
+                        }
+                        alt="Service illustration"
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-slate-950/40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
+                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-azure-600 text-white text-xs font-bold shadow-md">
+                          <Camera className="w-4 h-4" />
+                          <span>Đổi ảnh minh họa này</span>
+                        </span>
                       </div>
-                    );
-                  })}
+                    </div>
+                  </div>
+
+                  {/* Cột Phải: Danh sách 5 Thẻ Dịch Vụ - Sửa trực tiếp tên, mô tả & ảnh, đồng bộ sang trang dịch vụ (FIX POINT 2) */}
+                  <div className="lg:col-span-7 space-y-4">
+                    <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                      <span className="text-xs font-bold text-azure-700 bg-azure-50 px-2.5 py-1 rounded-md border border-azure-200">
+                        5 Thẻ Dịch Vụ Chính (Sửa tên, mô tả và đổi ảnh sẽ đồng bộ toàn web)
+                      </span>
+                    </div>
+
+                    <div className="space-y-3">
+                      {services.map((s) => {
+                        const titleVal =
+                          locale === "zh"
+                            ? s.titleZh || ""
+                            : locale === "en"
+                            ? s.titleEn || ""
+                            : s.title || "";
+                        const descVal =
+                          locale === "zh"
+                            ? s.shortDescZh || ""
+                            : locale === "en"
+                            ? s.shortDescEn || ""
+                            : s.shortDesc || "";
+
+                        return (
+                          <div
+                            key={s.slug}
+                            className="p-4 rounded-xl bg-white border-2 border-slate-200 hover:border-azure-400 transition-colors flex flex-col sm:flex-row items-start sm:items-center gap-4"
+                          >
+                            {/* Ảnh đại diện nhỏ của thẻ dịch vụ */}
+                            <div
+                              onClick={() => triggerImagePicker(`service_${s.slug}`)}
+                              className="relative w-20 h-16 rounded-lg overflow-hidden shrink-0 border border-slate-300 cursor-pointer group/th"
+                              title="Bấm để đổi ảnh thẻ dịch vụ này"
+                            >
+                              <Image
+                                src={s.bannerImage || "/images/vietphuc/hero_office_panoramic.webp"}
+                                alt={s.title}
+                                fill
+                                className="object-cover"
+                              />
+                              <div className="absolute inset-0 bg-slate-950/50 opacity-0 group-hover/th:opacity-100 flex items-center justify-center transition-opacity">
+                                <Camera className="w-3.5 h-3.5 text-white" />
+                              </div>
+                            </div>
+
+                            {/* Tiêu đề & Mô tả thẻ dịch vụ (Đồng bộ sang tab và bài viết dịch vụ) */}
+                            <div className="flex-1 min-w-0 space-y-1 w-full">
+                              <input
+                                type="text"
+                                value={titleVal}
+                                onChange={(e) => {
+                                  const text = e.target.value;
+                                  setServices((prev) =>
+                                    prev.map((item) =>
+                                      item.slug === s.slug
+                                        ? {
+                                            ...item,
+                                            ...(locale === "zh"
+                                              ? { titleZh: text }
+                                              : locale === "en"
+                                              ? { titleEn: text }
+                                              : { title: text }),
+                                          }
+                                        : item
+                                    )
+                                  );
+                                }}
+                                className="w-full font-bold text-sm text-slate-900 bg-transparent hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                                title="Nhấp để sửa tên dịch vụ (sẽ tự đổi ở cả bài viết và danh mục)"
+                              />
+                              <textarea
+                                rows={2}
+                                value={descVal}
+                                onChange={(e) => {
+                                  const text = e.target.value;
+                                  setServices((prev) =>
+                                    prev.map((item) =>
+                                      item.slug === s.slug
+                                        ? {
+                                            ...item,
+                                            ...(locale === "zh"
+                                              ? { shortDescZh: text }
+                                              : locale === "en"
+                                              ? { shortDescEn: text }
+                                              : { shortDesc: text }),
+                                          }
+                                        : item
+                                    )
+                                  );
+                                }}
+                                className="w-full text-xs text-slate-600 bg-transparent hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
+                                title="Nhấp để sửa tóm tắt dịch vụ"
+                              />
+                            </div>
+
+                            {/* Nút chuyển nhanh vào trang chi tiết dịch vụ này */}
+                            <button
+                              type="button"
+                              onClick={() => setSelectedPage(s.slug)}
+                              className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-azure-600 text-slate-700 hover:text-white text-xs font-bold transition-colors shrink-0 whitespace-nowrap self-end sm:self-center"
+                              title="Chuyển sang sửa bài viết chi tiết"
+                            >
+                              Sửa Bài Viết
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
@@ -888,9 +1266,22 @@ export function VisualEditorCanvas({
         {/* ============================================================== */}
         {selectedPage === "about" && (
           <div className="space-y-0">
-            {/* Banner đầu trang chuẩn phong cách watermark GT Logistics */}
+            {/* Banner đầu trang có thu phóng ảnh nền và watermark GT */}
             <div className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
-              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none">
+              {activeBanner.bgImage && (
+                <div
+                  className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
+                  style={{
+                    backgroundImage: `url('${activeBanner.bgImage}')`,
+                    backgroundSize: `${activeBanner.bgScale}%`,
+                    backgroundPosition: activeBanner.bgPosition,
+                    opacity: activeBanner.bgOpacity / 100,
+                  }}
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
+
+              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
                 <Image
                   src="/images/gt_logo.webp"
                   alt="GT Logistics Watermark"
@@ -952,12 +1343,12 @@ export function VisualEditorCanvas({
               </div>
             </div>
 
-            {/* 4 BIG NUMBERS TRANG GIỚI THIỆU (ĐẨY LÊN ĐẦU TRANG THEO YÊU CẦU) */}
+            {/* 4 BIG NUMBERS ĐƯỢC ĐẶT Ở ĐẦU TRANG GIỚI THIỆU (ĐÚNG THEO YÊU CẦU POINT 1) */}
             <section className="bg-slate-950 text-white py-10 sm:py-12 border-b border-slate-800">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="mb-4 flex items-center justify-between">
                   <span className="text-xs font-bold text-gold-400 bg-gold-950/60 px-2.5 py-1 rounded-md border border-gold-800/60">
-                    4 Con Số Năng Lực Đầu Trang (Click-to-Edit)
+                    4 Con Số Năng Lực Đầu Trang (Click-to-Edit trực tiếp)
                   </span>
                 </div>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -1157,13 +1548,741 @@ export function VisualEditorCanvas({
         )}
 
         {/* ============================================================== */}
-        {/* VIEW 3: TRANG DỊCH VỤ CỤ THỂ (SERVICE DETAIL)                   */}
+        {/* VIEW 3: TRANG TẤT CẢ DỊCH VỤ (/services) (FIX POINT 4)         */}
+        {/* ============================================================== */}
+        {selectedPage === "services" && (
+          <div className="space-y-0">
+            {/* Banner Tất Cả Dịch Vụ */}
+            <div className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
+              {activeBanner.bgImage && (
+                <div
+                  className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
+                  style={{
+                    backgroundImage: `url('${activeBanner.bgImage}')`,
+                    backgroundSize: `${activeBanner.bgScale}%`,
+                    backgroundPosition: activeBanner.bgPosition,
+                    opacity: activeBanner.bgOpacity / 100,
+                  }}
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
+
+              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
+                <Image
+                  src="/images/gt_logo.webp"
+                  alt="GT Logistics Watermark"
+                  fill
+                  className="object-contain object-right"
+                  priority
+                />
+              </div>
+
+              <div className="relative z-10 max-w-7xl mx-auto space-y-3">
+                <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
+                  <span>Trang chủ</span>
+                  <ChevronRight className="w-3 h-3 text-slate-600" />
+                  <span className="text-azure-400 font-medium">Tất cả dịch vụ</span>
+                </div>
+
+                <input
+                  type="text"
+                  value={
+                    locale === "zh"
+                      ? banners?.services?.titleZh || ""
+                      : locale === "en"
+                      ? banners?.services?.titleEn || ""
+                      : banners?.services?.title || "Tất Cả Dịch Vụ"
+                  }
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setBanners((prev: any) => ({
+                      ...prev,
+                      services: {
+                        ...(prev.services || {}),
+                        ...(locale === "zh"
+                          ? { titleZh: val }
+                          : locale === "en"
+                          ? { titleEn: val }
+                          : { title: val }),
+                      },
+                    }));
+                  }}
+                  className="w-full bg-transparent text-2xl sm:text-4xl font-black text-white hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                  title="Nhấp để sửa tiêu đề chính trang Tất cả dịch vụ"
+                />
+
+                <textarea
+                  rows={2}
+                  value={
+                    locale === "zh"
+                      ? banners?.services?.subtitleZh || ""
+                      : locale === "en"
+                      ? banners?.services?.subtitleEn || ""
+                      : banners?.services?.subtitle || ""
+                  }
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setBanners((prev: any) => ({
+                      ...prev,
+                      services: {
+                        ...(prev.services || {}),
+                        ...(locale === "zh"
+                          ? { subtitleZh: val }
+                          : locale === "en"
+                          ? { subtitleEn: val }
+                          : { subtitle: val }),
+                      },
+                    }));
+                  }}
+                  className="w-full bg-transparent text-xs sm:text-sm text-slate-300 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
+                  title="Nhấp để sửa mô tả phụ trang Tất cả dịch vụ"
+                />
+              </div>
+            </div>
+
+            {/* Grid 5 Thẻ Dịch Vụ Lớn (Ảnh lớn, tiêu đề, mô tả và nút sửa) */}
+            <section className="py-16 bg-slate-50/70 border-b border-slate-200">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {services.map((s) => (
+                    <div
+                      key={s.slug}
+                      className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs flex flex-col justify-between"
+                    >
+                      <div
+                        onClick={() => triggerImagePicker(`service_${s.slug}`)}
+                        className="relative h-56 w-full cursor-pointer group/cardimg"
+                        title="Bấm để đổi ảnh banner của dịch vụ này"
+                      >
+                        <Image
+                          src={s.bannerImage || "/images/vietphuc/hero_office_panoramic.webp"}
+                          alt={s.title}
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover/cardimg:opacity-100 flex items-center justify-center transition-opacity">
+                          <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-azure-600 text-white text-xs font-bold shadow-md">
+                            <Camera className="w-4 h-4" />
+                            <span>Đổi ảnh thẻ này</span>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div className="space-y-2">
+                          <input
+                            type="text"
+                            value={
+                              locale === "zh"
+                                ? s.titleZh || ""
+                                : locale === "en"
+                                ? s.titleEn || ""
+                                : s.title || ""
+                            }
+                            onChange={(e) => {
+                              const text = e.target.value;
+                              setServices((prev) =>
+                                prev.map((item) =>
+                                  item.slug === s.slug
+                                    ? {
+                                        ...item,
+                                        ...(locale === "zh"
+                                          ? { titleZh: text }
+                                          : locale === "en"
+                                          ? { titleEn: text }
+                                          : { title: text }),
+                                      }
+                                    : item
+                                )
+                              );
+                            }}
+                            className="w-full text-lg font-bold text-slate-900 bg-transparent hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                            title="Sửa tiêu đề dịch vụ"
+                          />
+                          <textarea
+                            rows={3}
+                            value={
+                              locale === "zh"
+                                ? s.shortDescZh || ""
+                                : locale === "en"
+                                ? s.shortDescEn || ""
+                                : s.shortDesc || ""
+                            }
+                            onChange={(e) => {
+                              const text = e.target.value;
+                              setServices((prev) =>
+                                prev.map((item) =>
+                                  item.slug === s.slug
+                                    ? {
+                                        ...item,
+                                        ...(locale === "zh"
+                                          ? { shortDescZh: text }
+                                          : locale === "en"
+                                          ? { shortDescEn: text }
+                                          : { shortDesc: text }),
+                                      }
+                                    : item
+                                )
+                              );
+                            }}
+                            className="w-full text-xs text-slate-600 bg-transparent hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
+                            title="Sửa tóm tắt dịch vụ"
+                          />
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => setSelectedPage(s.slug)}
+                          className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-azure-50 hover:bg-azure-600 text-azure-700 hover:text-white text-xs font-bold border border-azure-200 transition-colors"
+                        >
+                          <span>Sửa Chi Tiết Bài Viết Dịch Vụ Này</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* VIEW 4: TRANG TRA CỨU VẬN ĐƠN (/tracking) (FIX POINT 4)        */}
+        {/* ============================================================== */}
+        {selectedPage === "tracking" && (
+          <div className="space-y-0">
+            {/* Banner Tra Cứu */}
+            <div className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
+              {activeBanner.bgImage && (
+                <div
+                  className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
+                  style={{
+                    backgroundImage: `url('${activeBanner.bgImage}')`,
+                    backgroundSize: `${activeBanner.bgScale}%`,
+                    backgroundPosition: activeBanner.bgPosition,
+                    opacity: activeBanner.bgOpacity / 100,
+                  }}
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
+
+              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
+                <Image
+                  src="/images/gt_logo.webp"
+                  alt="GT Logistics Watermark"
+                  fill
+                  className="object-contain object-right"
+                  priority
+                />
+              </div>
+
+              <div className="relative z-10 max-w-7xl mx-auto space-y-3">
+                <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
+                  <span>Trang chủ</span>
+                  <ChevronRight className="w-3 h-3 text-slate-600" />
+                  <span className="text-azure-400 font-medium">Tra cứu vận đơn</span>
+                </div>
+
+                <input
+                  type="text"
+                  value={
+                    locale === "zh"
+                      ? banners?.tracking?.titleZh || ""
+                      : locale === "en"
+                      ? banners?.tracking?.titleEn || ""
+                      : banners?.tracking?.title || "Tra Cứu Vận Đơn Trực Tuyến"
+                  }
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setBanners((prev: any) => ({
+                      ...prev,
+                      tracking: {
+                        ...(prev.tracking || {}),
+                        ...(locale === "zh"
+                          ? { titleZh: val }
+                          : locale === "en"
+                          ? { titleEn: val }
+                          : { title: val }),
+                      },
+                    }));
+                  }}
+                  className="w-full bg-transparent text-2xl sm:text-4xl font-black text-white hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                  title="Nhấp để sửa tiêu đề trang tra cứu"
+                />
+
+                <textarea
+                  rows={2}
+                  value={
+                    locale === "zh"
+                      ? banners?.tracking?.subtitleZh || ""
+                      : locale === "en"
+                      ? banners?.tracking?.subtitleEn || ""
+                      : banners?.tracking?.subtitle || ""
+                  }
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setBanners((prev: any) => ({
+                      ...prev,
+                      tracking: {
+                        ...(prev.tracking || {}),
+                        ...(locale === "zh"
+                          ? { subtitleZh: val }
+                          : locale === "en"
+                          ? { subtitleEn: val }
+                          : { subtitle: val }),
+                      },
+                    }));
+                  }}
+                  className="w-full bg-transparent text-xs sm:text-sm text-slate-300 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
+                  title="Nhấp để sửa mô tả phụ trang tra cứu"
+                />
+              </div>
+            </div>
+
+            {/* Mô phỏng khung tra cứu vận đơn & 3 thẻ tính năng */}
+            <section className="py-12 bg-slate-50 border-b border-slate-200">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+                <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                  <h3 className="font-bold text-lg text-slate-900">
+                    Nhập mã vận đơn (GT-XXXX) để kiểm tra hành trình
+                  </h3>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      disabled
+                      placeholder="Ví dụ: GT-2026-MC01"
+                      className="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-slate-600 text-sm font-mono"
+                    />
+                    <button
+                      type="button"
+                      disabled
+                      className="px-6 py-2.5 rounded-xl bg-azure-600 text-white font-bold text-xs"
+                    >
+                      Tra Cứu
+                    </button>
+                  </div>
+                </div>
+
+                {/* 3 Thẻ Năng Lực Giám Sát */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="p-4 rounded-xl bg-white border border-slate-200">
+                    <Clock className="w-5 h-5 text-azure-600 mb-2" />
+                    <h4 className="font-bold text-sm text-slate-900">Thời Gian Thực</h4>
+                    <p className="text-xs text-slate-500 mt-1">Cập nhật từng mốc xuất bãi, thông quan và sang tải.</p>
+                  </div>
+                  <div className="p-4 rounded-xl bg-white border border-slate-200">
+                    <MapPin className="w-5 h-5 text-azure-600 mb-2" />
+                    <h4 className="font-bold text-sm text-slate-900">Định Vị GPS Đội Xe</h4>
+                    <p className="text-xs text-slate-500 mt-1">Kiểm soát vị trí xe container trên cao tốc 24/7.</p>
+                  </div>
+                  <div className="p-4 rounded-xl bg-white border border-slate-200">
+                    <ShieldCheck className="w-5 h-5 text-azure-600 mb-2" />
+                    <h4 className="font-bold text-sm text-slate-900">Thông Quan Chuẩn Xác</h4>
+                    <p className="text-xs text-slate-500 mt-1">Chứng từ hải quan điện tử và mã tờ khai đầy đủ.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* VIEW 5: TRANG TIN TỨC & CẨM NANG (/news) (FIX POINT 4)          */}
+        {/* ============================================================== */}
+        {selectedPage === "news" && (
+          <div className="space-y-0">
+            {/* Banner Tin Tức */}
+            <div className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
+              {activeBanner.bgImage && (
+                <div
+                  className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
+                  style={{
+                    backgroundImage: `url('${activeBanner.bgImage}')`,
+                    backgroundSize: `${activeBanner.bgScale}%`,
+                    backgroundPosition: activeBanner.bgPosition,
+                    opacity: activeBanner.bgOpacity / 100,
+                  }}
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
+
+              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
+                <Image
+                  src="/images/gt_logo.webp"
+                  alt="GT Logistics Watermark"
+                  fill
+                  className="object-contain object-right"
+                  priority
+                />
+              </div>
+
+              <div className="relative z-10 max-w-7xl mx-auto space-y-3">
+                <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
+                  <span>Trang chủ</span>
+                  <ChevronRight className="w-3 h-3 text-slate-600" />
+                  <span className="text-azure-400 font-medium">Tin tức & cẩm nang</span>
+                </div>
+
+                <input
+                  type="text"
+                  value={
+                    locale === "zh"
+                      ? banners?.news?.titleZh || ""
+                      : locale === "en"
+                      ? banners?.news?.titleEn || ""
+                      : banners?.news?.title || "Tin Tức & Cẩm Nang Xuất Nhập Khẩu"
+                  }
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setBanners((prev: any) => ({
+                      ...prev,
+                      news: {
+                        ...(prev.news || {}),
+                        ...(locale === "zh"
+                          ? { titleZh: val }
+                          : locale === "en"
+                          ? { titleEn: val }
+                          : { title: val }),
+                      },
+                    }));
+                  }}
+                  className="w-full bg-transparent text-2xl sm:text-4xl font-black text-white hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                  title="Nhấp để sửa tiêu đề trang tin tức"
+                />
+
+                <textarea
+                  rows={2}
+                  value={
+                    locale === "zh"
+                      ? banners?.news?.subtitleZh || ""
+                      : locale === "en"
+                      ? banners?.news?.subtitleEn || ""
+                      : banners?.news?.subtitle || ""
+                  }
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setBanners((prev: any) => ({
+                      ...prev,
+                      news: {
+                        ...(prev.news || {}),
+                        ...(locale === "zh"
+                          ? { subtitleZh: val }
+                          : locale === "en"
+                          ? { subtitleEn: val }
+                          : { subtitle: val }),
+                      },
+                    }));
+                  }}
+                  className="w-full bg-transparent text-xs sm:text-sm text-slate-300 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
+                  title="Nhấp để sửa mô tả phụ trang tin tức"
+                />
+              </div>
+            </div>
+
+            {/* Xem trước danh mục bài viết tin tức */}
+            <section className="py-12 bg-white border-b border-slate-200">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
+                  <span className="px-3 py-1.5 rounded-lg bg-azure-600 text-white text-xs font-bold">
+                    Tất Cả Bài Viết
+                  </span>
+                  <span className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 text-xs font-medium">
+                    Chính Sách Biên Mậu
+                  </span>
+                  <span className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 text-xs font-medium">
+                    Thủ Tục Hải Quan
+                  </span>
+                </div>
+                <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-base">Quản lý bài viết tin tức</h4>
+                    <p className="text-xs text-slate-500 mt-1">
+                      Để thêm, xóa hoặc chỉnh sửa nội dung bài viết tin tức đầy đủ, bạn có thể truy cập mục Quản Lý Bài Viết.
+                    </p>
+                  </div>
+                  <Link
+                    href="/admin/posts"
+                    className="px-4 py-2 rounded-xl bg-azure-600 hover:bg-azure-500 text-white font-bold text-xs transition-colors shrink-0"
+                  >
+                    Vào Quản Lý Bài Viết
+                  </Link>
+                </div>
+              </div>
+            </section>
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* VIEW 6: TRANG LIÊN HỆ (/contact) (FIX POINT 4)                 */}
+        {/* ============================================================== */}
+        {selectedPage === "contact" && (
+          <div className="space-y-0">
+            {/* Banner Liên Hệ */}
+            <div className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
+              {activeBanner.bgImage && (
+                <div
+                  className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
+                  style={{
+                    backgroundImage: `url('${activeBanner.bgImage}')`,
+                    backgroundSize: `${activeBanner.bgScale}%`,
+                    backgroundPosition: activeBanner.bgPosition,
+                    opacity: activeBanner.bgOpacity / 100,
+                  }}
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
+
+              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
+                <Image
+                  src="/images/gt_logo.webp"
+                  alt="GT Logistics Watermark"
+                  fill
+                  className="object-contain object-right"
+                  priority
+                />
+              </div>
+
+              <div className="relative z-10 max-w-7xl mx-auto space-y-3">
+                <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
+                  <span>Trang chủ</span>
+                  <ChevronRight className="w-3 h-3 text-slate-600" />
+                  <span className="text-azure-400 font-medium">Liên hệ hợp tác</span>
+                </div>
+
+                <input
+                  type="text"
+                  value={
+                    locale === "zh"
+                      ? banners?.contact?.titleZh || ""
+                      : locale === "en"
+                      ? banners?.contact?.titleEn || ""
+                      : banners?.contact?.title || "Liên Hệ Hợp Tác GT Logistics"
+                  }
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setBanners((prev: any) => ({
+                      ...prev,
+                      contact: {
+                        ...(prev.contact || {}),
+                        ...(locale === "zh"
+                          ? { titleZh: val }
+                          : locale === "en"
+                          ? { titleEn: val }
+                          : { title: val }),
+                      },
+                    }));
+                  }}
+                  className="w-full bg-transparent text-2xl sm:text-4xl font-black text-white hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                  title="Nhấp để sửa tiêu đề trang liên hệ"
+                />
+
+                <textarea
+                  rows={2}
+                  value={
+                    locale === "zh"
+                      ? banners?.contact?.subtitleZh || ""
+                      : locale === "en"
+                      ? banners?.contact?.subtitleEn || ""
+                      : banners?.contact?.subtitle || ""
+                  }
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setBanners((prev: any) => ({
+                      ...prev,
+                      contact: {
+                        ...(prev.contact || {}),
+                        ...(locale === "zh"
+                          ? { subtitleZh: val }
+                          : locale === "en"
+                          ? { subtitleEn: val }
+                          : { subtitle: val }),
+                      },
+                    }));
+                  }}
+                  className="w-full bg-transparent text-xs sm:text-sm text-slate-300 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
+                  title="Nhấp để sửa mô tả phụ trang liên hệ"
+                />
+              </div>
+            </div>
+
+            {/* Thông tin liên hệ các trụ sở */}
+            <section className="py-12 bg-white border-b border-slate-200">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                    <span className="text-xs font-bold text-azure-700 block">Trụ Sở Chính (Bắc Luân 2 - Móng Cái)</span>
+                    <p className="text-sm font-semibold text-slate-900">
+                      Căn ĐLTC-41, KĐT Vinhomes Golden Avenue, Cửa khẩu Bắc Luân 2, Phường Hải Hòa, TP. Móng Cái, Quảng Ninh
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      Túc trực 24/7 kiểm hóa bãi xe và xử lý tờ khai hải quan.
+                    </p>
+                  </div>
+                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                    <span className="text-xs font-bold text-azure-700 block">Chi Nhánh Cảng Hải Phòng</span>
+                    <p className="text-sm font-semibold text-slate-900">
+                      Cụm Cảng Đình Vũ, Phường Đông Hải 2, Quận Hải An, TP. Hải Phòng
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                    <span className="text-xs font-bold text-azure-700 block">Hotline & Kênh Hỗ Trợ 24/7</span>
+                    <p className="text-sm font-bold text-gold-600">Hotline: {settings.hotline || "0904.382.268"}</p>
+                    <p className="text-xs text-slate-600">Email: {settings.email || "contact@logisticsgt.vn"}</p>
+                    <p className="text-xs text-slate-500">Giờ làm việc: Thứ Hai - Chủ Nhật (07:30 - 18:30)</p>
+                  </div>
+                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                    <span className="text-xs font-bold text-azure-700 block">Văn Phòng Đại Diện Hà Nội</span>
+                    <p className="text-sm font-semibold text-slate-900">
+                      Số 18 Phạm Hùng, Phường Mỹ Đình, Quận Nam Từ Liêm, TP. Hà Nội
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* VIEW 7: TRANG BÁO GIÁ (/quote) (FIX POINT 4)                   */}
+        {/* ============================================================== */}
+        {selectedPage === "quote" && (
+          <div className="space-y-0">
+            {/* Banner Báo Giá */}
+            <div className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
+              {activeBanner.bgImage && (
+                <div
+                  className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
+                  style={{
+                    backgroundImage: `url('${activeBanner.bgImage}')`,
+                    backgroundSize: `${activeBanner.bgScale}%`,
+                    backgroundPosition: activeBanner.bgPosition,
+                    opacity: activeBanner.bgOpacity / 100,
+                  }}
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
+
+              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
+                <Image
+                  src="/images/gt_logo.webp"
+                  alt="GT Logistics Watermark"
+                  fill
+                  className="object-contain object-right"
+                  priority
+                />
+              </div>
+
+              <div className="relative z-10 max-w-7xl mx-auto space-y-3">
+                <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
+                  <span>Trang chủ</span>
+                  <ChevronRight className="w-3 h-3 text-slate-600" />
+                  <span className="text-azure-400 font-medium">Yêu cầu báo giá</span>
+                </div>
+
+                <input
+                  type="text"
+                  value={
+                    locale === "zh"
+                      ? banners?.quote?.titleZh || ""
+                      : locale === "en"
+                      ? banners?.quote?.titleEn || ""
+                      : banners?.quote?.title || "Yêu Cầu Báo Giá Nhanh"
+                  }
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setBanners((prev: any) => ({
+                      ...prev,
+                      quote: {
+                        ...(prev.quote || {}),
+                        ...(locale === "zh"
+                          ? { titleZh: val }
+                          : locale === "en"
+                          ? { titleEn: val }
+                          : { title: val }),
+                      },
+                    }));
+                  }}
+                  className="w-full bg-transparent text-2xl sm:text-4xl font-black text-white hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                  title="Nhấp để sửa tiêu đề trang báo giá"
+                />
+
+                <textarea
+                  rows={2}
+                  value={
+                    locale === "zh"
+                      ? banners?.quote?.subtitleZh || ""
+                      : locale === "en"
+                      ? banners?.quote?.subtitleEn || ""
+                      : banners?.quote?.subtitle || ""
+                  }
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setBanners((prev: any) => ({
+                      ...prev,
+                      quote: {
+                        ...(prev.quote || {}),
+                        ...(locale === "zh"
+                          ? { subtitleZh: val }
+                          : locale === "en"
+                          ? { subtitleEn: val }
+                          : { subtitle: val }),
+                      },
+                    }));
+                  }}
+                  className="w-full bg-transparent text-xs sm:text-sm text-slate-300 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
+                  title="Nhấp để sửa mô tả phụ trang báo giá"
+                />
+              </div>
+            </div>
+
+            {/* 3 Cam kết báo giá */}
+            <section className="py-12 bg-white border-b border-slate-200">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                  <Clock className="w-5 h-5 text-azure-600 mb-2" />
+                  <h4 className="font-bold text-sm text-slate-900">Phản Hồi Trong 15 Phút</h4>
+                  <p className="text-xs text-slate-500 mt-1">Đội ngũ chuyên viên tư vấn phương án vận tải và biểu phí tối ưu nhanh chóng.</p>
+                </div>
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                  <TrendingUp className="w-5 h-5 text-azure-600 mb-2" />
+                  <h4 className="font-bold text-sm text-slate-900">Tối Ưu Chi Phí</h4>
+                  <p className="text-xs text-slate-500 mt-1">Tư vấn mã HS Code và biểu thuế C/O Form E để tiết kiệm chi phí thuế cao nhất.</p>
+                </div>
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                  <ShieldCheck className="w-5 h-5 text-azure-600 mb-2" />
+                  <h4 className="font-bold text-sm text-slate-900">Minh Bạch Hợp Đồng</h4>
+                  <p className="text-xs text-slate-500 mt-1">Cung cấp báo giá trọn gói không phát sinh chi phí ẩn ngoài thỏa thuận.</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* VIEW 8: TRANG DỊCH VỤ CỤ THỂ (SERVICE DETAIL)                   */}
         {/* ============================================================== */}
         {currentService && (
           <div className="space-y-0">
             {/* Banner đầu trang Dịch vụ: Chuẩn Breadcrumbs + Watermark GT Logistics */}
             <div className="relative bg-slate-950 text-white py-10 sm:py-12 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
-              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none">
+              {activeBanner.bgImage && (
+                <div
+                  className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
+                  style={{
+                    backgroundImage: `url('${activeBanner.bgImage}')`,
+                    backgroundSize: `${activeBanner.bgScale}%`,
+                    backgroundPosition: activeBanner.bgPosition,
+                    opacity: activeBanner.bgOpacity / 100,
+                  }}
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
+
+              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
                 <Image
                   src="/images/gt_logo.webp"
                   alt="GT Logistics Watermark"
@@ -1184,7 +2303,7 @@ export function VisualEditorCanvas({
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-[11px] font-bold text-azure-400 block">
+                  <span className="text-xs font-bold text-azure-400 block">
                     Dịch vụ Logistics GT
                   </span>
                   <input
@@ -1419,7 +2538,7 @@ export function VisualEditorCanvas({
                                 ],
                               }));
                             }}
-                            className="inline-flex items-center gap-1.5 text-xs text-azure-600 hover:text-azure-700 font-bold bg-azure-50 px-3 py-1.5 rounded-lg border border-azure-200 transition-colors"
+                            className="inline-flex items-center gap-1.5 text-xs text-azure-600 hover:text-azure-700 font-bold bg-azure-50 px-3 py-1.5 rounded-lg border border-azure-200 transition-colors whitespace-nowrap"
                           >
                             <Plus className="w-3.5 h-3.5" />
                             <span>Thêm gạch đầu dòng năng lực</span>
@@ -1458,7 +2577,7 @@ export function VisualEditorCanvas({
                     {/* Hộp Báo Giá Ngữ Cảnh Dành Riêng Cho Dịch Vụ Này (Mô phỏng đúng web thật) */}
                     <div className="mt-8 p-6 rounded-2xl bg-slate-950 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 border border-slate-800 shadow-xs">
                       <div>
-                        <span className="text-[11px] font-bold text-gold-400 block mb-1">
+                        <span className="text-xs font-bold text-gold-400 block mb-1">
                           Yêu cầu báo giá nhanh
                         </span>
                         <h4 className="text-base sm:text-lg font-bold text-white leading-snug">

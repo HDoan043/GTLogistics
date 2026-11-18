@@ -16,6 +16,10 @@ interface PageBannerProps {
   subtitle?: string;
   badge?: string;
   size?: "compact" | "main";
+  bgImage?: string;
+  bgScale?: number;
+  bgPosition?: string;
+  bgOpacity?: number;
 }
 
 export function PageBanner({
@@ -24,6 +28,10 @@ export function PageBanner({
   subtitle,
   badge,
   size = "compact",
+  bgImage,
+  bgScale = 100,
+  bgPosition = "center",
+  bgOpacity = 30,
 }: PageBannerProps) {
   const isMain = size === "main";
 
@@ -35,8 +43,21 @@ export function PageBanner({
           : "py-8 sm:py-10"
       }`}
     >
+      {/* Ảnh nền tuỳ chỉnh với tính năng phóng to / thu nhỏ và vị trí linh hoạt */}
+      {bgImage && (
+        <div
+          className="absolute inset-0 z-0 bg-no-repeat pointer-events-none"
+          style={{
+            backgroundImage: `url('${bgImage}')`,
+            backgroundSize: `${bgScale || 100}%`,
+            backgroundPosition: bgPosition || "center",
+            opacity: (bgOpacity ?? 30) / 100,
+          }}
+        />
+      )}
+
       {/* Nền tối sâu với chuyển sắc mềm mại */}
-      <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/95 to-slate-900 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
 
       {/* Watermark logo GT LOGISTICS hiển thị mờ nghệ thuật phía bên phải theo đúng ảnh thực tế */}
       <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none">

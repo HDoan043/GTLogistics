@@ -13,6 +13,8 @@ import { getServices } from "@/modules/services/actions";
 import { PageBanner } from "@/components/layout/PageBanner";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getLocalizedService } from "@/lib/i18n";
+import { getPageSectionContent } from "@/modules/content/actions";
+import { DEFAULT_BANNERS_CONTENT } from "@/modules/content/constants";
 
 export const metadata = {
   title: "Dịch Vụ Logistics & Thủ Tục Hải Quan Cửa Khẩu | GT Logistics",
@@ -29,9 +31,10 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 export default async function ServicesPage() {
-  const [{ locale, t }, services] = await Promise.all([
+  const [{ locale, t }, services, bannersContent] = await Promise.all([
     getServerDictionary(),
     getServices(),
+    getPageSectionContent("content_banners", DEFAULT_BANNERS_CONTENT),
   ]);
 
   const activeServices = services.filter(
@@ -40,12 +43,21 @@ export default async function ServicesPage() {
       s.slug !== "van-tai-thuy-tuyen-dao"
   );
 
+  const bannerCfg = bannersContent?.services || DEFAULT_BANNERS_CONTENT.services;
+
   const servicesTitle =
-    locale === "zh"
-      ? "核心物流服务"
-      : locale === "en"
-      ? "GT Logistics Services"
-      : "Dịch Vụ GT Logistics";
+    locale === "zh" && bannerCfg.titleZh
+      ? bannerCfg.titleZh
+      : locale === "en" && bannerCfg.titleEn
+      ? bannerCfg.titleEn
+      : bannerCfg.title || (locale === "zh" ? "核心物流服务" : locale === "en" ? "GT Logistics Services" : "Dịch Vụ GT Logistics");
+
+  const servicesSubtitle =
+    locale === "zh" && bannerCfg.subtitleZh
+      ? bannerCfg.subtitleZh
+      : locale === "en" && bannerCfg.subtitleEn
+      ? bannerCfg.subtitleEn
+      : bannerCfg.subtitle || t.servicesPage.desc;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -56,8 +68,12 @@ export default async function ServicesPage() {
           { label: t.common.allServices },
         ]}
         title={servicesTitle}
-        subtitle={t.servicesPage.desc}
+        subtitle={servicesSubtitle}
         size="main"
+        bgImage={bannerCfg.bgImage}
+        bgScale={bannerCfg.bgScale}
+        bgPosition={bannerCfg.bgPosition}
+        bgOpacity={bannerCfg.bgOpacity}
       />
 
       {/* Trình bày các thẻ dịch vụ lớn chuyên sâu với ảnh, tiêu đề, mô tả và nút xem chi tiết */}

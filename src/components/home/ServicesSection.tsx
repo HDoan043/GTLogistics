@@ -35,7 +35,24 @@ const iconMap: Record<string, React.ElementType> = {
   Globe,
 };
 
-export function ServicesSection({ services }: { services: ServiceItem[] }) {
+export function ServicesSection({
+  services,
+  homeServicesData,
+}: {
+  services: ServiceItem[];
+  homeServicesData?: {
+    badge?: string;
+    badgeEn?: string;
+    badgeZh?: string;
+    heading?: string;
+    headingEn?: string;
+    headingZh?: string;
+    description?: string;
+    descriptionEn?: string;
+    descriptionZh?: string;
+    illustrationImage?: string;
+  };
+}) {
   const { t, locale } = useLanguage();
 
   // Đảm bảo chỉ hiển thị 5 dịch vụ chính thức
@@ -57,6 +74,23 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
     return s.shortDesc;
   };
 
+  const headingText =
+    locale === "zh" && homeServicesData?.headingZh
+      ? homeServicesData.headingZh
+      : locale === "en" && homeServicesData?.headingEn
+      ? homeServicesData.headingEn
+      : homeServicesData?.heading || t.services.heading;
+
+  const descText =
+    locale === "zh" && homeServicesData?.descriptionZh
+      ? homeServicesData.descriptionZh
+      : locale === "en" && homeServicesData?.descriptionEn
+      ? homeServicesData.descriptionEn
+      : homeServicesData?.description || t.services.desc;
+
+  const illustrationImg =
+    homeServicesData?.illustrationImage || "/images/vietphuc/presentation_multimodal.webp";
+
   return (
     <section className="py-16 sm:py-24 bg-slate-50/70 text-slate-900 border-b border-slate-200/80 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,10 +101,10 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
             <div>
               <div className="h-1 w-12 bg-azure-600 rounded-full mb-4" />
               <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
-                {t.services.heading}
+                {headingText}
               </h2>
               <p className="mt-4 text-slate-600 text-base leading-relaxed">
-                {t.services.desc}
+                {descText}
               </p>
 
               <div className="pt-4 flex flex-wrap items-center gap-3">
@@ -93,7 +127,7 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
             {/* Ảnh minh họa nghiệp vụ tiếp vận đặt ngay dưới Header để tạo điểm nhấn trực quan */}
             <div className="relative h-60 sm:h-64 rounded-2xl overflow-hidden shadow-sm border border-slate-200 group">
               <Image
-                src="/images/vietphuc/presentation_multimodal.webp"
+                src={illustrationImg}
                 alt="Vận tải đa phương thức & tiếp vận biên mậu Logistics GT"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"

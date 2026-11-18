@@ -14,6 +14,7 @@ import {
   ArrowLeft,
   ExternalLink,
   Phone,
+  PhoneCall,
   ArrowRight,
   ShieldCheck,
   CheckCircle,
@@ -370,7 +371,6 @@ export function VisualEditorCanvas({
                 <option value="home">Trang Chủ (Homepage)</option>
                 <option value="about">Giới Thiệu (/about)</option>
                 <option value="services">Tất Cả Dịch Vụ (/services)</option>
-                <option value="tracking">Tra Cứu Vận Đơn (/tracking)</option>
                 <option value="news">Tin Tức & Cẩm Nang (/news)</option>
                 <option value="quote">Báo Giá (/quote)</option>
                 <option value="contact">Liên Hệ (/contact)</option>
@@ -427,8 +427,6 @@ export function VisualEditorCanvas({
                 ? "/about"
                 : selectedPage === "services"
                 ? "/services"
-                : selectedPage === "tracking"
-                ? "/tracking"
                 : selectedPage === "news"
                 ? "/news"
                 : selectedPage === "contact"
@@ -719,16 +717,6 @@ export function VisualEditorCanvas({
 
             <button
               type="button"
-              onClick={() => setSelectedPage("tracking")}
-              className={`hover:text-gold-400 transition-colors py-1 ${
-                selectedPage === "tracking" ? "text-gold-400 font-black border-b-2 border-gold-400" : ""
-              }`}
-            >
-              Tra Cứu Vận Đơn
-            </button>
-
-            <button
-              type="button"
               onClick={() => setSelectedPage("news")}
               className={`hover:text-gold-400 transition-colors py-1 ${
                 selectedPage === "news" ? "text-gold-400 font-black border-b-2 border-gold-400" : ""
@@ -841,75 +829,73 @@ export function VisualEditorCanvas({
 
                   <div className="my-8 sm:my-9 h-1 w-24 bg-gradient-to-r from-azure-400 to-gold-400 rounded-full" />
 
-                  {/* Bullet points (Click-to-edit trực tiếp) */}
+                  {/* Đoạn mô tả ngắn dưới dấu gạch (Click-to-edit trực tiếp) */}
                   <div className="space-y-4">
-                    <ul className="space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
-                      {hero.bullets.map((b: any, idx: number) => {
-                        const currentText =
-                          locale === "zh" ? b.zh || "" : locale === "en" ? b.en || "" : b.vi || "";
-
-                        return (
-                          <li key={idx} className="flex items-start gap-3 group/bullet">
-                            <span className="w-2 h-2 rounded-full bg-gold-400 shrink-0 mt-2.5" />
-                            <div className="flex-1 flex items-start gap-2">
-                              <textarea
-                                rows={2}
-                                value={currentText}
-                                onChange={(e) => {
-                                  const text = e.target.value;
-                                  setHero((prev: any) => {
-                                    const nextB = [...prev.bullets];
-                                    const cur = { ...nextB[idx] };
-                                    if (locale === "zh") cur.zh = text;
-                                    else if (locale === "en") cur.en = text;
-                                    else cur.vi = text;
-                                    nextB[idx] = cur;
-                                    return { ...prev, bullets: nextB };
-                                  });
-                                }}
-                                className="w-full bg-transparent text-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1.5 py-0.5 resize-none text-sm sm:text-base leading-relaxed"
-                                title="Nhấp để sửa dòng này"
-                              />
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setHero((prev: any) => ({
-                                    ...prev,
-                                    bullets: prev.bullets.filter((_: any, i: number) => i !== idx),
-                                  }));
-                                }}
-                                className="opacity-0 group-hover/bullet:opacity-100 p-1 text-slate-500 hover:text-rose-400 transition-opacity"
-                                title="Xóa dòng này"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-
-                    {/* Nút thêm dòng bullet */}
-                    <button
-                      type="button"
-                      onClick={() => {
+                    <textarea
+                      rows={3}
+                      value={
+                        locale === "zh"
+                          ? hero.subHeadlineZh || hero.subHeadline || ""
+                          : locale === "en"
+                          ? hero.subHeadlineEn || hero.subHeadline || ""
+                          : hero.subHeadline ||
+                            "Đơn vị tiên phong cung cấp giải pháp vận tải đường bộ liên vận Việt – Trung, thông quan chính ngạch tại hệ thống các cửa khẩu trọng điểm phía Bắc (Móng Cái, Hữu Nghị, Tân Thanh, Chi Ma) và khai thác chuyên tuyến Vận tải biển bằng tàu & sà lan đi khắp quần đảo Cô Tô."
+                      }
+                      onChange={(e) => {
+                        const text = e.target.value;
                         setHero((prev: any) => ({
                           ...prev,
-                          bullets: [
-                            ...prev.bullets,
-                            {
-                              vi: "Thêm điểm mạnh năng lực mới tại Cửa khẩu Móng Cái...",
-                              en: "New capability highlight...",
-                              zh: "新增重点优势内容...",
-                            },
-                          ],
+                          ...(locale === "zh"
+                            ? { subHeadlineZh: text }
+                            : locale === "en"
+                            ? { subHeadlineEn: text }
+                            : { subHeadline: text }),
                         }));
                       }}
-                      className="inline-flex items-center gap-1.5 text-xs text-gold-400 hover:text-gold-300 font-bold bg-slate-900/90 px-3 py-1.5 rounded-lg border border-slate-800 transition-colors"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                      <span>Thêm gạch đầu dòng mới</span>
-                    </button>
+                      className="w-full bg-transparent text-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-2 py-1 resize-none text-sm sm:text-base lg:text-lg leading-relaxed font-normal"
+                      title="Nhấp để sửa đoạn mô tả ngắn hero"
+                    />
+
+                    {/* Cụm 2 nút hành động (Click-to-edit) */}
+                    <div className="pt-4 flex flex-wrap items-center gap-4">
+                      <div className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-azure-600 text-white font-bold text-sm">
+                        <input
+                          type="text"
+                          value={
+                            locale === "zh"
+                              ? hero.btnQuoteZh || ""
+                              : locale === "en"
+                              ? hero.btnQuoteEn || ""
+                              : hero.btnQuote || "Nhận Báo Giá Trong 15 Phút"
+                          }
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setHero((prev: any) => ({
+                              ...prev,
+                              ...(locale === "zh"
+                                ? { btnQuoteZh: val }
+                                : locale === "en"
+                                ? { btnQuoteEn: val }
+                                : { btnQuote: val }),
+                            }));
+                          }}
+                          className="bg-transparent text-white font-bold text-sm hover:outline hover:outline-dashed hover:outline-white/60 rounded px-1 w-52"
+                          title="Sửa nút báo giá"
+                        />
+                        <ArrowRight className="w-4 h-4 ml-1" />
+                      </div>
+
+                      <div className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-700 bg-slate-900/80 text-slate-100 text-sm font-semibold">
+                        <PhoneCall className="w-4 h-4 text-gold-400" />
+                        <input
+                          type="text"
+                          value={hero.btnHotline || `Hotline Tư Vấn 24/7: ${settings?.hotline || "0904.382.268"}`}
+                          onChange={(e) => setHero((prev: any) => ({ ...prev, btnHotline: e.target.value }))}
+                          className="bg-transparent text-slate-100 font-semibold text-sm hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 w-64"
+                          title="Sửa nút hotline"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -995,16 +981,16 @@ export function VisualEditorCanvas({
                     </div>
                   </div>
 
-                  {/* Cột Phải: Danh sách 5 Thẻ Dịch Vụ - Sửa trực tiếp tên, mô tả & ảnh, đồng bộ sang trang dịch vụ (FIX POINT 2) */}
+                  {/* Cột Phải: Ma trận 2x2 gồm 4 Thẻ Dịch Vụ - Sửa trực tiếp tên, mô tả & ảnh, đồng bộ sang trang dịch vụ */}
                   <div className="lg:col-span-7 space-y-4">
                     <div className="flex items-center justify-between border-b border-slate-200 pb-2">
                       <span className="text-xs font-bold text-azure-700 bg-azure-50 px-2.5 py-1 rounded-md border border-azure-200">
-                        5 Thẻ Dịch Vụ Chính (Sửa tên, mô tả và đổi ảnh sẽ đồng bộ toàn web)
+                        Ma Trận 2x2: 4 Thẻ Dịch Vụ Chính (Sửa tên, mô tả và đổi ảnh sẽ đồng bộ toàn web)
                       </span>
                     </div>
 
-                    <div className="space-y-3">
-                      {services.map((s) => {
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {services.slice(0, 4).map((s) => {
                         const titleVal =
                           locale === "zh"
                             ? s.titleZh || ""
@@ -1021,27 +1007,28 @@ export function VisualEditorCanvas({
                         return (
                           <div
                             key={s.slug}
-                            className="p-4 rounded-xl bg-white border-2 border-slate-200 hover:border-azure-400 transition-colors flex flex-col sm:flex-row items-start sm:items-center gap-4"
+                            className="p-4 rounded-2xl bg-white border-2 border-slate-300 hover:border-azure-600 transition-colors flex flex-col justify-between gap-3 shadow-xs"
                           >
-                            {/* Ảnh đại diện nhỏ của thẻ dịch vụ */}
-                            <div
-                              onClick={() => triggerImagePicker(`service_${s.slug}`)}
-                              className="relative w-20 h-16 rounded-lg overflow-hidden shrink-0 border border-slate-300 cursor-pointer group/th"
-                              title="Bấm để đổi ảnh thẻ dịch vụ này"
-                            >
-                              <Image
-                                src={s.bannerImage || "/images/vietphuc/hero_office_panoramic.webp"}
-                                alt={s.title}
-                                fill
-                                className="object-cover"
-                              />
-                              <div className="absolute inset-0 bg-slate-950/50 opacity-0 group-hover/th:opacity-100 flex items-center justify-center transition-opacity">
-                                <Camera className="w-3.5 h-3.5 text-white" />
+                            <div className="space-y-2">
+                              {/* Ảnh đại diện nhỏ của thẻ dịch vụ */}
+                              <div
+                                onClick={() => triggerImagePicker(`service_${s.slug}`)}
+                                className="relative w-full h-24 rounded-xl overflow-hidden shrink-0 border border-slate-300 cursor-pointer group/th"
+                                title="Bấm để đổi ảnh thẻ dịch vụ này"
+                              >
+                                <Image
+                                  src={s.bannerImage || "/images/vietphuc/hero_office_panoramic.webp"}
+                                  alt={s.title}
+                                  fill
+                                  className="object-cover"
+                                />
+                                <div className="absolute inset-0 bg-slate-950/50 opacity-0 group-hover/th:opacity-100 flex items-center justify-center transition-opacity">
+                                  <Camera className="w-4 h-4 text-white" />
+                                </div>
                               </div>
-                            </div>
 
-                            {/* Tiêu đề & Mô tả thẻ dịch vụ (Đồng bộ sang tab và bài viết dịch vụ) */}
-                            <div className="flex-1 min-w-0 space-y-1 w-full">
+                              {/* Tiêu đề & Mô tả thẻ dịch vụ (Đồng bộ sang tab và bài viết dịch vụ) */}
+                              <div className="space-y-1 w-full">
                               <input
                                 type="text"
                                 value={titleVal}
@@ -1089,9 +1076,10 @@ export function VisualEditorCanvas({
                                 title="Nhấp để sửa tóm tắt dịch vụ"
                               />
                             </div>
+                          </div>
 
-                            {/* Nút chuyển nhanh vào trang chi tiết dịch vụ này */}
-                            <button
+                          {/* Nút chuyển nhanh vào trang chi tiết dịch vụ này */}
+                          <button
                               type="button"
                               onClick={() => setSelectedPage(s.slug)}
                               className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-azure-600 text-slate-700 hover:text-white text-xs font-bold transition-colors shrink-0 whitespace-nowrap self-end sm:self-center"
@@ -1640,11 +1628,11 @@ export function VisualEditorCanvas({
               </div>
             </div>
 
-            {/* Grid 5 Thẻ Dịch Vụ Lớn (Ảnh lớn, tiêu đề, mô tả và nút sửa) */}
+            {/* Grid 4 Thẻ Dịch Vụ Lớn (Ảnh lớn, tiêu đề, mô tả và nút sửa) */}
             <section className="py-16 bg-slate-50/70 border-b border-slate-200">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {services.map((s) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {services.slice(0, 4).map((s) => (
                     <div
                       key={s.slug}
                       className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs flex flex-col justify-between"
@@ -1747,10 +1735,8 @@ export function VisualEditorCanvas({
           </div>
         )}
 
-        {/* ============================================================== */}
-        {/* VIEW 4: TRANG TRA CỨU VẬN ĐƠN (/tracking) (FIX POINT 4)        */}
-        {/* ============================================================== */}
-        {selectedPage === "tracking" && (
+        {/* VIEW 4: TRANG TRA CỨU VẬN ĐƠN (Đã chuyển hướng và loại bỏ) */}
+        {false && (
           <div className="space-y-0">
             {/* Banner Tra Cứu */}
             <div className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">

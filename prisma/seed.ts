@@ -76,232 +76,193 @@ async function main() {
   }
   console.log("✅ Đã nạp cấu hình hệ thống Logistics GT chính xác 100%");
 
-  // 3. Nạp danh mục 6 Dịch vụ với nội dung đa ngôn ngữ: Tiếng Việt, Tiếng Anh & Tiếng Trung
+  // 3. Nạp danh mục 4 Dịch vụ chính thức theo tài liệu cốt lõi (VI - EN - ZH)
+  // Xóa các dịch vụ cũ không còn phù hợp để giữ hệ thống sạch 100%
+  await prisma.service.deleteMany({});
+
   const defaultServices = [
     {
-      title: "Vận tải đường bộ",
-      titleEn: "Cross-Border Trucking",
-      titleZh: "跨境公路运输",
-      slug: "van-tai-duong-bo",
-      shortDesc: "Chuyên tuyến liên vận xe tải & container qua Cửa khẩu Móng Cái",
-      shortDescEn: "Dedicated cross-border trucking & container service via Mong Cai Border Gate",
-      shortDescZh: "经由越南芒街口岸的中越跨境卡车与集装箱甩挂直达专线",
+      title: "Khai Báo Hải Quan & Thông Quan Cửa Khẩu",
+      titleEn: "Customs Brokerage & Clearance",
+      titleZh: "报关与口岸清关服务",
+      slug: "khai-bao-hai-quan-thong-quan",
+      shortDesc: "Đại lý hải quan điện tử chính ngạch trực tiếp tại Móng Cái, Hữu Nghị, Tân Thanh, Chi Ma",
+      shortDescEn: "Official electronic customs broker at Mong Cai, Huu Nghi, Tan Thanh, Chi Ma",
+      shortDescZh: "在芒街、友谊关、新清、峙马等口岸提供正贸电子报关与东盟 Form E 原产地证代办",
       fullContent: `
-        <h3>Thế mạnh chuyên tuyến liên vận đường bộ Việt - Trung</h3>
-        <p>Công ty TNHH Logistics GT sở hữu mạng lưới phương tiện vận tải đường bộ chuyên nghiệp túc trực thường trực tại khu vực cửa khẩu Móng Cái và cao tốc Vân Đồn - Móng Cái.</p>
-        <h4>Năng lực vận chuyển:</h4>
+        <h3>Đại lý hải quan điện tử chính ngạch tại các cửa khẩu trọng điểm phía Bắc</h3>
+        <p>Công ty TNHH Logistics GT sở hữu đội ngũ nhân sự hiện trường thường trực 24/7 trực tiếp tại <strong>Cửa khẩu Quốc tế Móng Cái (Bắc Luân 2 & Ka Long), Cửa khẩu Quốc tế Hữu Nghị, Tân Thanh và Chi Ma</strong>, am hiểu sâu sắc quy định kiểm hóa, chính sách quản lý chuyên ngành và biểu thuế xuất nhập khẩu.</p>
+        <h4>Năng lực nghiệp vụ cốt lõi:</h4>
         <ul>
-          <li>Vận chuyển container nguyên chuyến (FCL) và gom hàng lẻ (LCL) hai chiều Việt Nam - Đông Hưng (Trung Quốc).</li>
-          <li>Đội xe đầu kéo mooc sàn, mooc rào, xe thùng bạt và xe lạnh chuyên chở nông sản xuất khẩu.</li>
-          <li>Hỗ trợ bốc xếp, sang tải tại các bãi kiểm hóa Cửa khẩu Bắc Luân 2 và lối mở Km3+4 Hải Yên.</li>
-          <li>Giám sát định vị hành trình GPS 24/7, cam kết đúng lịch trình giao nhận.</li>
+          <li><strong>Đại lý hải quan điện tử chính ngạch:</strong> Thực hiện khai báo truyền tờ khai VNACCS/VCIS nhanh chóng, tiếp nhận luồng tờ khai (Xanh, Vàng, Đỏ) và phối hợp kiểm hóa hiện trường ngay trong ngày.</li>
+          <li><strong>Tư vấn chuẩn hóa bộ chứng từ XNK:</strong> Rà soát Hợp đồng thương mại, Invoice, Packing List, Vận đơn; tra cứu mã HS Code chuẩn xác nhằm tối ưu biểu thuế và phòng ngừa rủi ro tham vấn giá.</li>
+          <li><strong>Xin cấp & Kiểm tra C/O Form E (ACFTA):</strong> Xin cấp và thẩm định tính hợp lệ của chứng nhận xuất xứ Form E để doanh nghiệp hưởng thuế suất nhập khẩu 0% hoặc ưu đãi đặc biệt.</li>
+          <li><strong>Thực hiện trọn gói mọi loại hình XNK:</strong> Nhập kinh doanh tiêu dùng (A11), Nhập nguyên liệu sản xuất xuất khẩu (E31), Gia công hàng may mặc & điện tử (E21), Tạm nhập tái xuất (G11/G21), Hàng tạo tài sản cố định đầu tư miễn thuế.</li>
+          <li><strong>Kiểm tra chuyên ngành:</strong> Đăng ký kiểm dịch thực vật, kiểm dịch động vật, kiểm tra an toàn thực phẩm, công bố hợp quy và kiểm định hàm lượng Formaldehyt cho vải dệt may.</li>
         </ul>
       `,
       fullContentEn: `
-        <h3>Cross-Border Road Transport Strengths: Vietnam - China</h3>
-        <p>GT Logistics Co., Ltd operates a modern dedicated fleet standing by at Mong Cai Border Gate and Van Don - Mong Cai Expressway.</p>
-        <h4>Transportation Capabilities:</h4>
+        <h3>Official Customs Brokerage at Key Northern Border Gates</h3>
+        <p>GT Logistics deploys on-site customs specialists operating 24/7 directly at <strong>Mong Cai (Bac Luan 2 & Ka Long), Huu Nghi, Tan Thanh, and Chi Ma Border Gates</strong>.</p>
+        <h4>Core Customs Capabilities:</h4>
         <ul>
-          <li>Full Container Load (FCL) and Less than Container Load (LCL) both ways Vietnam - Dongxing (China).</li>
-          <li>Flatbed trailers, stake trucks, box trucks, and reefer containers for agricultural and industrial goods.</li>
-          <li>Transshipment and forklift loading support at Bac Luan 2 and Km3+4 Hai Yen inspection yards.</li>
-          <li>24/7 real-time GPS fleet monitoring ensuring punctual on-time delivery.</li>
+          <li>Official electronic clearance via Vietnam's official VNACCS/VCIS system with rapid same-day release.</li>
+          <li>Accurate HS code classification, tariff optimization, and valuation audit risk mitigation.</li>
+          <li>ACFTA C/O Form E application and authenticity verification for preferential tariff exemptions.</li>
+          <li>Comprehensive trade regimes: Commercial import (A11), Manufacturing export (E31), Inward processing (E21), Temporary import for re-export, and duty-free investment assets.</li>
+          <li>Specialized inspections: Phytosanitary, veterinary quarantine, food safety, and textile conformity assessments.</li>
         </ul>
       `,
       fullContentZh: `
-        <h3>中越跨境公路运输核心优势</h3>
-        <p>GT 物流有限责任公司在越南芒街口岸及云屯—芒街高速公路枢纽常驻专业车队，提供安全快捷的跨境公路甩挂联运保障。</p>
-        <h4>核心运力优势：</h4>
+        <h3>北部四大核心陆路口岸正规海关报关与清关行服务</h3>
+        <p>GT 物流在<strong>芒街（北仑二桥与卡隆）、友谊关、新清、峙马</strong>等陆路口岸常驻 24/7 现场专业单证与查验团队。</p>
+        <h4>核心业务优势：</h4>
         <ul>
-          <li>整柜集装箱（FCL）与散货拼箱（LCL）中越双向直通运输（越南—中国东兴/广西各城市）。</li>
-          <li>拥有平板半挂车、高栏车、厢式货车及专业冷藏车队，满足农林水产与工业品出口需求。</li>
-          <li>在北仑二桥口岸查验场及 Km3+4 海燕通道提供现场理货、叉车过驳与保税转运服务。</li>
-          <li>全天候 24/7 GPS 实时轨迹监控，保障货运准时送达。</li>
-        </ul>
-      `,
-      iconName: "Truck",
-      bannerImage: "/images/vietphuc/hero_office_panoramic.webp",
-      sortOrder: 1,
-    },
-    {
-      title: "Thủ tục hải quan & C/O",
-      titleEn: "Customs & C/O Form E",
-      titleZh: "海关报关与原产地证",
-      slug: "thu-tuc-hai-quan",
-      shortDesc: "Đại lý thông quan điện tử chính ngạch tại Bắc Luân 2 & Ka Long",
-      shortDescEn: "Official electronic clearance broker at Bac Luan 2 & Ka Long",
-      shortDescZh: "北仑二桥及卡隆口岸正贸电子报关与东盟 Form E 代办",
-      fullContent: `
-        <h3>Dịch vụ đại lý hải quan chính ngạch tại Cửa khẩu Quốc tế Móng Cái</h3>
-        <p>Đội ngũ chuyên viên chứng từ của Logistics GT túc trực trực tiếp tại trụ sở Vinhomes Golden Avenue (ngay sát Cửa khẩu Bắc Luân 2), am hiểu sâu sắc quy định kiểm hóa và biểu thuế xuất nhập khẩu.</p>
-        <h4>Các hạng mục nghiệp vụ:</h4>
-        <ul>
-          <li>Khai báo hải quan điện tử qua hệ thống VNACCS/VCIS nhanh chóng, chính xác.</li>
-          <li>Xin cấp giấy chứng nhận xuất xứ hàng hóa C/O Form E ưu đãi thuế quan ACFTA.</li>
-          <li>Đăng ký và hoàn tất thủ tục kiểm dịch thực vật, kiểm dịch động vật và kiểm tra an toàn thực phẩm.</li>
-          <li>Tham vấn giá, phân loại mã HS Code hàng hóa chuẩn xác nhằm tối ưu chi phí thuế.</li>
-        </ul>
-      `,
-      fullContentEn: `
-        <h3>Official Customs Brokerage at Mong Cai International Border Gate</h3>
-        <p>Our document specialist team operates directly from our Vinhomes Golden Avenue office (adjacent to Bac Luan 2 Gate), possessing deep regulatory knowledge of customs inspections and cross-border tariffs.</p>
-        <h4>Key Customs Services:</h4>
-        <ul>
-          <li>Rapid electronic customs declaration through Vietnam's official VNACCS/VCIS system.</li>
-          <li>ACFTA C/O Form E certification application for preferential tariff reduction and exemptions.</li>
-          <li>Phytosanitary inspection, veterinary quarantine, and food safety inspection registration.</li>
-          <li>Accurate HS code classification and price consultation to minimize import tax liabilities.</li>
-        </ul>
-      `,
-      fullContentZh: `
-        <h3>越南芒街国际口岸正规海关报关行服务</h3>
-        <p>GT 物流单证团队直驻芒街北仑二桥口岸旁 Vinhomes Golden Avenue，深入掌握中越边贸最新海关查验法规与关税政策。</p>
-        <h4>核心业务范围：</h4>
-        <ul>
-          <li>通过越南 VNACCS/VCIS 电子海关系统快速、精准申报进出口报关单。</li>
-          <li>代办中国—东盟自贸区原产地证书（C/O Form E），享受进口关税减免优惠。</li>
-          <li>代办动植物卫生检疫证书（Phytosanitary/Veterinary）及食品安全检测。</li>
-          <li>海关审价咨询、精准 HS Code 归类，助力外贸企业合法合规降低综合关税成本。</li>
+          <li>通过越南 VNACCS/VCIS 电子海关系统极速申报，当天完成现场理货查验放行。</li>
+          <li>精准 HS Code 归类、最优进出口关税筹划及海关审价合规咨询。</li>
+          <li>代办与核验中国—东盟自贸区原产地证书（C/O Form E），合规享受关税减免。</li>
+          <li>涵盖一般贸易正贸进口（A11）、进料加工（E31）、来料加工（E21）、暂进再出及免税投资设备。</li>
+          <li>代办动植物检疫、食品安全检测及服装面料快速检测出证。</li>
         </ul>
       `,
       iconName: "FileCheck",
       bannerImage: "/images/vietphuc/customs_document_review.webp",
+      sortOrder: 1,
+    },
+    {
+      title: "Vận Tải Đường Bộ Việt – Trung (Đội Xe 50 Chiếc Container)",
+      titleEn: "Cross-Border Trucking (50 Fleet)",
+      titleZh: "中越跨境公路集装箱运输（50辆车队）",
+      slug: "van-tai-duong-bo-viet-trung",
+      shortDesc: "Sở hữu đội xe 50 đầu kéo container, vận chuyển giao thẳng Door-to-Door không qua trung gian",
+      shortDescEn: "Owned fleet of 50 container trucks delivering direct Door-to-Door without intermediaries",
+      shortDescZh: "拥有50辆集装箱牵引车队，点到点极速直达交付，节省仓储与滞期成本",
+      fullContent: `
+        <h3>Năng lực vận tải đường bộ vượt trội với đội xe trực tiếp 50 đầu kéo container</h3>
+        <p>Thông qua sự liên kết chặt chẽ với đơn vị thành viên <strong>Việt Phúc Logistics</strong>, Logistics GT tự hào trực tiếp sở hữu và điều hành mạng lưới <strong>50 xe đầu kéo container</strong> hiện đại, chuyên tuyến liên vận hai chiều Việt Nam – Trung Quốc.</p>
+        <h4>Ưu thế vận tải đường bộ:</h4>
+        <ul>
+          <li><strong>Đội ngũ phương tiện hùng hậu:</strong> 50 đầu kéo chuyên dụng kéo các loại vỏ cont 20ft, 40ft, 45ft, mooc sàn, mooc lùn, mooc rào đáp ứng mọi tải trọng và kích thước hàng hóa.</li>
+          <li><strong>Vận chuyển giao thẳng (Door-to-Door):</strong> Tối ưu hóa quy trình điều vận để lấy hàng ngay tại bãi cửa khẩu (Móng Cái, Lạng Sơn) và giao thẳng về kho xưởng/nhà máy của khách hàng trên toàn quốc, loại bỏ khâu bốc dỡ trung gian.</li>
+          <li><strong>Tiết kiệm tối đa chi phí:</strong> Triệt tiêu chi phí lưu ca xe, phí bến bãi và phí sang tải không cần thiết, giúp doanh nghiệp tiết kiệm từ 15% - 25% tổng chi phí logistics.</li>
+          <li><strong>Giám sát hành trình GPS 24/7:</strong> Cập nhật vị trí, vận tốc và trạng thái xe theo thời gian thực, cam kết giao hàng an toàn, đúng giờ và bảo hiểm 100% trách nhiệm hàng hóa.</li>
+        </ul>
+      `,
+      fullContentEn: `
+        <h3>Cross-Border Road Transport with 50 Direct Container Trucks</h3>
+        <p>Through our affiliate <strong>Viet Phuc Logistics</strong>, GT Logistics directly owns and operates a modern fleet of <strong>50 container trucks</strong> serving two-way Vietnam - China trade routes.</p>
+        <h4>Key Road Freight Advantages:</h4>
+        <ul>
+          <li>Robust fleet: 50 heavy-duty tractor units pulling 20ft, 40ft, 45ft boxes, flatbeds, lowboys, and stake trailers.</li>
+          <li>Door-to-Door direct delivery: picking up cargo directly from border yards and transporting straight to client factories without intermediate handling.</li>
+          <li>Cost optimization: eliminating unnecessary demurrage, yard detention, and double handling costs.</li>
+          <li>24/7 GPS fleet monitoring ensuring safe, reliable, and punctual transit with 100% liability insurance.</li>
+        </ul>
+      `,
+      fullContentZh: `
+        <h3>自营50辆集装箱甩挂车队的中越跨境公路运力</h3>
+        <p>依托成员企业<strong>越福物流（Viet Phuc Logistics）</strong>，GT 物流直接掌控并运营 <strong>50 辆现代化集装箱牵引车</strong>，深耕中越双向跨境陆运通道。</p>
+        <h4>核心运力优势：</h4>
+        <ul>
+          <li>拥有 50 辆大功率牵引车，配备 20尺、40尺、45尺集装箱底盘、平板半挂及低平板车。</li>
+          <li>门到门点到点直发（Door-to-Door）：口岸清关放行后直接发运至客户工厂，免除二次倒箱中转。</li>
+          <li>最大化降低物流成本：杜绝不必要的堆存费、压夜费与过驳费，综合成本降低 15% - 25%。</li>
+          <li>24/7 GPS 全程实时在途轨迹监管，保障货物安全与精准履约。</li>
+        </ul>
+      `,
+      iconName: "Truck",
+      bannerImage: "/images/vietphuc/hero_office_panoramic.webp",
       sortOrder: 2,
     },
     {
-      title: "Ủy thác xuất nhập khẩu",
-      titleEn: "Trade Entrustment",
-      titleZh: "进出口外贸代理",
-      slug: "uy-thac-xuat-nhap-khau",
-      shortDesc: "Đàm phán ngoại thương, thanh toán quốc tế và đứng tên tờ khai",
-      shortDescEn: "Foreign trade negotiation, cross-border payment & declaration",
-      shortDescZh: "国际贸易谈判、外汇结算与进出口全流程报关代办",
+      title: "Vận Chuyển & Thông Quan Hàng Hóa Đặc Thù",
+      titleEn: "Specialized & Transit Cargo",
+      titleZh: "特种货物与过境货物运输",
+      slug: "van-chuyen-hang-dac-thu",
+      shortDesc: "Chuyên gia hàng quá khổ quá tải, hàng quá cảnh kẹp chì, hóa chất và kiểm định vải may mặc",
+      shortDescEn: "Specialist for OOG cargo, bonded transit seals, chemical permits and textile inspections",
+      shortDescZh: "专业处理超限大件工程设备、海关监管过境货物、化学品安全审批及服装面料快速检测",
       fullContent: `
-        <h3>Giải pháp ủy thác ngoại thương trọn gói, bảo mật và minh bạch</h3>
-        <p>Dành cho các doanh nghiệp, thương nhân chưa có tư cách pháp nhân xuất nhập khẩu hoặc muốn tối ưu hóa nguồn lực nghiệp vụ ngoại thương hai chiều Việt - Trung.</p>
-        <h4>Quyền lợi khi hợp tác ủy thác với Logistics GT:</h4>
+        <h3>Thế mạnh cốt lõi: Giải pháp chuyên biệt cho các mặt hàng khó & phức tạp</h3>
+        <p>Logistics GT là đơn vị tiếp vận hiếm hoi tại cửa ngõ phía Bắc sở hữu năng lực thực chiến chuyên sâu với các loại hàng hóa đặc thù đòi hỏi tiêu chuẩn kỹ thuật và pháp lý khắt khe nhất.</p>
+        <h4>4 nhóm hàng hóa thế mạnh:</h4>
         <ul>
-          <li>Đại diện đứng tên pháp nhân mở tờ khai, ký kết hợp đồng ngoại thương hợp pháp.</li>
-          <li>Hỗ trợ thanh toán quốc tế qua ngân hàng chính ngạch (T/T, L/C), bảo đảm an toàn dòng tiền.</li>
-          <li>Cung cấp đầy đủ hóa đơn GTGT, chứng từ hợp pháp để quyết toán thuế với cơ quan nhà nước.</li>
-          <li>Tư vấn chính sách mặt hàng, giấy phép nhập khẩu chuyên ngành và rào cản kỹ thuật.</li>
+          <li><strong>Hàng quá khổ, quá tải (OOG / Project Cargo):</strong> Vận chuyển dây chuyền máy móc nhà máy công nghiệp, thiết bị công trình xây dựng, dầm thép và kết cấu siêu trường siêu trọng bằng đội xe Mooc lùn, Mooc rút chuyên dụng; khảo sát tuyến đường và xin giấy phép lưu hành đặc biệt.</li>
+          <li><strong>Hàng quá cảnh (Transit Cargo):</strong> Khai báo thủ tục hải quan vận chuyển độc lập, kẹp chì niêm phong điện tử xuyên biên giới (Trung Quốc ⇄ Việt Nam ⇄ Lào / Campuchia / Thái Lan và trung chuyển qua cụm Cảng biển Hải Phòng).</li>
+          <li><strong>Hàng hóa chất & Hàng nguy hiểm (DG):</strong> Tư vấn xin giấy phép tiền chất công nghiệp, khai báo hóa chất trực tuyến qua Cổng thông tin một cửa quốc gia, kiểm tra bảng chỉ dẫn an toàn hóa chất MSDS và vận chuyển bằng phương tiện đạt chứng chỉ an toàn phòng cháy chữa cháy.</li>
+          <li><strong>Hàng vải & Nguyên phụ liệu dệt may:</strong> Thông quan nhanh số lượng lớn hàng trăm container vải cuộn mỗi tháng; phối hợp các trung tâm kiểm định xử lý nhanh thủ tục kiểm tra chuyên ngành hàm lượng Formaldehyt và amin thơm, đảm bảo nguyên liệu kịp thời cho dây chuyền xưởng may.</li>
         </ul>
       `,
       fullContentEn: `
-        <h3>Comprehensive, Secure & Transparent Foreign Trade Entrustment</h3>
-        <p>Tailored for enterprises and traders without import-export licenses or looking to streamline cross-border trade operations between Vietnam and China.</p>
-        <h4>Benefits of Partnering with GT Logistics:</h4>
+        <h3>Core Strength: Specialized Logistics for High-Complexity Cargo</h3>
+        <p>GT Logistics is one of the very few border logistics operators with deep technical mastery in handling demanding and heavily regulated cargo categories.</p>
+        <h4>4 Core Specialized Categories:</h4>
         <ul>
-          <li>Acting as legal declarant on customs declarations and executing foreign trade contracts.</li>
-          <li>Facilitating secure international banking payments (T/T, L/C) with complete regulatory compliance.</li>
-          <li>Issuing official VAT tax invoices and accounting documentation for domestic tax clearance.</li>
-          <li>Advisory on commodity regulations, specialized import licenses, and technical trade barriers.</li>
+          <li>Oversized & Overweight (OOG / Project Cargo): Industrial assembly lines, construction heavy machinery, steel structures via specialized lowboy trailers with official route survey permits.</li>
+          <li>Bonded Transit Cargo: In-transit declarations with electronic customs seals connecting China ⇄ Vietnam ⇄ Laos/Cambodia/Thailand and Hai Phong maritime seaports.</li>
+          <li>Chemicals & Dangerous Goods (DG): Industrial precursor permits, MSDS evaluation, national single-window chemical declarations, and safety-certified transport.</li>
+          <li>Textiles & Fabrics: High-volume rapid customs clearance, specialized Formaldehyde and aromatic amine testing coordination for apparel factories.</li>
         </ul>
       `,
       fullContentZh: `
-        <h3>一站式中越外贸代理与清关委托方案</h3>
-        <p>专为暂无进出口权、或希望精简外贸单证流程的跨国企业和贸易商量身定制，安全高效。</p>
-        <h4>委托 GT 物流的核心权益：</h4>
+        <h3>核心技术优势：攻克高难度特殊品类进出口与通关</h3>
+        <p>GT 物流在越南北部边境口岸具备处理各类高门槛、高技术规范特殊货物的成熟实操经验。</p>
+        <h4>四大特色攻坚品类：</h4>
         <ul>
-          <li>以正规法人资质代签外贸购销合同、代办海关报关与外贸单据。</li>
-          <li>协助通过正规银行渠道办理国际外汇结算（T/T, L/C），确保资金流转安全合规。</li>
-          <li>提供全套合法增值税发票（VAT Invoice）与报关单证，便于财税合规入账。</li>
-          <li>提供最新进出口配额、专管许可证及技术性贸易壁垒（TBT）应对咨询。</li>
+          <li>超限大件设备（OOG / Project Cargo）：整套工业流水线、大型工程设备、特种钢构，配备超低平板拖车与特种道路通行许可。</li>
+          <li>海关监管过境货物（Transit Cargo）：办理独立转关与海关电子封条，贯通中越老柬泰五国内陆与海防港国际出海口。</li>
+          <li>危险化学品申报与储运：代办工业前体化学品许可证、MSDS 审核及国家单一窗口化学品合规申报。</li>
+          <li>服装面料原辅料快清：海量面料集装箱极速清关，专人跟进甲醛及可分解芳香胺染料快速质检出证，保障服装厂生产工期。</li>
         </ul>
       `,
       iconName: "ShieldCheck",
-      bannerImage: "/images/vietphuc/specialist_female_glasses.webp",
+      bannerImage: "/images/vietphuc/presentation_multimodal.webp",
       sortOrder: 3,
     },
     {
-      title: "Hàng quá cảnh & chuyển cảng",
-      titleEn: "Transit & Transshipment Cargo",
-      titleZh: "过境货物与转港运输",
-      slug: "hang-qua-canh",
-      shortDesc: "Vận chuyển hàng quá cảnh, sang tải kẹp chì niêm phong từ cảng về cửa khẩu",
-      shortDescEn: "Customs-sealed transit and transshipment cargo from ports to border gates",
-      shortDescZh: "保税封条海关监管过境货物运输，海港至边境口岸无缝转运",
+      title: "Vận Tải Biển Bằng Tàu & Sà Lan Đi Tất Cả Các Đảo Cô Tô",
+      titleEn: "Co To Island Sea & Barge Freight",
+      titleZh: "姑苏群岛船运与驳船海运专线",
+      slug: "van-tai-bien-dao-co-to",
+      shortDesc: "Đội tàu và sà lan tải trọng lớn chuyên chở vật liệu xây dựng, thiết bị dự án ra các đảo thuộc Cô Tô",
+      shortDescEn: "Large tonnage vessels and barges transporting building materials and project cargo to Co To",
+      shortDescZh: "运力涵盖建材（沙石水泥钢材）、工程机械设备及民生物资直达姑苏大岛、小岛与清麟岛",
       fullContent: `
-        <h3>Giải pháp vận tải hàng quá cảnh và chuyển cảng chuyên nghiệp</h3>
-        <p>Logistics GT chuyên cung cấp dịch vụ vận chuyển hàng quá cảnh từ các cảng biển quốc tế (Hải Phòng, Cái Lân) sang các cửa khẩu biên mậu phía Bắc (Móng Cái, Lạng Sơn) và ngược lại theo hình thức kẹp chì niêm phong hải quan.</p>
-        <h4>Năng lực hàng quá cảnh & chuyển cảng:</h4>
+        <h3>Mạng lưới tàu biển & sà lan chuyên tuyến đi khắp quần đảo Cô Tô</h3>
+        <p>Thông qua đơn vị thành viên <strong>Vận Tải Cô Tô</strong>, Logistics GT là đơn vị tiên phong cung cấp giải pháp vận tải đường biển chuyên dụng kết nối từ các bến cảng đất liền (Vân Đồn, Cẩm Phả) ra <strong>tất cả các đảo thuộc huyện đảo Cô Tô</strong>.</p>
+        <h4>Năng lực vận chuyển đường thủy biển đảo:</h4>
         <ul>
-          <li>Đội xe đầu kéo chuyên dụng có định vị GPS hành trình phục vụ hàng quá cảnh có giám sát hải quan.</li>
-          <li>Thủ tục khai báo vận chuyển độc lập, kẹp chì niêm phong nhanh chóng tại chi cục hải quan.</li>
-          <li>Bốc xếp, sang tải và sang xe container chuyên nghiệp tại các kho bãi bến cảng và cửa khẩu.</li>
-          <li>Bảo hiểm trách nhiệm vận chuyển và cam kết đúng thời gian hành trình quy định của Hải quan.</li>
+          <li><strong>Đội phương tiện thủy trọng tải lớn:</strong> Khai thác đội tàu biển chuyên dụng và sà lan boong/sà lan tự hành công suất cao, thích ứng hoàn hảo với điều kiện luồng lạch, sóng gió đặc thù vùng biển Đông Bắc.</li>
+          <li><strong>Chuyên chở đa dạng chủng loại hàng:</strong> Vận chuyển vật liệu xây dựng khối lượng lớn (cát, đá, xi măng, sắt thép), máy móc công trình cơ giới (máy xúc, xe lu, xe trộn bê tông), thiết bị dự án hạ tầng điện nước biển đảo.</li>
+          <li><strong>Phục vụ dân sinh & du lịch:</strong> Tiếp vận lương thực, thực phẩm, hàng bách hóa tiêu dùng, đồ nội thất và trang thiết bị phục vụ các khu nghỉ dưỡng, khách sạn trên đảo.</li>
+          <li><strong>Bến bãi bốc xếp chuyên nghiệp:</strong> Cung cấp thiết bị cẩu tải trọng nặng tại cảng đất liền và bãi tập kết tại các đảo (Cô Tô Lớn, Cô Tô Con, Thanh Lân), đảm bảo an toàn tuyệt đối cho hàng hóa.</li>
         </ul>
       `,
       fullContentEn: `
-        <h3>Professional In-Transit and Port-to-Border Transshipment Logistics</h3>
-        <p>GT Logistics specializes in customs-sealed bonded transit cargo transportation connecting international seaports to northern border gates (Mong Cai, Lang Son) and vice versa.</p>
-        <h4>Transit Capabilities:</h4>
+        <h3>Dedicated Marine Vessels & Barges Across Co To Archipelago</h3>
+        <p>Through our dedicated affiliate <strong>Van Tai Co To</strong>, GT Logistics pioneers maritime heavy barge logistics connecting mainland ports (Van Don, Cam Pha) to <strong>every island in the Co To Archipelago</strong>.</p>
+        <h4>Island Marine Transport Capabilities:</h4>
         <ul>
-          <li>Dedicated GPS-tracked container truck fleet tailored for customs-supervised transit corridors.</li>
-          <li>Independent transit declaration procedures and rapid customs seal verification.</li>
-          <li>Professional cross-docking, container de-stuffing, and cargo handling at border hub yards.</li>
-          <li>Full transit liability coverage ensuring strict adherence to designated customs schedules.</li>
+          <li>Heavy marine fleet: high-tonnage cargo vessels and motorized deck barges engineered for northeastern coastal maritime conditions.</li>
+          <li>Bulk cargo handling: bulk construction materials (sand, gravel, cement, rebar), heavy engineering vehicles (excavators, rollers), and island utilities infrastructure gear.</li>
+          <li>Commercial & tourist supplies: consumer goods, fresh groceries, furnishings, and equipment for island resorts and hospitality sectors.</li>
+          <li>Professional pier loading & handling: high-capacity crane services at mainland terminals and direct island offloading across Big Co To, Small Co To, and Thanh Lan.</li>
         </ul>
       `,
       fullContentZh: `
-        <h3>专业国际过境货物与海港—口岸转运服务</h3>
-        <p>GT 物流专注于国际海港至越南北部边境口岸（芒街、谅山口岸）的海关监管过境与保税转运直达专线。</p>
-        <h4>过境运力特色：</h4>
+        <h3>直通广宁省姑苏群岛全境的货运轮船与工程驳船专线</h3>
+        <p>依托成员企业<strong>姑苏海运（Van Tai Co To）</strong>，GT 物流独家开辟从内陆港口（云屯、锦普）直达<strong>姑苏群岛所有岛屿</strong>的专业海运驳船航线。</p>
+        <h4>海岛海运核心运力：</h4>
         <ul>
-          <li>全天候 GPS 定位监管车队，满足海关在途监控与封条监管要求。</li>
-          <li>高效代办海关独立转关申报手续，口岸现场验封与快速放行。</li>
-          <li>边境集散中心专业集装箱机械过驳、掏箱装卸与理货换车。</li>
-          <li>全程货物运输保障，严格遵守海关规定的在途运输时限。</li>
+          <li>大吨位特种海运船队：高载重货运轮船与自航甲板驳船，适应东北海域潮汐水文与风浪条件。</li>
+          <li>全品类大宗物资承运：大宗工程建材（黄沙、碎石、水泥、螺纹钢）、重型施工机械车辆（挖掘机、压路机、水泥罐车）及海岛电水基建设备。</li>
+          <li>保障民生与海岛旅游：运送生鲜粮油、商超日用品、酒店工程家电及度假村配套物资。</li>
+          <li>陆岛两端专业码头吊装：陆上枢纽码头重型吊车过驳装船，姑苏大岛、姑苏小岛与清麟岛无缝过驳抵港。</li>
         </ul>
       `,
       iconName: "Ship",
-      bannerImage: "/images/vietphuc/presentation_multimodal.webp",
-      sortOrder: 4,
-    },
-    {
-      title: "Vận tải đa phương thức",
-      titleEn: "Multimodal Transport",
-      titleZh: "国际多式联运",
-      slug: "van-tai-da-phuong-thuc",
-      shortDesc: "Tích hợp đường bộ, đường biển cảng Hải Phòng và đường sắt",
-      shortDescEn: "Seamless integration of road, sea freight (Hai Phong) and rail",
-      shortDescZh: "整合中越跨境陆运、海防海运大港与铁路网络联运",
-      fullContent: `
-        <h3>Mạng lưới tiếp vận đa phương thức liên kết Móng Cái - Hải Phòng - Toàn quốc</h3>
-        <p>Logistics GT kết hợp linh hoạt giữa vận tải đường bộ cao tốc, vận tải đường biển qua các cảng Hải Phòng và đường sắt liên vận quốc tế nhằm tối ưu hóa chi phí và thời gian giao nhận.</p>
-        <h4>Giải pháp đa phương thức:</h4>
-        <ul>
-          <li>Nhận hàng từ các trung tâm sản xuất (Hà Nội, Bắc Ninh, Bình Dương, Đồng Nai) chuyển về Móng Cái qua đường cao tốc.</li>
-          <li>Kết nối hàng nhập khẩu từ Trung Quốc qua Móng Cái rồi chuyển tiếp ra cảng Hải Phòng xuất khẩu đi các nước thứ ba.</li>
-          <li>Thủ tục hải quan chuyển cảng, vận chuyển hàng quá cảnh (Transit) an toàn và chuẩn pháp lý.</li>
-          <li>Một đầu mối quản lý duy nhất (Single Point of Contact) giúp khách hàng theo dõi trọn vẹn toàn bộ chuỗi luân chuyển.</li>
-        </ul>
-      `,
-      fullContentEn: `
-        <h3>Multimodal Logistics Connecting Mong Cai - Hai Phong - Global Routes</h3>
-        <p>GT Logistics seamlessly bridges expressway road freight, maritime ocean shipping via Hai Phong deep-water ports, and cross-border rail to optimize both transit times and shipping budgets.</p>
-        <h4>Multimodal Features:</h4>
-        <ul>
-          <li>Cargo collection from major industrial zones (Hanoi, Bac Ninh, Binh Duong) routed swiftly to Mong Cai.</li>
-          <li>Transshipment of imports from China through Mong Cai to Hai Phong ports for third-country re-export.</li>
-          <li>Official in-transit customs declaration and bonded transit clearance with full regulatory compliance.</li>
-          <li>Single Point of Contact management allowing clients to track their entire multi-leg shipment effortlessly.</li>
-        </ul>
-      `,
-      fullContentZh: `
-        <h3>联通芒街—海防深水港—越南全境与全球的多式联运</h3>
-        <p>GT 物流灵活组合中越高铁/公路货运、越南海防深水港国际海运航线，为跨国供应链提供高性价比的陆海联动大通道。</p>
-        <h4>多式联运特色优势：</h4>
-        <ul>
-          <li>从越南各大制造业基地（河内、北宁、平阳、同奈）快速干线集运至芒街口岸出境。</li>
-          <li>中国进口货物经芒街清关后，转运至海防国际港口拼装海运发往欧美及东南亚第三国。</li>
-          <li>专业办理国际过境货物转关申报（Transit Customs）与保税货物联运监管手续。</li>
-          <li>单一责任主体（Single Point of Contact），全程单一窗口实时追踪货运动态。</li>
-        </ul>
-      `,
-      iconName: "Globe",
       bannerImage: "/images/vietphuc/boardroom_conference.webp",
-      sortOrder: 6,
+      sortOrder: 4,
     },
   ];
 
@@ -312,7 +273,7 @@ async function main() {
       create: s,
     });
   }
-  console.log("✅ Đã nạp 6 dịch vụ Logistics GT với nội dung đa ngôn ngữ (VI - EN - ZH)");
+  console.log("✅ Đã nạp 4 dịch vụ chính thức Logistics GT với nội dung đa ngôn ngữ (VI - EN - ZH)");
 
   // 4. Nạp Bài viết Tin tức & Cẩm nang mẫu cho GT Logistics với nội dung đa ngôn ngữ
   const defaultPosts = [

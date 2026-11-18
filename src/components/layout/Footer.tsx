@@ -10,6 +10,8 @@ import {
   Clock,
   ArrowRight,
   Building,
+  Truck,
+  Ship,
 } from "lucide-react";
 import { SERVICE_CATEGORIES } from "@/lib/constants";
 import { GtLogo } from "@/components/common/GtLogo";
@@ -22,7 +24,6 @@ interface FooterProps {
   email?: string;
   headquarters?: string;
   branchHaiPhong?: string;
-  branchLangSon?: string;
   taxCode?: string;
 }
 
@@ -32,8 +33,6 @@ export function Footer({
   zaloPhone = "0904382268",
   email = "contact@logisticsgt.vn",
   headquarters = "Căn ĐLTC-41, KĐT Vinhomes Golden Avenue, Cửa khẩu Bắc Luân 2, Phường Hải Hòa, TP. Móng Cái, Tỉnh Quảng Ninh",
-  branchHaiPhong = "Cụm Cảng Đình Vũ, Phường Đông Hải 2, Quận Hải An, TP. Hải Phòng",
-  branchLangSon,
   taxCode = "5701750095",
 }: FooterProps) {
   const pathname = usePathname();
@@ -63,27 +62,36 @@ export function Footer({
             </Link>
 
             <p className="text-sm text-slate-400 leading-relaxed pt-1">
-              {t.footer.companySummary}
+              Đơn vị tiên phong vận tải đường bộ liên vận Việt – Trung (50 xe container), đại lý thông quan chính ngạch đa cửa khẩu và khai thác chuyên tuyến tàu/sà lan quần đảo Cô Tô.
             </p>
 
             <div className="pt-2 text-xs text-slate-400 space-y-1.5 border-t border-slate-800/80">
               <div>
-                <span className="font-semibold text-slate-200">{t.common.taxCode}:</span>{" "}
+                <span className="font-semibold text-slate-200">Mã số thuế:</span>{" "}
                 <span className="text-gold-400 font-mono font-bold">{taxCode}</span>
               </div>
               <div>
-                <span className="font-semibold text-slate-200">{t.common.legalRepresentative}:</span> Lê Thanh Tâm
+                <span className="font-semibold text-slate-200">Đại diện pháp luật:</span> Lê Thanh Tâm
               </div>
               <div>
-                <span className="font-semibold text-slate-200">{t.common.partnerEcosystem}:</span> CÔNG TY TNHH VIỆT PHÚC LOGISTICS (MST: 4900940684)
+                <span className="font-semibold text-slate-200">Hotline 24/7:</span>{" "}
+                <a href={`tel:${cleanPhone}`} className="text-azure-400 font-bold hover:underline">
+                  {hotline}
+                </a>
+              </div>
+              <div>
+                <span className="font-semibold text-slate-200">Email:</span>{" "}
+                <a href={`mailto:${email}`} className="text-slate-300 hover:underline">
+                  {email}
+                </a>
               </div>
             </div>
           </div>
 
-          {/* Cột 2: Dịch vụ cốt lõi */}
+          {/* Cột 2: 4 Dịch vụ nòng cốt */}
           <div>
             <h3 className="text-sm font-bold text-white mb-4 border-l-2 border-gold-500 pl-3">
-              {t.footer.coreServices}
+              DỊCH VỤ TRỌNG TÂM
             </h3>
             <ul className="space-y-2.5 text-sm">
               {SERVICE_CATEGORIES.map((s) => (
@@ -92,131 +100,111 @@ export function Footer({
                     href={`/services/${s.slug}`}
                     className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400 group"
                   >
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-gold-400 transition-colors" />
-                    <span>{getServiceTitle(s)}</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-gold-400 transition-colors shrink-0" />
+                    <span className="line-clamp-1">{getServiceTitle(s)}</span>
                   </Link>
                 </li>
               ))}
             </ul>
+
+            <div className="mt-6 pt-4 border-t border-slate-800/80">
+              <span className="text-xs font-bold text-slate-400 block mb-2">HỆ SINH THÁI THÀNH VIÊN:</span>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                • <strong className="text-slate-300">Việt Phúc Logistics:</strong> Đội xe 50 container<br />
+                • <strong className="text-slate-300">Vận Tải Cô Tô:</strong> Tàu & sà lan biển đảo
+              </p>
+            </div>
           </div>
 
-          {/* Cột 3: Liên kết nhanh */}
+          {/* Cột 3: Liên kết nhanh (Đã bỏ hoàn toàn Tra Cứu Vận Đơn) */}
           <div>
             <h3 className="text-sm font-bold text-white mb-4 border-l-2 border-gold-500 pl-3">
-              {t.footer.quickLinks}
+              LIÊN KẾT NHANH
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/about" className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400">
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span>{t.common.aboutUs}</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                  <span>Về Chúng Tôi (Giới Thiệu)</span>
                 </Link>
               </li>
               <li>
                 <Link href="/services" className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400">
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span>{t.common.allServices}</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/tracking" className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400">
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span>{t.common.trackOrder}</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                  <span>Tất Cả 4 Dịch Vụ</span>
                 </Link>
               </li>
               <li>
                 <Link href="/news" className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400">
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span>{t.common.news}</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                  <span>Tin Tức & Biểu Thuế XNK</span>
                 </Link>
               </li>
               <li>
                 <Link href="/quote" className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400">
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span>{t.common.quote}</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                  <span>Yêu Cầu Báo Giá Nhanh</span>
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="hover:text-gold-300 transition-colors flex items-center gap-1.5 text-slate-400">
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
-                  <span>{t.common.contact}</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                  <span>Liên Hệ & Điểm Trực Cửa Khẩu</span>
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Cột 4: Mạng lưới văn phòng */}
+          {/* Cột 4: Hệ thống điểm trực cửa khẩu 24/7 */}
           <div className="space-y-4">
             <h3 className="text-sm font-bold text-white border-l-2 border-gold-500 pl-3">
-              {t.footer.contactHeadquarters}
+              ĐIỂM TRỰC CỬA KHẨU 24/7
             </h3>
 
             <div className="space-y-3 text-xs text-slate-400">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-azure-400 mt-0.5 shrink-0" />
                 <div>
-                  <strong className="text-slate-200 block">
-                    {locale === "zh" ? "芒街总部运营中心:" : locale === "en" ? "Mong Cai Headquarters:" : "Trụ Sở Điều Hành Móng Cái:"}
-                  </strong>
-                  <span>{headquarters || t.common.hqAddress}</span>
+                  <strong className="text-slate-200 block">Trụ Sở Móng Cái (Bắc Luân 2):</strong>
+                  <span>{headquarters}</span>
                 </div>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <Building className="w-4 h-4 text-gold-400 mt-0.5 shrink-0" />
+                <Truck className="w-4 h-4 text-gold-400 mt-0.5 shrink-0" />
                 <div>
-                  <strong className="text-slate-200 block">
-                    {locale === "zh" ? "谅山友谊关分支机构:" : locale === "en" ? "Lang Son Huu Nghi Branch:" : "Chi Nhánh Lạng Sơn (Hữu Nghị):"}
-                  </strong>
-                  <span>{branchLangSon || t.common.langSonOffice}</span>
+                  <strong className="text-slate-200 block">Điểm Trực Lạng Sơn:</strong>
+                  <span>CK Hữu Nghị, CK Tân Thanh & CK Chi Ma</span>
                 </div>
               </div>
 
               <div className="flex items-start gap-2.5">
                 <Building className="w-4 h-4 text-azure-400 mt-0.5 shrink-0" />
                 <div>
-                  <strong className="text-slate-200 block">
-                    {locale === "zh" ? "海防港口分支办事处:" : locale === "en" ? "Hai Phong Port Branch:" : "Văn Phòng Cảng Hải Phòng:"}
-                  </strong>
-                  <span>{branchHaiPhong || t.common.haiPhongOffice}</span>
+                  <strong className="text-slate-200 block">Văn Phòng Cảng Hải Phòng:</strong>
+                  <span>Cụm Cảng Đình Vũ, Q. Hải An, TP. Hải Phòng</span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-gold-400 shrink-0" />
+              <div className="flex items-start gap-2.5">
+                <Ship className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
                 <div>
-                  <span className="text-slate-400">{t.common.hotline}: </span>
-                  <a href={`tel:${cleanPhone}`} className="text-gold-300 font-bold hover:text-gold-200 transition-colors">
-                    {hotline}
-                  </a>
+                  <strong className="text-slate-200 block">Đầu Mối Tàu Đảo Cô Tô:</strong>
+                  <span>Bến Vân Đồn / Cẩm Phả & Quần đảo Cô Tô</span>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-azure-400 shrink-0" />
-                <a href={`mailto:${email}`} className="text-slate-300 hover:text-white transition-colors">
-                  {email}
-                </a>
-              </div>
-
-              <div className="flex items-center gap-2.5">
-                <Clock className="w-4 h-4 text-azure-400 shrink-0" />
-                <span>{t.common.operatingHours}</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        {/* Bản quyền & giờ làm việc */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <div>
-            © {new Date().getFullYear()} {t.common.companyName}. {t.footer.copyright}
+            © {new Date().getFullYear()} {companyName}. Bản quyền thuộc về Logistics GT.
           </div>
-          <div className="flex items-center gap-6">
-            <span>{t.common.slogan}</span>
-            <Link href="/admin/login" className="text-slate-600 hover:text-slate-400 transition-colors">
-              Admin CMS
-            </Link>
+          <div className="flex items-center gap-2 text-slate-400">
+            <Clock className="w-3.5 h-3.5 text-gold-400" />
+            <span>Trực hiện trường kiểm hóa & thông quan: 24/7 cả Thứ Bảy, Chủ Nhật</span>
           </div>
         </div>
       </div>

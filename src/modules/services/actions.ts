@@ -9,26 +9,33 @@ export async function getServices() {
       orderBy: { sortOrder: "asc" },
     });
 
-    if (services.length > 0) return services;
-    return SERVICE_CATEGORIES.map((s, idx) => ({
-      id: `svc_${idx}`,
-      title: s.title,
-      titleEn: s.titleEn,
-      titleZh: s.titleZh,
-      slug: s.slug,
-      shortDesc: s.shortDesc,
-      shortDescEn: s.shortDescEn,
-      shortDescZh: s.shortDescZh,
-      fullContent: `<p>${s.shortDesc}</p>`,
-      fullContentEn: `<p>${s.shortDescEn}</p>`,
-      fullContentZh: `<p>${s.shortDescZh}</p>`,
-      iconName: s.iconName,
-      bannerImage: s.bannerImage,
-      sortOrder: idx + 1,
-      isFeatured: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }));
+    const validSlugs = new Set(SERVICE_CATEGORIES.map((s) => s.slug));
+    const validDbServices = services.filter((s) => validSlugs.has(s.slug));
+    if (validDbServices.length === 4) return validDbServices;
+
+    return SERVICE_CATEGORIES.map((s, idx) => {
+      const match = services.find((dbS) => dbS.slug === s.slug);
+      if (match) return match;
+      return {
+        id: `svc_${idx}`,
+        title: s.title,
+        titleEn: s.titleEn,
+        titleZh: s.titleZh,
+        slug: s.slug,
+        shortDesc: s.shortDesc,
+        shortDescEn: s.shortDescEn,
+        shortDescZh: s.shortDescZh,
+        fullContent: `<p>${s.shortDesc}</p>`,
+        fullContentEn: `<p>${s.shortDescEn}</p>`,
+        fullContentZh: `<p>${s.shortDescZh}</p>`,
+        iconName: s.iconName,
+        bannerImage: s.bannerImage,
+        sortOrder: idx + 1,
+        isFeatured: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+    });
   } catch (error) {
     console.error("Lỗi lấy danh sách dịch vụ:", error);
     return [];

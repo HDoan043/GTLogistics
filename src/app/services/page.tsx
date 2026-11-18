@@ -153,36 +153,6 @@ export default async function ServicesPage() {
               );
             })}
           </div>
-
-          {/* Khối Tư Vấn & Hotline Cuối Trang */}
-          <div className="mt-16 bg-slate-950 text-white rounded-3xl p-8 sm:p-10 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-sm">
-            <div className="space-y-1.5">
-              <span className="text-xs font-bold text-gold-400 block tracking-wide">
-                TƯ VẤN & BÁO GIÁ CƯỚC NHANH
-              </span>
-              <h4 className="text-xl sm:text-2xl font-black text-white">
-                Cần Phương Án Vận Chuyển Tối Ưu Chi Phí Cho Lô Hàng Của Bạn?
-              </h4>
-              <p className="text-xs sm:text-sm text-slate-300">
-                Chuyên viên trực cửa khẩu phản hồi phương án và báo giá chi tiết trong vòng 15 phút.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <Link
-                href="/quote"
-                className="px-6 py-3.5 rounded-xl bg-azure-600 hover:bg-azure-700 text-white font-bold text-sm transition-colors tap-press"
-              >
-                Nhận Báo Giá Trong 15 Phút
-              </Link>
-              <a
-                href={`tel:${cleanPhone}`}
-                className="px-6 py-3.5 rounded-xl border border-slate-700 bg-slate-900 text-slate-100 hover:bg-slate-800 text-sm font-semibold transition-colors flex items-center gap-2 tap-press"
-              >
-                <PhoneCall className="w-4 h-4 text-gold-400" />
-                <span>{settings.hotline}</span>
-              </a>
-            </div>
-          </div>
         </div>
       </section>
     </div>

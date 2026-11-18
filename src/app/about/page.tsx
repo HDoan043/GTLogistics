@@ -278,37 +278,6 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        {/* HỘP KÊU GỌI HÀNH ĐỘNG CUỐI TRANG */}
-        <section className="bg-slate-950 text-white rounded-3xl p-8 sm:p-10 border border-slate-800 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <span className="text-xs font-bold text-gold-400 block mb-1">
-              Hợp tác tiếp vận bền vững
-            </span>
-            <h4 className="text-xl sm:text-2xl font-black text-white leading-tight">
-              Sẵn Sàng Đồng Hành Cùng Chuỗi Cung Ứng Của Bạn
-            </h4>
-            <p className="text-sm text-slate-300 max-w-xl">
-              Nhận tư vấn phương án thông quan và biểu giá cước đội xe 50 container hoặc vận chuyển tàu đảo Cô Tô chỉ trong vòng 15 phút.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3 shrink-0">
-            <Link
-              href="/quote"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-azure-600 hover:bg-azure-700 text-white font-bold text-sm shadow-md transition-colors tap-press"
-            >
-              <span>Nhận Báo Giá Trong 15 Phút</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <a
-              href={`tel:${cleanPhone}`}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl border border-slate-700 bg-slate-900 text-slate-100 hover:bg-slate-800 text-sm font-semibold transition-colors tap-press"
-            >
-              <PhoneCall className="w-4 h-4 text-gold-400" />
-              <span>{settings.hotline}</span>
-            </a>
-          </div>
-        </section>
-
       </div>
     </div>
   );

@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 
 export interface BreadcrumbItem {
@@ -34,7 +33,15 @@ export function PageBanner({
   bgOpacity = 30,
 }: PageBannerProps) {
   const isMain = size === "main";
-  const effectiveBgImage = bgImage || "/images/vietphuc/hero_fleet_6k3a8950.webp";
+  const isLegacyWall =
+    !bgImage ||
+    bgImage.includes("gt_brand_wall") ||
+    bgImage.includes("gt_logo_wall") ||
+    bgImage.includes("hero_office");
+
+  const effectiveBgImage = isLegacyWall
+    ? "/images/vietphuc/hero_fleet_6k3a8950.webp"
+    : bgImage;
   const effectiveOpacity = bgOpacity ?? 45;
 
   return (
@@ -45,9 +52,9 @@ export function PageBanner({
           : "py-8 sm:py-10"
       }`}
     >
-      {/* Ảnh nền tuỳ chỉnh với tính năng phóng to / thu nhỏ và vị trí linh hoạt */}
+      {/* Ảnh nền thực tế duy nhất, không chèn watermark logo chồng chéo */}
       <div
-        className="absolute inset-0 z-0 bg-no-repeat pointer-events-none"
+        className="absolute inset-0 z-0 bg-cover bg-center pointer-events-none"
         style={{
           backgroundImage: `url('${effectiveBgImage}')`,
           backgroundSize: `${bgScale || 100}%`,
@@ -56,19 +63,8 @@ export function PageBanner({
         }}
       />
 
-      {/* Nền tối sâu với chuyển sắc mềm mại */}
-      <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
-
-      {/* Watermark logo GT LOGISTICS hiển thị mờ nghệ thuật phía bên phải theo đúng ảnh thực tế */}
-      <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none">
-        <Image
-          src="/images/gt_logo.webp"
-          alt="GT Logistics Watermark"
-          fill
-          className="object-contain object-right"
-          priority
-        />
-      </div>
+      {/* Lớp phủ chuyển màu gradient nhẹ nhàng để chữ đọc sắc nét */}
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-slate-950/30 z-0 pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Breadcrumb nhỏ gọn, tinh tế */}

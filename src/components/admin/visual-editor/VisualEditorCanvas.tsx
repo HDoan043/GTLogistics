@@ -222,28 +222,38 @@ export function VisualEditorCanvas({
   // Helper to get active banner configuration for current page
   const getActiveBannerConfig = () => {
     if (selectedPage === "home") {
+      const isLegacy =
+        !hero.bgImage ||
+        hero.bgImage.includes("gt_brand_wall") ||
+        hero.bgImage.includes("gt_logo_wall") ||
+        hero.bgImage.includes("hero_office");
       return {
-        bgImage: hero.bgImage || "/images/vietphuc/hero_office_panoramic.webp",
+        bgImage: isLegacy ? "/images/vietphuc/hero_fleet_6k3a8950.webp" : hero.bgImage,
         bgScale: hero.bgScale ?? 100,
         bgPosition: hero.bgPosition || "center",
-        bgOpacity: hero.bgOpacity ?? 35,
+        bgOpacity: hero.bgOpacity ?? 55,
       };
     }
     const pageKey = currentService ? "service" : selectedPage;
     if (currentService) {
       return {
-        bgImage: currentService.bannerImage || "",
+        bgImage: currentService.bannerImage || "/images/vietphuc/hero_fleet_6k3a8950.webp",
         bgScale: currentService.bgScale ?? 100,
         bgPosition: currentService.bgPosition || "center",
-        bgOpacity: currentService.bgOpacity ?? 30,
+        bgOpacity: currentService.bgOpacity ?? 45,
       };
     }
     const b = banners[pageKey] || {};
+    const isLegacyB =
+      !b.bgImage ||
+      b.bgImage.includes("gt_brand_wall") ||
+      b.bgImage.includes("gt_logo_wall") ||
+      b.bgImage.includes("hero_office");
     return {
-      bgImage: b.bgImage || "",
+      bgImage: isLegacyB ? "/images/vietphuc/hero_fleet_6k3a8950.webp" : b.bgImage,
       bgScale: b.bgScale ?? 100,
       bgPosition: b.bgPosition || "center",
-      bgOpacity: b.bgOpacity ?? 30,
+      bgOpacity: b.bgOpacity ?? 45,
     };
   };
 
@@ -1262,16 +1272,6 @@ export function VisualEditorCanvas({
               )}
               <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
 
-              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
-                <Image
-                  src="/images/gt_logo.webp"
-                  alt="GT Logistics Watermark"
-                  fill
-                  className="object-contain object-right"
-                  priority
-                />
-              </div>
-
               <div className="relative z-10 max-w-7xl mx-auto space-y-3">
                 <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
                   <span>Trang chủ</span>
@@ -1549,16 +1549,6 @@ export function VisualEditorCanvas({
               )}
               <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
 
-              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
-                <Image
-                  src="/images/gt_logo.webp"
-                  alt="GT Logistics Watermark"
-                  fill
-                  className="object-contain object-right"
-                  priority
-                />
-              </div>
-
               <div className="relative z-10 max-w-7xl mx-auto space-y-3">
                 <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
                   <span>Trang chủ</span>
@@ -1747,16 +1737,6 @@ export function VisualEditorCanvas({
               )}
               <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
 
-              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
-                <Image
-                  src="/images/gt_logo.webp"
-                  alt="GT Logistics Watermark"
-                  fill
-                  className="object-contain object-right"
-                  priority
-                />
-              </div>
-
               <div className="relative z-10 max-w-7xl mx-auto space-y-3">
                 <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
                   <span>Trang chủ</span>
@@ -1887,16 +1867,6 @@ export function VisualEditorCanvas({
               )}
               <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
 
-              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
-                <Image
-                  src="/images/gt_logo.webp"
-                  alt="GT Logistics Watermark"
-                  fill
-                  className="object-contain object-right"
-                  priority
-                />
-              </div>
-
               <div className="relative z-10 max-w-7xl mx-auto space-y-3">
                 <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
                   <span>Trang chủ</span>
@@ -2012,16 +1982,6 @@ export function VisualEditorCanvas({
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
-
-              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
-                <Image
-                  src="/images/gt_logo.webp"
-                  alt="GT Logistics Watermark"
-                  fill
-                  className="object-contain object-right"
-                  priority
-                />
-              </div>
 
               <div className="relative z-10 max-w-7xl mx-auto space-y-3">
                 <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
@@ -2146,16 +2106,6 @@ export function VisualEditorCanvas({
               )}
               <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
 
-              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
-                <Image
-                  src="/images/gt_logo.webp"
-                  alt="GT Logistics Watermark"
-                  fill
-                  className="object-contain object-right"
-                  priority
-                />
-              </div>
-
               <div className="relative z-10 max-w-7xl mx-auto space-y-3">
                 <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
                   <span>Trang chủ</span>
@@ -2261,16 +2211,6 @@ export function VisualEditorCanvas({
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />
-
-              <div className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-40 sm:h-52 lg:h-60 pointer-events-none opacity-15 select-none z-0">
-                <Image
-                  src="/images/gt_logo.webp"
-                  alt="GT Logistics Watermark"
-                  fill
-                  className="object-contain object-right"
-                  priority
-                />
-              </div>
 
               <div className="relative z-10 max-w-7xl mx-auto space-y-2">
                 {/* Breadcrumbs */}

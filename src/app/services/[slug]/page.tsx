@@ -84,36 +84,6 @@ export default async function ServiceDetailPage({
                 className="rich-content pt-2"
                 dangerouslySetInnerHTML={{ __html: localized.fullContent }}
               />
-
-              {/* Hộp Báo Giá Ngữ Cảnh Dành Riêng Cho Dịch Vụ Này (thay cho form tổng cồng kềnh) */}
-              <div className="mt-8 p-6 rounded-2xl bg-slate-950 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 border border-slate-800 shadow-sm">
-                <div>
-                  <span className="text-[11px] font-bold text-gold-400 block mb-1">
-                    {t.common.requestQuote}
-                  </span>
-                  <h4 className="text-base sm:text-lg font-bold text-white leading-snug">
-                    {locale === "zh"
-                      ? `需要 ${localized.title} 的即时专属运价？`
-                      : locale === "en"
-                      ? `Need an optimized quotation for ${localized.title}?`
-                      : `Cần báo giá cước và phương án tối ưu cho ${localized.title}?`}
-                  </h4>
-                  <p className="text-xs text-slate-300 mt-1">
-                    {locale === "zh"
-                      ? "中越双语专员 15 分钟内即时回电制定省费方案。"
-                      : locale === "en"
-                      ? "Specialists will respond within 15 minutes with competitive rates."
-                      : "Chuyên viên phản hồi trong 15 phút với lộ trình và chi phí tối ưu nhất."}
-                  </p>
-                </div>
-                <Link
-                  href={`/quote?service=${encodeURIComponent(service.title)}`}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gold-500 hover:bg-gold-400 text-slate-950 font-bold text-sm shrink-0 transition-colors duration-150 tap-press"
-                >
-                  <span>{t.common.quote}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
             </div>
 
             {/* Cột phải: Danh sách điều hướng tất cả dịch vụ & Liên hệ nhanh */}

@@ -272,7 +272,7 @@ export function VisualEditorCanvas({
   const statIcons = [Award, TrendingUp, Users, ShieldCheck];
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col">
+    <div className="fixed inset-0 z-50 bg-slate-900 text-slate-100 flex flex-col overflow-y-auto">
       {/* 1. THANH ĐIỀU KHIỂN NỔI CỐ ĐỊNH Ở ĐỈNH (TOP COMMAND BAR) */}
       <header className="sticky top-0 z-50 bg-slate-950/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex flex-wrap items-center justify-between gap-3 shadow-md">
         <div className="flex items-center gap-3">

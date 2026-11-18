@@ -33,12 +33,12 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col md:flex-row">
-      {/* Sidebar (Chỉ hiện khi đã đăng nhập) - Giao diện sáng theo bộ nhận diện Logo GT */}
+      {/* Sidebar (Chỉ hiện khi đã đăng nhập) - Giao diện tối sang trọng tạo tương phản nổi bật */}
       {admin && (
-        <aside className="w-full md:w-64 bg-white text-slate-700 flex flex-col justify-between shrink-0 shadow-xs border-r border-slate-200">
+        <aside className="w-full md:w-64 bg-slate-950 text-slate-300 flex flex-col justify-between shrink-0 shadow-lg border-r border-slate-800">
           <div>
-            {/* Logo Admin GT Logistics chính thức */}
-            <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-white">
+            {/* Logo Admin GT Logistics chính thức trên nền tối */}
+            <div className="p-4 border-b border-slate-800/80 flex items-center justify-between bg-slate-950">
               <Link href="/admin/dashboard" className="flex items-center gap-2">
                 <div className="relative h-10 w-36">
                   <Image
@@ -50,76 +50,72 @@ export default async function AdminLayout({
                   />
                 </div>
               </Link>
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-transit-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-              </span>
             </div>
 
             {/* Menu điều hướng */}
             <nav className="p-4 space-y-1.5 text-xs font-semibold">
               <Link
                 href="/admin/editor"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-gradient-to-r from-azure-50 via-azure-50/80 to-gold-50/70 border border-gold-400 text-azure-900 hover:border-gold-500 transition-colors shadow-xs"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-gradient-to-r from-azure-950/70 via-azure-900/40 to-gold-950/40 border border-gold-500/50 text-gold-300 hover:border-gold-400 hover:text-gold-200 transition-colors shadow-xs"
               >
-                <Eye className="w-4 h-4 text-gold-600 shrink-0" />
-                <span className="font-bold">Sửa Trực Quan (Click-to-Edit)</span>
-                <span className="text-[9px] bg-gold-500 text-slate-950 font-black px-1.5 py-0.5 rounded ml-auto">
+                <Eye className="w-4 h-4 text-gold-400 shrink-0" />
+                <span className="font-bold">Sửa Trực Quan (Live)</span>
+                <span className="text-[9px] bg-gold-400 text-slate-950 font-black px-1.5 py-0.5 rounded ml-auto">
                   LIVE
                 </span>
               </Link>
 
               <Link
                 href="/admin/dashboard"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-azure-50 hover:text-azure-700 transition-colors text-slate-700 border border-transparent hover:border-azure-200"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/80 hover:text-white transition-colors text-slate-300 border border-transparent hover:border-slate-700/60"
               >
-                <LayoutDashboard className="w-4 h-4 text-azure-600" />
+                <LayoutDashboard className="w-4 h-4 text-azure-400" />
                 <span>Bảng Tổng Quan</span>
               </Link>
 
               <Link
                 href="/admin/posts"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-azure-50 hover:text-azure-700 transition-colors text-slate-700 border border-transparent hover:border-azure-200"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/80 hover:text-white transition-colors text-slate-300 border border-transparent hover:border-slate-700/60"
               >
-                <FileText className="w-4 h-4 text-azure-600" />
+                <FileText className="w-4 h-4 text-azure-400" />
                 <span>Quản Lý Bài Viết</span>
               </Link>
 
               <Link
                 href="/admin/leads"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-azure-50 hover:text-azure-700 transition-colors text-slate-700 border border-transparent hover:border-azure-200"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/80 hover:text-white transition-colors text-slate-300 border border-transparent hover:border-slate-700/60"
               >
-                <Users className="w-4 h-4 text-azure-600" />
+                <Users className="w-4 h-4 text-azure-400" />
                 <span>Khách Hàng (Leads)</span>
               </Link>
 
               <Link
                 href="/admin/content"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-azure-50 hover:text-azure-700 transition-colors text-slate-700 border border-transparent hover:border-azure-200"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/80 hover:text-white transition-colors text-slate-300 border border-transparent hover:border-slate-700/60"
               >
-                <LayoutTemplate className="w-4 h-4 text-azure-600" />
+                <LayoutTemplate className="w-4 h-4 text-azure-400" />
                 <span>Nội Dung & Giao Diện</span>
               </Link>
 
               <Link
                 href="/admin/settings"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-azure-50 hover:text-azure-700 transition-colors text-slate-700 border border-transparent hover:border-azure-200"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/80 hover:text-white transition-colors text-slate-300 border border-transparent hover:border-slate-700/60"
               >
-                <Settings className="w-4 h-4 text-azure-600" />
+                <Settings className="w-4 h-4 text-azure-400" />
                 <span>Cấu Hình Website</span>
               </Link>
             </nav>
           </div>
 
           {/* Phần dưới cùng sidebar: Thông tin Admin & Đăng xuất */}
-          <div className="p-4 border-t border-slate-200 space-y-3 bg-white">
-            <div className="px-3 py-2.5 bg-slate-50 rounded-xl flex items-center gap-2.5 text-xs border border-slate-200/80">
-              <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+          <div className="p-4 border-t border-slate-800 space-y-3 bg-slate-950/90">
+            <div className="px-3 py-2.5 bg-slate-900 rounded-xl flex items-center gap-2.5 text-xs border border-slate-800">
+              <ShieldCheck className="w-4 h-4 text-azure-400 shrink-0" />
               <div className="overflow-hidden">
-                <span className="text-slate-900 font-bold block truncate">
+                <span className="text-white font-bold block truncate">
                   {admin.fullName}
                 </span>
-                <span className="text-[10px] text-slate-500 truncate block font-mono">
+                <span className="text-[10px] text-slate-400 truncate block font-mono">
                   {admin.email}
                 </span>
               </div>
@@ -129,7 +125,7 @@ export default async function AdminLayout({
               <Link
                 href="/"
                 target="_blank"
-                className="text-slate-500 hover:text-azure-700 flex items-center gap-1 transition-colors font-medium"
+                className="text-slate-400 hover:text-azure-300 flex items-center gap-1 transition-colors font-medium"
               >
                 <span>Xem Website</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -144,7 +140,7 @@ export default async function AdminLayout({
               >
                 <button
                   type="submit"
-                  className="text-rose-600 hover:text-rose-700 flex items-center gap-1 transition-colors font-bold"
+                  className="text-rose-400 hover:text-rose-300 flex items-center gap-1 transition-colors font-bold"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                   <span>Thoát</span>

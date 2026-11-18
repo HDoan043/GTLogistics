@@ -4,11 +4,11 @@ import { redirect } from "next/navigation";
 import {
   FileText,
   Users,
-  Eye,
+  PhoneCall,
+  Truck,
   Settings,
   PlusCircle,
   ArrowRight,
-  TrendingUp,
 } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { getCurrentAdmin } from "@/lib/auth";
@@ -21,11 +21,12 @@ export default async function AdminDashboardPage() {
     redirect("/admin/login");
   }
 
-  const [postCount, totalViews, newLeadsCount, recentLeads, recentPosts] =
+  const [postCount, newLeadsCount, totalLeadsCount, servicesCount, recentLeads, recentPosts] =
     await Promise.all([
       prisma.post.count(),
-      prisma.post.aggregate({ _sum: { viewCount: true } }),
       prisma.lead.count({ where: { status: "NEW" } }),
+      prisma.lead.count(),
+      prisma.service.count(),
       prisma.lead.findMany({
         orderBy: { createdAt: "desc" },
         take: 5,
@@ -43,18 +44,14 @@ export default async function AdminDashboardPage() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-azure-50 text-azure-700 border border-azure-200">
-              Operations Desk
-            </span>
-            <span className="text-[11px] text-emerald-700 flex items-center gap-1 font-bold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              Hệ Thống Trực Tuyến 24/7
+              Bảng Điều Khiển
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
             Xin Chào, {admin.fullName}!
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 mt-1">
-            Tổng quan hệ thống thông tin website doanh nghiệp và tiếp nhận khách hàng.
+            Tổng quan dữ liệu vận hành website và các yêu cầu báo giá từ khách hàng.
           </p>
         </div>
 
@@ -74,15 +71,43 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Thẻ Thống Kê Nhanh - Metric Tiles */}
+      {/* Thẻ Thống Kê Dữ Liệu Vận Hành Thực Tế */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-amber-400 transition-colors">
+          <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center font-bold">
+            <Users className="w-6 h-6" />
+          </div>
+          <div>
+            <span className="text-xs text-slate-500 font-medium block">
+              Yêu cầu mới chờ xử lý
+            </span>
+            <span className="text-2xl font-black text-amber-600 mt-1 block font-mono tabular-nums">
+              {newLeadsCount}
+            </span>
+          </div>
+        </div>
+
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-azure-400 transition-colors">
           <div className="w-12 h-12 rounded-xl bg-azure-50 border border-azure-200 text-azure-600 flex items-center justify-center font-bold">
+            <PhoneCall className="w-6 h-6" />
+          </div>
+          <div>
+            <span className="text-xs text-slate-500 font-medium block">
+              Tổng số khách hàng (Leads)
+            </span>
+            <span className="text-2xl font-black text-slate-950 mt-1 block font-mono tabular-nums">
+              {totalLeadsCount}
+            </span>
+          </div>
+        </div>
+
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-indigo-400 transition-colors">
+          <div className="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center font-bold">
             <FileText className="w-6 h-6" />
           </div>
           <div>
             <span className="text-xs text-slate-500 font-medium block">
-              Tổng bài viết
+              Bài viết tin tức & cẩm nang
             </span>
             <span className="text-2xl font-black text-slate-950 mt-1 block font-mono tabular-nums">
               {postCount}
@@ -90,44 +115,16 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-purple-400 transition-colors">
-          <div className="w-12 h-12 rounded-xl bg-purple-50 border border-purple-200 text-purple-600 flex items-center justify-center font-bold">
-            <Eye className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs text-slate-500 font-medium block">
-              Lượt đọc bài viết
-            </span>
-            <span className="text-2xl font-black text-slate-950 mt-1 block font-mono tabular-nums">
-              {totalViews._sum.viewCount || 0}
-            </span>
-          </div>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-gold-400 transition-colors">
-          <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center font-bold">
-            <Users className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs text-slate-500 font-medium block">
-              Leads mới chờ xử lý
-            </span>
-            <span className="text-2xl font-black text-gold-600 mt-1 block font-mono tabular-nums">
-              {newLeadsCount}
-            </span>
-          </div>
-        </div>
-
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-emerald-400 transition-colors">
           <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center font-bold">
-            <TrendingUp className="w-6 h-6" />
+            <Truck className="w-6 h-6" />
           </div>
           <div>
             <span className="text-xs text-slate-500 font-medium block">
-              Trạng thái hệ thống
+              Dịch vụ logistics chủ lực
             </span>
-            <span className="text-sm font-bold text-emerald-700 mt-1 block">
-              Online 100%
+            <span className="text-2xl font-black text-slate-950 mt-1 block font-mono tabular-nums">
+              {servicesCount}
             </span>
           </div>
         </div>
@@ -232,7 +229,7 @@ export default async function AdminDashboardPage() {
                   <div className="flex items-center gap-2 text-slate-500 text-[11px] mt-1">
                     <span>{post.category}</span>
                     <span>•</span>
-                    <span><strong className="font-mono tabular-nums text-slate-800">{post.viewCount}</strong> lượt xem</span>
+                    <span>{new Date(post.createdAt).toLocaleDateString("vi-VN")}</span>
                   </div>
                 </div>
 

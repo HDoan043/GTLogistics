@@ -37,11 +37,11 @@ export async function createSession(session: AdminSession): Promise<string> {
   try {
     const headerList = await headers();
     const proto = headerList.get("x-forwarded-proto");
-    const host = headerList.get("host") || "";
-    // Only require secure cookie if on real HTTPS or non-localhost production host
-    isSecure = proto === "https" || (!host.includes("localhost") && !host.includes("127.0.0.1") && process.env.NODE_ENV === "production");
+    // Chỉ bật secure flag khi kết nối thực tế là HTTPS.
+    // Nếu truy cập qua HTTP (ví dụ http://160.191.46.105), cờ secure phải là false để trình duyệt không loại bỏ cookie.
+    isSecure = proto === "https";
   } catch {
-    isSecure = process.env.NODE_ENV === "production";
+    isSecure = false;
   }
 
   const cookieStore = await cookies();

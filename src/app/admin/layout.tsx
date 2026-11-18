@@ -10,6 +10,7 @@ import {
   LogOut,
   ExternalLink,
   ShieldCheck,
+  LayoutTemplate,
 } from "lucide-react";
 import { getCurrentAdmin, deleteSession } from "@/lib/auth";
 
@@ -71,6 +72,14 @@ export default async function AdminLayout({
               >
                 <Users className="w-4 h-4 text-azure-400" />
                 <span>Khách Hàng (Leads)</span>
+              </Link>
+
+              <Link
+                href="/admin/content"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-white transition-colors text-slate-300 border border-transparent hover:border-slate-700/80"
+              >
+                <LayoutTemplate className="w-4 h-4 text-azure-400" />
+                <span>Nội Dung & Giao Diện</span>
               </Link>
 
               <Link

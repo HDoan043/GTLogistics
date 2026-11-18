@@ -5,8 +5,48 @@ import Image from "next/image";
 import { MapPin, Building2, ShieldCheck, Clock, FileCheck2, Award } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/context";
 
-export function WhyChooseUs() {
+interface WhyUsProps {
+  whyUsData?: {
+    badge?: string;
+    badgeEn?: string;
+    badgeZh?: string;
+    title?: string;
+    titleEn?: string;
+    titleZh?: string;
+    description?: string;
+    descriptionEn?: string;
+    descriptionZh?: string;
+    image?: string;
+    items?: Array<{
+      icon?: string;
+      title: string;
+      titleEn?: string;
+      titleZh?: string;
+      desc: string;
+      descEn?: string;
+      descZh?: string;
+    }>;
+  };
+}
+
+export function WhyChooseUs({ whyUsData }: WhyUsProps = {}) {
   const { t, locale } = useLanguage();
+
+  const heading =
+    locale === "zh" && whyUsData?.titleZh
+      ? whyUsData.titleZh
+      : locale === "en" && whyUsData?.titleEn
+      ? whyUsData.titleEn
+      : whyUsData?.title || t.whyUs.heading;
+
+  const desc =
+    locale === "zh" && whyUsData?.descriptionZh
+      ? whyUsData.descriptionZh
+      : locale === "en" && whyUsData?.descriptionEn
+      ? whyUsData.descriptionEn
+      : whyUsData?.description || t.whyUs.desc;
+
+  const bannerImg = whyUsData?.image || "/images/vietphuc/gt_brand_wall_illuminated.webp";
 
   const networkNodes = [
     {
@@ -206,17 +246,17 @@ export function WhyChooseUs() {
             <div>
               <div className="h-1 w-12 bg-gold-500 rounded-full mb-4" />
               <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
-                {t.whyUs.heading}
+                {heading}
               </h2>
               <p className="mt-4 text-slate-600 text-base leading-relaxed">
-                {t.whyUs.desc}
+                {desc}
               </p>
             </div>
 
             {/* Ảnh Biển Hiệu Trụ Sở Thực Tế Tại Móng Cái */}
             <div className="relative h-64 sm:h-72 rounded-2xl overflow-hidden shadow-md border border-slate-200 group">
               <Image
-                src="/images/vietphuc/gt_brand_wall_illuminated.webp"
+                src={bannerImg}
                 alt="Văn phòng điều hành GT Logistics tại Vinhomes Golden Avenue Móng Cái"
                 fill
                 sizes="(max-width: 768px) 100vw, 40vw"

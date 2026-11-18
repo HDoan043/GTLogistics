@@ -19,6 +19,8 @@ import { StatsCounter } from "@/components/home/StatsCounter";
 import { PageBanner } from "@/components/layout/PageBanner";
 import { getSiteSettings } from "@/modules/settings/actions";
 import { getServerDictionary } from "@/lib/i18n/server";
+import { getPageSectionContent } from "@/modules/content/actions";
+import { DEFAULT_HOME_STATS } from "@/modules/content/constants";
 
 export const metadata = {
   title: "Giới Thiệu Về Chúng Tôi | GT Logistics",
@@ -29,9 +31,10 @@ export const metadata = {
 const pillarIcons = [Globe2, ShieldCheck, Zap, Gauge, Award, Coins];
 
 export default async function AboutPage() {
-  const [{ locale, t }, settings] = await Promise.all([
+  const [{ locale, t }, settings, statsContent] = await Promise.all([
     getServerDictionary(),
     getSiteSettings(),
+    getPageSectionContent("content_home_stats", DEFAULT_HOME_STATS),
   ]);
 
   const aboutTitle =
@@ -55,7 +58,7 @@ export default async function AboutPage() {
       />
 
       {/* Đẩy tất cả Big Numbers (Số liệu ấn tượng) lên đầu trang theo yêu cầu */}
-      <StatsCounter />
+      <StatsCounter statsData={statsContent} />
 
       {/* Lịch sử, Pháp lý & Mạng lưới chi nhánh - Bố cục 2 cột cân bằng hoàn hảo */}
       <section className="py-16 sm:py-20 bg-white text-slate-900 border-b border-slate-200/80">

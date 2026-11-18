@@ -1,0 +1,210 @@
+// Dữ liệu mặc định cho Hero Section Trang Chủ
+export const DEFAULT_HOME_HERO = {
+  titleGt: "GT",
+  titleLogistics: "LOGISTICS",
+  slogan: "ĐỒNG HÀNH TIN CẬY - PHÁT TRIỂN BỀN VỮNG",
+  sloganEn: "RELIABLE PARTNER - SUSTAINABLE GROWTH",
+  sloganZh: "值得信赖的伙伴 - 可持续发展",
+  bgImage: "/images/vietphuc/hero_office_panoramic.webp",
+  bullets: [
+    {
+      vi: "Công ty TNHH Logistics GT mang đến giải pháp vận tải đường bộ liên vận, thông quan chính ngạch tại Cửa khẩu Quốc tế Móng Cái, C/O Form E và sang tải kho bãi tiêu chuẩn cao.",
+      en: "GT Logistics Co., Ltd provides cross-border trucking, official customs clearance at Mong Cai International Border Gate, C/O Form E, and standard transshipment yards.",
+      zh: "GT物流有限责任公司提供跨境公路运输、芒街国际口岸正规海关报关、东盟Form E原产地证及高标准过驳仓储解决方案。",
+    },
+    {
+      vi: "Chuyên Tuyến Biên Mậu Móng Cái - Đông Hưng • Cửa Khẩu Bắc Luân 2",
+      en: "Dedicated Cross-Border Route Mong Cai - Dongxing • Bac Luan 2 Border Gate",
+      zh: "专营中越边贸专线：芒街 - 东兴 • 北仑二桥口岸",
+    },
+  ],
+};
+
+// Dữ liệu mặc định cho Why Choose Us
+export const DEFAULT_HOME_WHY_US = {
+  badge: "LỢI THẾ CẠNH TRANH CỐT LÕI",
+  badgeEn: "CORE COMPETITIVE ADVANTAGES",
+  badgeZh: "核心竞争优势",
+  title: "Vì Sao Khách Hàng Luôn Tin Chọn Logistics GT Tại Cửa Khẩu Móng Cái?",
+  titleEn: "Why Clients Choose GT Logistics at Mong Cai Border Gate?",
+  titleZh: "为何中越跨国外贸企业首选 GT 物流？",
+  description: "Là đơn vị tiếp vận tiên phong đặt trụ sở điều hành tại KĐT Vinhomes Golden Avenue ngay cửa ngõ Cầu Bắc Luân 2, chúng tôi mang tới quy trình trọn gói và an tâm tối đa.",
+  descriptionEn: "As a pioneering logistics provider located at Vinhomes Golden Avenue right at Bac Luan 2 Gate, we deliver complete solutions with maximum peace of mind.",
+  descriptionZh: "作为北仑二桥口岸 Vinhomes Golden Avenue 核心商务区领先的物流运营主体，我们提供一站式正规通关与极速过驳保障。",
+  image: "/images/vietphuc/boardroom_conference.webp",
+  items: [
+    {
+      icon: "Building",
+      title: "Trụ sở trực tiếp cửa khẩu",
+      titleEn: "Border-Gate Direct Presence",
+      titleZh: "口岸一线现场驻点",
+      desc: "Tọa lạc tại Căn ĐLTC-41 Vinhomes Golden Avenue, liền kề Trạm kiểm soát Bắc Luân 2, hỗ trợ kiểm hóa bãi xe và xử lý tờ khai nhanh trong ngày.",
+      descEn: "Located at DLTC-41 Vinhomes Golden Avenue, adjacent to Bac Luan 2 checkpoint for same-day inspection and clearance.",
+      descZh: "坐落于北仑二桥口岸旁 Vinhomes Golden Avenue DLTC-41，现场查验快速放行。",
+    },
+    {
+      icon: "Truck",
+      title: "Đội xe liên vận 2 chiều",
+      titleEn: "Two-Way Cross-Border Fleet",
+      titleZh: "中越双向直达甩挂车队",
+      desc: "Đội ngũ xe đầu kéo mooc sàn, mooc rào, xe thùng bạt túc trực thường trực, kết nối cao tốc Vân Đồn - Móng Cái đi khắp các tỉnh thành.",
+      descEn: "Flatbed, stake, and box container fleet operating continuously along Van Don - Mong Cai expressway.",
+      descZh: "平板、高栏及厢式货车全天候待命，依托云屯—芒街高速直通越南全境各工业园区。",
+    },
+    {
+      icon: "FileCheck",
+      title: "Thông quan & C/O Form E chuẩn xác",
+      titleEn: "Accurate Customs & C/O Form E",
+      titleZh: "合规报关与 Form E 原产地证",
+      desc: "Chuyên viên am hiểu biểu thuế XNK, tư vấn mã HS code chuẩn xác, hạn chế tối đa rủi ro tham vấn giá và tối ưu hóa chi phí thuế.",
+      descEn: "Deep tariff expertise, accurate HS coding, mitigating valuation audits and optimizing customs duties.",
+      descZh: "精通进出口关税政策与精准 HS Code 归类，合规降低关税成本并消除审价风险。",
+    },
+    {
+      icon: "ShieldCheck",
+      title: "Pháp nhân minh bạch 100%",
+      titleEn: "100% Legal & Tax Compliance",
+      titleZh: "100% 正规外贸法人资质",
+      desc: "Cung cấp đầy đủ hóa đơn GTGT, hợp đồng ngoại thương, chứng từ thanh toán ngân hàng phục vụ quyết toán thuế và hoàn thuế an toàn.",
+      descEn: "Official VAT invoices, foreign trade contracts, and banking payment records for safe accounting.",
+      descZh: "提供正规全额增值税发票、外贸合同及银行收付汇凭证，财税合规无后顾之忧。",
+    },
+  ],
+};
+
+// Dữ liệu mặc định cho 4 Big Numbers
+export const DEFAULT_HOME_STATS = [
+  {
+    num: "10+",
+    unit: "YEARS",
+    label: "Năm Kinh Nghiệm",
+    labelEn: "Years Experience",
+    labelZh: "年行业深耕经验",
+    sub: "Tiên phong tại Cửa khẩu Móng Cái từ 2015",
+    subEn: "Pioneering at Mong Cai Border since 2015",
+    subZh: "2015年起扎根芒街口岸",
+  },
+  {
+    num: "150.000+",
+    unit: "METRIC TONS",
+    label: "Tấn Hàng / Năm",
+    labelEn: "Tons / Year",
+    labelZh: "年货物吞吐量（吨）",
+    sub: "Lưu chuyển an toàn qua Bắc Luân 2",
+    subEn: "Safely transported via Bac Luan 2",
+    subZh: "经由北仑二桥安全畅达",
+  },
+  {
+    num: "1.200+",
+    unit: "ENTERPRISES",
+    label: "Doanh Nghiệp Tin Chọn",
+    labelEn: "Client Enterprises",
+    labelZh: "家外贸企业信赖",
+    sub: "Đối tác XNK Việt Nam & Trung Quốc",
+    subEn: "Vietnam & China trade partners",
+    subZh: "中越双向进出口长期合作伙伴",
+  },
+  {
+    num: "99.8%",
+    unit: "ACCURACY",
+    label: "Tỷ Lệ Đúng Hạn",
+    labelEn: "On-Time Rate",
+    labelZh: "准时履约率",
+    sub: "Bảo hiểm 100% trách nhiệm hàng hóa",
+    subEn: "100% cargo transit liability covered",
+    subZh: "全程货物安全责任保障",
+  },
+];
+
+// Dữ liệu mặc định cho Trang Giới Thiệu
+export const DEFAULT_ABOUT_CONTENT = {
+  title: "CÂU CHUYỆN & NĂNG LỰC GT LOGISTICS",
+  titleEn: "OUR STORY & CAPABILITIES",
+  titleZh: "发展历程与核心实力",
+  subtitle: "Hơn 10 năm đồng hành cùng sự phát triển của dòng chảy thương mại song phương Việt Nam - Trung Quốc qua cửa ngõ Cửa khẩu Quốc tế Móng Cái.",
+  subtitleEn: "Over 10 years accompanying bilateral trade growth between Vietnam and China via Mong Cai International Gate.",
+  subtitleZh: "十余年深耕中越双向经贸物流通道，立足芒街国际口岸枢纽。",
+  storyImage: "/images/vietphuc/hero_office_panoramic.webp",
+  paragraphs: [
+    {
+      vi: "Được thành lập với sứ mệnh kết nối dòng chảy hàng hóa thông suốt giữa hai nền kinh tế Việt Nam và Trung Quốc, Công ty TNHH Logistics GT đã khẳng định vị thế là một trong những đơn vị tiếp vận biên mậu uy tín hàng đầu tại tỉnh Quảng Ninh.",
+      en: "Founded with the mission of seamlessly connecting cross-border commerce between Vietnam and China, GT Logistics Co., Ltd has established itself as a premier border-gate logistics provider in Quang Ninh Province.",
+      zh: "GT 物流有限责任公司秉持畅通中越双向经贸流通的使命，已发展成为越南广宁省口岸极具信誉与影响力的领军边贸物流服务商。",
+    },
+    {
+      vi: "Với trụ sở chính đặt tại KĐT Vinhomes Golden Avenue ngay sát Cửa khẩu Quốc tế Bắc Luân 2 (TP. Móng Cái), chúng tôi tự hào sở hữu mạng lưới hạ tầng tiếp vận vững chắc, đội xe đầu kéo hiện đại và quan hệ hợp tác sâu rộng với các cơ quan kiểm hóa, cảng biển Hải Phòng và đối tác Đông Hưng (Trung Quốc).",
+      en: "Headquartered at Vinhomes Golden Avenue directly adjacent to Bac Luan 2 International Gate (Mong Cai), we maintain extensive infrastructure, modern fleets, and deep partnerships across Hai Phong seaports and Dongxing (China).",
+      zh: "运营总部坐落于芒街市北仑二桥口岸旁 Vinhomes Golden Avenue DLTC-41 商业区，拥有完善的物流车队、现场通关验货网络及联通海防深水港与中国东兴口岸的无缝过驳能力。",
+    },
+  ],
+  values: [
+    {
+      title: "Chính Trực & Chuẩn Pháp Lý",
+      titleEn: "Integrity & Compliance",
+      titleZh: "合规守信",
+      desc: "100% nghiệp vụ thông quan, xuất hóa đơn GTGT và hồ sơ C/O Form E thực hiện chuẩn mực theo quy định pháp luật.",
+      descEn: "100% customs clearance, official VAT invoicing, and C/O Form E handled with strict regulatory compliance.",
+      descZh: "100% 正规报关申报、全额增值税发票与东盟 Form E 原产地证严谨合规办理。",
+    },
+    {
+      title: "Tốc Độ & Đúng Lịch Trình",
+      titleEn: "Punctual Delivery",
+      titleZh: "高效准时",
+      desc: "Tối ưu hóa thời gian xử lý tờ khai, kiểm hóa bãi xe và sang tải container trong ngày nhờ lợi thế văn phòng sát cửa khẩu.",
+      descEn: "Expedited document processing, yard tallying, and same-day container turnover thanks to on-site presence.",
+      descZh: "依托口岸现场直驻优势，实现单证快速审单、当天查验与过驳，保障货运时效。",
+    },
+    {
+      title: "Tận Tâm 24/7",
+      titleEn: "Dedicated 24/7 Service",
+      titleZh: "全天候尽心服务",
+      desc: "Đội ngũ chuyên viên chứng từ hai nước Việt - Trung luôn túc trực, đồng hành cùng khách hàng xử lý mọi tình huống phát sinh.",
+      descEn: "Bilingual Vietnamese-Chinese documentation specialists available 24/7 to resolve all border procedures.",
+      descZh: "中越双语单证与现场运营团队 24/7 实时在线，贴心协助客户解决通关全流程难点。",
+    },
+  ],
+};
+
+// Dữ liệu mặc định cho Page Banners
+export const DEFAULT_BANNERS_CONTENT = {
+  services: {
+    title: "Tất Cả Dịch Vụ",
+    titleEn: "All Services",
+    titleZh: "全部物流服务",
+    subtitle: "Giải pháp logistics toàn diện: đường bộ, hải quan chính ngạch, C/O Form E và hàng quá cảnh",
+    subtitleEn: "Comprehensive logistics: cross-border trucking, customs clearance, C/O Form E and transit freight",
+    subtitleZh: "一站式中越综合跨境物流：公路联运、正规海关报关、东盟原产地证与过境转关",
+  },
+  tracking: {
+    title: "Tra Cứu Vận Đơn",
+    titleEn: "Track Shipment",
+    titleZh: "运单追踪查询",
+    subtitle: "Theo dõi tiến độ hành trình và trạng thái thông quan hàng hóa thời gian thực",
+    subtitleEn: "Real-time tracking of shipment milestones and border clearance status",
+    subtitleZh: "实时追踪中越跨境货物在途位置与口岸海关验封放行动态",
+  },
+  news: {
+    title: "Tin Tức & Cẩm Nang",
+    titleEn: "News & Guides",
+    titleZh: "新闻资讯与通关指南",
+    subtitle: "Cập nhật chính sách biên mậu, biểu thuế và kinh nghiệm thông quan cửa khẩu mới nhất",
+    subtitleEn: "Latest updates on trade policies, tariffs, and customs procedures at Mong Cai",
+    subtitleZh: "实时汇集越南口岸最新外贸政策、海关税率调整与实用清关通关实务经验",
+  },
+  quote: {
+    title: "Yêu Cầu Báo Giá Nhanh",
+    titleEn: "Request a Quote",
+    titleZh: "获取快速报价",
+    subtitle: "Nhận tư vấn phương án vận tải và báo giá cước tối ưu trong vòng 15 phút",
+    subtitleEn: "Get customized freight solutions and optimal quotes within 15 minutes",
+    subtitleZh: "15分钟内快速获取专属中越跨境物流运输方案与最具性价比运费报价",
+  },
+  contact: {
+    title: "Liên Hệ Hợp Tác",
+    titleEn: "Contact Us",
+    titleZh: "联系我们",
+    subtitle: "Kết nối trực tiếp văn phòng Cửa khẩu Bắc Luân 2 Móng Cái và chi nhánh Hải Phòng",
+    subtitleEn: "Connect directly with our Bac Luan 2 Mong Cai HQ and Hai Phong office",
+    subtitleZh: "直接对接越南芒街北仑二桥口岸运营总部及海防深水港业务处",
+  },
+};

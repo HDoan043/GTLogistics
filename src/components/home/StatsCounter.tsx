@@ -4,39 +4,73 @@ import React from "react";
 import { TrendingUp, Users, CheckCircle, Award } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/context";
 
-export function StatsCounter() {
-  const { t } = useLanguage();
+interface StatsCounterProps {
+  statsData?: Array<{
+    num?: string;
+    unit?: string;
+    label?: string;
+    labelEn?: string;
+    labelZh?: string;
+    sub?: string;
+    subEn?: string;
+    subZh?: string;
+  }>;
+}
 
-  const stats = [
-    {
-      icon: Award,
-      value: t.stats.years.value,
-      label: t.stats.years.label,
-      desc: t.stats.years.desc,
-      unit: "YEARS",
-    },
-    {
-      icon: TrendingUp,
-      value: t.stats.cargo.value,
-      label: t.stats.cargo.label,
-      desc: t.stats.cargo.desc,
-      unit: "METRIC TONS",
-    },
-    {
-      icon: Users,
-      value: t.stats.clients.value,
-      label: t.stats.clients.label,
-      desc: t.stats.clients.desc,
-      unit: "ENTERPRISES",
-    },
-    {
-      icon: CheckCircle,
-      value: t.stats.safety.value,
-      label: t.stats.safety.label,
-      desc: t.stats.safety.desc,
-      unit: "ACCURACY",
-    },
-  ];
+const defaultIcons = [Award, TrendingUp, Users, CheckCircle];
+
+export function StatsCounter({ statsData }: StatsCounterProps = {}) {
+  const { t, locale } = useLanguage();
+
+  const stats =
+    statsData && statsData.length === 4
+      ? statsData.map((s, idx) => ({
+          icon: defaultIcons[idx] || Award,
+          value: s.num || "",
+          label:
+            locale === "zh" && s.labelZh
+              ? s.labelZh
+              : locale === "en" && s.labelEn
+              ? s.labelEn
+              : s.label || "",
+          desc:
+            locale === "zh" && s.subZh
+              ? s.subZh
+              : locale === "en" && s.subEn
+              ? s.subEn
+              : s.sub || "",
+          unit: s.unit || "",
+        }))
+      : [
+          {
+            icon: Award,
+            value: t.stats.years.value,
+            label: t.stats.years.label,
+            desc: t.stats.years.desc,
+            unit: "YEARS",
+          },
+          {
+            icon: TrendingUp,
+            value: t.stats.cargo.value,
+            label: t.stats.cargo.label,
+            desc: t.stats.cargo.desc,
+            unit: "METRIC TONS",
+          },
+          {
+            icon: Users,
+            value: t.stats.clients.value,
+            label: t.stats.clients.label,
+            desc: t.stats.clients.desc,
+            unit: "ENTERPRISES",
+          },
+          {
+            icon: CheckCircle,
+            value: t.stats.safety.value,
+            label: t.stats.safety.label,
+            desc: t.stats.safety.desc,
+            unit: "ACCURACY",
+          },
+        ];
 
   return (
     <section className="bg-slate-50 text-slate-900 py-10 sm:py-12 relative overflow-hidden border-b border-slate-200/80">

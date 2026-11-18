@@ -1153,9 +1153,9 @@ export function VisualEditorCanvas({
             <section className="py-16 sm:py-24 bg-white text-slate-900 border-b border-slate-200/80 overflow-hidden">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                  {/* CỘT 1: NỘI DUNG TRÁI - Ma trận 4 Cửa Khẩu Chiến Lược (Click-to-Edit) */}
+                  {/* CỘT 1: NỘI DUNG TRÁI - 4 Cửa Khẩu Chiến Lược Xếp Dọc (Click-to-Edit) */}
                   <div className="lg:col-span-6 order-2 lg:order-1">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                    <div className="space-y-4">
                       {(borderGates.gates || []).map((g: any, gIdx: number) => {
                         const nameVal =
                           locale === "zh" && g.nameZh

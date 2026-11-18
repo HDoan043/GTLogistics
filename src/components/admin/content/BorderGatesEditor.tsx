@@ -40,7 +40,7 @@ export function BorderGatesEditor({ initialData }: { initialData?: any }) {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Mạng Lưới Cửa Khẩu Chiến Lược (Ma trận 2x2)</h2>
+          <h2 className="text-xl font-bold text-slate-900">Mạng Lưới Cửa Khẩu Chiến Lược (4 Cửa Khẩu Tuyến Bắc)</h2>
           <p className="text-xs text-slate-500 mt-0.5">
             Quản lý thông tin 4 cửa khẩu trọng điểm: Móng Cái, Hữu Nghị, Tân Thanh, Chi Ma.
           </p>

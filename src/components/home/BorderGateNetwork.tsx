@@ -108,9 +108,9 @@ export function BorderGateNetwork({ borderGatesData }: BorderGateNetworkProps = 
     <section className="py-16 sm:py-24 bg-white text-slate-900 border-b border-slate-200/80 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* CỘT 1: NỘI DUNG TRÁI - Ma trận 4 thẻ cửa khẩu chiến lược (2x2) */}
+          {/* CỘT 1: NỘI DUNG TRÁI - 4 thẻ cửa khẩu chiến lược xếp dọc nổi bật */}
           <div className="lg:col-span-6 order-2 lg:order-1">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+            <div className="space-y-4">
               {gates.map((g) => {
                 const name =
                   locale === "zh" && g.nameZh
@@ -149,11 +149,11 @@ export function BorderGateNetwork({ borderGatesData }: BorderGateNetworkProps = 
                         </div>
                       </div>
 
-                      <h3 className="font-black text-slate-950 text-sm sm:text-base leading-snug mb-2 group-hover:text-azure-700 transition-colors line-clamp-2">
+                      <h3 className="font-black text-slate-950 text-base sm:text-lg leading-snug mb-2 group-hover:text-azure-700 transition-colors">
                         {name}
                       </h3>
 
-                      <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                         {desc}
                       </p>
                     </div>

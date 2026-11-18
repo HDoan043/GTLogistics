@@ -1153,9 +1153,9 @@ export function VisualEditorCanvas({
             <section className="py-16 sm:py-24 bg-white text-slate-900 border-b border-slate-200/80 overflow-hidden">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                  {/* CỘT 1: NỘI DUNG TRÁI - 4 Cửa Khẩu Chiến Lược Xếp Dọc (Click-to-Edit) */}
+                  {/* CỘT 1: NỘI DUNG TRÁI - 4 Cửa Khẩu Chiến Lược Xếp Dọc Gọn Gàng (Click-to-Edit) */}
                   <div className="lg:col-span-6 order-2 lg:order-1">
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       {(borderGates.gates || []).map((g: any, gIdx: number) => {
                         const nameVal =
                           locale === "zh" && g.nameZh
@@ -1173,98 +1173,86 @@ export function VisualEditorCanvas({
                         return (
                           <div
                             key={g.code || gIdx}
-                            className="bg-slate-50/80 rounded-2xl p-5 sm:p-6 border-2 border-slate-200 hover:border-azure-600 hover:bg-white transition-colors duration-150 shadow-xs flex flex-col justify-between group"
+                            className="bg-slate-50/80 rounded-xl p-3.5 sm:p-4 border-2 border-slate-200 hover:border-azure-600 hover:bg-white transition-colors duration-150 shadow-xs group"
                           >
-                            <div>
-                              <div className="flex items-center justify-between gap-2 mb-3">
-                                <input
-                                  type="text"
-                                  value={g.code || `0${gIdx + 1}`}
-                                  onChange={(e) => {
-                                    const val = e.target.value;
-                                    setBorderGates((prev: any) => {
-                                      const nextG = [...prev.gates];
-                                      nextG[gIdx] = { ...nextG[gIdx], code: val };
-                                      return { ...prev, gates: nextG };
-                                    });
-                                  }}
-                                  className="w-12 h-10 rounded-xl bg-azure-600 text-white font-mono font-black text-sm flex items-center justify-center text-center shadow-xs focus:ring-2 focus:ring-gold-400"
-                                  title="Sửa mã cửa khẩu"
-                                />
-
-                                <div className="flex items-center gap-1.5 flex-wrap justify-end">
-                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-azure-100/90 text-azure-800 text-[11px] font-bold">
-                                    <MapPin className="w-3 h-3 text-azure-600 shrink-0" />
-                                    <input
-                                      type="text"
-                                      value={g.province || "Quảng Ninh"}
-                                      onChange={(e) => {
-                                        const val = e.target.value;
-                                        setBorderGates((prev: any) => {
-                                          const nextG = [...prev.gates];
-                                          nextG[gIdx] = { ...nextG[gIdx], province: val };
-                                          return { ...prev, gates: nextG };
-                                        });
-                                      }}
-                                      className="w-20 bg-transparent font-bold text-azure-800 text-[11px] focus:outline-none"
-                                      title="Sửa tỉnh/thành cửa khẩu"
-                                    />
-                                  </span>
-                                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-semibold border border-emerald-200">
-                                    <Clock className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
-                                    <span>Trực 24/7</span>
-                                  </span>
-                                </div>
-                              </div>
-
+                            <div className="flex items-center justify-between gap-2 mb-2">
                               <input
                                 type="text"
-                                value={nameVal}
+                                value={g.code || `0${gIdx + 1}`}
                                 onChange={(e) => {
                                   const val = e.target.value;
                                   setBorderGates((prev: any) => {
                                     const nextG = [...prev.gates];
-                                    const cur = { ...nextG[gIdx] };
-                                    if (locale === "zh") cur.nameZh = val;
-                                    else if (locale === "en") cur.nameEn = val;
-                                    else cur.name = val;
-                                    nextG[gIdx] = cur;
+                                    nextG[gIdx] = { ...nextG[gIdx], code: val };
                                     return { ...prev, gates: nextG };
                                   });
                                 }}
-                                className="w-full bg-transparent font-black text-slate-950 text-sm sm:text-base leading-snug mb-2 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
-                                title="Nhấp để sửa tên cửa khẩu"
+                                className="w-10 h-8 rounded-lg bg-azure-600 text-white font-mono font-black text-xs flex items-center justify-center text-center shadow-xs focus:ring-2 focus:ring-gold-400"
+                                title="Sửa mã cửa khẩu"
                               />
 
-                              <textarea
-                                rows={3}
-                                value={descVal}
-                                onChange={(e) => {
-                                  const val = e.target.value;
-                                  setBorderGates((prev: any) => {
-                                    const nextG = [...prev.gates];
-                                    const cur = { ...nextG[gIdx] };
-                                    if (locale === "zh") cur.descZh = val;
-                                    else if (locale === "en") cur.descEn = val;
-                                    else cur.desc = val;
-                                    nextG[gIdx] = cur;
-                                    return { ...prev, gates: nextG };
-                                  });
-                                }}
-                                className="w-full bg-transparent text-xs text-slate-600 leading-relaxed hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
-                                title="Nhấp để sửa tóm tắt ưu thế cửa khẩu"
-                              />
+                              <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-azure-100/90 text-azure-800 text-[11px] font-bold">
+                                  <MapPin className="w-3 h-3 text-azure-600 shrink-0" />
+                                  <input
+                                    type="text"
+                                    value={g.province || "Quảng Ninh"}
+                                    onChange={(e) => {
+                                      const val = e.target.value;
+                                      setBorderGates((prev: any) => {
+                                        const nextG = [...prev.gates];
+                                        nextG[gIdx] = { ...nextG[gIdx], province: val };
+                                        return { ...prev, gates: nextG };
+                                      });
+                                    }}
+                                    className="w-20 bg-transparent font-bold text-azure-800 text-[11px] focus:outline-none"
+                                    title="Sửa tỉnh/thành cửa khẩu"
+                                  />
+                                </span>
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-semibold border border-emerald-200">
+                                  <Clock className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
+                                  <span>Trực 24/7</span>
+                                </span>
+                              </div>
                             </div>
 
-                            <div className="pt-3 mt-3 border-t border-slate-200/80 flex items-center justify-between text-[11px] text-slate-500 font-medium">
-                              <span className="text-azure-700 font-bold">
-                                Giải phóng xe trong ngày
-                              </span>
-                              <span className="text-gold-600 font-bold flex items-center gap-1">
-                                <ShieldCheck className="w-3 h-3" />
-                                <span>Thường trực</span>
-                              </span>
-                            </div>
+                            <input
+                              type="text"
+                              value={nameVal}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setBorderGates((prev: any) => {
+                                  const nextG = [...prev.gates];
+                                  const cur = { ...nextG[gIdx] };
+                                  if (locale === "zh") cur.nameZh = val;
+                                  else if (locale === "en") cur.nameEn = val;
+                                  else cur.name = val;
+                                  nextG[gIdx] = cur;
+                                  return { ...prev, gates: nextG };
+                                });
+                              }}
+                              className="w-full bg-transparent font-black text-slate-950 text-sm sm:text-base leading-snug mb-1 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                              title="Nhấp để sửa tên cửa khẩu"
+                            />
+
+                            <textarea
+                              rows={2}
+                              value={descVal}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setBorderGates((prev: any) => {
+                                  const nextG = [...prev.gates];
+                                  const cur = { ...nextG[gIdx] };
+                                  if (locale === "zh") cur.descZh = val;
+                                  else if (locale === "en") cur.descEn = val;
+                                  else cur.desc = val;
+                                  nextG[gIdx] = cur;
+                                  return { ...prev, gates: nextG };
+                                });
+                              }}
+                              className="w-full bg-transparent text-xs text-slate-600 leading-relaxed hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
+                              title="Nhấp để sửa tóm tắt ưu thế cửa khẩu"
+                            />
                           </div>
                         );
                       })}

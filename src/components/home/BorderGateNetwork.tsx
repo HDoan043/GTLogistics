@@ -108,9 +108,9 @@ export function BorderGateNetwork({ borderGatesData }: BorderGateNetworkProps = 
     <section className="py-16 sm:py-24 bg-white text-slate-900 border-b border-slate-200/80 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* CỘT 1: NỘI DUNG TRÁI - 4 thẻ cửa khẩu chiến lược xếp dọc nổi bật */}
+          {/* CỘT 1: NỘI DUNG TRÁI - 4 thẻ cửa khẩu chiến lược xếp dọc gọn gàng, thanh thoát */}
           <div className="lg:col-span-6 order-2 lg:order-1">
-            <div className="space-y-4">
+            <div className="space-y-3">
               {gates.map((g) => {
                 const name =
                   locale === "zh" && g.nameZh
@@ -128,45 +128,33 @@ export function BorderGateNetwork({ borderGatesData }: BorderGateNetworkProps = 
                 return (
                   <div
                     key={g.code}
-                    className="bg-slate-50/80 rounded-2xl p-5 sm:p-6 border-2 border-slate-200 hover:border-azure-600 hover:bg-white transition-colors duration-150 shadow-xs flex flex-col justify-between group"
+                    className="bg-slate-50/80 rounded-xl p-3.5 sm:p-4 border-2 border-slate-200 hover:border-azure-600 hover:bg-white transition-colors duration-150 shadow-xs group"
                   >
-                    <div>
-                      <div className="flex items-center justify-between gap-2 mb-3">
-                        {/* Mã số cửa khẩu nổi bật */}
-                        <div className="w-10 h-10 rounded-xl bg-azure-600 text-white font-mono font-black text-sm flex items-center justify-center shrink-0 shadow-xs group-hover:bg-azure-700 transition-colors">
-                          {g.code}
-                        </div>
-
-                        <div className="flex items-center gap-1.5 flex-wrap justify-end">
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-azure-100/90 text-azure-800 text-[11px] font-bold">
-                            <MapPin className="w-3 h-3 text-azure-600 shrink-0" />
-                            <span>{g.province}</span>
-                          </span>
-                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-semibold border border-emerald-200">
-                            <Clock className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
-                            <span>{locale === "zh" ? "24/7" : locale === "en" ? "24/7" : "Trực 24/7"}</span>
-                          </span>
-                        </div>
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      {/* Mã số cửa khẩu gọn gàng */}
+                      <div className="w-8 h-8 rounded-lg bg-azure-600 text-white font-mono font-black text-xs flex items-center justify-center shrink-0 shadow-xs group-hover:bg-azure-700 transition-colors">
+                        {g.code}
                       </div>
 
-                      <h3 className="font-black text-slate-950 text-base sm:text-lg leading-snug mb-2 group-hover:text-azure-700 transition-colors">
-                        {name}
-                      </h3>
-
-                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                        {desc}
-                      </p>
+                      <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-azure-100/90 text-azure-800 text-[11px] font-bold">
+                          <MapPin className="w-3 h-3 text-azure-600 shrink-0" />
+                          <span>{g.province}</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-semibold border border-emerald-200">
+                          <Clock className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
+                          <span>{locale === "zh" ? "24/7" : locale === "en" ? "24/7" : "Trực 24/7"}</span>
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="pt-3 mt-3 border-t border-slate-200/80 flex items-center justify-between text-[11px] text-slate-500 font-medium">
-                      <span className="text-azure-700 font-bold">
-                        {locale === "zh" ? "正规报关 · 当天放行" : locale === "en" ? "Same-day Release" : "Giải phóng xe trong ngày"}
-                      </span>
-                      <span className="text-gold-600 font-bold flex items-center gap-1">
-                        <ShieldCheck className="w-3 h-3" />
-                        <span>{locale === "zh" ? "常驻" : locale === "en" ? "On-site" : "Thường trực"}</span>
-                      </span>
-                    </div>
+                    <h3 className="font-black text-slate-950 text-sm sm:text-base leading-snug mb-1 group-hover:text-azure-700 transition-colors">
+                      {name}
+                    </h3>
+
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      {desc}
+                    </p>
                   </div>
                 );
               })}
@@ -189,7 +177,7 @@ export function BorderGateNetwork({ borderGatesData }: BorderGateNetworkProps = 
             </div>
 
             {/* Ảnh minh họa thương hiệu năng lực thông quan */}
-            <div className="relative h-56 sm:h-60 rounded-2xl overflow-hidden shadow-xs border border-slate-200 group">
+            <div className="relative h-64 sm:h-72 rounded-2xl overflow-hidden shadow-xs border border-slate-200 group">
               <Image
                 src={featuredImg}
                 alt="Năng lực thông quan đa cửa khẩu Logistics GT"
@@ -207,21 +195,6 @@ export function BorderGateNetwork({ borderGatesData }: BorderGateNetworkProps = 
                     {locale === "zh" ? "中越边境全线常驻保障" : locale === "en" ? "Northern Border Full Coverage" : "Hiện diện thường trực tại 4 cửa khẩu trọng điểm"}
                   </p>
                 </div>
-              </div>
-            </div>
-
-            {/* Khối cam kết giải phóng xe */}
-            <div className="p-4 rounded-xl bg-azure-900 text-white flex items-center gap-3 shadow-xs">
-              <div className="w-9 h-9 rounded-lg bg-azure-800 flex items-center justify-center shrink-0 text-gold-400">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <div className="text-xs">
-                <span className="font-bold text-white block">
-                  {locale === "zh" ? "口岸一线专业团队联动 · 杜绝滞留" : locale === "en" ? "Seamless Multi-Border Coordination" : "Đội ngũ hiện trường chuyên nghiệp • Thông quan giải phóng xe ngay trong ngày"}
-                </span>
-                <span className="text-azure-200 text-[11px] block mt-0.5">
-                  Móng Cái, Hữu Nghị, Tân Thanh, Chi Ma
-                </span>
               </div>
             </div>
           </div>

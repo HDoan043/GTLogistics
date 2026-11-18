@@ -1,5 +1,4 @@
 import { HeroSection } from "@/components/home/HeroSection";
-import { TrustedPartners } from "@/components/home/TrustedPartners";
 import { ServicesSection } from "@/components/home/ServicesSection";
 import { BorderGateNetwork } from "@/components/home/BorderGateNetwork";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
@@ -30,7 +29,6 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       <HeroSection hotline={settings.hotline} heroData={heroContent} />
-      <TrustedPartners />
       <ServicesSection services={services} homeServicesData={homeServicesContent} />
       <BorderGateNetwork borderGatesData={borderGatesContent} />
       <WhyChooseUs whyUsData={whyUsContent} />

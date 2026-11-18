@@ -2,11 +2,11 @@
 export const DEFAULT_HOME_HERO = {
   titleGt: "CÔNG TY TNHH LOGISTICS GT",
   titleLogistics: "",
-  slogan: "ĐỒNG HÀNH TIN CẬY – PHÁT TRIỂN BỀN VỮNG",
-  sloganEn: "RELIABLE PARTNER – SUSTAINABLE GROWTH",
-  sloganZh: "值得信赖的伙伴 – 可持续发展",
+  slogan: "ĐỒNG HÀNH TIN CẬY - PHÁT TRIỂN BỀN VỮNG",
+  sloganEn: "RELIABLE PARTNER - SUSTAINABLE GROWTH",
+  sloganZh: "值得信赖的伙伴 - 可持续发展",
   subHeadline:
-    "Đơn vị tiên phong cung cấp giải pháp vận tải đường bộ liên vận Việt – Trung, thông quan chính ngạch tại hệ thống các cửa khẩu trọng điểm phía Bắc (Móng Cái, Hữu Nghị, Tân Thanh, Chi Ma) và khai thác chuyên tuyến Vận tải biển bằng tàu & sà lan đi khắp quần đảo Cô Tô.",
+    "Đơn vị tiên phong cung cấp giải pháp vận tải đường bộ liên vận Việt - Trung, thông quan chính ngạch tại hệ thống các cửa khẩu trọng điểm phía Bắc (Móng Cái, Hữu Nghị, Tân Thanh, Chi Ma) và khai thác chuyên tuyến Vận tải biển bằng tàu và sà lan đi khắp quần đảo Cô Tô.",
   subHeadlineEn:
     "Pioneering cross-border road transport between Vietnam and China, official customs clearance at key northern border gates (Mong Cai, Huu Nghi, Tan Thanh, Chi Ma), and specialized sea vessel & barge freight across Co To Archipelago.",
   subHeadlineZh:
@@ -15,7 +15,7 @@ export const DEFAULT_HOME_HERO = {
   btnQuoteEn: "Get Quote in 15 Mins",
   btnQuoteZh: "15分钟内极速报价",
   btnHotline: "Hotline Tư Vấn 24/7: 0904.382.268",
-  bgImage: "/images/vietphuc/hero_office_panoramic.webp",
+  bgImage: "/images/vietphuc/hero_fleet_6k3a8950.webp",
   bgScale: 100,
   bgPosition: "center",
   bgOpacity: 55,
@@ -298,18 +298,18 @@ export const DEFAULT_BANNERS_CONTENT = {
     titleEn: "ABOUT US",
     titleZh: "关于我们",
     subtitle:
-      "Công ty TNHH Logistics GT – Kết nối thông suốt dòng chảy biên mậu Việt – Trung và vận tải chuyên tuyến biển đảo Cô Tô.",
+      "Công ty TNHH Logistics GT - Kết nối thông suốt dòng chảy biên mậu Việt - Trung và vận tải chuyên tuyến biển đảo Cô Tô.",
     subtitleEn:
-      "GT Logistics Co., Ltd – Seamless cross-border trade connectivity and specialized Co To island sea freight.",
+      "GT Logistics Co., Ltd - Seamless cross-border trade connectivity and specialized Co To island sea freight.",
     subtitleZh:
-      "GT 物流有限责任公司 – 畅通中越双向边贸经贸大通道与广宁姑苏海运专线。",
-    bgImage: "",
+      "GT 物流有限责任公司 - 畅通中越双向边贸经贸大通道与广宁姑苏海运专线。",
+    bgImage: "/images/vietphuc/hero_fleet_6k3a8950.webp",
     bgScale: 100,
     bgPosition: "center",
     bgOpacity: 55,
   },
   services: {
-    title: "Tất Cả Dịch Vụ",
+    title: "TẤT CẢ DỊCH VỤ",
     titleEn: "All Services",
     titleZh: "全部物流服务",
     subtitle:
@@ -318,13 +318,13 @@ export const DEFAULT_BANNERS_CONTENT = {
       "Comprehensive logistics: multi-border gate clearance, 50-truck container fleet, specialized cargo, and Co To island barges.",
     subtitleZh:
       "四大核心口岸正规报关清关、50辆集装箱直达车队、特种过境货物处理与姑苏群岛船运专线。",
-    bgImage: "",
+    bgImage: "/images/vietphuc/hero_fleet_6k3a8950.webp",
     bgScale: 100,
     bgPosition: "center",
     bgOpacity: 55,
   },
   news: {
-    title: "Tin Tức & Cẩm Nang",
+    title: "TIN TỨC & CẨM NANG",
     titleEn: "News & Guides",
     titleZh: "新闻资讯与通关指南",
     subtitle:
@@ -333,13 +333,13 @@ export const DEFAULT_BANNERS_CONTENT = {
       "Latest updates on cross-border trade policies, tariffs, and customs procedures at Northern border gates.",
     subtitleZh:
       "实时汇集越南北部各口岸最新外贸政策、海关税率调整与实用清关通关实务经验。",
-    bgImage: "",
+    bgImage: "/images/vietphuc/hero_fleet_6k3a8950.webp",
     bgScale: 100,
     bgPosition: "center",
     bgOpacity: 55,
   },
   quote: {
-    title: "Yêu Cầu Báo Giá Nhanh",
+    title: "YÊU CẦU BÁO GIÁ NHANH",
     titleEn: "Request a Quote",
     titleZh: "获取快速报价",
     subtitle:
@@ -348,13 +348,13 @@ export const DEFAULT_BANNERS_CONTENT = {
       "Receive freight consultations and optimal rate quotes within 15 minutes from GT Logistics specialists.",
     subtitleZh:
       "15分钟内快速获取专属中越跨境陆运与海岛船运方案及最具竞争力运费报价。",
-    bgImage: "",
+    bgImage: "/images/vietphuc/hero_fleet_6k3a8950.webp",
     bgScale: 100,
     bgPosition: "center",
     bgOpacity: 55,
   },
   contact: {
-    title: "Liên Hệ Hợp Tác",
+    title: "LIÊN HỆ HỢP TÁC",
     titleEn: "Contact Us",
     titleZh: "联系我们",
     subtitle:
@@ -363,7 +363,7 @@ export const DEFAULT_BANNERS_CONTENT = {
       "Connect directly with Bac Luan 2 Mong Cai HQ, Lang Son field offices, Hai Phong seaport, and Co To hubs.",
     subtitleZh:
       "直接对接芒街北仑二桥口岸总运营部、谅山各口岸现场工作站、海防大港业务处与姑苏船运联络处。",
-    bgImage: "",
+    bgImage: "/images/vietphuc/hero_fleet_6k3a8950.webp",
     bgScale: 100,
     bgPosition: "center",
     bgOpacity: 55,

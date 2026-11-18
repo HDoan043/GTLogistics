@@ -781,20 +781,13 @@ export function VisualEditorCanvas({
                 <div className="max-w-3xl">
                   {/* Tiêu đề thương hiệu (Click-to-edit) */}
                   <div className="space-y-3">
-                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-none text-white flex items-center gap-3">
+                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white">
                       <input
                         type="text"
-                        value={hero.titleGt || "GT"}
+                        value={hero.titleGt || "CÔNG TY TNHH LOGISTICS GT"}
                         onChange={(e) => setHero({ ...hero, titleGt: e.target.value })}
-                        className="bg-transparent text-azure-400 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 w-24 font-black"
-                        title="Nhấp để sửa khối chữ 1"
-                      />
-                      <input
-                        type="text"
-                        value={hero.titleLogistics || "LOGISTICS"}
-                        onChange={(e) => setHero({ ...hero, titleLogistics: e.target.value })}
-                        className="bg-transparent text-gold-400 hover:outline hover:outline-dashed hover:outline-gold-400 rounded px-1 flex-1 font-black"
-                        title="Nhấp để sửa khối chữ 2"
+                        className="w-full bg-transparent text-white hover:outline hover:outline-dashed hover:outline-white/60 rounded px-1 font-black"
+                        title="Nhấp để sửa tên công ty"
                       />
                     </h1>
 
@@ -901,12 +894,12 @@ export function VisualEditorCanvas({
               </div>
             </section>
 
-            {/* MỤC DỊCH VỤ TRANG CHỦ KÈM 5 THẺ DỊCH VỤ (FIX POINT 2) */}
+            {/* MỤC DỊCH VỤ TRANG CHỦ KÈM 4 THẺ DỊCH VỤ (SO LE 50-50) */}
             <section className="py-16 sm:py-24 bg-slate-50/80 text-slate-900 border-b border-slate-200/80">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-                  {/* Cột Trái: Tiêu đề & Ảnh minh họa dưới Header */}
-                  <div className="lg:col-span-5 space-y-6">
+                  {/* Cột Trái: Tiêu đề nửa màn hình & Ảnh minh họa */}
+                  <div className="lg:col-span-6 space-y-6">
                     <div>
                       <div className="h-1 w-12 bg-azure-600 rounded-full mb-4" />
                       <input
@@ -981,15 +974,15 @@ export function VisualEditorCanvas({
                     </div>
                   </div>
 
-                  {/* Cột Phải: Ma trận 2x2 gồm 4 Thẻ Dịch Vụ - Sửa trực tiếp tên, mô tả & ảnh, đồng bộ sang trang dịch vụ */}
-                  <div className="lg:col-span-7 space-y-4">
+                  {/* Cột Phải: Ma trận 2x2 gồm 4 Thẻ Dịch Vụ */}
+                  <div className="lg:col-span-6 space-y-4">
                     <div className="flex items-center justify-between border-b border-slate-200 pb-2">
                       <span className="text-xs font-bold text-azure-700 bg-azure-50 px-2.5 py-1 rounded-md border border-azure-200">
                         Ma Trận 2x2: 4 Thẻ Dịch Vụ Chính (Sửa tên, mô tả và đổi ảnh sẽ đồng bộ toàn web)
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                       {services.slice(0, 4).map((s) => {
                         const titleVal =
                           locale === "zh"
@@ -1100,8 +1093,8 @@ export function VisualEditorCanvas({
             <section className="py-16 sm:py-24 bg-white text-slate-900 border-b border-slate-200/80">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-                  {/* Cột trái: 4 thẻ ưu thế cạnh tranh (Click-to-edit) */}
-                  <div className="lg:col-span-7 order-2 lg:order-1 space-y-4">
+                  {/* Cột phải: 4 thẻ ưu thế cạnh tranh (Click-to-edit) */}
+                  <div className="lg:col-span-6 order-2 lg:order-2 space-y-4">
                     <span className="text-xs font-bold text-azure-700 bg-azure-50 px-2.5 py-1 rounded-md border border-azure-200">
                       4 Thẻ Điểm Mạnh Cạnh Tranh (Nhấp trực tiếp để sửa)
                     </span>
@@ -1171,8 +1164,8 @@ export function VisualEditorCanvas({
                     </div>
                   </div>
 
-                  {/* Cột phải: Tiêu đề & Ảnh minh họa (Click-to-edit) */}
-                  <div className="lg:col-span-5 order-1 lg:order-2 space-y-6">
+                  {/* Cột trái: Tiêu đề nửa màn hình & Ảnh minh họa (Click-to-edit) */}
+                  <div className="lg:col-span-6 order-1 lg:order-1 space-y-6">
                     <div>
                       <div className="h-1 w-12 bg-gold-500 rounded-full mb-4" />
                       <input
@@ -1331,207 +1324,208 @@ export function VisualEditorCanvas({
               </div>
             </div>
 
-            {/* 4 BIG NUMBERS ĐƯỢC ĐẶT Ở ĐẦU TRANG GIỚI THIỆU (ĐÚNG THEO YÊU CẦU POINT 1) */}
-            <section className="bg-slate-950 text-white py-10 sm:py-12 border-b border-slate-800">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="text-xs font-bold text-gold-400 bg-gold-950/60 px-2.5 py-1 rounded-md border border-gold-800/60">
-                    4 Con Số Năng Lực Đầu Trang (Click-to-Edit trực tiếp)
+            {/* BỐ CỤC 1 HÀNG DỌC CHUẨN MỰC THEO YÊU CẦU: KHÔNG BIG NUMBERS, KHÔNG BADGE, KHÔNG BẢNG */}
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+              {/* MỤC 1: VỀ CHÚNG TÔI */}
+              <section className="space-y-4">
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
+                  VỀ CHÚNG TÔI
+                </h2>
+                <div className="h-0.5 w-16 bg-slate-900" />
+
+                <div className="space-y-3 pt-2">
+                  <span className="text-xs font-bold text-azure-700 bg-azure-50 px-2.5 py-1 rounded-md border border-azure-200 inline-block mb-1">
+                    Các đoạn văn giới thiệu (Nhấp trực tiếp để sửa)
                   </span>
-                </div>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                  {stats.map((s: any, idx: number) => {
-                    const Icon = statIcons[idx] || Award;
-                    const labelVal =
-                      locale === "zh" ? s.labelZh || "" : locale === "en" ? s.labelEn || "" : s.label || "";
-                    const subVal =
-                      locale === "zh" ? s.subZh || "" : locale === "en" ? s.subEn || "" : s.sub || "";
+                  {about.paragraphs.map((p: any, idx: number) => {
+                    const currentText =
+                      locale === "zh" ? p.zh || "" : locale === "en" ? p.en || "" : p.vi || "";
 
                     return (
-                      <div
-                        key={idx}
-                        className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-gold-500/60 transition-colors flex flex-col justify-between"
-                      >
-                        <div>
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="w-8 h-8 rounded-lg bg-azure-600/20 text-azure-400 flex items-center justify-center">
-                              <Icon className="w-4 h-4" />
-                            </div>
-                            <input
-                              type="text"
-                              value={s.unit || ""}
-                              onChange={(e) => {
-                                const val = e.target.value;
-                                setStats((prev: any[]) => {
-                                  const next = [...prev];
-                                  next[idx] = { ...next[idx], unit: val };
-                                  return next;
-                                });
-                              }}
-                              className="w-20 bg-transparent text-right font-mono text-[11px] text-slate-400 hover:outline hover:outline-dashed hover:outline-gold-400 rounded px-1"
-                              title="Sửa đơn vị (unit)"
-                            />
-                          </div>
-                          <input
-                            type="text"
-                            value={s.num || ""}
-                            onChange={(e) => {
-                              const val = e.target.value;
-                              setStats((prev: any[]) => {
-                                const next = [...prev];
-                                next[idx] = { ...next[idx], num: val };
-                                return next;
-                              });
-                            }}
-                            className="w-full bg-transparent text-2xl sm:text-3xl font-black text-white font-mono hover:outline hover:outline-dashed hover:outline-gold-400 rounded px-1"
-                            title="Sửa con số chính"
-                          />
-                          <input
-                            type="text"
-                            value={labelVal}
-                            onChange={(e) => {
-                              const text = e.target.value;
-                              setStats((prev: any[]) => {
-                                const next = [...prev];
-                                const cur = { ...next[idx] };
-                                if (locale === "zh") cur.labelZh = text;
-                                else if (locale === "en") cur.labelEn = text;
-                                else cur.label = text;
-                                next[idx] = cur;
-                                return next;
-                              });
-                            }}
-                            className="w-full bg-transparent text-xs font-bold text-azure-300 mt-1 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
-                            title="Sửa tiêu đề con số"
-                          />
-                        </div>
-                        <input
-                          type="text"
-                          value={subVal}
+                      <div key={idx} className="relative group/p flex items-start gap-2">
+                        <span className="w-5 h-5 rounded-full bg-azure-500/20 text-azure-600 flex items-center justify-center font-bold text-xs shrink-0 mt-1">
+                          {idx + 1}
+                        </span>
+                        <textarea
+                          rows={3}
+                          value={currentText}
                           onChange={(e) => {
                             const text = e.target.value;
-                            setStats((prev: any[]) => {
-                              const next = [...prev];
-                              const cur = { ...next[idx] };
-                              if (locale === "zh") cur.subZh = text;
-                              else if (locale === "en") cur.subEn = text;
-                              else cur.sub = text;
-                              next[idx] = cur;
-                              return next;
+                            setAbout((prev: any) => {
+                              const nextP = [...prev.paragraphs];
+                              const cur = { ...nextP[idx] };
+                              if (locale === "zh") cur.zh = text;
+                              else if (locale === "en") cur.en = text;
+                              else cur.vi = text;
+                              nextP[idx] = cur;
+                              return { ...prev, paragraphs: nextP };
                             });
                           }}
-                          className="w-full bg-transparent text-[11px] text-slate-400 mt-3 pt-2 border-t border-slate-800 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 truncate"
-                          title="Sửa dòng mô tả phụ"
+                          className="w-full bg-slate-50 hover:bg-white text-slate-700 hover:outline hover:outline-dashed hover:outline-azure-400 rounded p-2 text-sm leading-relaxed border border-slate-200"
+                          title="Nhấp để sửa đoạn văn này"
                         />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAbout((prev: any) => ({
+                              ...prev,
+                              paragraphs: prev.paragraphs.filter((_: any, i: number) => i !== idx),
+                            }));
+                          }}
+                          className="opacity-0 group-hover/p:opacity-100 p-1 text-slate-400 hover:text-rose-500 transition-opacity"
+                          title="Xóa đoạn này"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     );
                   })}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAbout((prev: any) => ({
+                        ...prev,
+                        paragraphs: [
+                          ...prev.paragraphs,
+                          {
+                            vi: "Thêm đoạn văn bản mới giới thiệu về năng lực...",
+                            en: "New paragraph...",
+                            zh: "新增介绍段落...",
+                          },
+                        ],
+                      }));
+                    }}
+                    className="inline-flex items-center gap-1.5 text-xs text-azure-600 hover:text-azure-700 font-bold bg-azure-50 px-3 py-1.5 rounded-lg border border-azure-200 transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Thêm đoạn văn mới</span>
+                  </button>
                 </div>
-              </div>
-            </section>
 
-            {/* Nội dung câu chuyện & Ảnh minh họa (Bố cục 2 cột cân bằng) */}
-            <section className="py-16 bg-white border-b border-slate-200">
-              <div className="max-w-7xl mx-auto px-4 sm:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-                  {/* Cột trái: Các đoạn văn bản */}
-                  <div className="lg:col-span-7 space-y-4">
-                    <span className="text-xs font-bold text-azure-700 bg-azure-50 px-2.5 py-1 rounded-md border border-azure-200">
-                      Các đoạn văn giới thiệu năng lực (Nhấp trực tiếp để sửa)
+                {/* Ảnh minh họa trụ sở */}
+                <div
+                  onClick={() => triggerImagePicker("aboutImg")}
+                  className="group/img relative h-64 sm:h-80 rounded-2xl overflow-hidden shadow-xs border-2 border-dashed border-azure-400 cursor-pointer mt-4"
+                  title="Nhấp vào đây để đổi ảnh minh họa trụ sở"
+                >
+                  <Image
+                    src={about.storyImage || "/images/vietphuc/hero_office_panoramic.webp"}
+                    alt="About illustration"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-slate-950/40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-azure-600 text-white text-xs font-bold shadow-md">
+                      <Camera className="w-4 h-4" />
+                      <span>Nhấp để thay đổi ảnh này</span>
                     </span>
+                  </div>
+                </div>
+              </section>
 
-                    <div className="space-y-3">
-                      {about.paragraphs.map((p: any, idx: number) => {
-                        const currentText =
-                          locale === "zh" ? p.zh || "" : locale === "en" ? p.en || "" : p.vi || "";
+              {/* MỤC 2: QUY MÔ VẬN TẢI & PHẠM VI PHỦ SÓNG */}
+              <section className="space-y-4">
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
+                  QUY MÔ VẬN TẢI & PHẠM VI PHỦ SÓNG
+                </h2>
+                <div className="h-0.5 w-16 bg-slate-900" />
 
-                        return (
-                          <div key={idx} className="relative group/p flex items-start gap-2">
-                            <span className="w-5 h-5 rounded-full bg-azure-500/20 text-azure-600 flex items-center justify-center font-bold text-xs shrink-0 mt-1">
-                              {idx + 1}
-                            </span>
-                            <textarea
-                              rows={3}
-                              value={currentText}
-                              onChange={(e) => {
-                                const text = e.target.value;
-                                setAbout((prev: any) => {
-                                  const nextP = [...prev.paragraphs];
-                                  const cur = { ...nextP[idx] };
-                                  if (locale === "zh") cur.zh = text;
-                                  else if (locale === "en") cur.en = text;
-                                  else cur.vi = text;
-                                  nextP[idx] = cur;
-                                  return { ...prev, paragraphs: nextP };
-                                });
-                              }}
-                              className="w-full bg-slate-50 hover:bg-white text-slate-700 hover:outline hover:outline-dashed hover:outline-azure-400 rounded p-2 text-sm leading-relaxed border border-slate-200"
-                              title="Nhấp để sửa đoạn văn này"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setAbout((prev: any) => ({
-                                  ...prev,
-                                  paragraphs: prev.paragraphs.filter((_: any, i: number) => i !== idx),
-                                }));
-                              }}
-                              className="opacity-0 group-hover/p:opacity-100 p-1 text-slate-400 hover:text-rose-500 transition-opacity"
-                              title="Xóa đoạn này"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setAbout((prev: any) => ({
-                          ...prev,
-                          paragraphs: [
-                            ...prev.paragraphs,
-                            {
-                              vi: "Thêm đoạn văn bản mới giới thiệu về năng lực vận tải và thông quan...",
-                              en: "New paragraph...",
-                              zh: "新增介绍段落...",
-                            },
-                          ],
-                        }));
-                      }}
-                      className="inline-flex items-center gap-1.5 text-xs text-azure-600 hover:text-azure-700 font-bold bg-azure-50 px-3 py-1.5 rounded-lg border border-azure-200 transition-colors"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                      <span>Thêm đoạn văn mới</span>
-                    </button>
+                <div className="space-y-6 pt-2 text-slate-700 text-sm sm:text-base leading-relaxed">
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-bold text-slate-950">Phạm vi phủ sóng</h3>
+                    <ul className="list-disc pl-5 space-y-1.5 text-slate-700">
+                      <li>Cửa khẩu Quốc tế Móng Cái (Bắc Luân 2 & Ka Long - Quảng Ninh)</li>
+                      <li>Cửa khẩu Quốc tế Hữu Nghị (Lạng Sơn)</li>
+                      <li>Cửa khẩu Tân Thanh (Lạng Sơn)</li>
+                      <li>Cửa khẩu Chi Ma (Lạng Sơn)</li>
+                      <li>Chuyên tuyến vận tải biển bằng tàu & sà lan đi khắp quần đảo Cô Tô</li>
+                    </ul>
                   </div>
 
-                  {/* Cột phải: Ảnh minh họa */}
-                  <div className="lg:col-span-5">
-                    <div
-                      onClick={() => triggerImagePicker("aboutImg")}
-                      className="group/img relative h-72 sm:h-80 rounded-2xl overflow-hidden shadow-xs border-2 border-dashed border-azure-400 cursor-pointer"
-                      title="Nhấp vào đây để đổi ảnh minh họa trụ sở"
-                    >
-                      <Image
-                        src={about.storyImage || "/images/vietphuc/hero_office_panoramic.webp"}
-                        alt="About illustration"
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 bg-slate-950/40 opacity-0 hover:opacity-100 flex items-center justify-center transition-opacity">
-                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-azure-600 text-white text-xs font-bold shadow-md">
-                          <Camera className="w-4 h-4" />
-                          <span>Nhấp để thay đổi ảnh này</span>
-                        </span>
-                      </div>
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-bold text-slate-950">Quy mô vận tải</h3>
+                    <ul className="list-disc pl-5 space-y-1.5 text-slate-700">
+                      <li>Sở hữu trực tiếp 50 xe đầu kéo container (20ft, 40ft, 45ft), moóc sàn, moóc lùn</li>
+                      <li>Vận chuyển giao thẳng (Door-to-Door), không qua trung gian</li>
+                      <li>Đội tàu biển và sà lan chuyên dụng tải trọng lớn kết nối đảo Cô Tô</li>
+                      <li>Giám sát hành trình GPS 24/7, an toàn tuyệt đối</li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-bold text-slate-950">Thông quan hàng hóa</h3>
+                    <ul className="list-disc pl-5 space-y-1.5 text-slate-700">
+                      <li>100% nghiệp vụ thông quan chính ngạch qua hệ thống hải quan điện tử VNACCS/VCIS</li>
+                      <li>Tư vấn mã HS Code, tối ưu biểu thuế và xin cấp C/O Form E (ACFTA)</li>
+                      <li>Trọn gói mọi loại hình: Nhập kinh doanh (A11), Nhập SXXK (E31), Gia công (E21), Tạm nhập tái xuất</li>
+                      <li>Chuyên gia xử lý hàng khó: Hàng quá khổ quá tải, hàng quá cảnh, hóa chất và kiểm định vải dệt may</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              {/* MỤC 3: TẦM NHÌN & SỨ MỆNH */}
+              <section className="space-y-4">
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
+                  TẦM NHÌN & SỨ MỆNH
+                </h2>
+                <div className="h-0.5 w-16 bg-slate-900" />
+
+                <div className="space-y-4 pt-2 text-slate-700 text-sm sm:text-base leading-relaxed">
+                  <div className="space-y-1.5">
+                    <h3 className="text-lg font-bold text-slate-950">Tầm nhìn</h3>
+                    <p>Trở thành doanh nghiệp Logistics đa phương thức hàng đầu khu vực phía Bắc, kết nối hoàn hảo giữa vận tải đường bộ biên giới Việt - Trung và vận tải tàu/sà lan biển đảo.</p>
+                  </div>
+                  <div className="space-y-1.5">
+                    <h3 className="text-lg font-bold text-slate-950">Sứ mệnh</h3>
+                    <p>Đơn giản hóa mọi thủ tục hải quan phức tạp, cung cấp năng lực vận tải mạnh mẽ cho các mặt hàng đặc thù và công trình biển đảo, giúp đối tác tối ưu chi phí và bứt phá doanh thu.</p>
+                  </div>
+                </div>
+              </section>
+
+              {/* MỤC 4: HỆ SINH THÁI */}
+              <section className="space-y-4">
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
+                  HỆ SINH THÁI
+                </h2>
+                <div className="h-0.5 w-16 bg-slate-900" />
+
+                <div className="space-y-4 pt-2 text-slate-700 text-sm sm:text-base leading-relaxed">
+                  <p>Sự liên kết chặt chẽ giữa 3 đơn vị tạo nên chuỗi cung ứng khép kín, chủ động hoàn toàn về phương tiện đường bộ lẫn đường biển:</p>
+                  <ul className="list-disc pl-5 space-y-1 font-semibold text-slate-900">
+                    <li>Logistics GT (Công ty mẹ)</li>
+                    <li>Việt Phúc Logistics (Công ty thành viên)</li>
+                    <li>Vận tải Cô Tô (Công ty thành viên)</li>
+                  </ul>
+
+                  <div className="space-y-6 pt-3">
+                    <div className="space-y-1.5">
+                      <h3 className="text-lg font-bold text-slate-950">Công ty TNHH Logistics GT (Công ty mẹ)</h3>
+                      <ul className="list-disc pl-5 space-y-1 text-slate-700">
+                        <li><strong>Vai trò trong hệ sinh thái:</strong> Trung tâm điều hành & thủ tục hải quan, quản trị chuỗi cung ứng.</li>
+                        <li><strong>Thế mạnh trọng tâm:</strong> Khai báo hải quan đa cửa khẩu (Móng Cái, Hữu Nghị, Tân Thanh, Chi Ma), xử lý hàng quá khổ quá tải, quá cảnh, hóa chất, vải vóc.</li>
+                      </ul>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <h3 className="text-lg font-bold text-slate-950">Việt Phúc Logistics (Công ty thành viên)</h3>
+                      <ul className="list-disc pl-5 space-y-1 text-slate-700">
+                        <li><strong>Vai trò trong hệ sinh thái:</strong> Đơn vị vận tải đường bộ liên vận & nội địa.</li>
+                        <li><strong>Thế mạnh trọng tâm:</strong> Trực tiếp quản lý và điều phối đội xe 50 đầu kéo container, kết nối luồng hàng tốc độ cao từ Lạng Sơn - Quảng Ninh - Hải Phòng đi toàn quốc.</li>
+                      </ul>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <h3 className="text-lg font-bold text-slate-950">Vận tải Cô Tô (Công ty thành viên)</h3>
+                      <ul className="list-disc pl-5 space-y-1 text-slate-700">
+                        <li><strong>Vai trò trong hệ sinh thái:</strong> Đơn vị khai thác tàu & sà lan biển đảo.</li>
+                        <li><strong>Thế mạnh trọng tâm:</strong> Vận hành đội tàu biển và sà lan tải trọng lớn, chuyên trách vận chuyển hàng hóa, vật tư công trình đi tất cả các đảo thuộc khu vực Cô Tô, Quảng Ninh.</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            </div>
           </div>
         )}
 

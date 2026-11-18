@@ -34,6 +34,8 @@ export function PageBanner({
   bgOpacity = 30,
 }: PageBannerProps) {
   const isMain = size === "main";
+  const effectiveBgImage = bgImage || "/images/vietphuc/hero_fleet_6k3a8950.webp";
+  const effectiveOpacity = bgOpacity ?? 45;
 
   return (
     <section
@@ -44,17 +46,15 @@ export function PageBanner({
       }`}
     >
       {/* Ảnh nền tuỳ chỉnh với tính năng phóng to / thu nhỏ và vị trí linh hoạt */}
-      {bgImage && (
-        <div
-          className="absolute inset-0 z-0 bg-no-repeat pointer-events-none"
-          style={{
-            backgroundImage: `url('${bgImage}')`,
-            backgroundSize: `${bgScale || 100}%`,
-            backgroundPosition: bgPosition || "center",
-            opacity: (bgOpacity ?? 30) / 100,
-          }}
-        />
-      )}
+      <div
+        className="absolute inset-0 z-0 bg-no-repeat pointer-events-none"
+        style={{
+          backgroundImage: `url('${effectiveBgImage}')`,
+          backgroundSize: `${bgScale || 100}%`,
+          backgroundPosition: bgPosition || "center",
+          opacity: effectiveOpacity / 100,
+        }}
+      />
 
       {/* Nền tối sâu với chuyển sắc mềm mại */}
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40 z-0 pointer-events-none" />

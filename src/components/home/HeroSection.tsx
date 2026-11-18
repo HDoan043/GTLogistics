@@ -61,7 +61,7 @@ export function HeroSection({ hotline = "0904.382.268", heroData }: HeroSectionP
   const btnHotlineText =
     heroData?.btnHotline || `Hotline Tư Vấn 24/7: ${hotline}`;
 
-  const bgImage = heroData?.bgImage || "/images/vietphuc/hero_office_panoramic.webp";
+  const bgImage = heroData?.bgImage || "/images/vietphuc/hero_fleet_6k3a8950.webp";
   const bgScale = heroData?.bgScale || 100;
   const bgPosition = heroData?.bgPosition || "center";
   const bgOpacity = heroData?.bgOpacity ?? 55;
@@ -86,11 +86,7 @@ export function HeroSection({ hotline = "0904.382.268", heroData }: HeroSectionP
           {/* Tiêu đề chính tên công ty & khẩu hiệu doanh nghiệp chuẩn xác */}
           <div className="space-y-3">
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white">
-              <span className="text-azure-400">LOGISTICS</span>{" "}
-              <span className="text-gold-400">GT</span>
-              <span className="block text-xl sm:text-2xl lg:text-3xl font-bold text-slate-200 mt-1 tracking-normal">
-                {companyTitle}
-              </span>
+              {companyTitle}
             </h1>
             <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-100 tracking-wide">
               {slogan}

@@ -108,50 +108,8 @@ export function BorderGateNetwork({ borderGatesData }: BorderGateNetworkProps = 
     <section className="py-16 sm:py-24 bg-white text-slate-900 border-b border-slate-200/80 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Cột 1: Header, Giới thiệu & Ảnh minh họa điểm trực cửa khẩu */}
-          <div className="lg:col-span-5 space-y-6">
-            <div>
-              <span className="text-xs font-bold text-azure-700 block mb-2">
-                {badgeText}
-              </span>
-              <div className="h-1 w-12 bg-azure-600 rounded-full mb-4" />
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight leading-tight">
-                {headingText}
-              </h2>
-              <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
-                {descText}
-              </p>
-            </div>
-
-            {/* Ảnh minh họa điểm trực cửa khẩu thực tế */}
-            <div className="relative h-60 sm:h-64 rounded-2xl overflow-hidden shadow-xs border border-slate-200 group">
-              <Image
-                src={featuredImg}
-                alt="Đội ngũ trực cửa khẩu Logistics GT thường trực 24/7"
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 text-white flex items-center justify-between">
-                <div>
-                  <span className="inline-block px-2.5 py-0.5 rounded-md bg-azure-600 text-white text-xs font-bold mb-1">
-                    {locale === "zh" ? "口岸一线驻点" : locale === "en" ? "On-Site Border Teams" : "Nhân Sự Thường Trực 24/7"}
-                  </span>
-                  <p className="text-xs text-slate-200">
-                    {locale === "zh" ? "广宁与谅山全线口岸联动" : locale === "en" ? "Quang Ninh & Lang Son Gates" : "Móng Cái • Hữu Nghị • Tân Thanh • Chi Ma"}
-                  </p>
-                </div>
-                <div className="flex items-center gap-1.5 text-xs text-gold-300 font-semibold">
-                  <ShieldCheck className="w-4 h-4 text-gold-400 shrink-0" />
-                  <span>{locale === "zh" ? "当天放行" : locale === "en" ? "Same-Day Release" : "Thông Quan Trong Ngày"}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Cột 2: Danh sách 4 Cửa khẩu Chiến Lược xếp so le đẹp mắt */}
-          <div className="lg:col-span-7 flex flex-col justify-center gap-4">
+          {/* Cột 1: Danh sách 4 Cửa khẩu Chiến Lược (bên trái trên Desktop) */}
+          <div className="order-2 lg:order-1 lg:col-span-6 flex flex-col justify-center gap-3.5">
             {gates.map((g) => {
               const name = locale === "zh" && g.nameZh ? g.nameZh : locale === "en" && g.nameEn ? g.nameEn : g.name;
               const desc = locale === "zh" && g.descZh ? g.descZh : locale === "en" && g.descEn ? g.descEn : g.desc;
@@ -191,6 +149,48 @@ export function BorderGateNetwork({ borderGatesData }: BorderGateNetworkProps = 
                 </div>
               );
             })}
+          </div>
+
+          {/* Cột 2: Header, Giới thiệu & Ảnh minh họa điểm trực cửa khẩu (bên phải trên Desktop) */}
+          <div className="order-1 lg:order-2 lg:col-span-6 space-y-6">
+            <div>
+              <span className="text-xs font-bold text-azure-700 block mb-2">
+                {badgeText}
+              </span>
+              <div className="h-1 w-12 bg-azure-600 rounded-full mb-4" />
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight leading-tight">
+                {headingText}
+              </h2>
+              <p className="mt-3 text-slate-600 text-xs sm:text-sm leading-relaxed">
+                {descText}
+              </p>
+            </div>
+
+            {/* Ảnh minh họa điểm trực cửa khẩu thực tế */}
+            <div className="relative h-56 sm:h-60 rounded-2xl overflow-hidden shadow-xs border border-slate-200 group">
+              <Image
+                src={featuredImg}
+                alt="Đội ngũ trực cửa khẩu Logistics GT thường trực 24/7"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 text-white flex items-center justify-between">
+                <div>
+                  <span className="inline-block px-2.5 py-0.5 rounded-md bg-azure-600 text-white text-xs font-bold mb-1">
+                    {locale === "zh" ? "口岸一线驻点" : locale === "en" ? "On-Site Border Teams" : "Nhân Sự Thường Trực 24/7"}
+                  </span>
+                  <p className="text-xs text-slate-200">
+                    {locale === "zh" ? "广宁与谅山全线口岸联动" : locale === "en" ? "Quang Ninh & Lang Son Gates" : "Móng Cái • Hữu Nghị • Tân Thanh • Chi Ma"}
+                  </p>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-gold-300 font-semibold">
+                  <ShieldCheck className="w-4 h-4 text-gold-400 shrink-0" />
+                  <span>{locale === "zh" ? "当天放行" : locale === "en" ? "Same-Day Release" : "Thông Quan Trong Ngày"}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

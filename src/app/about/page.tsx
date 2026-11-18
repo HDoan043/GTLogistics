@@ -1,19 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Target,
-  Compass,
-  Building,
-  Truck,
-  Ship,
-  FileCheck,
-  CheckCircle2,
-  PhoneCall,
-  ArrowRight,
-  ShieldCheck,
-  Award,
-} from "lucide-react";
+import { PhoneCall, ArrowRight } from "lucide-react";
 import { PageBanner } from "@/components/layout/PageBanner";
 import { getSiteSettings } from "@/modules/settings/actions";
 import { getServerDictionary } from "@/lib/i18n/server";
@@ -23,15 +11,14 @@ import { DEFAULT_ABOUT_CONTENT, DEFAULT_BANNERS_CONTENT } from "@/modules/conten
 export const metadata = {
   title: "Giới Thiệu Về Chúng Tôi | GT Logistics",
   description:
-    "Tìm hiểu về lịch sử hình thành, năng lực 50 xe container, đội tàu sà lan Cô Tô, hệ sinh thái và pháp lý của Công ty TNHH Logistics GT.",
+    "Tìm hiểu về năng lực tiếp vận, quy mô 50 xe container, đội tàu sà lan Cô Tô và hệ sinh thái khép kín của Công ty TNHH Logistics GT.",
 };
 
 export default async function AboutPage() {
-  const [{ locale, t }, settings, bannersContent, aboutContent] = await Promise.all([
+  const [{ locale, t }, settings, bannersContent] = await Promise.all([
     getServerDictionary(),
     getSiteSettings(),
     getPageSectionContent("content_banners", DEFAULT_BANNERS_CONTENT),
-    getPageSectionContent("content_about", DEFAULT_ABOUT_CONTENT),
   ]);
 
   const bannerCfg = bannersContent?.about || DEFAULT_BANNERS_CONTENT.about;
@@ -50,86 +37,11 @@ export default async function AboutPage() {
       : locale === "en" && bannerCfg.subtitleEn
       ? bannerCfg.subtitleEn
       : bannerCfg.subtitle ||
-        "Công ty TNHH Logistics GT – Kết nối thông suốt dòng chảy biên mậu Việt – Trung và vận tải chuyên tuyến biển đảo Cô Tô.";
-
-  // Con số năng lực ấn tượng (KPIs bảo chứng năng lực doanh nghiệp)
-  const keyMetrics = [
-    {
-      num: "04",
-      unit: "CỬA KHẨU",
-      label: "Cửa Khẩu Trọng Điểm",
-      desc: "Móng Cái – Hữu Nghị – Tân Thanh – Chi Ma",
-      icon: Building,
-    },
-    {
-      num: "50+",
-      unit: "ĐẦU KÉO",
-      label: "Đầu Kéo Container",
-      desc: "Đội xe hùng hậu, vận chuyển giao thẳng Door-to-Door",
-      icon: Truck,
-    },
-    {
-      num: "ĐỘI TÀU",
-      unit: "SÀ LAN",
-      label: "Tàu & Sà Lan Biển Đảo",
-      desc: "Chuyên tuyến kết nối trực tiếp tất cả đảo Cô Tô",
-      icon: Ship,
-    },
-    {
-      num: "100%",
-      unit: "CHÍNH NGẠCH",
-      label: "Hải Quan Chính Ngạch",
-      desc: "Hàng quá khổ quá tải, quá cảnh, hóa chất, hàng vải",
-      icon: FileCheck,
-    },
-  ];
-
-  // Hệ sinh thái công ty thành viên (Section 1.4)
-  const ecosystemRows = [
-    {
-      unit: "CÔNG TY TNHH LOGISTICS GT",
-      tag: "Công ty mẹ",
-      role: "Trung tâm Điều hành & Thủ tục Hải quan",
-      desc: "Quản trị chuỗi cung ứng, khai báo hải quan đa cửa khẩu (Móng Cái, Hữu Nghị, Tân Thanh, Chi Ma), xử lý hàng quá khổ quá tải, quá cảnh, hóa chất, vải vóc.",
-      color: "bg-azure-50 text-azure-700 border-azure-300",
-      badgeColor: "bg-azure-600 text-white",
-      icon: ShieldCheck,
-    },
-    {
-      unit: "VIỆT PHÚC LOGISTICS",
-      tag: "Công ty thành viên",
-      role: "Đơn vị Vận tải Đường bộ Liên vận & Nội địa",
-      desc: "Trực tiếp quản lý và điều phối đội xe 50 đầu kéo container, kết nối luồng hàng tốc độ cao từ các cửa khẩu Lạng Sơn – Quảng Ninh – Hải Phòng đi toàn quốc.",
-      color: "bg-gold-50 text-gold-800 border-gold-300",
-      badgeColor: "bg-gold-500 text-slate-950 font-bold",
-      icon: Truck,
-    },
-    {
-      unit: "VẬN TẢI CÔ TÔ",
-      tag: "Công ty thành viên",
-      role: "Đơn vị Khai thác Tàu & Sà lan Biển Đảo",
-      desc: "Vận hành đội tàu biển và sà lan tải trọng lớn, chuyên trách vận chuyển hàng hóa, vật tư công trình đi tất cả các đảo thuộc khu vực Cô Tô, Quảng Ninh.",
-      color: "bg-emerald-50 text-emerald-800 border-emerald-300",
-      badgeColor: "bg-emerald-600 text-white",
-      icon: Ship,
-    },
-  ];
-
-  // Đối tác & Khách hàng tin tưởng
-  const partnerList = [
-    { name: "Cảng Hải Phòng (Đình Vũ & Lạch Huyện)", category: "Cảng Biển Quốc Tế" },
-    { name: "SITC Container Lines", category: "Hãng Tàu Quốc Tế" },
-    { name: "COSCO Shipping Lines", category: "Hãng Tàu Quốc Tế" },
-    { name: "Foxconn Electronics", category: "Linh Kiện Điện Tử" },
-    { name: "Shenzhou International", category: "Dệt May Xuất Khẩu" },
-    { name: "Texhong Textile Group", category: "Sợi & Vải Dệt May" },
-    { name: "Coteccons Construction", category: "Vật Liệu & Dự Án Đảo" },
-    { name: "Tập Đoàn Đèo Cả", category: "Hạ Tầng Giao Thông" },
-  ];
+        "Công ty TNHH Logistics GT - Kết nối thông suốt dòng chảy biên mậu Việt - Trung và vận tải chuyên tuyến biển đảo Cô Tô.";
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-slate-900">
-      {/* Banner Tiêu đề Trang chính: Rộng thoáng, chữ to rõ nét và watermark logo GT */}
+      {/* Banner Tiêu đề Trang chính với ảnh nền Việt Phúc mới nhất */}
       <PageBanner
         breadcrumbs={[
           { label: t.common.home, href: "/" },
@@ -144,46 +56,34 @@ export default async function AboutPage() {
         bgOpacity={bannerCfg.bgOpacity}
       />
 
-      {/* BỐ CỤC 1 HÀNG DỌC CHUYÊN NGHIỆP THEO ĐÚNG YÊU CẦU */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-16 sm:space-y-20">
+      {/* BỐ CỤC 1 HÀNG DỌC CHUẨN MỰC, TẬP TRUNG HEADER VÀ TEXT PHÂN CẤP KHOA HỌC */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-16 sm:space-y-20">
         
-        {/* MỤC 1: VỀ CÔNG TY TNHH LOGISTICS GT */}
-        <section className="space-y-6">
-          <div className="flex items-center gap-3">
-            <span className="px-3 py-1 rounded-full bg-azure-50 text-azure-700 text-xs font-bold border border-azure-200">
-              MST: 5701750095
-            </span>
-            <span className="text-xs font-bold text-slate-500">
-              Đại diện pháp luật: Lê Thanh Tâm
-            </span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight leading-tight">
-            Về Công Ty TNHH Logistics GT
+        {/* MỤC 1: VỀ CHÚNG TÔI */}
+        <section className="space-y-4">
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
+            VỀ CHÚNG TÔI
           </h2>
+          <div className="h-0.5 w-16 bg-slate-900" />
 
-          <div className="h-1 w-16 bg-gradient-to-r from-azure-600 to-gold-500 rounded-full" />
-
-          <div className="space-y-4 text-slate-700 text-base sm:text-lg leading-relaxed">
+          <div className="space-y-4 text-slate-700 text-base sm:text-lg leading-relaxed pt-2">
             <p>
               Được thành lập với sứ mệnh trở thành cầu nối giao thương huyết mạch giữa Việt Nam, Trung Quốc và khu vực ASEAN,{" "}
-              <strong className="text-slate-950 font-bold">Công ty TNHH Logistics GT</strong> (Mã số thuế:{" "}
-              <span className="font-mono font-bold text-azure-700">5701750095</span>) đã và đang khẳng định vị thế là một trong những đơn vị tiếp vận biên mậu và vận tải biển đảo uy tín hàng đầu tại miền Bắc.
+              <strong className="text-slate-950 font-bold">Công ty TNHH Logistics GT</strong> (Mã số thuế: 5701750095) đã và đang khẳng định vị thế là một trong những đơn vị tiếp vận biên mậu và vận tải biển đảo uy tín hàng đầu tại miền Bắc.
             </p>
             <p>
-              Với trụ sở điều hành đặt ngay tại cửa ngõ Cửa khẩu Bắc Luân 2 (KĐT Vinhomes Golden Avenue, TP. Móng Cái), hiện diện trực tiếp tại các cửa khẩu trọng điểm Lạng Sơn (<strong>Hữu Nghị, Tân Thanh, Chi Ma</strong>), kết hợp cùng năng lực{" "}
-              <strong>50 xe đầu kéo container</strong> và <strong>đội tàu/sà lan chuyên tuyến Cô Tô</strong>, chúng tôi mang đến cho doanh nghiệp giải pháp vận chuyển liền mạch từ biên giới trên bộ ra tới tận hải đảo.
+              Với trụ sở điều hành đặt ngay tại cửa ngõ Cửa khẩu Bắc Luân 2 (KĐT Vinhomes Golden Avenue, TP. Móng Cái), hiện diện trực tiếp tại các cửa khẩu trọng điểm Lạng Sơn (Hữu Nghị, Tân Thanh, Chi Ma), kết hợp cùng năng lực 50 xe đầu kéo container và đội tàu/sà lan chuyên tuyến Cô Tô, chúng tôi mang đến cho doanh nghiệp giải pháp vận chuyển liền mạch từ biên giới trên bộ ra tới tận hải đảo.
             </p>
           </div>
 
-          {/* Ảnh toàn cảnh trụ sở & đội xe */}
+          {/* Ảnh minh họa trụ sở và nhân sự */}
           <div className="relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden shadow-xs border border-slate-200 mt-6">
             <Image
               src="/images/vietphuc/hero_office_panoramic.webp"
               alt="Trụ sở điều hành và chuyên viên Logistics GT"
               fill
               className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 900px"
+              sizes="(max-width: 1024px) 100vw, 896px"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-6 right-6 text-white flex items-center justify-between">
@@ -199,179 +99,182 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        {/* MỤC 2: CON SỐ NĂNG LỰC BẢO CHỨNG (CHỈ SỐ DOANH NGHIỆP) */}
-        <section className="space-y-6">
-          <div>
-            <div className="text-xs font-bold text-azure-700 mb-1">
-              Năng lực bảo chứng thực tế
-            </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
-              Quy Mô Vận Tải & Phạm Vi Phủ Sóng
-            </h3>
-          </div>
+        {/* MỤC 2: QUY MÔ VẬN TẢI & PHẠM VI PHỦ SÓNG */}
+        <section className="space-y-4">
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
+            QUY MÔ VẬN TẢI & PHẠM VI PHỦ SÓNG
+          </h2>
+          <div className="h-0.5 w-16 bg-slate-900" />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {keyMetrics.map((m, idx) => {
-              const Icon = m.icon;
-              return (
-                <div
-                  key={idx}
-                  className="bg-slate-50 rounded-2xl p-5 border-2 border-slate-200 hover:border-azure-600 transition-colors duration-150 flex flex-col justify-between shadow-xs"
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="w-10 h-10 rounded-xl bg-azure-100 text-azure-800 flex items-center justify-center font-bold">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className="text-[11px] font-mono font-bold text-slate-600">
-                      {m.unit}
-                    </span>
-                  </div>
-                  <div>
-                    <div className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
-                      {m.num}
-                    </div>
-                    <div className="font-bold text-sm text-slate-900 mt-1">
-                      {m.label}
-                    </div>
-                    <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                      {m.desc}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="space-y-8 pt-2 text-slate-700 leading-relaxed">
+            {/* Header phụ 1: Phạm vi phủ sóng */}
+            <div className="space-y-3">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-950">
+                Phạm vi phủ sóng
+              </h3>
+              <p className="text-sm sm:text-base">
+                Logistics GT thiết lập mạng lưới điều vận và thông quan hiện trường thường trực 24/7 tại toàn bộ các cửa khẩu huyết mạch biên giới phía Bắc cùng tuyến vận tải biển đảo chuyên biệt:
+              </p>
+              <ul className="list-disc pl-5 space-y-2 text-sm sm:text-base text-slate-700">
+                <li>
+                  <strong>Cửa khẩu Quốc tế Móng Cái (Bắc Luân 2 & Ka Long - Quảng Ninh):</strong> Đầu mối giao thương tốc độ cao kết nối trực tiếp TP. Đông Hưng (Trung Quốc) và trục cao tốc Vân Đồn - Móng Cái - Hà Nội - Hải Phòng.
+                </li>
+                <li>
+                  <strong>Cửa khẩu Quốc tế Hữu Nghị (Lạng Sơn):</strong> Tuyến huyết mạch đường bộ hàng đầu cho hàng điện tử, linh kiện công nghệ cao, máy móc thiết bị và hàng quá cảnh quốc tế.
+                </li>
+                <li>
+                  <strong>Cửa khẩu Tân Thanh (Lạng Sơn):</strong> Trung tâm thông quan hàng nông sản, trái cây tươi và hàng tiêu dùng với quy trình kiểm dịch thực vật, giải phóng phương tiện nhanh gọn.
+                </li>
+                <li>
+                  <strong>Cửa khẩu Chi Ma (Lạng Sơn):</strong> Cửa ngõ thông quan tối ưu chi phí và thời gian cho hàng bách hóa, nguyên phụ liệu dệt may (hàng vải) và hàng thương mại biên giới.
+                </li>
+                <li>
+                  <strong>Chuyên tuyến vận tải biển đảo Cô Tô:</strong> Vận tải đường thủy bằng tàu tải trọng lớn và sà lan chuyên dụng từ đất liền ra khắp tất cả các đảo thuộc huyện đảo Cô Tô (Cô Tô lớn, Cô Tô con, đảo Thanh Lân và các đảo phụ cận).
+                </li>
+              </ul>
+            </div>
+
+            {/* Header phụ 2: Quy mô vận tải */}
+            <div className="space-y-3">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-950">
+                Quy mô vận tải
+              </h3>
+              <p className="text-sm sm:text-base">
+                Chủ động hoàn toàn về năng lực phương tiện vận tải đường bộ và đường thủy nội địa, không phụ thuộc vào đơn vị trung gian:
+              </p>
+              <ul className="list-disc pl-5 space-y-2 text-sm sm:text-base text-slate-700">
+                <li>
+                  <strong>Đội xe 50 đầu kéo container:</strong> Trực tiếp sở hữu và điều hành 50 đầu kéo chuyên dụng (20ft, 40ft, 45ft), moóc sàn, moóc lùn và moóc rào, sẵn sàng điều động 24/7 trên toàn quốc.
+                </li>
+                <li>
+                  <strong>Vận chuyển giao thẳng (Door-to-Door):</strong> Hàng hóa sau khi hoàn tất thủ tục hải quan tại cửa khẩu được xe kéo giao thẳng về kho bãi, nhà máy của doanh nghiệp, loại bỏ rủi ro sang tải và tiết kiệm chi phí bến bãi.
+                </li>
+                <li>
+                  <strong>Đội tàu biển và sà lan Cô Tô:</strong> Năng lực vận chuyển đa dạng các loại vật liệu xây dựng (cát, đá, xi măng, sắt thép), máy móc công trình cơ giới nặng và nhu yếu phẩm phục vụ phát triển kinh tế biển đảo.
+                </li>
+                <li>
+                  <strong>Giám sát hành trình trực tuyến:</strong> 100% phương tiện gắn định vị GPS và cảm biến giám sát liên tục, cập nhật lộ trình minh bạch và cam kết an toàn hàng hóa tuyệt đối.
+                </li>
+              </ul>
+            </div>
+
+            {/* Header phụ 3: Thông quan hàng hóa */}
+            <div className="space-y-3">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-950">
+                Thông quan hàng hóa
+              </h3>
+              <p className="text-sm sm:text-base">
+                Quy trình thông quan chính ngạch, chuẩn mực pháp lý và xử lý triệt để các loại hàng hóa phức tạp:
+              </p>
+              <ul className="list-disc pl-5 space-y-2 text-sm sm:text-base text-slate-700">
+                <li>
+                  <strong>100% nghiệp vụ chính ngạch:</strong> Đại lý hải quan điện tử trực tiếp truyền tờ khai qua hệ thống VNACCS/VCIS, đảm bảo chứng từ hợp lệ và xuất hóa đơn đầy đủ.
+                </li>
+                <li>
+                  <strong>Tư vấn mã HS Code và tối ưu biểu thuế:</strong> Rà soát hợp đồng thương mại, phân loại mã hàng chuẩn xác, xin cấp và kiểm tra tính hợp lệ của C/O Form E để hưởng thuế suất ưu đãi đặc biệt ACFTA.
+                </li>
+                <li>
+                  <strong>Đa dạng loại hình xuất nhập khẩu:</strong> Nhập kinh doanh (A11), Nhập sản xuất xuất khẩu (E31), Gia công may mặc & điện tử (E21), Tạm nhập tái xuất, Hàng dự án đầu tư miễn thuế.
+                </li>
+                <li>
+                  <strong>Chuyên gia xử lý hàng đặc thù:</strong> Năng lực vượt trội đối với hàng quá khổ quá tải (OOG/Project Cargo), hàng quá cảnh kẹp chì hải quan sang Lào/Campuchia, hàng hóa chất và kiểm định nhanh vải may mặc.
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
 
         {/* MỤC 3: TẦM NHÌN & SỨ MỆNH */}
-        <section className="space-y-6">
-          <div>
-            <div className="text-xs font-bold text-azure-700 mb-1">
-              Định hướng phát triển
-            </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
-              Tầm Nhìn & Sứ Mệnh Doanh Nghiệp
-            </h3>
-          </div>
+        <section className="space-y-4">
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
+            TẦM NHÌN & SỨ MỆNH
+          </h2>
+          <div className="h-0.5 w-16 bg-slate-900" />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* Tầm nhìn */}
-            <div className="bg-slate-50 rounded-2xl p-6 sm:p-7 border-2 border-slate-200 space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-azure-600 text-white flex items-center justify-center shadow-xs">
-                <Target className="w-6 h-6" />
-              </div>
-              <h4 className="text-lg sm:text-xl font-bold text-slate-950">
-                Tầm Nhìn Chiến Lược
-              </h4>
-              <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
-                Trở thành doanh nghiệp Logistics đa phương thức hàng đầu khu vực phía Bắc, kết nối hoàn hảo giữa vận tải đường bộ biên giới Việt Nam và Trung Quốc với vận tải tàu/sà lan biển đảo.
+          <div className="space-y-6 pt-2 text-slate-700 leading-relaxed">
+            <div className="space-y-2">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-950">
+                Tầm nhìn
+              </h3>
+              <p className="text-sm sm:text-base leading-relaxed">
+                Trở thành doanh nghiệp Logistics đa phương thức hàng đầu khu vực phía Bắc, kết nối hoàn hảo giữa vận tải đường bộ biên giới Việt - Trung và vận tải tàu/sà lan biển đảo.
               </p>
             </div>
 
-            {/* Sứ mệnh */}
-            <div className="bg-slate-50 rounded-2xl p-6 sm:p-7 border-2 border-slate-200 space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-gold-500 text-slate-950 flex items-center justify-center shadow-xs">
-                <Compass className="w-6 h-6" />
-              </div>
-              <h4 className="text-lg sm:text-xl font-bold text-slate-950">
-                Sứ Mệnh Doanh Nghiệp
-              </h4>
-              <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
+            <div className="space-y-2">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-950">
+                Sứ mệnh
+              </h3>
+              <p className="text-sm sm:text-base leading-relaxed">
                 Đơn giản hóa mọi thủ tục hải quan phức tạp, cung cấp năng lực vận tải mạnh mẽ cho các mặt hàng đặc thù và công trình biển đảo, giúp đối tác tối ưu chi phí và bứt phá doanh thu.
               </p>
             </div>
           </div>
         </section>
 
-        {/* MỤC 4: HỆ SINH THÁI & CÔNG TY THÀNH VIÊN (BẢNG RỘNG CHIẾM TOÀN BỘ KHÔNG GIAN) */}
-        <section className="space-y-6">
-          <div>
-            <div className="text-xs font-bold text-azure-700 mb-1">
-              Hệ sinh thái khép kín
-            </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight">
-              Hệ Sinh Thái Vững Mạnh: Chủ Động Phương Tiện Vận Tải
-            </h3>
-            <p className="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
-              Sự liên kết chặt chẽ giữa <strong>Công ty TNHH Logistics GT</strong> và 2 công ty thành viên tạo nên mạng lưới vận tải đường bộ và đường biển khép kín, chủ động hoàn toàn về phương tiện:
+        {/* MỤC 4: HỆ SINH THÁI */}
+        <section className="space-y-4">
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
+            HỆ SINH THÁI
+          </h2>
+          <div className="h-0.5 w-16 bg-slate-900" />
+
+          <div className="space-y-6 pt-2 text-slate-700 leading-relaxed">
+            <p className="text-sm sm:text-base">
+              Sự liên kết chặt chẽ giữa 3 đơn vị tạo nên chuỗi cung ứng khép kín, chủ động hoàn toàn về phương tiện đường bộ lẫn đường biển:
             </p>
-          </div>
+            <ul className="list-disc pl-5 space-y-1.5 text-sm sm:text-base font-semibold text-slate-900">
+              <li>Logistics GT (Công ty mẹ)</li>
+              <li>Việt Phúc Logistics (Công ty thành viên)</li>
+              <li>Vận tải Cô Tô (Công ty thành viên)</li>
+            </ul>
 
-          {/* Bảng Hệ sinh thái chuẩn Corporate hiển thị chiếm toàn không gian */}
-          <div className="overflow-x-auto rounded-2xl border-2 border-slate-300 shadow-xs">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-900 text-white text-xs sm:text-sm font-bold">
-                  <th className="py-4 px-5 border-b border-slate-800 w-1/4">Đơn Vị Thành Viên</th>
-                  <th className="py-4 px-5 border-b border-slate-800 w-1/3">Vai Trò Trong Hệ Sinh Thái</th>
-                  <th className="py-4 px-5 border-b border-slate-800">Thế Mạnh Trọng Tâm</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200 text-xs sm:text-sm">
-                {ecosystemRows.map((row, idx) => {
-                  const Icon = row.icon;
-                  return (
-                    <tr key={idx} className="hover:bg-slate-50/80 transition-colors">
-                      <td className="py-4.5 px-5 font-bold text-slate-950 align-top">
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <Icon className="w-4 h-4 text-azure-600 shrink-0" />
-                          <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-800">
-                            {row.tag}
-                          </span>
-                        </div>
-                        <span className="text-sm font-black text-slate-900 block">
-                          {row.unit}
-                        </span>
-                      </td>
-                      <td className="py-4.5 px-5 text-slate-800 font-semibold align-top leading-snug">
-                        {row.role}
-                      </td>
-                      <td className="py-4.5 px-5 text-slate-600 align-top leading-relaxed">
-                        {row.desc}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        {/* MỤC 5: ĐỐI TÁC VÀ KHÁCH HÀNG TIN TƯỞNG */}
-        <section className="space-y-6">
-          <div>
-            <div className="text-xs font-bold text-azure-700 mb-1">
-              Đối tác chiến lược
-            </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
-              Đối Tác & Doanh Nghiệp Tin Tưởng Đồng Hành
-            </h3>
-            <p className="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
-              Logistics GT tự hào là đối tác tiếp vận, thủ tục hải quan và vận chuyển biển đảo tin cậy của các tập đoàn sản xuất, hãng tàu quốc tế và nhà thầu xây dựng trọng điểm:
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {partnerList.map((p, idx) => (
-              <div
-                key={idx}
-                className="p-5 rounded-2xl bg-slate-50 border-2 border-slate-200 hover:border-azure-600 hover:bg-white transition-colors duration-150 flex flex-col justify-between shadow-xs group"
-              >
-                <div className="flex items-center gap-2 mb-3">
-                  <Award className="w-4 h-4 text-azure-600 shrink-0" />
-                  <span className="text-xs font-bold text-slate-500 truncate">
-                    {p.category}
-                  </span>
-                </div>
-                <div className="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-azure-700 transition-colors leading-snug">
-                  {p.name}
-                </div>
-                <div className="mt-3 flex items-center gap-1 text-[11px] text-emerald-700 font-semibold">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                  <span>Đối tác chính thức</span>
-                </div>
+            <div className="space-y-8 pt-4">
+              {/* Công ty 1 */}
+              <div className="space-y-2.5">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-950">
+                  Công ty TNHH Logistics GT (Công ty mẹ)
+                </h3>
+                <ul className="list-disc pl-5 space-y-1.5 text-sm sm:text-base text-slate-700">
+                  <li>
+                    <strong>Vai trò trong hệ sinh thái:</strong> Trung tâm điều hành & thủ tục hải quan, quản trị chuỗi cung ứng tổng thể.
+                  </li>
+                  <li>
+                    <strong>Thế mạnh trọng tâm:</strong> Khai báo hải quan đa cửa khẩu (Móng Cái, Hữu Nghị, Tân Thanh, Chi Ma), tư vấn tối ưu thuế XNK, xử lý hàng quá khổ quá tải, hàng quá cảnh, hóa chất nguy hiểm và kiểm định vải dệt may.
+                  </li>
+                </ul>
               </div>
-            ))}
+
+              {/* Công ty 2 */}
+              <div className="space-y-2.5">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-950">
+                  Việt Phúc Logistics (Công ty thành viên)
+                </h3>
+                <ul className="list-disc pl-5 space-y-1.5 text-sm sm:text-base text-slate-700">
+                  <li>
+                    <strong>Vai trò trong hệ sinh thái:</strong> Đơn vị vận tải đường bộ liên vận & nội địa.
+                  </li>
+                  <li>
+                    <strong>Thế mạnh trọng tâm:</strong> Trực tiếp quản lý và điều phối đội xe 50 đầu kéo container, kết nối luồng hàng tốc độ cao từ các cửa khẩu Lạng Sơn - Quảng Ninh - Hải Phòng đi toàn quốc theo hình thức giao thẳng Door-to-Door.
+                  </li>
+                </ul>
+              </div>
+
+              {/* Công ty 3 */}
+              <div className="space-y-2.5">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-950">
+                  Vận tải Cô Tô (Công ty thành viên)
+                </h3>
+                <ul className="list-disc pl-5 space-y-1.5 text-sm sm:text-base text-slate-700">
+                  <li>
+                    <strong>Vai trò trong hệ sinh thái:</strong> Đơn vị khai thác tàu & sà lan biển đảo.
+                  </li>
+                  <li>
+                    <strong>Thế mạnh trọng tâm:</strong> Vận hành đội tàu biển và sà lan tải trọng lớn, chuyên trách vận chuyển hàng hóa, vật tư công trình, máy móc thiết bị và hàng tiêu dùng đi tất cả các đảo thuộc khu vực Cô Tô, Quảng Ninh.
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
 

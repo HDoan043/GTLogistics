@@ -172,11 +172,11 @@ export function Header({
                         />
                       </Link>
 
-                      {/* Services Dropdown */}
+                      {/* Services Dropdown - Chỉ hiện tên các dịch vụ theo yêu cầu */}
                       {servicesDropdown && (
                         <div className="absolute top-full left-0 pt-2 z-50">
-                          <div className="w-[390px] bg-white rounded-2xl shadow-md border border-slate-200 p-2.5 animate-in fade-in slide-in-from-top-2 duration-150 text-slate-900">
-                            <div className="px-3 py-2 text-xs font-semibold text-slate-500 border-b border-slate-100 mb-1">
+                          <div className="w-[330px] bg-white rounded-2xl shadow-md border border-slate-200 p-2.5 animate-in fade-in slide-in-from-top-2 duration-150 text-slate-900">
+                            <div className="px-3 py-1.5 text-xs font-semibold text-slate-500 border-b border-slate-100 mb-1">
                               {t.header.servicesDropdownTitle}
                             </div>
                             <div className="space-y-1">
@@ -186,17 +186,14 @@ export function Header({
                                   <Link
                                     key={service.slug}
                                     href={`/services/${service.slug}`}
-                                    className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group"
+                                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors group"
                                   >
-                                    <div className="w-9 h-9 rounded-xl bg-azure-50 border border-azure-100 text-azure-600 flex items-center justify-center shrink-0 group-hover:bg-azure-600 group-hover:text-white transition-colors">
+                                    <div className="w-8 h-8 rounded-lg bg-azure-50 border border-azure-100 text-azure-600 flex items-center justify-center shrink-0 group-hover:bg-azure-600 group-hover:text-white transition-colors">
                                       <IconComponent className="w-4 h-4" />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                       <div className="text-sm font-bold text-slate-900 group-hover:text-azure-700 transition-colors leading-snug">
                                         {getServiceTitle(service)}
-                                      </div>
-                                      <div className="text-xs text-slate-500 line-clamp-1 mt-0.5">
-                                        {getServiceDesc(service)}
                                       </div>
                                     </div>
                                   </Link>

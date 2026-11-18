@@ -108,8 +108,8 @@ export function WhyChooseUs({ whyUsData }: WhyUsProps = {}) {
     <section className="py-16 sm:py-24 bg-white text-slate-900 border-b border-slate-200/80 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Cột 1: Header, Mô tả & Ảnh minh họa tạo điểm nhấn đặt ngay bên dưới */}
-          <div className="lg:col-span-5 space-y-6">
+          {/* Cột 1: Header nửa màn hình, Mô tả tinh gọn & Ảnh minh họa */}
+          <div className="lg:col-span-6 space-y-6">
             <div>
               <span className="text-xs font-bold text-azure-700 block mb-2">
                 {badgeText}
@@ -118,18 +118,18 @@ export function WhyChooseUs({ whyUsData }: WhyUsProps = {}) {
               <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight leading-tight">
                 {heading}
               </h2>
-              <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
+              <p className="mt-3 text-slate-600 text-xs sm:text-sm leading-relaxed">
                 {desc}
               </p>
             </div>
 
             {/* Ảnh minh họa ban lãnh đạo & điều hành tiếp vận */}
-            <div className="relative h-60 sm:h-64 rounded-2xl overflow-hidden shadow-xs border border-slate-200 group">
+            <div className="relative h-56 sm:h-60 rounded-2xl overflow-hidden shadow-xs border border-slate-200 group">
               <Image
                 src={bannerImg}
                 alt="Ban điều hành và chuyên viên tiếp vận Logistics GT"
                 fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
@@ -150,8 +150,8 @@ export function WhyChooseUs({ whyUsData }: WhyUsProps = {}) {
             </div>
           </div>
 
-          {/* Cột 2: 4 Lý do tin chọn theo đúng tài liệu Section 1.5 */}
-          <div className="lg:col-span-7 flex flex-col justify-center gap-4">
+          {/* Cột 2: 4 Lý do tin chọn thu gọn cân đối */}
+          <div className="lg:col-span-6 flex flex-col justify-center gap-3.5">
             {items.map((it, idx) => {
               const Icon = iconMap[it.icon || ""] || Truck;
               const title = locale === "zh" && it.titleZh ? it.titleZh : locale === "en" && it.titleEn ? it.titleEn : it.title;

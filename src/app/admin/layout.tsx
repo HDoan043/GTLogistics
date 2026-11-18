@@ -86,7 +86,7 @@ export default async function AdminLayout({
                 className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/80 hover:text-white transition-colors text-slate-300 border border-transparent hover:border-slate-700/60"
               >
                 <Users className="w-4 h-4 text-azure-400" />
-                <span>Khách Hàng (Leads)</span>
+                <span>Danh Sách Báo Giá</span>
               </Link>
 
               <Link

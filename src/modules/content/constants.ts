@@ -1,5 +1,7 @@
 // Dữ liệu mặc định cho Hero Section Trang Chủ
 export const DEFAULT_HOME_HERO = {
+  titleLine1: "CÔNG TY TNHH",
+  titleLine2: "LOGISTICS GT",
   titleGt: "CÔNG TY TNHH LOGISTICS GT",
   titleLogistics: "",
   slogan: "ĐỒNG HÀNH TIN CẬY - PHÁT TRIỂN BỀN VỮNG",
@@ -253,10 +255,69 @@ export const DEFAULT_ABOUT_CONTENT = {
     history:
       "Được thành lập với sứ mệnh trở thành cầu nối giao thương huyết mạch giữa Việt Nam, Trung Quốc và khu vực ASEAN, Công ty TNHH Logistics GT (MST: 5701750095) đã và đang khẳng định vị thế là một trong những đơn vị tiếp vận biên mậu và vận tải biển đảo uy tín hàng đầu tại miền Bắc.\n\nVới trụ sở điều hành đặt ngay tại cửa ngõ Cửa khẩu Bắc Luân 2 (KĐT Vinhomes Golden Avenue, TP. Móng Cái), hiện diện trực tiếp tại các cửa khẩu trọng điểm Lạng Sơn (Hữu Nghị, Tân Thanh, Chi Ma), kết hợp cùng năng lực 50 xe đầu kéo container và đội tàu/sà lan chuyên tuyến Cô Tô, chúng tôi mang đến cho doanh nghiệp giải pháp vận chuyển liền mạch từ biên giới trên bộ ra tới tận hải đảo.",
   },
+  scope: {
+    heading: "Phạm vi phủ sóng",
+    title: "Phạm vi phủ sóng",
+    description: "Logistics GT thiết lập mạng lưới điều vận và thông quan hiện trường thường trực 24/7 tại toàn bộ các cửa khẩu huyết mạch biên giới phía Bắc cùng tuyến vận tải biển đảo chuyên biệt:",
+    items: [
+      "Cửa khẩu Quốc tế Móng Cái (Bắc Luân 2 & Ka Long - Quảng Ninh): Đầu mối giao thương tốc độ cao kết nối trực tiếp TP. Đông Hưng (Trung Quốc) và trục cao tốc Vân Đồn - Móng Cái - Hà Nội - Hải Phòng.",
+      "Cửa khẩu Quốc tế Hữu Nghị (Lạng Sơn): Tuyến huyết mạch đường bộ hàng đầu cho hàng điện tử, linh kiện công nghệ cao, máy móc thiết bị và hàng quá cảnh quốc tế.",
+      "Cửa khẩu Tân Thanh (Lạng Sơn): Trung tâm thông quan hàng nông sản, trái cây tươi và hàng tiêu dùng với quy trình kiểm dịch thực vật, giải phóng phương tiện nhanh gọn.",
+      "Cửa khẩu Chi Ma (Lạng Sơn): Cửa ngõ thông quan tối ưu chi phí và thời gian cho hàng bách hóa, nguyên phụ liệu dệt may (hàng vải) và hàng thương mại biên giới.",
+      "Chuyên tuyến vận tải biển đảo Cô Tô: Vận tải đường thủy bằng tàu tải trọng lớn và sà lan chuyên dụng từ đất liền ra khắp tất cả các đảo thuộc huyện đảo Cô Tô (Cô Tô lớn, Cô Tô con, đảo Thanh Lân và các đảo phụ cận).",
+    ],
+    bullets: [
+      "Cửa khẩu Quốc tế Móng Cái (Bắc Luân 2 & Ka Long - Quảng Ninh): Đầu mối giao thương tốc độ cao kết nối trực tiếp TP. Đông Hưng (Trung Quốc) và trục cao tốc Vân Đồn - Móng Cái - Hà Nội - Hải Phòng.",
+      "Cửa khẩu Quốc tế Hữu Nghị (Lạng Sơn): Tuyến huyết mạch đường bộ hàng đầu cho hàng điện tử, linh kiện công nghệ cao, máy móc thiết bị và hàng quá cảnh quốc tế.",
+      "Cửa khẩu Tân Thanh (Lạng Sơn): Trung tâm thông quan hàng nông sản, trái cây tươi và hàng tiêu dùng với quy trình kiểm dịch thực vật, giải phóng phương tiện nhanh gọn.",
+      "Cửa khẩu Chi Ma (Lạng Sơn): Cửa ngõ thông quan tối ưu chi phí và thời gian cho hàng bách hóa, nguyên phụ liệu dệt may (hàng vải) và hàng thương mại biên giới.",
+      "Chuyên tuyến vận tải biển đảo Cô Tô: Vận tải đường thủy bằng tàu tải trọng lớn và sà lan chuyên dụng từ đất liền ra khắp tất cả các đảo thuộc huyện đảo Cô Tô (Cô Tô lớn, Cô Tô con, đảo Thanh Lân và các đảo phụ cận).",
+    ],
+  },
+  fleetScale: {
+    heading: "Quy mô vận tải",
+    title: "Quy mô vận tải",
+    description: "Chủ động hoàn toàn về năng lực phương tiện vận tải đường bộ và đường thủy nội địa, không phụ thuộc vào đơn vị trung gian:",
+    items: [
+      "Đội xe 50 đầu kéo container: Trực tiếp sở hữu và điều hành 50 đầu kéo chuyên dụng (20ft, 40ft, 45ft), moóc sàn, moóc lùn và moóc rào, sẵn sàng điều động 24/7 trên toàn quốc.",
+      "Vận chuyển giao thẳng (Door-to-Door): Hàng hóa sau khi hoàn tất thủ tục hải quan tại cửa khẩu được xe kéo giao thẳng về kho bãi, nhà máy của doanh nghiệp, loại bỏ rủi ro sang tải và tiết kiệm chi phí bến bãi.",
+      "Đội tàu biển và sà lan Cô Tô: Năng lực vận chuyển đa dạng các loại vật liệu xây dựng (cát, đá, xi măng, sắt thép), máy móc công trình cơ giới nặng và nhu yếu phẩm phục vụ phát triển kinh tế biển đảo.",
+      "Giám sát hành trình trực tuyến: 100% phương tiện gắn định vị GPS và cảm biến giám sát liên tục, cập nhật lộ trình minh bạch và cam kết an toàn hàng hóa tuyệt đối.",
+    ],
+    bullets: [
+      "Đội xe 50 đầu kéo container: Trực tiếp sở hữu và điều hành 50 đầu kéo chuyên dụng (20ft, 40ft, 45ft), moóc sàn, moóc lùn và moóc rào, sẵn sàng điều động 24/7 trên toàn quốc.",
+      "Vận chuyển giao thẳng (Door-to-Door): Hàng hóa sau khi hoàn tất thủ tục hải quan tại cửa khẩu được xe kéo giao thẳng về kho bãi, nhà máy của doanh nghiệp, loại bỏ rủi ro sang tải và tiết kiệm chi phí bến bãi.",
+      "Đội tàu biển và sà lan Cô Tô: Năng lực vận chuyển đa dạng các loại vật liệu xây dựng (cát, đá, xi măng, sắt thép), máy móc công trình cơ giới nặng và nhu yếu phẩm phục vụ phát triển kinh tế biển đảo.",
+      "Giám sát hành trình trực tuyến: 100% phương tiện gắn định vị GPS và cảm biến giám sát liên tục, cập nhật lộ trình minh bạch và cam kết an toàn hàng hóa tuyệt đối.",
+    ],
+  },
+  customsCapability: {
+    heading: "Thông quan hàng hóa",
+    title: "Thông quan hàng hóa",
+    description: "Thế mạnh thực chiến về nghiệp vụ khai báo hải quan điện tử và giải phóng hàng chính ngạch đa dạng các nhóm mặt hàng:",
+    items: [
+      "100% Chính ngạch: Tuân thủ nghiêm ngặt pháp luật hải quan Việt Nam – Trung Quốc, đầy đủ hóa đơn chứng từ GTGT hợp pháp.",
+      "Chuyên trị hàng khó: Xử lý chuyên sâu hàng quá cảnh (Transit), hàng hóa chất, tiền chất nguy hiểm, hàng quá khổ quá tải phục vụ dự án công nghiệp.",
+      "Kiểm định vải & dệt may cấp tốc: Rút ngắn thời gian lấy mẫu và trả kết quả giám định chất lượng vải, đưa hàng về nhà máy may mặc ngay trong ngày.",
+      "Dịch vụ C/O Form E chuẩn xác: Hỗ trợ kiểm tra, xin cấp và xử lý sai sót chứng nhận xuất xứ Form E để doanh nghiệp hưởng thuế suất ưu đãi đặc biệt 0%.",
+    ],
+    bullets: [
+      "100% Chính ngạch: Tuân thủ nghiêm ngặt pháp luật hải quan Việt Nam – Trung Quốc, đầy đủ hóa đơn chứng từ GTGT hợp pháp.",
+      "Chuyên trị hàng khó: Xử lý chuyên sâu hàng quá cảnh (Transit), hàng hóa chất, tiền chất nguy hiểm, hàng quá khổ quá tải phục vụ dự án công nghiệp.",
+      "Kiểm định vải & dệt may cấp tốc: Rút ngắn thời gian lấy mẫu và trả kết quả giám định chất lượng vải, đưa hàng về nhà máy may mặc ngay trong ngày.",
+      "Dịch vụ C/O Form E chuẩn xác: Hỗ trợ kiểm tra, xin cấp và xử lý sai sót chứng nhận xuất xứ Form E để doanh nghiệp hưởng thuế suất ưu đãi đặc biệt 0%.",
+    ],
+  },
   visionMission: {
+    visionTitle: "Tầm nhìn",
     vision:
       "Trở thành doanh nghiệp Logistics đa phương thức hàng đầu khu vực phía Bắc, kết nối hoàn hảo giữa vận tải đường bộ biên giới Việt – Trung và vận tải tàu/sà lan biển đảo.",
+    visionDesc:
+      "Trở thành doanh nghiệp Logistics đa phương thức hàng đầu khu vực phía Bắc, kết nối hoàn hảo giữa vận tải đường bộ biên giới Việt – Trung và vận tải tàu/sà lan biển đảo.",
+    missionTitle: "Sứ mệnh",
     mission:
+      "Đơn giản hóa mọi thủ tục hải quan phức tạp, cung cấp năng lực vận tải mạnh mẽ cho các mặt hàng đặc thù và công trình biển đảo, giúp đối tác tối ưu chi phí và bứt phá doanh thu.",
+    missionDesc:
       "Đơn giản hóa mọi thủ tục hải quan phức tạp, cung cấp năng lực vận tải mạnh mẽ cho các mặt hàng đặc thù và công trình biển đảo, giúp đối tác tối ưu chi phí và bứt phá doanh thu.",
   },
   ecosystem: [
@@ -368,4 +429,44 @@ export const DEFAULT_BANNERS_CONTENT = {
     bgPosition: "center",
     bgOpacity: 55,
   },
+};
+
+// Dữ liệu mặc định cho Trang Liên Hệ & Pháp Nhân
+export const DEFAULT_CONTACT_CONTENT = {
+  companyName: "CÔNG TY TNHH LOGISTICS GT",
+  taxCode: "5701750095",
+  legalRep: "Lê Thanh Tâm",
+  hotline: "0904.382.268",
+  email: "contact@logisticsgt.vn",
+  workHours: "Thứ Hai – Chủ Nhật (07:30 – 18:30, trực hotline 24/7)",
+  headquarters: {
+    title: "Trụ sở chính (Móng Cái)",
+    address:
+      "Căn ĐLTC-41, KĐT Vinhomes Golden Avenue, Cửa khẩu Bắc Luân 2, Phường Hải Hòa, TP. Móng Cái, Tỉnh Quảng Ninh.",
+    note: "Túc trực 24/7 kiểm hóa bãi xe và xử lý tờ khai hải quan.",
+  },
+  branches: [
+    {
+      title: "Điểm trực Cửa khẩu Hữu Nghị & Tân Thanh",
+      address:
+        "Khu vực Cửa khẩu Quốc tế Hữu Nghị & Cửa khẩu Tân Thanh, Tỉnh Lạng Sơn.",
+      note: "Hỗ trợ thủ tục thông quan xe tải, nông sản, linh kiện điện tử.",
+    },
+    {
+      title: "Điểm trực Cửa khẩu Chi Ma",
+      address: "Khu vực Cửa khẩu Chi Ma, Huyện Lộc Bình, Tỉnh Lạng Sơn.",
+      note: "Chuyên tuyến hàng may mặc, bách hóa tổng hợp, tiểu ngạch chuyển đổi.",
+    },
+    {
+      title: "Văn phòng Cảng Hải Phòng",
+      address: "Khu vực Cụm Cảng Đình Vũ, Quận Hải An, TP. Hải Phòng.",
+      note: "Giao nhận hàng biển, sang tải container, vận chuyển nội địa.",
+    },
+    {
+      title: "Đầu mối Tàu & Sà lan Cô Tô",
+      address:
+        "Khu vực cảng bến đất liền Vân Đồn / Cẩm Phả & Huyện đảo Cô Tô, Tỉnh Quảng Ninh.",
+      note: "Vận chuyển vật tư xây dựng, hàng tiêu dùng ra các đảo Cô Tô.",
+    },
+  ],
 };

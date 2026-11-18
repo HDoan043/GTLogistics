@@ -59,90 +59,74 @@ export function WhyUsSectionEditor({ initialData }: { initialData?: WhyUsData })
   const handleSave = async () => {
     setSaving(true);
     setStatus(null);
-    const res = await savePageSectionContent(
-      "content_home_why_us",
-      data,
-      "Nội dung Vì Sao Chọn GT Logistics"
-    );
+    const res = await savePageSectionContent("content_home_why_us", data, "Nội dung Vì Sao Chọn GT Logistics");
     setSaving(false);
     if (res.success) {
-      setStatus({ type: "success", msg: "Đã lưu thay đổi mục 'Vì sao chọn GT' thành công!" });
+      setStatus({ type: "success", msg: "Đã lưu thay đổi mục Vì Sao Chọn thành công!" });
     } else {
-      setStatus({ type: "error", msg: res.message });
+      setStatus({ type: "error", msg: res.message || "Có lỗi xảy ra khi lưu!" });
     }
+    setTimeout(() => setStatus(null), 4000);
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
         <div>
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <span>Mục Vì Sao Chọn GT Logistics (Lợi Thế Cạnh Tranh)</span>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-azure-950 text-azure-400 border border-azure-800">
-              Trang Chủ
-            </span>
-          </h2>
-          <p className="text-xs text-slate-400 mt-1">
-            Chỉnh sửa tiêu đề chính, ảnh minh họa bên dưới và nội dung 4 thẻ ưu thế cạnh tranh.
+          <h2 className="text-xl font-bold text-slate-900">Vì Sao Khách Hàng Tin Chọn (Section 1.5)</h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Chỉnh sửa tiêu đề chính, mô tả phụ và nội dung các thẻ ưu thế cạnh tranh.
           </p>
         </div>
 
-        {/* Tab ngôn ngữ */}
-        <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+            {(["vi", "en", "zh"] as const).map((l) => (
+              <button
+                key={l}
+                type="button"
+                onClick={() => setLangTab(l)}
+                className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors ${
+                  langTab === l
+                    ? "bg-azure-600 text-white shadow-xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
           <button
             type="button"
-            onClick={() => setLangTab("vi")}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors ${
-              langTab === "vi" ? "bg-azure-600 text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
-            }`}
+            onClick={handleSave}
+            disabled={saving}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-azure-600 hover:bg-azure-500 text-white font-bold text-xs transition-colors shadow-sm disabled:opacity-50"
           >
-            Tiếng Việt (VI)
-          </button>
-          <button
-            type="button"
-            onClick={() => setLangTab("en")}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors ${
-              langTab === "en" ? "bg-azure-600 text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            English (EN)
-          </button>
-          <button
-            type="button"
-            onClick={() => setLangTab("zh")}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors ${
-              langTab === "zh" ? "bg-azure-600 text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            中文 (ZH)
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            <span>{saving ? "Đang lưu..." : "Lưu Thay Đổi"}</span>
           </button>
         </div>
       </div>
 
       {status && (
         <div
-          className={`p-4 rounded-xl flex items-center gap-2.5 text-xs font-semibold ${
+          className={`p-4 rounded-xl text-xs font-semibold flex items-center gap-2 border ${
             status.type === "success"
-              ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800/80"
-              : "bg-rose-950/80 text-rose-300 border border-rose-800/80"
+              ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+              : "bg-rose-50 text-rose-800 border-rose-200"
           }`}
         >
-          {status.type === "success" ? (
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-          ) : (
-            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-          )}
+          {status.type === "success" ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
           <span>{status.msg}</span>
         </div>
       )}
 
-      {/* Header text & Badge */}
-      <div className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-xs">
+        <h3 className="font-bold text-sm text-slate-900">Tiêu Đề & Lời Dẫn</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1.5">
-              Nhãn Badge ({langTab.toUpperCase()})
-            </label>
+            <label className="text-xs font-bold text-slate-700 block mb-1">Badge phụ:</label>
             <input
               type="text"
               value={langTab === "vi" ? data.badge : langTab === "en" ? data.badgeEn || "" : data.badgeZh || ""}
@@ -153,15 +137,12 @@ export function WhyUsSectionEditor({ initialData }: { initialData?: WhyUsData })
                   ...(langTab === "vi" ? { badge: val } : langTab === "en" ? { badgeEn: val } : { badgeZh: val }),
                 }));
               }}
-              placeholder="LỢI THẾ CẠNH TRANH CỐT LÕI"
-              className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-700 rounded-lg text-white font-semibold focus:border-azure-500 focus:outline-none"
+              className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:border-azure-500 focus:bg-white focus:outline-none"
             />
           </div>
 
-          <div className="sm:col-span-2">
-            <label className="block text-xs font-bold text-slate-300 mb-1.5">
-              Tiêu Đề Section ({langTab.toUpperCase()})
-            </label>
+          <div>
+            <label className="text-xs font-bold text-slate-700 block mb-1">Tiêu đề chính:</label>
             <input
               type="text"
               value={langTab === "vi" ? data.title : langTab === "en" ? data.titleEn || "" : data.titleZh || ""}
@@ -172,16 +153,13 @@ export function WhyUsSectionEditor({ initialData }: { initialData?: WhyUsData })
                   ...(langTab === "vi" ? { title: val } : langTab === "en" ? { titleEn: val } : { titleZh: val }),
                 }));
               }}
-              placeholder="Vì Sao Khách Hàng Luôn Tin Chọn..."
-              className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-700 rounded-lg text-white font-bold focus:border-azure-500 focus:outline-none"
+              className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:border-azure-500 focus:bg-white focus:outline-none"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1.5">
-            Mô Tả Section ({langTab.toUpperCase()})
-          </label>
+          <label className="text-xs font-bold text-slate-700 block mb-1">Mô tả dẫn nhập:</label>
           <textarea
             rows={2}
             value={langTab === "vi" ? data.description : langTab === "en" ? data.descriptionEn || "" : data.descriptionZh || ""}
@@ -192,86 +170,38 @@ export function WhyUsSectionEditor({ initialData }: { initialData?: WhyUsData })
                 ...(langTab === "vi" ? { description: val } : langTab === "en" ? { descriptionEn: val } : { descriptionZh: val }),
               }));
             }}
-            placeholder="Mô tả tóm tắt..."
-            className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-700 rounded-lg text-slate-200 placeholder-slate-500 focus:border-azure-500 focus:outline-none resize-none"
+            className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:border-azure-500 focus:bg-white focus:outline-none"
           />
         </div>
       </div>
 
-      {/* Ảnh minh họa bên dưới Header */}
-      <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-3">
-        <div className="flex items-center justify-between">
-          <label className="text-xs font-bold text-slate-300">
-            Ảnh Minh Họa Bên Dưới Header (Accent Photo)
-          </label>
-          <button
-            type="button"
-            onClick={() => setPickerOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-azure-400 hover:text-azure-300 rounded-lg text-xs font-semibold transition-colors"
-          >
-            <ImageIcon className="w-3.5 h-3.5" />
-            <span>Thay đổi ảnh</span>
-          </button>
-        </div>
-
-        <div className="relative aspect-[16/9] sm:aspect-[21/9] w-full max-w-lg rounded-xl overflow-hidden border border-slate-800 bg-slate-950">
-          <Image
-            src={data.image || "/images/vietphuc/boardroom_conference.webp"}
-            alt="Why Us Preview"
-            fill
-            className="object-cover"
-          />
-        </div>
-      </div>
-
-      {/* 4 Thẻ Ưu Thế Cạnh Tranh */}
+      {/* Danh sách 4 thẻ lợi thế */}
       <div className="space-y-4">
-        <h3 className="text-xs font-bold text-white border-b border-slate-800 pb-2">
-          Nội Dung 4 Thẻ Điểm Mạnh (Ưu Thế Cạnh Tranh)
-        </h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <h3 className="font-bold text-sm text-slate-900">Các Thẻ Lợi Thế Cạnh Tranh</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {data.items.map((item, idx) => {
-            const currentTitle =
-              langTab === "vi" ? item.title : langTab === "en" ? item.titleEn || "" : item.titleZh || "";
-            const currentDesc =
-              langTab === "vi" ? item.desc : langTab === "en" ? item.descEn || "" : item.descZh || "";
+            const itemTitle = langTab === "vi" ? item.title : langTab === "en" ? item.titleEn || "" : item.titleZh || "";
+            const itemDesc = langTab === "vi" ? item.desc : langTab === "en" ? item.descEn || "" : item.descZh || "";
 
             return (
-              <div
-                key={idx}
-                className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-azure-400">
-                    Thẻ số {idx + 1}
-                  </span>
-                  <span className="text-[10px] text-slate-500 font-mono">
-                    Icon: {item.icon}
-                  </span>
-                </div>
-
+              <div key={idx} className="p-5 rounded-2xl bg-white border border-slate-200 space-y-3 shadow-xs">
+                <span className="text-xs font-bold text-azure-600 block">Ưu thế #{idx + 1}</span>
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-400 mb-1">
-                    Tiêu Đề Thẻ ({langTab.toUpperCase()})
-                  </label>
+                  <label className="text-xs font-bold text-slate-600 block mb-1">Tiêu đề:</label>
                   <input
                     type="text"
-                    value={currentTitle}
+                    value={itemTitle}
                     onChange={(e) => updateItem(idx, "title", e.target.value)}
-                    className="w-full px-3 py-1.5 text-xs bg-slate-900 border border-slate-700 rounded-lg text-white font-bold focus:border-azure-500 focus:outline-none"
+                    className="w-full p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs font-bold focus:border-azure-500 focus:bg-white focus:outline-none"
                   />
                 </div>
-
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-400 mb-1">
-                    Mô Tả Chi Tiết ({langTab.toUpperCase()})
-                  </label>
+                  <label className="text-xs font-bold text-slate-600 block mb-1">Mô tả:</label>
                   <textarea
-                    rows={3}
-                    value={currentDesc}
+                    rows={2}
+                    value={itemDesc}
                     onChange={(e) => updateItem(idx, "desc", e.target.value)}
-                    className="w-full px-3 py-1.5 text-xs bg-slate-900 border border-slate-700 rounded-lg text-slate-300 focus:border-azure-500 focus:outline-none resize-none"
+                    className="w-full p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 text-xs focus:border-azure-500 focus:bg-white focus:outline-none"
                   />
                 </div>
               </div>
@@ -279,36 +209,6 @@ export function WhyUsSectionEditor({ initialData }: { initialData?: WhyUsData })
           })}
         </div>
       </div>
-
-      {/* Nút lưu */}
-      <div className="pt-4 border-t border-slate-800 flex justify-end">
-        <button
-          type="button"
-          onClick={handleSave}
-          disabled={saving}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-slate-950 font-black text-xs transition-colors shadow-lg shadow-gold-500/10 disabled:opacity-50"
-        >
-          {saving ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Đang lưu...</span>
-            </>
-          ) : (
-            <>
-              <Save className="w-4 h-4" />
-              <span>Lưu Thay Đổi Mục &quot;Vì Sao Chọn GT&quot;</span>
-            </>
-          )}
-        </button>
-      </div>
-
-      <MediaPickerModal
-        isOpen={pickerOpen}
-        onClose={() => setPickerOpen(false)}
-        currentImage={data.image}
-        onSelect={(url) => setData({ ...data, image: url })}
-        title="Chọn ảnh minh họa cho mục Vì Sao Chọn GT Logistics"
-      />
     </div>
   );
 }

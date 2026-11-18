@@ -61,6 +61,7 @@ export default async function ServiceDetailPage({
         ]}
         title={localized.title}
         subtitle={localized.shortDesc}
+        bgImage={service.bannerImage}
       />
 
       {/* Nội dung chi tiết dịch vụ */}

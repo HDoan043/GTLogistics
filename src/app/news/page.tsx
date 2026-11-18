@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/Badge";
 import { PageBanner } from "@/components/layout/PageBanner";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getLocalizedPost } from "@/lib/i18n";
+import { DEFAULT_BANNERS_CONTENT } from "@/modules/content/constants";
+import { getPageSectionContent } from "@/modules/content/actions";
 
 export const metadata = {
   title: "Tin Tức & Cẩm Nang Xuất Nhập Khẩu | GT Logistics",
@@ -20,10 +22,13 @@ export default async function NewsPage({
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category } = await searchParams;
-  const [{ locale, t }, posts] = await Promise.all([
+  const [{ locale, t }, posts, bannersContent] = await Promise.all([
     getServerDictionary(),
     getPosts({ category }),
+    getPageSectionContent("content_banners", DEFAULT_BANNERS_CONTENT),
   ]);
+
+  const bannerCfg = bannersContent?.news || DEFAULT_BANNERS_CONTENT.news;
 
   const categories = [
     { filterVal: "", label: t.newsPage.categories.all },
@@ -52,6 +57,10 @@ export default async function NewsPage({
         title={newsTitle}
         subtitle={t.newsPage.desc}
         size="main"
+        bgImage={bannerCfg.bgImage}
+        bgScale={bannerCfg.bgScale}
+        bgPosition={bannerCfg.bgPosition}
+        bgOpacity={bannerCfg.bgOpacity}
       />
 
       {/* Bộ Lọc Chuyên Mục */}

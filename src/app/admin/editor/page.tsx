@@ -30,6 +30,8 @@ export default async function AdminEditorPage() {
       initialAbout={contents.about}
       initialBanners={contents.banners}
       initialHomeServices={contents.homeServices}
+      initialBorderGates={contents.borderGates}
+      initialContact={contents.contact}
       initialServices={services}
       settings={settings}
     />

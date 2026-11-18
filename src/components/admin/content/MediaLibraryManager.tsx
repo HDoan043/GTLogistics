@@ -68,19 +68,19 @@ export function MediaLibraryManager() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
         <div>
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <ImageIcon className="w-5 h-5 text-azure-400" />
+          <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+            <ImageIcon className="w-5 h-5 text-azure-600" />
             <span>Thư Viện Ảnh (Media Library)</span>
           </h2>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 mt-0.5">
             Quản lý và tải ảnh trực tiếp lên ổ cứng máy chủ VPS. Sao chép nhanh đường dẫn để sử dụng.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 px-4 py-2 bg-azure-600 hover:bg-azure-500 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer shadow-md">
+          <label className="flex items-center gap-2 px-4 py-2 bg-azure-600 hover:bg-azure-500 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer shadow-xs">
             {uploading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
@@ -100,7 +100,7 @@ export function MediaLibraryManager() {
             type="button"
             onClick={fetchImages}
             disabled={loading}
-            className="p-2 bg-slate-900 border border-slate-800 text-slate-300 hover:text-white rounded-xl transition-colors"
+            className="p-2 bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900 rounded-xl transition-colors"
             title="Làm mới danh sách"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
@@ -110,10 +110,10 @@ export function MediaLibraryManager() {
 
       {message && (
         <div
-          className={`p-4 rounded-xl text-xs font-semibold ${
+          className={`p-4 rounded-xl text-xs font-semibold border ${
             message.type === "success"
-              ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800/80"
-              : "bg-rose-950/80 text-rose-300 border border-rose-800/80"
+              ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+              : "bg-rose-50 text-rose-800 border-rose-200"
           }`}
         >
           {message.text}
@@ -121,12 +121,12 @@ export function MediaLibraryManager() {
       )}
 
       {loading ? (
-        <div className="py-20 text-center text-slate-400 text-xs flex flex-col items-center gap-2">
-          <Loader2 className="w-8 h-8 animate-spin text-azure-400" />
+        <div className="py-20 text-center text-slate-500 text-xs flex flex-col items-center gap-2">
+          <Loader2 className="w-8 h-8 animate-spin text-azure-600" />
           <span>Đang tải danh sách thư viện ảnh...</span>
         </div>
       ) : images.length === 0 ? (
-        <div className="py-20 text-center text-slate-400 text-xs">
+        <div className="py-20 text-center text-slate-500 text-xs">
           Chưa có hình ảnh nào được tải lên VPS.
         </div>
       ) : (
@@ -136,9 +136,9 @@ export function MediaLibraryManager() {
             return (
               <div
                 key={img.url}
-                className="group relative rounded-xl overflow-hidden bg-slate-950/80 border border-slate-800 hover:border-slate-700 transition-colors flex flex-col"
+                className="group relative rounded-xl overflow-hidden bg-white border border-slate-200 hover:border-azure-400 transition-colors flex flex-col shadow-xs"
               >
-                <div className="relative aspect-video w-full bg-slate-900">
+                <div className="relative aspect-video w-full bg-slate-100">
                   <Image
                     src={img.url}
                     alt={img.name}
@@ -148,18 +148,18 @@ export function MediaLibraryManager() {
                   />
                 </div>
 
-                <div className="p-2.5 flex items-center justify-between gap-2 border-t border-slate-800 bg-slate-950">
-                  <span className="text-[11px] text-slate-300 truncate font-mono block">
+                <div className="p-2.5 flex items-center justify-between gap-2 border-t border-slate-100 bg-slate-50">
+                  <span className="text-[11px] text-slate-700 truncate font-mono block">
                     {img.name}
                   </span>
                   <button
                     type="button"
                     onClick={() => copyToClipboard(img.url)}
-                    className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition-colors shrink-0"
+                    className="p-1.5 rounded-lg bg-white border border-slate-200 hover:bg-azure-50 text-slate-600 hover:text-azure-700 transition-colors shrink-0"
                     title="Sao chép đường dẫn URL"
                   >
                     {isCopied ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <Check className="w-3.5 h-3.5 text-emerald-600" />
                     ) : (
                       <Copy className="w-3.5 h-3.5" />
                     )}

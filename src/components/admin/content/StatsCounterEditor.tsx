@@ -35,7 +35,7 @@ export function StatsCounterEditor({ initialData }: { initialData?: StatItem[] }
         else if (langTab === "en") cur.subEn = value;
         else if (langTab === "zh") cur.subZh = value;
       } else {
-        cur[field] = value;
+        (cur as any)[field] = value;
       }
       next[index] = cur;
       return next;
@@ -54,161 +54,116 @@ export function StatsCounterEditor({ initialData }: { initialData?: StatItem[] }
     if (res.success) {
       setStatus({ type: "success", msg: "Đã lưu 4 thông số ấn tượng thành công!" });
     } else {
-      setStatus({ type: "error", msg: res.message });
+      setStatus({ type: "error", msg: res.message || "Có lỗi xảy ra khi lưu!" });
     }
+    setTimeout(() => setStatus(null), 4000);
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
         <div>
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <span>4 Con Số Ấn Tượng (Big Numbers)</span>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-azure-950 text-azure-400 border border-azure-800">
-              Trang Chủ & Giới Thiệu
-            </span>
-          </h2>
-          <p className="text-xs text-slate-400 mt-1">
-            Chỉnh sửa 4 con số khẳng định năng lực (kinh nghiệm, tấn hàng, doanh nghiệp, tỷ lệ đúng hạn).
+          <h2 className="text-xl font-bold text-slate-900">4 Con Số Ấn Tượng (Big Numbers)</h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Quản lý số liệu định lượng: quy mô đội xe, kinh nghiệm, thời gian thông quan và tỷ lệ đúng hẹn.
           </p>
         </div>
 
-        {/* Tab ngôn ngữ */}
-        <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+            {(["vi", "en", "zh"] as const).map((l) => (
+              <button
+                key={l}
+                type="button"
+                onClick={() => setLangTab(l)}
+                className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors ${
+                  langTab === l
+                    ? "bg-azure-600 text-white shadow-xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
           <button
             type="button"
-            onClick={() => setLangTab("vi")}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors ${
-              langTab === "vi" ? "bg-azure-600 text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
-            }`}
+            onClick={handleSave}
+            disabled={saving}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-azure-600 hover:bg-azure-500 text-white font-bold text-xs transition-colors shadow-sm disabled:opacity-50"
           >
-            Tiếng Việt (VI)
-          </button>
-          <button
-            type="button"
-            onClick={() => setLangTab("en")}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors ${
-              langTab === "en" ? "bg-azure-600 text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            English (EN)
-          </button>
-          <button
-            type="button"
-            onClick={() => setLangTab("zh")}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors ${
-              langTab === "zh" ? "bg-azure-600 text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            中文 (ZH)
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            <span>{saving ? "Đang lưu..." : "Lưu Số Liệu"}</span>
           </button>
         </div>
       </div>
 
       {status && (
         <div
-          className={`p-4 rounded-xl flex items-center gap-2.5 text-xs font-semibold ${
+          className={`p-4 rounded-xl text-xs font-semibold flex items-center gap-2 border ${
             status.type === "success"
-              ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800/80"
-              : "bg-rose-950/80 text-rose-300 border border-rose-800/80"
+              ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+              : "bg-rose-50 text-rose-800 border-rose-200"
           }`}
         >
-          {status.type === "success" ? (
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-          ) : (
-            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-          )}
+          {status.type === "success" ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
           <span>{status.msg}</span>
         </div>
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {items.map((it, idx) => {
-          const currentLabel =
-            langTab === "vi" ? it.label : langTab === "en" ? it.labelEn || "" : it.labelZh || "";
-          const currentSub =
-            langTab === "vi" ? it.sub : langTab === "en" ? it.subEn || "" : it.subZh || "";
+          const currentLabel = langTab === "vi" ? it.label : langTab === "en" ? it.labelEn || "" : it.labelZh || "";
+          const currentSub = langTab === "vi" ? it.sub : langTab === "en" ? it.subEn || "" : it.subZh || "";
 
           return (
-            <div
-              key={idx}
-              className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3"
-            >
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                <span className="text-xs font-bold text-azure-400">
-                  Thẻ #{idx + 1}
-                </span>
-                <input
-                  type="text"
-                  value={it.unit}
-                  onChange={(e) => updateItem(idx, "unit", e.target.value)}
-                  placeholder="ĐƠN VỊ"
-                  className="w-24 px-2 py-0.5 text-[10px] bg-slate-900 border border-slate-700 rounded text-slate-400 font-mono text-right"
-                />
+            <div key={idx} className="p-5 rounded-2xl bg-white border border-slate-200 space-y-3 shadow-xs">
+              <span className="text-xs font-bold text-azure-600 block">Chỉ số #{idx + 1}</span>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[11px] font-bold text-slate-600 block mb-1">Con số:</label>
+                  <input
+                    type="text"
+                    value={it.num}
+                    onChange={(e) => updateItem(idx, "num", e.target.value)}
+                    className="w-full p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 font-black text-sm focus:border-azure-500 focus:bg-white focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-bold text-slate-600 block mb-1">Đơn vị:</label>
+                  <input
+                    type="text"
+                    value={it.unit}
+                    onChange={(e) => updateItem(idx, "unit", e.target.value)}
+                    className="w-full p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 font-bold text-sm focus:border-azure-500 focus:bg-white focus:outline-none"
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-slate-400 mb-1">
-                  Giá trị số lớn
-                </label>
-                <input
-                  type="text"
-                  value={it.num}
-                  onChange={(e) => updateItem(idx, "num", e.target.value)}
-                  placeholder="10+, 99.8%..."
-                  className="w-full px-3 py-1.5 text-base bg-slate-900 border border-slate-700 rounded-lg text-white font-black font-mono focus:border-azure-500 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-semibold text-slate-400 mb-1">
-                  Nhãn tiêu đề ({langTab.toUpperCase()})
-                </label>
+                <label className="text-[11px] font-bold text-slate-600 block mb-1">Tiêu đề chỉ số:</label>
                 <input
                   type="text"
                   value={currentLabel}
                   onChange={(e) => updateItem(idx, "label", e.target.value)}
-                  placeholder="Năm Kinh Nghiệm..."
-                  className="w-full px-3 py-1.5 text-xs bg-slate-900 border border-slate-700 rounded-lg text-gold-300 font-bold focus:border-azure-500 focus:outline-none"
+                  className="w-full p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs font-bold focus:border-azure-500 focus:bg-white focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-slate-400 mb-1">
-                  Dòng chú thích ({langTab.toUpperCase()})
-                </label>
-                <textarea
-                  rows={2}
+                <label className="text-[11px] font-bold text-slate-600 block mb-1">Mô tả phụ:</label>
+                <input
+                  type="text"
                   value={currentSub}
                   onChange={(e) => updateItem(idx, "sub", e.target.value)}
-                  placeholder="Mô tả phụ..."
-                  className="w-full px-3 py-1.5 text-xs bg-slate-900 border border-slate-700 rounded-lg text-slate-300 focus:border-azure-500 focus:outline-none resize-none"
+                  className="w-full p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-600 text-[11px] focus:border-azure-500 focus:bg-white focus:outline-none"
                 />
               </div>
             </div>
           );
         })}
-      </div>
-
-      <div className="pt-4 border-t border-slate-800 flex justify-end">
-        <button
-          type="button"
-          onClick={handleSave}
-          disabled={saving}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-slate-950 font-black text-xs transition-colors shadow-lg shadow-gold-500/10 disabled:opacity-50"
-        >
-          {saving ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Đang lưu...</span>
-            </>
-          ) : (
-            <>
-              <Save className="w-4 h-4" />
-              <span>Lưu Thay Đổi 4 Con Số</span>
-            </>
-          )}
-        </button>
       </div>
     </div>
   );

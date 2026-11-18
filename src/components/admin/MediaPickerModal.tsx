@@ -275,7 +275,7 @@ export function MediaPickerModal({
         <div className="p-4 border-t border-slate-800 bg-slate-950/80 flex items-center justify-between gap-3">
           <div className="text-xs text-slate-400 truncate max-w-sm">
             {selectedUrl ? (
-              <span className="truncate block font-mono text-[11px]">Đã chọn: {selectedUrl}</span>
+              <span className="truncate block text-xs">Đã chọn: <span className="font-mono text-[11px]">{selectedUrl}</span></span>
             ) : (
               <span>Chưa chọn ảnh nào</span>
             )}

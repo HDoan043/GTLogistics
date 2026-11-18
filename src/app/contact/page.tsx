@@ -4,7 +4,10 @@ import { getSiteSettings } from "@/modules/settings/actions";
 import { PageBanner } from "@/components/layout/PageBanner";
 import { QuoteCtaSection } from "@/components/home/QuoteCtaSection";
 import { getServerDictionary } from "@/lib/i18n/server";
-import { DEFAULT_BANNERS_CONTENT } from "@/modules/content/constants";
+import {
+  DEFAULT_BANNERS_CONTENT,
+  DEFAULT_CONTACT_CONTENT,
+} from "@/modules/content/constants";
 import { getPageSectionContent } from "@/modules/content/actions";
 
 export const metadata = {
@@ -14,14 +17,17 @@ export const metadata = {
 };
 
 export default async function ContactPage() {
-  const [{ locale, t }, settings, bannersContent] = await Promise.all([
-    getServerDictionary(),
-    getSiteSettings(),
-    getPageSectionContent("content_banners", DEFAULT_BANNERS_CONTENT),
-  ]);
+  const [{ locale, t }, settings, bannersContent, contactData] =
+    await Promise.all([
+      getServerDictionary(),
+      getSiteSettings(),
+      getPageSectionContent("content_banners", DEFAULT_BANNERS_CONTENT),
+      getPageSectionContent("content_contact", DEFAULT_CONTACT_CONTENT),
+    ]);
 
+  const contact = { ...DEFAULT_CONTACT_CONTENT, ...(contactData || {}) };
   const bannerCfg = bannersContent?.contact || DEFAULT_BANNERS_CONTENT.contact;
-  const cleanPhone = (settings.hotline || "0904.382.268").replace(/[^0-9]/g, "");
+  const cleanPhone = (contact.hotline || settings.hotline || "0904.382.268").replace(/[^0-9]/g, "");
 
   const contactTitle =
     locale === "zh" && bannerCfg.titleZh
@@ -68,13 +74,13 @@ export default async function ContactPage() {
           <div className="pt-2 text-slate-800 text-base sm:text-lg leading-relaxed space-y-4">
             <ul className="list-disc pl-5 space-y-3">
               <li>
-                <strong>Tên doanh nghiệp:</strong> CÔNG TY TNHH LOGISTICS GT
+                <strong>Tên doanh nghiệp:</strong> {contact.companyName || "CÔNG TY TNHH LOGISTICS GT"}
               </li>
               <li>
-                <strong>Mã số thuế:</strong> 5701750095
+                <strong>Mã số thuế:</strong> {contact.taxCode || "5701750095"}
               </li>
               <li>
-                <strong>Đại diện pháp luật:</strong> Lê Thanh Tâm
+                <strong>Đại diện pháp luật:</strong> {contact.legalRep || "Lê Thanh Tâm"}
               </li>
               <li>
                 <strong>Hotline tư vấn 24/7:</strong>{" "}
@@ -83,37 +89,33 @@ export default async function ContactPage() {
                   className="font-bold text-azure-700 hover:text-azure-900 hover:underline inline-flex items-center gap-1.5"
                 >
                   <Phone className="w-4 h-4 text-azure-600 inline" />
-                  <span>0904.382.268</span>
+                  <span>{contact.hotline || settings.hotline || "0904.382.268"}</span>
                 </a>
               </li>
               <li>
                 <strong>Email chính thức:</strong>{" "}
                 <a
-                  href="mailto:contact@logisticsgt.vn"
+                  href={`mailto:${contact.email || settings.email || "contact@logisticsgt.vn"}`}
                   className="font-medium text-azure-700 hover:text-azure-900 hover:underline inline-flex items-center gap-1.5"
                 >
                   <Mail className="w-4 h-4 text-azure-600 inline" />
-                  <span>contact@logisticsgt.vn</span>
+                  <span>{contact.email || settings.email || "contact@logisticsgt.vn"}</span>
                 </a>
               </li>
               <li>
                 <strong>Hệ thống văn phòng & Điểm trực cửa khẩu:</strong>
                 <ul className="list-disc pl-6 mt-2.5 space-y-2 text-slate-700 text-sm sm:text-base">
-                  <li>
-                    <strong>Trụ sở chính (Móng Cái):</strong> Căn ĐLTC-41, KĐT Vinhomes Golden Avenue, Cửa khẩu Bắc Luân 2, Phường Hải Hòa, TP. Móng Cái, Tỉnh Quảng Ninh.
-                  </li>
-                  <li>
-                    <strong>Điểm trực Cửa khẩu Hữu Nghị & Tân Thanh:</strong> Khu vực Cửa khẩu Quốc tế Hữu Nghị & Cửa khẩu Tân Thanh, Tỉnh Lạng Sơn.
-                  </li>
-                  <li>
-                    <strong>Điểm trực Cửa khẩu Chi Ma:</strong> Khu vực Cửa khẩu Chi Ma, Huyện Lộc Bình, Tỉnh Lạng Sơn.
-                  </li>
-                  <li>
-                    <strong>Văn phòng Cảng Hải Phòng:</strong> Khu vực Cụm Cảng Đình Vũ, Quận Hải An, TP. Hải Phòng.
-                  </li>
-                  <li>
-                    <strong>Đầu mối Tàu & Sà lan Cô Tô:</strong> Khu vực cảng bến đất liền Vân Đồn / Cẩm Phả & Huyện đảo Cô Tô, Tỉnh Quảng Ninh.
-                  </li>
+                  {contact.headquarters && (
+                    <li>
+                      <strong>{contact.headquarters.title || "Trụ sở chính (Móng Cái)"}:</strong>{" "}
+                      {contact.headquarters.address}
+                    </li>
+                  )}
+                  {(contact.branches || []).map((b: any, i: number) => (
+                    <li key={i}>
+                      <strong>{b.title}:</strong> {b.address}
+                    </li>
+                  ))}
                 </ul>
               </li>
             </ul>

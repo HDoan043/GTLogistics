@@ -9,6 +9,8 @@ import { useLanguage } from "@/lib/i18n/context";
 interface HeroSectionProps {
   hotline?: string;
   heroData?: {
+    titleLine1?: string;
+    titleLine2?: string;
     titleGt?: string;
     titleLogistics?: string;
     slogan?: string;
@@ -33,8 +35,20 @@ export function HeroSection({ hotline = "0904.382.268", heroData }: HeroSectionP
   const { locale } = useLanguage();
   const cleanPhone = hotline.replace(/[^0-9]/g, "");
 
-  const companyTitle =
-    heroData?.titleGt || "CÔNG TY TNHH LOGISTICS GT";
+  const titleLine1 =
+    heroData?.titleLine1 ||
+    (heroData?.titleGt?.includes("LOGISTICS")
+      ? heroData.titleGt.replace(/LOGISTICS.*$/i, "").trim()
+      : heroData?.titleGt) ||
+    "CÔNG TY TNHH";
+
+  const titleLine2 =
+    heroData?.titleLine2 ||
+    heroData?.titleLogistics ||
+    (heroData?.titleGt?.includes("LOGISTICS")
+      ? "LOGISTICS GT"
+      : "") ||
+    "LOGISTICS GT";
 
   const slogan =
     locale === "zh" && heroData?.sloganZh
@@ -83,10 +97,15 @@ export function HeroSection({ hotline = "0904.382.268", heroData }: HeroSectionP
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
-          {/* Tiêu đề chính tên công ty & khẩu hiệu doanh nghiệp chuẩn xác */}
+          {/* Tiêu đề chính tên công ty 2 dòng: Hàng trên màu xanh, hàng dưới màu vàng đúng bộ nhận diện logo */}
           <div className="space-y-3">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white">
-              {companyTitle}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+              <span className="block text-azure-400 font-black">
+                {titleLine1}
+              </span>
+              <span className="block text-gold-400 font-black mt-1 sm:mt-2">
+                {titleLine2}
+              </span>
             </h1>
             <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-100 tracking-wide">
               {slogan}

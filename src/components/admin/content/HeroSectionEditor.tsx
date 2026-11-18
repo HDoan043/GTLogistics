@@ -1,43 +1,26 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, Trash2, Image as ImageIcon, Save, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { Plus, Trash2, Image as ImageIcon, Save, CheckCircle2, AlertCircle, Loader2, Sliders } from "lucide-react";
 import Image from "next/image";
 import { MediaPickerModal } from "@/components/admin/MediaPickerModal";
 import { savePageSectionContent } from "@/modules/content/actions";
 import { DEFAULT_HOME_HERO } from "@/modules/content/constants";
 
-interface BulletItem {
-  vi: string;
-  en?: string;
-  zh?: string;
-}
-
-interface HeroData {
-  titleGt: string;
-  titleLogistics: string;
-  slogan: string;
-  sloganEn?: string;
-  sloganZh?: string;
-  bgImage: string;
-  bullets: BulletItem[];
-}
-
-export function HeroSectionEditor({ initialData }: { initialData?: HeroData }) {
-  const [data, setData] = useState<HeroData>(initialData || DEFAULT_HOME_HERO);
+export function HeroSectionEditor({ initialData }: { initialData?: any }) {
+  const [data, setData] = useState<any>(initialData || DEFAULT_HOME_HERO);
   const [langTab, setLangTab] = useState<"vi" | "en" | "zh">("vi");
   const [pickerOpen, setPickerOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<{ type: "success" | "error"; msg: string } | null>(null);
 
-  // Thêm bullet mới
   const addBullet = () => {
-    setData((prev) => ({
+    setData((prev: any) => ({
       ...prev,
       bullets: [
-        ...prev.bullets,
+        ...(prev.bullets || []),
         {
-          vi: "Nội dung điểm nhấn mới...",
+          vi: "Nội dung năng lực trọng tâm mới...",
           en: "New highlight item...",
           zh: "新增重点内容...",
         },
@@ -45,19 +28,17 @@ export function HeroSectionEditor({ initialData }: { initialData?: HeroData }) {
     }));
   };
 
-  // Xóa bullet
   const removeBullet = (index: number) => {
-    setData((prev) => ({
+    setData((prev: any) => ({
       ...prev,
-      bullets: prev.bullets.filter((_, i) => i !== index),
+      bullets: (prev.bullets || []).filter((_: any, i: number) => i !== index),
     }));
   };
 
-  // Cập nhật nội dung bullet
   const updateBullet = (index: number, text: string) => {
-    setData((prev) => {
-      const nextBullets = [...prev.bullets];
-      const cur = nextBullets[index] || { vi: "" };
+    setData((prev: any) => {
+      const nextBullets = [...(prev.bullets || [])];
+      const cur = { ...nextBullets[index] };
       if (langTab === "vi") cur.vi = text;
       else if (langTab === "en") cur.en = text;
       else if (langTab === "zh") cur.zh = text;
@@ -66,7 +47,6 @@ export function HeroSectionEditor({ initialData }: { initialData?: HeroData }) {
     });
   };
 
-  // Lưu cấu hình
   const handleSave = async () => {
     setSaving(true);
     setStatus(null);
@@ -75,263 +55,236 @@ export function HeroSectionEditor({ initialData }: { initialData?: HeroData }) {
     if (res.success) {
       setStatus({ type: "success", msg: "Đã lưu thay đổi Hero Section thành công!" });
     } else {
-      setStatus({ type: "error", msg: res.message });
+      setStatus({ type: "error", msg: res.message || "Có lỗi xảy ra khi lưu!" });
     }
+    setTimeout(() => setStatus(null), 4000);
   };
+
+  const sloganField = langTab === "zh" ? "sloganZh" : langTab === "en" ? "sloganEn" : "slogan";
+  const descField = langTab === "zh" ? "descriptionZh" : langTab === "en" ? "descriptionEn" : "description";
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
         <div>
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <span>Hero Section (Đầu Trang Chủ)</span>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-azure-950 text-azure-400 border border-azure-800">
-              Trang Chủ
-            </span>
-          </h2>
-          <p className="text-xs text-slate-400 mt-1">
-            Tùy biến khẩu hiệu, ảnh nền và danh sách các gạch đầu dòng giới thiệu năng lực.
+          <h2 className="text-xl font-bold text-slate-900">Hero Section (Đầu Trang Chủ)</h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Tên công ty 2 dòng nhận diện thương hiệu, khẩu hiệu, mô tả ngắn, ảnh nền và tỷ lệ thu phóng.
           </p>
         </div>
 
-        {/* Tab chuyển đổi ngôn ngữ */}
-        <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+            {(["vi", "en", "zh"] as const).map((l) => (
+              <button
+                key={l}
+                type="button"
+                onClick={() => setLangTab(l)}
+                className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors ${
+                  langTab === l
+                    ? "bg-azure-600 text-white shadow-xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
           <button
             type="button"
-            onClick={() => setLangTab("vi")}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors ${
-              langTab === "vi"
-                ? "bg-azure-600 text-white shadow-sm"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
+            onClick={handleSave}
+            disabled={saving}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-azure-600 hover:bg-azure-500 text-white font-bold text-xs transition-colors shadow-sm disabled:opacity-50"
           >
-            Tiếng Việt (VI)
-          </button>
-          <button
-            type="button"
-            onClick={() => setLangTab("en")}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors ${
-              langTab === "en"
-                ? "bg-azure-600 text-white shadow-sm"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            English (EN)
-          </button>
-          <button
-            type="button"
-            onClick={() => setLangTab("zh")}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors ${
-              langTab === "zh"
-                ? "bg-azure-600 text-white shadow-sm"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            中文 (ZH)
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            <span>{saving ? "Đang lưu..." : "Lưu Hero Section"}</span>
           </button>
         </div>
       </div>
 
       {status && (
         <div
-          className={`p-4 rounded-xl flex items-center gap-2.5 text-xs font-semibold ${
+          className={`p-4 rounded-xl text-xs font-semibold flex items-center gap-2 border ${
             status.type === "success"
-              ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800/80"
-              : "bg-rose-950/80 text-rose-300 border border-rose-800/80"
+              ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+              : "bg-rose-50 text-rose-800 border-rose-200"
           }`}
         >
-          {status.type === "success" ? (
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-          ) : (
-            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-          )}
+          {status.type === "success" ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
           <span>{status.msg}</span>
         </div>
       )}
 
-      {/* 1. Tiêu đề thương hiệu & Slogan */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1.5">
-            Tiêu Đề Thương Hiệu
-          </label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={data.titleGt}
-              onChange={(e) => setData({ ...data, titleGt: e.target.value })}
-              placeholder="GT"
-              className="w-24 px-3 py-2 text-xs bg-slate-950 border border-slate-700 rounded-lg text-azure-400 font-black"
-            />
-            <input
-              type="text"
-              value={data.titleLogistics}
-              onChange={(e) => setData({ ...data, titleLogistics: e.target.value })}
-              placeholder="LOGISTICS"
-              className="flex-1 px-3 py-2 text-xs bg-slate-950 border border-slate-700 rounded-lg text-gold-400 font-black"
-            />
-          </div>
-          <span className="text-[10px] text-slate-500 mt-1 block">
-            Mô phỏng màu sắc thương hiệu: Khối 1 màu Xanh Azure, Khối 2 màu Vàng Gold.
-          </span>
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Cột trái: Tên 2 dòng, slogan, mô tả */}
+        <div className="space-y-4">
+          <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-xs">
+            <h3 className="font-bold text-sm text-slate-900 pb-2 border-b border-slate-100">
+              Tiêu Đề Thương Hiệu 2 Dòng (Xanh Hàng Trên / Vàng Hàng Dưới)
+            </h3>
 
-        <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1.5">
-            Khẩu Hiệu / Tiêu Đề Phụ ({langTab.toUpperCase()})
-          </label>
-          <input
-            type="text"
-            value={
-              langTab === "vi"
-                ? data.slogan
-                : langTab === "en"
-                ? data.sloganEn || ""
-                : data.sloganZh || ""
-            }
-            onChange={(e) => {
-              const val = e.target.value;
-              setData((prev) => ({
-                ...prev,
-                ...(langTab === "vi"
-                  ? { slogan: val }
-                  : langTab === "en"
-                  ? { sloganEn: val }
-                  : { sloganZh: val }),
-              }));
-            }}
-            placeholder="ĐỒNG HÀNH TIN CẬY - PHÁT TRIỂN BỀN VỮNG"
-            className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-700 rounded-lg text-white font-bold focus:border-azure-500 focus:outline-none"
-          />
-        </div>
-      </div>
+            <div>
+              <label className="text-xs font-bold text-azure-700 block mb-1">
+                Hàng Trên (Màu Xanh Thương Hiệu):
+              </label>
+              <input
+                type="text"
+                value={data.titleLine1 || "CÔNG TY TNHH"}
+                onChange={(e) => setData({ ...data, titleLine1: e.target.value })}
+                className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-azure-600 text-base font-black focus:border-azure-500 focus:bg-white focus:outline-none"
+              />
+            </div>
 
-      {/* 2. Ảnh nền Hero */}
-      <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-3">
-        <div className="flex items-center justify-between">
-          <label className="text-xs font-bold text-slate-300">
-            Ảnh Nền Hero (Background Photo)
-          </label>
-          <button
-            type="button"
-            onClick={() => setPickerOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-azure-400 hover:text-azure-300 rounded-lg text-xs font-semibold transition-colors"
-          >
-            <ImageIcon className="w-3.5 h-3.5" />
-            <span>Thay đổi ảnh nền</span>
-          </button>
-        </div>
+            <div>
+              <label className="text-xs font-bold text-amber-600 block mb-1">
+                Hàng Dưới (Màu Vàng Thương Hiệu):
+              </label>
+              <input
+                type="text"
+                value={data.titleLine2 || "LOGISTICS GT"}
+                onChange={(e) => setData({ ...data, titleLine2: e.target.value })}
+                className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-amber-600 text-base font-black focus:border-amber-500 focus:bg-white focus:outline-none"
+              />
+            </div>
 
-        <div className="relative aspect-[21/9] sm:aspect-[28/9] w-full rounded-xl overflow-hidden border border-slate-800 bg-slate-950">
-          <Image
-            src={data.bgImage || "/images/vietphuc/hero_office_panoramic.webp"}
-            alt="Hero Background Preview"
-            fill
-            className="object-cover opacity-80"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/40 flex items-center p-6">
-            <span className="text-xs text-slate-300 font-mono bg-slate-900/80 px-2 py-1 rounded border border-slate-700">
-              Đường dẫn hiện tại: {data.bgImage}
-            </span>
+            <div>
+              <label className="text-xs font-bold text-slate-700 block mb-1">Khẩu hiệu / Slogan:</label>
+              <input
+                type="text"
+                value={data[sloganField] || ""}
+                onChange={(e) => setData({ ...data, [sloganField]: e.target.value })}
+                className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm font-semibold focus:border-azure-500 focus:bg-white focus:outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="text-xs font-bold text-slate-700 block mb-1">Mô tả ngắn gọn:</label>
+              <textarea
+                rows={3}
+                value={data[descField] || ""}
+                onChange={(e) => setData({ ...data, [descField]: e.target.value })}
+                className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs leading-relaxed focus:border-azure-500 focus:bg-white focus:outline-none"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <div>
+                <label className="text-xs font-bold text-slate-700 block mb-1">Nút chính (Primary CTA):</label>
+                <input
+                  type="text"
+                  value={data.ctaPrimaryText || "Nhận Báo Giá"}
+                  onChange={(e) => setData({ ...data, ctaPrimaryText: e.target.value })}
+                  className="w-full p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs font-bold focus:border-azure-500 focus:bg-white focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-700 block mb-1">Nút phụ (Secondary CTA):</label>
+                <input
+                  type="text"
+                  value={data.ctaSecondaryText || "Hotline Tư Vấn"}
+                  onChange={(e) => setData({ ...data, ctaSecondaryText: e.target.value })}
+                  className="w-full p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs font-bold focus:border-azure-500 focus:bg-white focus:outline-none"
+                />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* 3. Danh sách gạch đầu dòng (Bullets) */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <div>
-            <label className="text-xs font-bold text-white block">
-              Danh Sách Gạch Đầu Dòng Giới Thiệu ({data.bullets.length} dòng)
-            </label>
-            <span className="text-[11px] text-slate-400">
-              Ngôn ngữ đang chỉnh sửa: <strong className="text-azure-400">{langTab.toUpperCase()}</strong>
-            </span>
-          </div>
-          <button
-            type="button"
-            onClick={addBullet}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-azure-600/90 hover:bg-azure-600 text-white rounded-lg text-xs font-bold transition-colors"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>Thêm dòng mới</span>
-          </button>
-        </div>
+        {/* Cột phải: Ảnh nền, Thu phóng & Năng lực */}
+        <div className="space-y-4">
+          <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-xs">
+            <h3 className="font-bold text-sm text-slate-900 pb-2 border-b border-slate-100 flex items-center justify-between">
+              <span>Ảnh Nền Hero & Căn Chỉnh Hiển Thị</span>
+              <Sliders className="w-4 h-4 text-azure-600" />
+            </h3>
 
-        <div className="space-y-2.5">
-          {data.bullets.map((bullet, idx) => {
-            const currentText =
-              langTab === "vi"
-                ? bullet.vi
-                : langTab === "en"
-                ? bullet.en || ""
-                : bullet.zh || "";
-
-            return (
-              <div
-                key={idx}
-                className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-950/80 border border-slate-800 group hover:border-slate-700 transition-colors"
-              >
-                <div className="w-6 h-6 rounded-full bg-gold-400/20 text-gold-400 flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-1">
-                  {idx + 1}
+            <div className="relative h-44 rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 group">
+              {data.bgImage ? (
+                <Image
+                  src={data.bgImage}
+                  alt="Hero Background"
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs">
+                  Chưa có ảnh nền
                 </div>
-                <div className="flex-1">
-                  <textarea
-                    rows={2}
-                    value={currentText}
-                    onChange={(e) => updateBullet(idx, e.target.value)}
-                    placeholder={`Nhập nội dung gạch đầu dòng thứ ${idx + 1} (${langTab.toUpperCase()})...`}
-                    className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-700 rounded-lg text-slate-200 placeholder-slate-500 focus:border-azure-500 focus:outline-none resize-none"
-                  />
-                  {langTab !== "vi" && !currentText && (
-                    <span className="text-[10px] text-amber-400/90 block mt-0.5">
-                      (Chưa có bản dịch {langTab.toUpperCase()} - Hệ thống sẽ tự động hiển thị bản Tiếng Việt)
-                    </span>
-                  )}
-                </div>
+              )}
+              <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                 <button
                   type="button"
-                  onClick={() => removeBullet(idx)}
-                  className="p-1.5 text-slate-500 hover:text-rose-400 hover:bg-slate-900 rounded-lg transition-colors shrink-0 mt-1"
-                  title="Xóa dòng này"
+                  onClick={() => setPickerOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-azure-600 text-white font-bold text-xs shadow-md"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <ImageIcon className="w-4 h-4" />
+                  <span>Thay Đổi Ảnh Nền</span>
                 </button>
               </div>
-            );
-          })}
+            </div>
+
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-700">Tỷ lệ thu phóng (Scale):</span>
+                <span className="text-xs font-mono font-bold text-azure-600">{data.bgScale || 100}%</span>
+              </div>
+              <input
+                type="range"
+                min="100"
+                max="250"
+                step="5"
+                value={data.bgScale || 100}
+                onChange={(e) => setData({ ...data, bgScale: parseInt(e.target.value, 10) })}
+                className="w-full accent-azure-600 cursor-pointer"
+              />
+
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-700">Độ rõ ảnh nền (Opacity):</span>
+                <span className="text-xs font-mono font-bold text-azure-600">{data.bgOpacity ?? 55}%</span>
+              </div>
+              <input
+                type="range"
+                min="10"
+                max="85"
+                step="5"
+                value={data.bgOpacity ?? 55}
+                onChange={(e) => setData({ ...data, bgOpacity: parseInt(e.target.value, 10) })}
+                className="w-full accent-azure-600 cursor-pointer"
+              />
+
+              <div>
+                <span className="text-xs font-bold text-slate-700 block mb-1">Căn vị trí ảnh nền:</span>
+                <div className="flex items-center gap-2">
+                  {(["top", "center", "bottom"] as const).map((pos) => (
+                    <button
+                      key={pos}
+                      type="button"
+                      onClick={() => setData({ ...data, bgPosition: pos })}
+                      className={`flex-1 py-1.5 rounded-lg text-xs font-bold capitalize transition-colors ${
+                        (data.bgPosition || "center") === pos
+                          ? "bg-azure-600 text-white shadow-xs"
+                          : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                      }`}
+                    >
+                      {pos === "top" ? "Đỉnh" : pos === "center" ? "Giữa" : "Đáy"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Nút lưu */}
-      <div className="pt-4 border-t border-slate-800 flex justify-end">
-        <button
-          type="button"
-          onClick={handleSave}
-          disabled={saving}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-slate-950 font-black text-xs transition-colors shadow-lg shadow-gold-500/10 disabled:opacity-50"
-        >
-          {saving ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Đang lưu...</span>
-            </>
-          ) : (
-            <>
-              <Save className="w-4 h-4" />
-              <span>Lưu Thay Đổi Hero Section</span>
-            </>
-          )}
-        </button>
-      </div>
-
-      {/* Modal chọn ảnh */}
       <MediaPickerModal
         isOpen={pickerOpen}
         onClose={() => setPickerOpen(false)}
-        currentImage={data.bgImage}
-        onSelect={(url) => setData({ ...data, bgImage: url })}
-        title="Chọn ảnh nền cho Hero Section"
+        onSelect={(url) => {
+          setData((prev: any) => ({ ...prev, bgImage: url }));
+          setPickerOpen(false);
+        }}
       />
     </div>
   );

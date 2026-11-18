@@ -33,15 +33,7 @@ export function PageBanner({
   bgOpacity = 30,
 }: PageBannerProps) {
   const isMain = size === "main";
-  const isLegacyWall =
-    !bgImage ||
-    bgImage.includes("gt_brand_wall") ||
-    bgImage.includes("gt_logo_wall") ||
-    bgImage.includes("hero_office");
-
-  const effectiveBgImage = isLegacyWall
-    ? "/images/vietphuc/hero_fleet_6k3a8950.webp"
-    : bgImage;
+  const effectiveBgImage = bgImage || "/images/vietphuc/hero_fleet_6k3a8950.webp";
   const effectiveOpacity = bgOpacity ?? 45;
 
   return (

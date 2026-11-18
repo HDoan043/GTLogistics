@@ -44,6 +44,11 @@ import {
 import { MediaPickerModal } from "@/components/admin/MediaPickerModal";
 import { savePageSectionContent } from "@/modules/content/actions";
 import { updateServiceContent } from "@/modules/services/actions";
+import {
+  DEFAULT_ABOUT_CONTENT,
+  DEFAULT_BORDER_GATES,
+  DEFAULT_CONTACT_CONTENT,
+} from "@/modules/content/constants";
 
 interface VisualEditorCanvasProps {
   initialHero: any;
@@ -52,6 +57,8 @@ interface VisualEditorCanvasProps {
   initialAbout: any;
   initialBanners: any;
   initialHomeServices?: any;
+  initialBorderGates?: any;
+  initialContact?: any;
   initialServices: any[];
   settings: Record<string, string>;
 }
@@ -129,6 +136,8 @@ export function VisualEditorCanvas({
   initialAbout,
   initialBanners,
   initialHomeServices,
+  initialBorderGates,
+  initialContact,
   initialServices,
   settings,
 }: VisualEditorCanvasProps) {
@@ -142,6 +151,12 @@ export function VisualEditorCanvas({
   const [stats, setStats] = useState(initialStats);
   const [about, setAbout] = useState(initialAbout);
   const [banners, setBanners] = useState(initialBanners || {});
+  const [borderGates, setBorderGates] = useState(
+    initialBorderGates || DEFAULT_BORDER_GATES
+  );
+  const [contactData, setContactData] = useState(
+    initialContact || DEFAULT_CONTACT_CONTENT
+  );
   const [homeServices, setHomeServices] = useState(
     initialHomeServices || {
       badge: "NĂNG LỰC DỊCH VỤ CỐT LÕI",
@@ -222,19 +237,13 @@ export function VisualEditorCanvas({
   // Helper to get active banner configuration for current page
   const getActiveBannerConfig = () => {
     if (selectedPage === "home") {
-      const isLegacy =
-        !hero.bgImage ||
-        hero.bgImage.includes("gt_brand_wall") ||
-        hero.bgImage.includes("gt_logo_wall") ||
-        hero.bgImage.includes("hero_office");
       return {
-        bgImage: isLegacy ? "/images/vietphuc/hero_fleet_6k3a8950.webp" : hero.bgImage,
+        bgImage: hero.bgImage || "/images/vietphuc/hero_fleet_6k3a8950.webp",
         bgScale: hero.bgScale ?? 100,
         bgPosition: hero.bgPosition || "center",
         bgOpacity: hero.bgOpacity ?? 55,
       };
     }
-    const pageKey = currentService ? "service" : selectedPage;
     if (currentService) {
       return {
         bgImage: currentService.bannerImage || "/images/vietphuc/hero_fleet_6k3a8950.webp",
@@ -243,14 +252,10 @@ export function VisualEditorCanvas({
         bgOpacity: currentService.bgOpacity ?? 45,
       };
     }
+    const pageKey = selectedPage;
     const b = banners[pageKey] || {};
-    const isLegacyB =
-      !b.bgImage ||
-      b.bgImage.includes("gt_brand_wall") ||
-      b.bgImage.includes("gt_logo_wall") ||
-      b.bgImage.includes("hero_office");
     return {
-      bgImage: isLegacyB ? "/images/vietphuc/hero_fleet_6k3a8950.webp" : b.bgImage,
+      bgImage: b.bgImage || "/images/vietphuc/hero_fleet_6k3a8950.webp",
       bgScale: b.bgScale ?? 100,
       bgPosition: b.bgPosition || "center",
       bgOpacity: b.bgOpacity ?? 45,
@@ -265,7 +270,15 @@ export function VisualEditorCanvas({
     }
     if (currentService) {
       setServices((prev) =>
-        prev.map((s) => (s.slug === currentService.slug ? { ...s, ...updates } : s))
+        prev.map((s) =>
+          s.slug === currentService.slug
+            ? {
+                ...s,
+                ...updates,
+                ...(updates.bgImage ? { bannerImage: updates.bgImage } : {}),
+              }
+            : s
+        )
       );
       return;
     }
@@ -284,13 +297,15 @@ export function VisualEditorCanvas({
     setNotification(null);
 
     try {
-      // 1. Lưu nội dung các section của Trang chủ
+      // 1. Lưu nội dung các section của Trang chủ & các trang chức năng
       await Promise.all([
         savePageSectionContent("content_home_hero", hero, "Nội dung Hero Section"),
         savePageSectionContent("content_home_why_us", whyUs, "Nội dung Why Us Section"),
         savePageSectionContent("content_home_services", homeServices, "Nội dung mục Dịch Vụ Trang Chủ"),
         savePageSectionContent("content_home_stats", stats, "Nội dung 4 Big Numbers"),
+        savePageSectionContent("content_border_gates", borderGates, "Nội dung Mạng lưới cửa khẩu chiến lược"),
         savePageSectionContent("content_about", about, "Nội dung Trang Giới Thiệu"),
+        savePageSectionContent("content_contact", contactData, "Nội dung Thông tin liên hệ & Điểm trực"),
         savePageSectionContent("content_banners", banners, "Nội dung Banners Các Trang"),
       ]);
 
@@ -339,6 +354,8 @@ export function VisualEditorCanvas({
       setAbout({ ...about, storyImage: url });
     } else if (activeImageTarget === "homeServicesImg") {
       setHomeServices({ ...homeServices, illustrationImage: url });
+    } else if (activeImageTarget === "borderGatesImg") {
+      setBorderGates({ ...borderGates, image: url });
     } else if (activeImageTarget.startsWith("service_")) {
       const slug = activeImageTarget.replace("service_", "");
       setServices((prev) =>
@@ -775,6 +792,28 @@ export function VisualEditorCanvas({
           <div className="space-y-0">
             {/* HERO SECTION TRANG CHỦ */}
             <section className="relative bg-slate-950 text-white overflow-hidden py-20 sm:py-24 lg:py-28 border-b border-slate-800 group/hero">
+              {/* Nút Đổi Ảnh Nền Hero nổi bật trực tiếp tại góc trên phải */}
+              <div className="absolute top-6 right-6 z-20 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => triggerImagePicker("heroBg")}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-azure-600/90 hover:bg-azure-500 text-white font-bold text-xs shadow-lg border border-azure-400 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Nhấp để tải hoặc chọn ảnh nền Hero mới"
+                >
+                  <Camera className="w-4 h-4 text-gold-400" />
+                  <span>Đổi Ảnh Nền Hero</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBgControlOpen(!bgControlOpen)}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-gold-300 font-bold text-xs shadow-lg border border-slate-700 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Mở thanh tinh chỉnh thu phóng (Zoom Scale) & căn chỉnh vị trí ảnh nền"
+                >
+                  <Sliders className="w-4 h-4" />
+                  <span>Thu Phóng / Vị Trí</span>
+                </button>
+              </div>
+
               {/* Ảnh nền có zoom / scale / position linh hoạt */}
               <div
                 className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
@@ -789,16 +828,27 @@ export function VisualEditorCanvas({
 
               <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl">
-                  {/* Tiêu đề thương hiệu (Click-to-edit) */}
+                  {/* Tiêu đề thương hiệu 2 dòng màu sắc nhận diện logo (Click-to-edit) */}
                   <div className="space-y-3">
-                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white">
-                      <input
-                        type="text"
-                        value={hero.titleGt || "CÔNG TY TNHH LOGISTICS GT"}
-                        onChange={(e) => setHero({ ...hero, titleGt: e.target.value })}
-                        className="w-full bg-transparent text-white hover:outline hover:outline-dashed hover:outline-white/60 rounded px-1 font-black"
-                        title="Nhấp để sửa tên công ty"
-                      />
+                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+                      <div className="space-y-1">
+                        <input
+                          type="text"
+                          value={hero.titleLine1 || "CÔNG TY TNHH"}
+                          onChange={(e) => setHero({ ...hero, titleLine1: e.target.value })}
+                          className="w-full bg-transparent text-azure-400 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 font-black block"
+                          title="Hàng trên (Màu xanh thương hiệu) - Nhấp để sửa"
+                          placeholder="CÔNG TY TNHH"
+                        />
+                        <input
+                          type="text"
+                          value={hero.titleLine2 || "LOGISTICS GT"}
+                          onChange={(e) => setHero({ ...hero, titleLine2: e.target.value })}
+                          className="w-full bg-transparent text-gold-400 hover:outline hover:outline-dashed hover:outline-gold-400 rounded px-1 font-black block"
+                          title="Hàng dưới (Màu vàng thương hiệu) - Nhấp để sửa"
+                          placeholder="LOGISTICS GT"
+                        />
+                      </div>
                     </h1>
 
                     {/* Slogan (Click-to-edit) */}
@@ -1099,6 +1149,202 @@ export function VisualEditorCanvas({
               </div>
             </section>
 
+            {/* MẠNG LƯỚI CỬA KHẨU CHIẾN LƯỢC (MA TRẬN 2x2 CLICK-TO-EDIT) */}
+            <section className="py-16 sm:py-24 bg-white text-slate-900 border-b border-slate-200/80 overflow-hidden">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Phần Header mục: Tiêu đề & mô tả chiến lược */}
+                <div className="max-w-3xl mb-10 sm:mb-12">
+                  <input
+                    type="text"
+                    value={
+                      locale === "zh"
+                        ? borderGates.badgeZh || ""
+                        : locale === "en"
+                        ? borderGates.badgeEn || ""
+                        : borderGates.badge || "MẠNG LƯỚI CỬA KHẨU CHIẾN LƯỢC"
+                    }
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setBorderGates((prev: any) => ({
+                        ...prev,
+                        ...(locale === "zh"
+                          ? { badgeZh: val }
+                          : locale === "en"
+                          ? { badgeEn: val }
+                          : { badge: val }),
+                      }));
+                    }}
+                    className="bg-transparent text-xs font-bold text-azure-700 block mb-2 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 w-full"
+                    title="Nhấp để sửa nhãn đề mục"
+                  />
+                  <div className="h-1 w-16 bg-gradient-to-r from-azure-600 to-gold-500 rounded-full mb-4" />
+                  <textarea
+                    rows={2}
+                    value={
+                      locale === "zh"
+                        ? borderGates.headingZh || ""
+                        : locale === "en"
+                        ? borderGates.headingEn || ""
+                        : borderGates.heading ||
+                          "Năng Lực Thông Quan Phủ Sóng Toàn Tuyến Biên Giới Phía Bắc"
+                    }
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setBorderGates((prev: any) => ({
+                        ...prev,
+                        ...(locale === "zh"
+                          ? { headingZh: val }
+                          : locale === "en"
+                          ? { headingEn: val }
+                          : { heading: val }),
+                      }));
+                    }}
+                    className="w-full bg-transparent text-2xl sm:text-4xl font-black text-slate-950 tracking-tight leading-tight hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
+                    title="Nhấp để sửa tiêu đề chính mục cửa khẩu"
+                  />
+                  <textarea
+                    rows={3}
+                    value={
+                      locale === "zh"
+                        ? borderGates.descriptionZh || ""
+                        : locale === "en"
+                        ? borderGates.descriptionEn || ""
+                        : borderGates.description || ""
+                    }
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setBorderGates((prev: any) => ({
+                        ...prev,
+                        ...(locale === "zh"
+                          ? { descriptionZh: val }
+                          : locale === "en"
+                          ? { descriptionEn: val }
+                          : { description: val }),
+                      }));
+                    }}
+                    className="w-full bg-transparent mt-2 text-slate-600 text-sm sm:text-base leading-relaxed hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
+                    title="Nhấp để sửa mô tả chiến lược"
+                  />
+                </div>
+
+                {/* Ma trận 2x2 cho 4 Cửa Khẩu Chiến Lược */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                  {(borderGates.gates || []).map((g: any, gIdx: number) => {
+                    const nameVal =
+                      locale === "zh" && g.nameZh
+                        ? g.nameZh
+                        : locale === "en" && g.nameEn
+                        ? g.nameEn
+                        : g.name;
+                    const descVal =
+                      locale === "zh" && g.descZh
+                        ? g.descZh
+                        : locale === "en" && g.descEn
+                        ? g.descEn
+                        : g.desc;
+
+                    return (
+                      <div
+                        key={g.code || gIdx}
+                        className="bg-slate-50/80 rounded-2xl p-6 sm:p-7 border-2 border-slate-200 hover:border-azure-600 hover:bg-white transition-colors duration-150 shadow-xs flex flex-col justify-between group"
+                      >
+                        <div>
+                          <div className="flex items-center justify-between gap-3 mb-4">
+                            <input
+                              type="text"
+                              value={g.code || `0${gIdx + 1}`}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setBorderGates((prev: any) => {
+                                  const nextG = [...prev.gates];
+                                  nextG[gIdx] = { ...nextG[gIdx], code: val };
+                                  return { ...prev, gates: nextG };
+                                });
+                              }}
+                              className="w-14 h-12 rounded-xl bg-azure-600 text-white font-mono font-black text-base flex items-center justify-center text-center shadow-xs focus:ring-2 focus:ring-gold-400"
+                              title="Sửa mã cửa khẩu"
+                            />
+
+                            <div className="flex items-center gap-2">
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-azure-100/90 text-azure-800 text-xs font-bold">
+                                <MapPin className="w-3.5 h-3.5 text-azure-600 shrink-0" />
+                                <input
+                                  type="text"
+                                  value={g.province || "Quảng Ninh"}
+                                  onChange={(e) => {
+                                    const val = e.target.value;
+                                    setBorderGates((prev: any) => {
+                                      const nextG = [...prev.gates];
+                                      nextG[gIdx] = { ...nextG[gIdx], province: val };
+                                      return { ...prev, gates: nextG };
+                                    });
+                                  }}
+                                  className="w-24 bg-transparent font-bold text-azure-800 text-xs focus:outline-none"
+                                  title="Sửa tỉnh/thành cửa khẩu"
+                                />
+                              </span>
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200">
+                                <Clock className="w-3 h-3 text-emerald-600 shrink-0" />
+                                <span>Trực 24/7</span>
+                              </span>
+                            </div>
+                          </div>
+
+                          <input
+                            type="text"
+                            value={nameVal}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setBorderGates((prev: any) => {
+                                const nextG = [...prev.gates];
+                                const cur = { ...nextG[gIdx] };
+                                if (locale === "zh") cur.nameZh = val;
+                                else if (locale === "en") cur.nameEn = val;
+                                else cur.name = val;
+                                nextG[gIdx] = cur;
+                                return { ...prev, gates: nextG };
+                              });
+                            }}
+                            className="w-full bg-transparent font-black text-slate-950 text-base sm:text-lg leading-snug mb-2 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                            title="Nhấp để sửa tên cửa khẩu"
+                          />
+
+                          <textarea
+                            rows={3}
+                            value={descVal}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setBorderGates((prev: any) => {
+                                const nextG = [...prev.gates];
+                                const cur = { ...nextG[gIdx] };
+                                if (locale === "zh") cur.descZh = val;
+                                else if (locale === "en") cur.descEn = val;
+                                else cur.desc = val;
+                                nextG[gIdx] = cur;
+                                return { ...prev, gates: nextG };
+                              });
+                            }}
+                            className="w-full bg-transparent text-xs sm:text-sm text-slate-600 leading-relaxed hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 resize-none"
+                            title="Nhấp để sửa tóm tắt ưu thế cửa khẩu"
+                          />
+                        </div>
+
+                        <div className="pt-4 mt-4 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500 font-medium">
+                          <span className="text-azure-700 font-bold">
+                            Chính ngạch • Giải phóng xe trong ngày
+                          </span>
+                          <span className="text-gold-600 font-bold flex items-center gap-1">
+                            <ShieldCheck className="w-3.5 h-3.5" />
+                            <span>Thường trực</span>
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </section>
+
             {/* WHY CHOOSE US (VÌ SAO CHỌN GT LOGISTICS) */}
             <section className="py-16 sm:py-24 bg-white text-slate-900 border-b border-slate-200/80">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1257,8 +1503,30 @@ export function VisualEditorCanvas({
         {/* ============================================================== */}
         {selectedPage === "about" && (
           <div className="space-y-0">
-            {/* Banner đầu trang có thu phóng ảnh nền và watermark GT */}
+            {/* Banner đầu trang có thu phóng ảnh nền */}
             <div className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
+              {/* Nút Đổi Ảnh Nền Banner & Thu phóng trực quan trên Banner */}
+              <div className="absolute top-6 right-6 z-20 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => triggerImagePicker("bannerBg")}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-azure-600/90 hover:bg-azure-500 text-white font-bold text-xs shadow-lg border border-azure-400 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Nhấp để tải hoặc chọn ảnh nền Banner mới"
+                >
+                  <Camera className="w-4 h-4 text-gold-400" />
+                  <span>Đổi Ảnh Nền Banner</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBgControlOpen(!bgControlOpen)}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-gold-300 font-bold text-xs shadow-lg border border-slate-700 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Mở thanh tinh chỉnh thu phóng (Zoom Scale) & căn chỉnh vị trí ảnh nền"
+                >
+                  <Sliders className="w-4 h-4" />
+                  <span>Thu Phóng / Vị Trí</span>
+                </button>
+              </div>
+
               {activeBanner.bgImage && (
                 <div
                   className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
@@ -1423,48 +1691,266 @@ export function VisualEditorCanvas({
                 </div>
               </section>
 
-              {/* MỤC 2: QUY MÔ VẬN TẢI & PHẠM VI PHỦ SÓNG */}
-              <section className="space-y-4">
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
-                  QUY MÔ VẬN TẢI & PHẠM VI PHỦ SÓNG
-                </h2>
-                <div className="h-0.5 w-16 bg-slate-900" />
+              {/* MỤC 2: QUY MÔ VẬN TẢI & PHẠM VI PHỦ SÓNG (ĐẦY ĐỦ CLICK-TO-EDIT) */}
+              <section className="space-y-6">
+                <div>
+                  <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
+                    QUY MÔ VẬN TẢI & PHẠM VI PHỦ SÓNG
+                  </h2>
+                  <div className="h-0.5 w-16 bg-slate-900 mt-2" />
+                  <p className="text-xs text-slate-500 mt-2 font-medium">
+                    Nhấp vào từng tiêu đề hoặc gạch đầu dòng để chỉnh sửa trực tiếp nội dung năng lực.
+                  </p>
+                </div>
 
-                <div className="space-y-6 pt-2 text-slate-700 text-sm sm:text-base leading-relaxed">
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-bold text-slate-950">Phạm vi phủ sóng</h3>
-                    <ul className="list-disc pl-5 space-y-1.5 text-slate-700">
-                      <li>Cửa khẩu Quốc tế Móng Cái (Bắc Luân 2 & Ka Long - Quảng Ninh)</li>
-                      <li>Cửa khẩu Quốc tế Hữu Nghị (Lạng Sơn)</li>
-                      <li>Cửa khẩu Tân Thanh (Lạng Sơn)</li>
-                      <li>Cửa khẩu Chi Ma (Lạng Sơn)</li>
-                      <li>Chuyên tuyến vận tải biển bằng tàu & sà lan đi khắp quần đảo Cô Tô</li>
-                    </ul>
+                {/* Tiểu mục 2.1: Phạm vi phủ sóng */}
+                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <input
+                      type="text"
+                      value={about.scope?.title || "Phạm vi phủ sóng"}
+                      onChange={(e) => {
+                        const title = e.target.value;
+                        setAbout((prev: any) => ({
+                          ...prev,
+                          scope: { ...(prev.scope || DEFAULT_ABOUT_CONTENT.scope), title },
+                        }));
+                      }}
+                      className="font-bold text-lg text-slate-950 bg-transparent hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                      title="Nhấp để sửa tiêu đề mục Phạm vi phủ sóng"
+                    />
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-azure-100 text-azure-800 shrink-0">
+                      Mục 2.1
+                    </span>
                   </div>
 
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-bold text-slate-950">Quy mô vận tải</h3>
-                    <ul className="list-disc pl-5 space-y-1.5 text-slate-700">
-                      <li>Sở hữu trực tiếp 50 xe đầu kéo container (20ft, 40ft, 45ft), moóc sàn, moóc lùn</li>
-                      <li>Vận chuyển giao thẳng (Door-to-Door), không qua trung gian</li>
-                      <li>Đội tàu biển và sà lan chuyên dụng tải trọng lớn kết nối đảo Cô Tô</li>
-                      <li>Giám sát hành trình GPS 24/7, an toàn tuyệt đối</li>
-                    </ul>
+                  <ul className="space-y-2">
+                    {(about.scope?.bullets || DEFAULT_ABOUT_CONTENT.scope.bullets).map((bullet: string, bIdx: number) => (
+                      <li key={bIdx} className="group/bullet flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-azure-600 mt-2 shrink-0" />
+                        <textarea
+                          rows={2}
+                          value={bullet}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setAbout((prev: any) => {
+                              const curBullets = [...(prev.scope?.bullets || DEFAULT_ABOUT_CONTENT.scope.bullets)];
+                              curBullets[bIdx] = val;
+                              return {
+                                ...prev,
+                                scope: { ...(prev.scope || DEFAULT_ABOUT_CONTENT.scope), bullets: curBullets },
+                              };
+                            });
+                          }}
+                          className="w-full text-sm text-slate-700 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2 leading-relaxed"
+                          title="Nhấp để sửa gạch đầu dòng"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAbout((prev: any) => {
+                              const curBullets = (prev.scope?.bullets || DEFAULT_ABOUT_CONTENT.scope.bullets).filter(
+                                (_: any, i: number) => i !== bIdx
+                              );
+                              return {
+                                ...prev,
+                                scope: { ...(prev.scope || DEFAULT_ABOUT_CONTENT.scope), bullets: curBullets },
+                              };
+                            });
+                          }}
+                          className="opacity-0 group-hover/bullet:opacity-100 p-1 text-slate-400 hover:text-rose-500 transition-opacity"
+                          title="Xóa ý này"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAbout((prev: any) => {
+                        const curBullets = [...(prev.scope?.bullets || DEFAULT_ABOUT_CONTENT.scope.bullets), "Thêm tuyến/cửa khẩu phủ sóng mới..."];
+                        return {
+                          ...prev,
+                          scope: { ...(prev.scope || DEFAULT_ABOUT_CONTENT.scope), bullets: curBullets },
+                        };
+                      });
+                    }}
+                    className="inline-flex items-center gap-1.5 text-xs text-azure-700 hover:text-azure-800 font-bold bg-white px-3 py-1.5 rounded-lg border border-slate-300 transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Thêm tuyến / cửa khẩu</span>
+                  </button>
+                </div>
+
+                {/* Tiểu mục 2.2: Quy mô vận tải */}
+                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <input
+                      type="text"
+                      value={about.fleetScale?.title || "Quy mô vận tải"}
+                      onChange={(e) => {
+                        const title = e.target.value;
+                        setAbout((prev: any) => ({
+                          ...prev,
+                          fleetScale: { ...(prev.fleetScale || DEFAULT_ABOUT_CONTENT.fleetScale), title },
+                        }));
+                      }}
+                      className="font-bold text-lg text-slate-950 bg-transparent hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                      title="Nhấp để sửa tiêu đề mục Quy mô vận tải"
+                    />
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-azure-100 text-azure-800 shrink-0">
+                      Mục 2.2
+                    </span>
                   </div>
 
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-bold text-slate-950">Thông quan hàng hóa</h3>
-                    <ul className="list-disc pl-5 space-y-1.5 text-slate-700">
-                      <li>100% nghiệp vụ thông quan chính ngạch qua hệ thống hải quan điện tử VNACCS/VCIS</li>
-                      <li>Tư vấn mã HS Code, tối ưu biểu thuế và xin cấp C/O Form E (ACFTA)</li>
-                      <li>Trọn gói mọi loại hình: Nhập kinh doanh (A11), Nhập SXXK (E31), Gia công (E21), Tạm nhập tái xuất</li>
-                      <li>Chuyên gia xử lý hàng khó: Hàng quá khổ quá tải, hàng quá cảnh, hóa chất và kiểm định vải dệt may</li>
-                    </ul>
+                  <ul className="space-y-2">
+                    {(about.fleetScale?.bullets || DEFAULT_ABOUT_CONTENT.fleetScale.bullets).map((bullet: string, bIdx: number) => (
+                      <li key={bIdx} className="group/bullet flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-azure-600 mt-2 shrink-0" />
+                        <textarea
+                          rows={2}
+                          value={bullet}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setAbout((prev: any) => {
+                              const curBullets = [...(prev.fleetScale?.bullets || DEFAULT_ABOUT_CONTENT.fleetScale.bullets)];
+                              curBullets[bIdx] = val;
+                              return {
+                                ...prev,
+                                fleetScale: { ...(prev.fleetScale || DEFAULT_ABOUT_CONTENT.fleetScale), bullets: curBullets },
+                              };
+                            });
+                          }}
+                          className="w-full text-sm text-slate-700 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2 leading-relaxed"
+                          title="Nhấp để sửa gạch đầu dòng"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAbout((prev: any) => {
+                              const curBullets = (prev.fleetScale?.bullets || DEFAULT_ABOUT_CONTENT.fleetScale.bullets).filter(
+                                (_: any, i: number) => i !== bIdx
+                              );
+                              return {
+                                ...prev,
+                                fleetScale: { ...(prev.fleetScale || DEFAULT_ABOUT_CONTENT.fleetScale), bullets: curBullets },
+                              };
+                            });
+                          }}
+                          className="opacity-0 group-hover/bullet:opacity-100 p-1 text-slate-400 hover:text-rose-500 transition-opacity"
+                          title="Xóa ý này"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAbout((prev: any) => {
+                        const curBullets = [...(prev.fleetScale?.bullets || DEFAULT_ABOUT_CONTENT.fleetScale.bullets), "Thêm phương tiện hoặc năng lực đội xe..."];
+                        return {
+                          ...prev,
+                          fleetScale: { ...(prev.fleetScale || DEFAULT_ABOUT_CONTENT.fleetScale), bullets: curBullets },
+                        };
+                      });
+                    }}
+                    className="inline-flex items-center gap-1.5 text-xs text-azure-700 hover:text-azure-800 font-bold bg-white px-3 py-1.5 rounded-lg border border-slate-300 transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Thêm năng lực đội xe</span>
+                  </button>
+                </div>
+
+                {/* Tiểu mục 2.3: Thông quan hàng hóa */}
+                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <input
+                      type="text"
+                      value={about.customsCapability?.title || "Thông quan hàng hóa"}
+                      onChange={(e) => {
+                        const title = e.target.value;
+                        setAbout((prev: any) => ({
+                          ...prev,
+                          customsCapability: { ...(prev.customsCapability || DEFAULT_ABOUT_CONTENT.customsCapability), title },
+                        }));
+                      }}
+                      className="font-bold text-lg text-slate-950 bg-transparent hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1"
+                      title="Nhấp để sửa tiêu đề mục Thông quan hàng hóa"
+                    />
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-azure-100 text-azure-800 shrink-0">
+                      Mục 2.3
+                    </span>
                   </div>
+
+                  <ul className="space-y-2">
+                    {(about.customsCapability?.bullets || DEFAULT_ABOUT_CONTENT.customsCapability.bullets).map((bullet: string, bIdx: number) => (
+                      <li key={bIdx} className="group/bullet flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-azure-600 mt-2 shrink-0" />
+                        <textarea
+                          rows={2}
+                          value={bullet}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setAbout((prev: any) => {
+                              const curBullets = [...(prev.customsCapability?.bullets || DEFAULT_ABOUT_CONTENT.customsCapability.bullets)];
+                              curBullets[bIdx] = val;
+                              return {
+                                ...prev,
+                                customsCapability: { ...(prev.customsCapability || DEFAULT_ABOUT_CONTENT.customsCapability), bullets: curBullets },
+                              };
+                            });
+                          }}
+                          className="w-full text-sm text-slate-700 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2 leading-relaxed"
+                          title="Nhấp để sửa gạch đầu dòng"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAbout((prev: any) => {
+                              const curBullets = (prev.customsCapability?.bullets || DEFAULT_ABOUT_CONTENT.customsCapability.bullets).filter(
+                                (_: any, i: number) => i !== bIdx
+                              );
+                              return {
+                                ...prev,
+                                customsCapability: { ...(prev.customsCapability || DEFAULT_ABOUT_CONTENT.customsCapability), bullets: curBullets },
+                              };
+                            });
+                          }}
+                          className="opacity-0 group-hover/bullet:opacity-100 p-1 text-slate-400 hover:text-rose-500 transition-opacity"
+                          title="Xóa ý này"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAbout((prev: any) => {
+                        const curBullets = [...(prev.customsCapability?.bullets || DEFAULT_ABOUT_CONTENT.customsCapability.bullets), "Thêm nghiệp vụ thông quan mới..."];
+                        return {
+                          ...prev,
+                          customsCapability: { ...(prev.customsCapability || DEFAULT_ABOUT_CONTENT.customsCapability), bullets: curBullets },
+                        };
+                      });
+                    }}
+                    className="inline-flex items-center gap-1.5 text-xs text-azure-700 hover:text-azure-800 font-bold bg-white px-3 py-1.5 rounded-lg border border-slate-300 transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Thêm nghiệp vụ thông quan</span>
+                  </button>
                 </div>
               </section>
 
-              {/* MỤC 3: TẦM NHÌN & SỨ MỆNH */}
+              {/* MỤC 3: TẦM NHÌN & SỨ MỆNH (CLICK-TO-EDIT) */}
               <section className="space-y-4">
                 <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
                   TẦM NHÌN & SỨ MỆNH
@@ -1472,18 +1958,67 @@ export function VisualEditorCanvas({
                 <div className="h-0.5 w-16 bg-slate-900" />
 
                 <div className="space-y-4 pt-2 text-slate-700 text-sm sm:text-base leading-relaxed">
-                  <div className="space-y-1.5">
-                    <h3 className="text-lg font-bold text-slate-950">Tầm nhìn</h3>
-                    <p>Trở thành doanh nghiệp Logistics đa phương thức hàng đầu khu vực phía Bắc, kết nối hoàn hảo giữa vận tải đường bộ biên giới Việt - Trung và vận tải tàu/sà lan biển đảo.</p>
+                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                    <input
+                      type="text"
+                      value={about.visionMission?.visionTitle || "Tầm nhìn"}
+                      onChange={(e) => {
+                        const visionTitle = e.target.value;
+                        setAbout((prev: any) => ({
+                          ...prev,
+                          visionMission: { ...(prev.visionMission || DEFAULT_ABOUT_CONTENT.visionMission), visionTitle },
+                        }));
+                      }}
+                      className="text-lg font-bold text-slate-950 bg-transparent hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 w-full"
+                      title="Sửa tiêu đề Tầm nhìn"
+                    />
+                    <textarea
+                      rows={3}
+                      value={about.visionMission?.visionDesc || DEFAULT_ABOUT_CONTENT.visionMission.visionDesc}
+                      onChange={(e) => {
+                        const visionDesc = e.target.value;
+                        setAbout((prev: any) => ({
+                          ...prev,
+                          visionMission: { ...(prev.visionMission || DEFAULT_ABOUT_CONTENT.visionMission), visionDesc },
+                        }));
+                      }}
+                      className="w-full text-sm text-slate-700 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2 leading-relaxed"
+                      title="Sửa nội dung Tầm nhìn"
+                    />
                   </div>
-                  <div className="space-y-1.5">
-                    <h3 className="text-lg font-bold text-slate-950">Sứ mệnh</h3>
-                    <p>Đơn giản hóa mọi thủ tục hải quan phức tạp, cung cấp năng lực vận tải mạnh mẽ cho các mặt hàng đặc thù và công trình biển đảo, giúp đối tác tối ưu chi phí và bứt phá doanh thu.</p>
+
+                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                    <input
+                      type="text"
+                      value={about.visionMission?.missionTitle || "Sứ mệnh"}
+                      onChange={(e) => {
+                        const missionTitle = e.target.value;
+                        setAbout((prev: any) => ({
+                          ...prev,
+                          visionMission: { ...(prev.visionMission || DEFAULT_ABOUT_CONTENT.visionMission), missionTitle },
+                        }));
+                      }}
+                      className="text-lg font-bold text-slate-950 bg-transparent hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 w-full"
+                      title="Sửa tiêu đề Sứ mệnh"
+                    />
+                    <textarea
+                      rows={3}
+                      value={about.visionMission?.missionDesc || DEFAULT_ABOUT_CONTENT.visionMission.missionDesc}
+                      onChange={(e) => {
+                        const missionDesc = e.target.value;
+                        setAbout((prev: any) => ({
+                          ...prev,
+                          visionMission: { ...(prev.visionMission || DEFAULT_ABOUT_CONTENT.visionMission), missionDesc },
+                        }));
+                      }}
+                      className="w-full text-sm text-slate-700 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2 leading-relaxed"
+                      title="Sửa nội dung Sứ mệnh"
+                    />
                   </div>
                 </div>
               </section>
 
-              {/* MỤC 4: HỆ SINH THÁI */}
+              {/* MỤC 4: HỆ SINH THÁI (CLICK-TO-EDIT) */}
               <section className="space-y-4">
                 <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
                   HỆ SINH THÁI
@@ -1491,37 +2026,88 @@ export function VisualEditorCanvas({
                 <div className="h-0.5 w-16 bg-slate-900" />
 
                 <div className="space-y-4 pt-2 text-slate-700 text-sm sm:text-base leading-relaxed">
-                  <p>Sự liên kết chặt chẽ giữa 3 đơn vị tạo nên chuỗi cung ứng khép kín, chủ động hoàn toàn về phương tiện đường bộ lẫn đường biển:</p>
-                  <ul className="list-disc pl-5 space-y-1 font-semibold text-slate-900">
-                    <li>Logistics GT (Công ty mẹ)</li>
-                    <li>Việt Phúc Logistics (Công ty thành viên)</li>
-                    <li>Vận tải Cô Tô (Công ty thành viên)</li>
-                  </ul>
+                  <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                    Sự liên kết chặt chẽ giữa 3 đơn vị tạo nên chuỗi cung ứng khép kín, chủ động hoàn toàn về phương tiện đường bộ lẫn đường biển:
+                  </p>
 
-                  <div className="space-y-6 pt-3">
-                    <div className="space-y-1.5">
-                      <h3 className="text-lg font-bold text-slate-950">Công ty TNHH Logistics GT (Công ty mẹ)</h3>
-                      <ul className="list-disc pl-5 space-y-1 text-slate-700">
-                        <li><strong>Vai trò trong hệ sinh thái:</strong> Trung tâm điều hành & thủ tục hải quan, quản trị chuỗi cung ứng.</li>
-                        <li><strong>Thế mạnh trọng tâm:</strong> Khai báo hải quan đa cửa khẩu (Móng Cái, Hữu Nghị, Tân Thanh, Chi Ma), xử lý hàng quá khổ quá tải, quá cảnh, hóa chất, vải vóc.</li>
-                      </ul>
-                    </div>
+                  <div className="space-y-4 pt-2">
+                    {(Array.isArray(about.ecosystem) ? about.ecosystem : DEFAULT_ABOUT_CONTENT.ecosystem).map((eco: any, mIdx: number) => (
+                      <div key={mIdx} className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div>
+                            <span className="text-[11px] font-bold text-slate-500 block mb-1">Tên đơn vị:</span>
+                            <input
+                              type="text"
+                              value={eco.unit || ""}
+                              onChange={(e) => {
+                                const unit = e.target.value;
+                                setAbout((prev: any) => {
+                                  const cur = [...(Array.isArray(prev.ecosystem) ? prev.ecosystem : DEFAULT_ABOUT_CONTENT.ecosystem)];
+                                  cur[mIdx] = { ...cur[mIdx], unit };
+                                  return { ...prev, ecosystem: cur };
+                                });
+                              }}
+                              className="text-base font-bold text-slate-950 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2 w-full"
+                              title="Sửa tên đơn vị thành viên"
+                            />
+                          </div>
+                          <div>
+                            <span className="text-[11px] font-bold text-slate-500 block mb-1">Vai trò / Phân cấp:</span>
+                            <input
+                              type="text"
+                              value={eco.tag || ""}
+                              onChange={(e) => {
+                                const tag = e.target.value;
+                                setAbout((prev: any) => {
+                                  const cur = [...(Array.isArray(prev.ecosystem) ? prev.ecosystem : DEFAULT_ABOUT_CONTENT.ecosystem)];
+                                  cur[mIdx] = { ...cur[mIdx], tag };
+                                  return { ...prev, ecosystem: cur };
+                                });
+                              }}
+                              className="text-xs text-slate-800 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2 w-full"
+                              title="Sửa phân cấp"
+                            />
+                          </div>
+                        </div>
 
-                    <div className="space-y-1.5">
-                      <h3 className="text-lg font-bold text-slate-950">Việt Phúc Logistics (Công ty thành viên)</h3>
-                      <ul className="list-disc pl-5 space-y-1 text-slate-700">
-                        <li><strong>Vai trò trong hệ sinh thái:</strong> Đơn vị vận tải đường bộ liên vận & nội địa.</li>
-                        <li><strong>Thế mạnh trọng tâm:</strong> Trực tiếp quản lý và điều phối đội xe 50 đầu kéo container, kết nối luồng hàng tốc độ cao từ Lạng Sơn - Quảng Ninh - Hải Phòng đi toàn quốc.</li>
-                      </ul>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <h3 className="text-lg font-bold text-slate-950">Vận tải Cô Tô (Công ty thành viên)</h3>
-                      <ul className="list-disc pl-5 space-y-1 text-slate-700">
-                        <li><strong>Vai trò trong hệ sinh thái:</strong> Đơn vị khai thác tàu & sà lan biển đảo.</li>
-                        <li><strong>Thế mạnh trọng tâm:</strong> Vận hành đội tàu biển và sà lan tải trọng lớn, chuyên trách vận chuyển hàng hóa, vật tư công trình đi tất cả các đảo thuộc khu vực Cô Tô, Quảng Ninh.</li>
-                      </ul>
-                    </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                          <div>
+                            <span className="text-xs font-bold text-slate-600 block mb-1">Vai trò trong hệ sinh thái:</span>
+                            <textarea
+                              rows={2}
+                              value={eco.role || ""}
+                              onChange={(e) => {
+                                const role = e.target.value;
+                                setAbout((prev: any) => {
+                                  const cur = [...(Array.isArray(prev.ecosystem) ? prev.ecosystem : DEFAULT_ABOUT_CONTENT.ecosystem)];
+                                  cur[mIdx] = { ...cur[mIdx], role };
+                                  return { ...prev, ecosystem: cur };
+                                });
+                              }}
+                              className="w-full text-xs text-slate-700 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2"
+                              title="Sửa vai trò"
+                            />
+                          </div>
+                          <div>
+                            <span className="text-xs font-bold text-slate-600 block mb-1">Thế mạnh trọng tâm:</span>
+                            <textarea
+                              rows={2}
+                              value={eco.desc || ""}
+                              onChange={(e) => {
+                                const desc = e.target.value;
+                                setAbout((prev: any) => {
+                                  const cur = [...(Array.isArray(prev.ecosystem) ? prev.ecosystem : DEFAULT_ABOUT_CONTENT.ecosystem)];
+                                  cur[mIdx] = { ...cur[mIdx], desc };
+                                  return { ...prev, ecosystem: cur };
+                                });
+                              }}
+                              className="w-full text-xs text-slate-700 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2"
+                              title="Sửa thế mạnh"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </section>
@@ -1536,6 +2122,28 @@ export function VisualEditorCanvas({
           <div className="space-y-0">
             {/* Banner Tất Cả Dịch Vụ */}
             <div className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
+              {/* Nút Đổi Ảnh Nền Banner & Thu phóng trực quan trên Banner */}
+              <div className="absolute top-6 right-6 z-20 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => triggerImagePicker("bannerBg")}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-azure-600/90 hover:bg-azure-500 text-white font-bold text-xs shadow-lg border border-azure-400 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Nhấp để tải hoặc chọn ảnh nền Banner mới"
+                >
+                  <Camera className="w-4 h-4 text-gold-400" />
+                  <span>Đổi Ảnh Nền Banner</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBgControlOpen(!bgControlOpen)}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-gold-300 font-bold text-xs shadow-lg border border-slate-700 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Mở thanh tinh chỉnh thu phóng (Zoom Scale) & căn chỉnh vị trí ảnh nền"
+                >
+                  <Sliders className="w-4 h-4" />
+                  <span>Thu Phóng / Vị Trí</span>
+                </button>
+              </div>
+
               {activeBanner.bgImage && (
                 <div
                   className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
@@ -1854,6 +2462,28 @@ export function VisualEditorCanvas({
           <div className="space-y-0">
             {/* Banner Tin Tức */}
             <div className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
+              {/* Nút Đổi Ảnh Nền Banner & Thu phóng trực quan trên Banner */}
+              <div className="absolute top-6 right-6 z-20 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => triggerImagePicker("bannerBg")}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-azure-600/90 hover:bg-azure-500 text-white font-bold text-xs shadow-lg border border-azure-400 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Nhấp để tải hoặc chọn ảnh nền Banner mới"
+                >
+                  <Camera className="w-4 h-4 text-gold-400" />
+                  <span>Đổi Ảnh Nền Banner</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBgControlOpen(!bgControlOpen)}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-gold-300 font-bold text-xs shadow-lg border border-slate-700 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Mở thanh tinh chỉnh thu phóng (Zoom Scale) & căn chỉnh vị trí ảnh nền"
+                >
+                  <Sliders className="w-4 h-4" />
+                  <span>Thu Phóng / Vị Trí</span>
+                </button>
+              </div>
+
               {activeBanner.bgImage && (
                 <div
                   className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
@@ -1970,6 +2600,28 @@ export function VisualEditorCanvas({
           <div className="space-y-0">
             {/* Banner Liên Hệ */}
             <div className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
+              {/* Nút Đổi Ảnh Nền Banner & Thu phóng trực quan trên Banner */}
+              <div className="absolute top-6 right-6 z-20 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => triggerImagePicker("bannerBg")}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-azure-600/90 hover:bg-azure-500 text-white font-bold text-xs shadow-lg border border-azure-400 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Nhấp để tải hoặc chọn ảnh nền Banner mới"
+                >
+                  <Camera className="w-4 h-4 text-gold-400" />
+                  <span>Đổi Ảnh Nền Banner</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBgControlOpen(!bgControlOpen)}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-gold-300 font-bold text-xs shadow-lg border border-slate-700 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Mở thanh tinh chỉnh thu phóng (Zoom Scale) & căn chỉnh vị trí ảnh nền"
+                >
+                  <Sliders className="w-4 h-4" />
+                  <span>Thu Phóng / Vị Trí</span>
+                </button>
+              </div>
+
               {activeBanner.bgImage && (
                 <div
                   className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
@@ -2046,39 +2698,256 @@ export function VisualEditorCanvas({
               </div>
             </div>
 
-            {/* Thông tin liên hệ các trụ sở */}
+            {/* Thông tin pháp lý & các văn phòng chi nhánh (Click-to-edit) */}
             <section className="py-12 bg-white border-b border-slate-200">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-4">
-                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                    <span className="text-xs font-bold text-azure-700 block">Trụ Sở Chính (Bắc Luân 2 - Móng Cái)</span>
-                    <p className="text-sm font-semibold text-slate-900">
-                      Căn ĐLTC-41, KĐT Vinhomes Golden Avenue, Cửa khẩu Bắc Luân 2, Phường Hải Hòa, TP. Móng Cái, Quảng Ninh
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      Túc trực 24/7 kiểm hóa bãi xe và xử lý tờ khai hải quan.
-                    </p>
-                  </div>
-                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                    <span className="text-xs font-bold text-azure-700 block">Chi Nhánh Cảng Hải Phòng</span>
-                    <p className="text-sm font-semibold text-slate-900">
-                      Cụm Cảng Đình Vũ, Phường Đông Hải 2, Quận Hải An, TP. Hải Phòng
-                    </p>
-                  </div>
-                </div>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Cột 1: Thông tin pháp lý & Trụ sở chính */}
+                  <div className="space-y-6">
+                    {/* Hộp Thông Tin Pháp Lý Doanh Nghiệp */}
+                    <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                      <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+                        <span className="text-xs font-bold text-azure-700">
+                          Thông Tin Pháp Lý Doanh Nghiệp
+                        </span>
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                          Chính thức
+                        </span>
+                      </div>
 
-                <div className="space-y-4">
-                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                    <span className="text-xs font-bold text-azure-700 block">Hotline & Kênh Hỗ Trợ 24/7</span>
-                    <p className="text-sm font-bold text-gold-600">Hotline: {settings.hotline || "0904.382.268"}</p>
-                    <p className="text-xs text-slate-600">Email: {settings.email || "contact@logisticsgt.vn"}</p>
-                    <p className="text-xs text-slate-500">Giờ làm việc: Thứ Hai - Chủ Nhật (07:30 - 18:30)</p>
+                      <div className="space-y-3">
+                        <div>
+                          <label className="text-xs font-semibold text-slate-500 block mb-1">Tên Doanh Nghiệp:</label>
+                          <input
+                            type="text"
+                            value={contactData.companyName || "CÔNG TY TNHH LOGISTICS GT"}
+                            onChange={(e) => setContactData({ ...contactData, companyName: e.target.value })}
+                            className="w-full text-base font-black text-slate-950 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2"
+                            title="Sửa tên công ty"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-xs font-semibold text-slate-500 block mb-1">Mã Số Thuế (MST):</label>
+                            <input
+                              type="text"
+                              value={contactData.taxCode || "5702157588"}
+                              onChange={(e) => setContactData({ ...contactData, taxCode: e.target.value })}
+                              className="w-full text-sm font-bold text-slate-900 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2"
+                              title="Sửa mã số thuế"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-xs font-semibold text-slate-500 block mb-1">Đại Diện Pháp Luật:</label>
+                            <input
+                              type="text"
+                              value={contactData.legalRep || "Ông Ngô Thế Hải"}
+                              onChange={(e) => setContactData({ ...contactData, legalRep: e.target.value })}
+                              className="w-full text-sm font-bold text-slate-900 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2"
+                              title="Sửa người đại diện pháp luật"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-xs font-semibold text-slate-500 block mb-1">Hotline Tư Vấn:</label>
+                            <input
+                              type="text"
+                              value={contactData.phone || "0904.382.268"}
+                              onChange={(e) => setContactData({ ...contactData, phone: e.target.value })}
+                              className="w-full text-sm font-bold text-gold-600 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2"
+                              title="Sửa hotline liên hệ"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-xs font-semibold text-slate-500 block mb-1">Email Tiếp Nhận:</label>
+                            <input
+                              type="text"
+                              value={contactData.email || "contact@logisticsgt.vn"}
+                              onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
+                              className="w-full text-sm font-semibold text-slate-800 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2"
+                              title="Sửa email liên hệ"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="text-xs font-semibold text-slate-500 block mb-1">Giờ Làm Việc Hiện Trường:</label>
+                          <input
+                            type="text"
+                            value={contactData.workingHours || "Thứ Hai - Chủ Nhật (07:30 - 18:30)"}
+                            onChange={(e) => setContactData({ ...contactData, workingHours: e.target.value })}
+                            className="w-full text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2"
+                            title="Sửa thời gian làm việc"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Trụ Sở Chính */}
+                    <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                      <div className="flex items-center justify-between pb-2 border-b border-slate-200">
+                        <input
+                          type="text"
+                          value={contactData.headquarters?.title || "Trụ Sở Chính (Bắc Luân 2 - Móng Cái)"}
+                          onChange={(e) =>
+                            setContactData({
+                              ...contactData,
+                              headquarters: {
+                                ...(contactData.headquarters || DEFAULT_CONTACT_CONTENT.headquarters),
+                                title: e.target.value,
+                              },
+                            })
+                          }
+                          className="font-bold text-slate-950 text-sm bg-transparent hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-1 w-full"
+                          title="Sửa tiêu đề Trụ sở chính"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-semibold text-slate-500 block mb-1">Địa chỉ trụ sở chính:</label>
+                        <textarea
+                          rows={2}
+                          value={contactData.headquarters?.address || DEFAULT_CONTACT_CONTENT.headquarters.address}
+                          onChange={(e) =>
+                            setContactData({
+                              ...contactData,
+                              headquarters: {
+                                ...(contactData.headquarters || DEFAULT_CONTACT_CONTENT.headquarters),
+                                address: e.target.value,
+                              },
+                            })
+                          }
+                          className="w-full text-xs font-medium text-slate-800 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2 leading-relaxed"
+                          title="Sửa địa chỉ trụ sở chính"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-semibold text-slate-500 block mb-1">Ghi chú năng lực túc trực:</label>
+                        <input
+                          type="text"
+                          value={contactData.headquarters?.note || DEFAULT_CONTACT_CONTENT.headquarters.note}
+                          onChange={(e) =>
+                            setContactData({
+                              ...contactData,
+                              headquarters: {
+                                ...(contactData.headquarters || DEFAULT_CONTACT_CONTENT.headquarters),
+                                note: e.target.value,
+                              },
+                            })
+                          }
+                          className="w-full text-xs text-slate-600 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2"
+                          title="Sửa ghi chú"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                    <span className="text-xs font-bold text-azure-700 block">Văn Phòng Đại Diện Hà Nội</span>
-                    <p className="text-sm font-semibold text-slate-900">
-                      Số 18 Phạm Hùng, Phường Mỹ Đình, Quận Nam Từ Liêm, TP. Hà Nội
-                    </p>
+
+                  {/* Cột 2: Mạng Lưới Điểm Trực & Chi Nhánh Cửa Khẩu */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between pb-2 border-b border-slate-200">
+                      <div>
+                        <h3 className="font-bold text-base text-slate-950">
+                          Mạng Lưới Chi Nhánh Cửa Khẩu & Cảng Biển
+                        </h3>
+                        <p className="text-xs text-slate-500">
+                          Đội ngũ hiện trường túc trực giải quyết thông quan và vận tải trực tiếp.
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newBranch = {
+                            name: "Chi Nhánh Mới",
+                            address: "Địa chỉ văn phòng / bãi kiểm hóa...",
+                            note: "Ghi chú hoạt động hiện trường...",
+                          };
+                          setContactData({
+                            ...contactData,
+                            branches: [...(contactData.branches || DEFAULT_CONTACT_CONTENT.branches), newBranch],
+                          });
+                        }}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-azure-600 hover:bg-azure-500 text-white font-bold text-xs shadow-xs"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>Thêm Chi Nhánh</span>
+                      </button>
+                    </div>
+
+                    <div className="space-y-4">
+                      {(contactData.branches || DEFAULT_CONTACT_CONTENT.branches).map((branch: any, idx: number) => (
+                        <div key={idx} className="group/branch p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 relative">
+                          <div className="flex items-center justify-between gap-2">
+                            <input
+                              type="text"
+                              value={branch.name}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setContactData((prev: any) => {
+                                  const cur = [...(prev.branches || DEFAULT_CONTACT_CONTENT.branches)];
+                                  cur[idx] = { ...cur[idx], name: val };
+                                  return { ...prev, branches: cur };
+                                });
+                              }}
+                              className="font-bold text-sm text-azure-900 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-2 py-1 w-full"
+                              title="Sửa tên chi nhánh"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setContactData((prev: any) => ({
+                                  ...prev,
+                                  branches: (prev.branches || DEFAULT_CONTACT_CONTENT.branches).filter(
+                                    (_: any, i: number) => i !== idx
+                                  ),
+                                }));
+                              }}
+                              className="opacity-0 group-hover/branch:opacity-100 p-1.5 text-slate-400 hover:text-rose-500 transition-opacity shrink-0"
+                              title="Xóa chi nhánh này"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+
+                          <div>
+                            <textarea
+                              rows={2}
+                              value={branch.address}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setContactData((prev: any) => {
+                                  const cur = [...(prev.branches || DEFAULT_CONTACT_CONTENT.branches)];
+                                  cur[idx] = { ...cur[idx], address: val };
+                                  return { ...prev, branches: cur };
+                                });
+                              }}
+                              className="w-full text-xs font-semibold text-slate-800 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded-lg p-2"
+                              title="Sửa địa chỉ chi nhánh"
+                            />
+                          </div>
+
+                          <div>
+                            <input
+                              type="text"
+                              value={branch.note}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setContactData((prev: any) => {
+                                  const cur = [...(prev.branches || DEFAULT_CONTACT_CONTENT.branches)];
+                                  cur[idx] = { ...cur[idx], note: val };
+                                  return { ...prev, branches: cur };
+                                });
+                              }}
+                              className="w-full text-[11px] text-slate-500 bg-white border border-slate-200 hover:outline hover:outline-dashed hover:outline-azure-400 rounded px-2 py-1"
+                              title="Sửa ghi chú chi nhánh"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2093,6 +2962,28 @@ export function VisualEditorCanvas({
           <div className="space-y-0">
             {/* Banner Báo Giá */}
             <div className="relative bg-slate-950 text-white py-16 sm:py-20 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
+              {/* Nút Đổi Ảnh Nền Banner & Thu phóng trực quan trên Banner */}
+              <div className="absolute top-6 right-6 z-20 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => triggerImagePicker("bannerBg")}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-azure-600/90 hover:bg-azure-500 text-white font-bold text-xs shadow-lg border border-azure-400 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Nhấp để tải hoặc chọn ảnh nền Banner mới"
+                >
+                  <Camera className="w-4 h-4 text-gold-400" />
+                  <span>Đổi Ảnh Nền Banner</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBgControlOpen(!bgControlOpen)}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-gold-300 font-bold text-xs shadow-lg border border-slate-700 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Mở thanh tinh chỉnh thu phóng (Zoom Scale) & căn chỉnh vị trí ảnh nền"
+                >
+                  <Sliders className="w-4 h-4" />
+                  <span>Thu Phóng / Vị Trí</span>
+                </button>
+              </div>
+
               {activeBanner.bgImage && (
                 <div
                   className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
@@ -2197,8 +3088,30 @@ export function VisualEditorCanvas({
         {/* ============================================================== */}
         {currentService && (
           <div className="space-y-0">
-            {/* Banner đầu trang Dịch vụ: Chuẩn Breadcrumbs + Watermark GT Logistics */}
+            {/* Banner đầu trang Dịch vụ */}
             <div className="relative bg-slate-950 text-white py-10 sm:py-12 px-4 sm:px-8 border-b border-slate-800 overflow-hidden">
+              {/* Nút Đổi Ảnh Nền Banner & Thu phóng trực quan trên Banner */}
+              <div className="absolute top-6 right-6 z-20 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => triggerImagePicker("bannerBg")}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-azure-600/90 hover:bg-azure-500 text-white font-bold text-xs shadow-lg border border-azure-400 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Nhấp để tải hoặc chọn ảnh nền Banner mới"
+                >
+                  <Camera className="w-4 h-4 text-gold-400" />
+                  <span>Đổi Ảnh Nền Banner</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBgControlOpen(!bgControlOpen)}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-gold-300 font-bold text-xs shadow-lg border border-slate-700 backdrop-blur-sm transition-colors cursor-pointer"
+                  title="Mở thanh tinh chỉnh thu phóng (Zoom Scale) & căn chỉnh vị trí ảnh nền"
+                >
+                  <Sliders className="w-4 h-4" />
+                  <span>Thu Phóng / Vị Trí</span>
+                </button>
+              </div>
+
               {activeBanner.bgImage && (
                 <div
                   className="absolute inset-0 z-0 bg-no-repeat pointer-events-none transition-transform"
@@ -2493,38 +3406,13 @@ export function VisualEditorCanvas({
                         />
                       </div>
                     )}
-
-                    {/* Hộp Báo Giá Ngữ Cảnh Dành Riêng Cho Dịch Vụ Này (Mô phỏng đúng web thật) */}
-                    <div className="mt-8 p-6 rounded-2xl bg-slate-950 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 border border-slate-800 shadow-xs">
-                      <div>
-                        <span className="text-xs font-bold text-gold-400 block mb-1">
-                          Yêu cầu báo giá nhanh
-                        </span>
-                        <h4 className="text-base sm:text-lg font-bold text-white leading-snug">
-                          Cần báo giá cước và phương án tối ưu cho {currentService.title}?
-                        </h4>
-                        <p className="text-xs text-slate-400 mt-1">
-                          Đội ngũ phản hồi phương án vận chuyển và biểu phí trong vòng 15 phút.
-                        </p>
-                      </div>
-
-                      <div className="flex items-center gap-2 shrink-0">
-                        <a
-                          href={`tel:${(settings.hotline || "0904382268").replace(/[^0-9]/g, "")}`}
-                          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gold-500 text-slate-950 font-bold text-xs shadow-xs"
-                        >
-                          <Phone className="w-4 h-4" />
-                          <span>Gọi Ngay</span>
-                        </a>
-                      </div>
-                    </div>
                   </div>
 
                   {/* Cột phải: Sidebar dịch vụ y như thật */}
                   <div className="lg:col-span-4 space-y-4">
                     <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200">
                       <h4 className="font-bold text-sm text-slate-900 mb-3 border-b border-slate-200 pb-2">
-                        Tất Cả 5 Dịch Vụ GT Logistics
+                        Tất Cả 4 Dịch Vụ Trọng Tâm
                       </h4>
                       <div className="space-y-2">
                         {services.map((s) => {

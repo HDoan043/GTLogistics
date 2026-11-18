@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   MapPin,
   Phone,
@@ -35,7 +36,14 @@ export function Footer({
   branchLangSon,
   taxCode = "5701750095",
 }: FooterProps) {
+  const pathname = usePathname();
   const { t, locale } = useLanguage();
+
+  // Không hiển thị Footer công khai bên trong khu vực quản trị (/admin/*)
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   const cleanPhone = hotline.replace(/[^0-9]/g, "");
 
   const getServiceTitle = (s: (typeof SERVICE_CATEGORIES)[0]) => {

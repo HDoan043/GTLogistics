@@ -49,6 +49,11 @@ export function Header({
   const pathname = usePathname();
   const { t, locale } = useLanguage();
 
+  // Không hiển thị Header công khai bên trong khu vực quản trị (/admin/*)
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   const cleanPhone = hotline.replace(/[^0-9]/g, "");
 
   // Smart Scroll: Cuộn xuống ẩn đi, cuộn lên hiện ra, ở đỉnh trang luôn hiện

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Phone, ArrowUp, MessageCircle } from "lucide-react";
 
 interface FloatingContactProps {
@@ -12,6 +13,7 @@ export function FloatingContact({
   hotline = "0904.382.268",
   zaloPhone = "0904382268",
 }: FloatingContactProps) {
+  const pathname = usePathname();
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
@@ -21,6 +23,11 @@ export function FloatingContact({
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Không hiển thị các nút liên hệ nổi công khai trong khu vực quản trị (/admin/*)
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });

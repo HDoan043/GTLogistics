@@ -17,6 +17,15 @@ import { getCurrentAdmin } from "@/lib/auth";
 import { Badge } from "@/components/ui/Badge";
 import { updateLeadStatus } from "@/modules/leads/actions";
 import { ExportLeadsButton } from "@/components/admin/leads/ExportLeadsButton";
+import { CleanupLeadsModal } from "@/components/admin/leads/CleanupLeadsModal";
+
+function formatDateTag(d?: Date | null): string {
+  if (!d) return "";
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+}
 
 export default async function AdminLeadsPage({
   searchParams,
@@ -36,7 +45,7 @@ export default async function AdminLeadsPage({
     where.status = status;
   }
 
-  const [leads, counts] = await Promise.all([
+  const [leads, counts, earliestLead, latestLead] = await Promise.all([
     prisma.lead.findMany({
       where,
       orderBy: { createdAt: "desc" },
@@ -44,6 +53,14 @@ export default async function AdminLeadsPage({
     prisma.lead.groupBy({
       by: ["status"],
       _count: { id: true },
+    }),
+    prisma.lead.findFirst({
+      orderBy: { createdAt: "asc" },
+      select: { createdAt: true },
+    }),
+    prisma.lead.findFirst({
+      orderBy: { createdAt: "desc" },
+      select: { createdAt: true },
     }),
   ]);
 
@@ -53,6 +70,9 @@ export default async function AdminLeadsPage({
   }, {} as Record<string, number>);
 
   const totalAll = Object.values(countMap).reduce((a, b) => a + b, 0);
+  const completedLeads = (countMap["CLOSED"] || 0) + (countMap["QUOTED"] || 0);
+  const earliestDateStr = formatDateTag(earliestLead?.createdAt);
+  const latestDateStr = formatDateTag(latestLead?.createdAt);
 
   const filterTabs = [
     { key: "ALL", label: "Tất cả", count: totalAll, href: "/admin/leads" },
@@ -64,7 +84,7 @@ export default async function AdminLeadsPage({
 
   return (
     <div className="p-6 sm:p-10 max-w-7xl mx-auto space-y-6 bg-slate-50 text-slate-900">
-      {/* Tiêu đề & Công cụ xuất Excel */}
+      {/* Tiêu đề & Công cụ xuất Excel / Dọn dẹp định kỳ */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
         <div>
           <div className="flex items-center gap-2 mb-1">
@@ -79,13 +99,19 @@ export default async function AdminLeadsPage({
             Danh Sách Báo Giá & Khách Hàng
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 mt-1">
-            Theo dõi, xử lý và xuất dữ liệu các yêu cầu báo giá cước, thủ tục hải quan từ khách hàng.
+            Theo dõi, xử lý, xuất dữ liệu và dọn dẹp định kỳ các yêu cầu báo giá từ khách hàng.
           </p>
         </div>
 
-        {/* Nút Xuất Excel nổi bật */}
-        <div className="flex items-center gap-3">
+        {/* Nút Xuất Excel & Dọn Dẹp Định Kỳ */}
+        <div className="flex items-center gap-2.5 flex-wrap">
           <ExportLeadsButton currentStatus={currentStatus} totalCount={leads.length} />
+          <CleanupLeadsModal
+            totalLeads={totalAll}
+            completedLeads={completedLeads}
+            earliestDateStr={earliestDateStr}
+            latestDateStr={latestDateStr}
+          />
         </div>
       </div>
 

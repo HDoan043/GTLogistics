@@ -2,22 +2,17 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Lock, Mail, AlertCircle, ArrowRight, Eye, EyeOff, RotateCcw } from "lucide-react";
+import Link from "next/link";
+import { Lock, Mail, AlertCircle, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { loginAdmin } from "@/modules/auth/actions";
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState("admin@logisticsgt.vn");
-  const [password, setPassword] = useState("Admin@GT2026!");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const fillDefaults = () => {
-    setEmail("admin@logisticsgt.vn");
-    setPassword("Admin@GT2026!");
-    setError(null);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +20,7 @@ export default function AdminLoginPage() {
     setError(null);
 
     const formData = new FormData();
-    formData.append("email", email);
+    formData.append("email", email.trim());
     formData.append("password", password);
 
     const res = await loginAdmin(formData);
@@ -84,7 +79,8 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@logisticsgt.vn"
+                placeholder="Nhập email quản trị viên..."
+                autoComplete="email"
                 className="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white font-mono"
               />
             </div>
@@ -98,7 +94,7 @@ export default function AdminLoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="text-[11px] text-slate-500 hover:text-slate-800 flex items-center gap-1 transition-colors"
+                className="text-[11px] text-slate-500 hover:text-slate-800 flex items-center gap-1 transition-colors cursor-pointer"
               >
                 {showPassword ? (
                   <>
@@ -120,7 +116,8 @@ export default function AdminLoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="Nhập mật khẩu..."
+                autoComplete="current-password"
                 className="w-full pl-10 pr-10 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white font-mono"
               />
             </div>
@@ -132,7 +129,7 @@ export default function AdminLoginPage() {
               variant="accent"
               size="lg"
               isLoading={loading}
-              className="w-full font-bold py-3 tap-press shadow-md shadow-gold-500/10"
+              className="w-full font-bold py-3 tap-press shadow-md shadow-gold-500/10 cursor-pointer"
             >
               <span>{loading ? "Đang xác thực & chuyển hướng..." : "Đăng Nhập Quản Trị"}</span>
               <ArrowRight className="w-4 h-4 ml-1.5" />
@@ -140,22 +137,14 @@ export default function AdminLoginPage() {
           </div>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-          <div>
-            <span>Tài khoản: </span>
-            <span className="text-slate-800 font-semibold">admin@logisticsgt.vn</span>
-            <br />
-            <span>Mật khẩu: </span>
-            <span className="text-slate-800 font-semibold">Admin@GT2026!</span>
-          </div>
-          <button
-            type="button"
-            onClick={fillDefaults}
-            className="flex items-center gap-1 text-[11px] text-azure-700 hover:text-azure-900 transition-colors py-1 px-2.5 rounded-lg bg-azure-50 border border-azure-200 shrink-0 font-bold"
+        <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+          <Link
+            href="/"
+            className="text-slate-500 hover:text-azure-700 transition-colors font-medium flex items-center gap-1"
           >
-            <RotateCcw className="w-3 h-3" />
-            <span>Điền mặc định</span>
-          </button>
+            <span>← Về trang chủ</span>
+          </Link>
+          <span className="text-[11px] text-slate-400 font-medium">GT Logistics Security</span>
         </div>
       </div>
     </div>

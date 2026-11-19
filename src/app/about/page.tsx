@@ -82,28 +82,46 @@ export default async function AboutPage() {
           </h2>
           <div className="h-0.5 w-16 bg-slate-900" />
 
-          <div className="space-y-4 text-slate-700 text-base sm:text-lg leading-relaxed pt-2">
-            {about.paragraphs && about.paragraphs.length > 0 ? (
-              about.paragraphs.map((p: any, idx: number) => {
-                const text =
-                  locale === "zh" && p.zh
-                    ? p.zh
-                    : locale === "en" && p.en
-                    ? p.en
-                    : p.vi || p;
-                return (
-                  <p key={idx} className="leading-relaxed">
-                    {text}
-                  </p>
-                );
-              })
-            ) : (
-              <p>
-                Được thành lập với sứ mệnh trở thành cầu nối giao thương huyết mạch giữa Việt Nam, Trung Quốc và khu vực ASEAN,{" "}
-                <strong className="text-slate-950 font-bold">Công ty TNHH Logistics GT</strong> (Mã số thuế: 5701750095) đã và đang khẳng định vị thế là một trong những đơn vị tiếp vận biên mậu và vận tải biển đảo uy tín hàng đầu tại miền Bắc.
-              </p>
-            )}
-          </div>
+          {/* NỘI DUNG GIỚI THIỆU: HỖ TRỢ ĐỊNH DẠNG RICH TEXT SOẠN THẢO TRỰC QUAN HOẶC FALLBACK ĐOẠN VĂN BẢN CŨ */}
+          {locale === "zh" && about.contentHtmlZh ? (
+            <div
+              className="rich-content space-y-4 text-slate-700 leading-relaxed pt-2"
+              dangerouslySetInnerHTML={{ __html: about.contentHtmlZh }}
+            />
+          ) : locale === "en" && about.contentHtmlEn ? (
+            <div
+              className="rich-content space-y-4 text-slate-700 leading-relaxed pt-2"
+              dangerouslySetInnerHTML={{ __html: about.contentHtmlEn }}
+            />
+          ) : about.contentHtml ? (
+            <div
+              className="rich-content space-y-4 text-slate-700 leading-relaxed pt-2"
+              dangerouslySetInnerHTML={{ __html: about.contentHtml }}
+            />
+          ) : (
+            <div className="space-y-4 text-slate-700 text-base sm:text-lg leading-relaxed pt-2">
+              {about.paragraphs && about.paragraphs.length > 0 ? (
+                about.paragraphs.map((p: any, idx: number) => {
+                  const text =
+                    locale === "zh" && p.zh
+                      ? p.zh
+                      : locale === "en" && p.en
+                      ? p.en
+                      : p.vi || p;
+                  return (
+                    <p key={idx} className="leading-relaxed">
+                      {text}
+                    </p>
+                  );
+                })
+              ) : (
+                <p>
+                  Được thành lập với sứ mệnh trở thành cầu nối giao thương huyết mạch giữa Việt Nam, Trung Quốc và khu vực ASEAN,{" "}
+                  <strong className="text-slate-950 font-bold">Công ty TNHH Logistics GT</strong> (Mã số thuế: 5701750095) đã và đang khẳng định vị thế là một trong những đơn vị tiếp vận biên mậu và vận tải biển đảo uy tín hàng đầu tại miền Bắc.
+                </p>
+              )}
+            </div>
+          )}
 
           {/* Ảnh minh họa trụ sở và nhân sự */}
           <div className="relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden shadow-xs border border-slate-200 mt-6">

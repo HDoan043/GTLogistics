@@ -6,6 +6,7 @@ import Image from "next/image";
 import { MediaPickerModal } from "@/components/admin/MediaPickerModal";
 import { savePageSectionContent } from "@/modules/content/actions";
 import { DEFAULT_ABOUT_CONTENT } from "@/modules/content/constants";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 
 export function AboutPageEditor({ initialData }: { initialData?: any }) {
   const [data, setData] = useState<any>(initialData || DEFAULT_ABOUT_CONTENT);
@@ -187,46 +188,34 @@ export function AboutPageEditor({ initialData }: { initialData?: any }) {
           </div>
         </div>
 
-        {/* Danh sách các đoạn văn bản */}
-        <div className="space-y-3 pt-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-700">Các đoạn văn bản giới thiệu ({data.paragraphs?.length || 0} đoạn):</span>
-            <button
-              type="button"
-              onClick={addParagraph}
-              className="inline-flex items-center gap-1.5 text-xs text-azure-700 hover:text-azure-800 font-bold bg-azure-50 px-2.5 py-1 rounded-lg border border-azure-200"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Thêm đoạn mới</span>
-            </button>
-          </div>
-
-          <div className="space-y-2">
-            {(data.paragraphs || []).map((p: any, idx: number) => {
-              const currentText = langTab === "zh" ? p.zh || "" : langTab === "en" ? p.en || "" : p.vi || "";
-              return (
-                <div key={idx} className="flex items-start gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                  <span className="w-5 h-5 rounded-full bg-azure-100 text-azure-700 font-bold text-xs flex items-center justify-center shrink-0 mt-1">
-                    {idx + 1}
-                  </span>
-                  <textarea
-                    rows={3}
-                    value={currentText}
-                    onChange={(e) => updateParagraph(idx, e.target.value)}
-                    className="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg p-2 focus:border-azure-500 focus:outline-none"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeParagraph(idx)}
-                    className="p-1 text-slate-400 hover:text-rose-600 transition-colors"
-                    title="Xóa đoạn này"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              );
-            })}
-          </div>
+        {/* Soạn thảo nội dung giới thiệu dạng Rich Text Editor */}
+        <div className="pt-2">
+          <RichTextEditor
+            label="Nội Dung Giới Thiệu Doanh Nghiệp (Soạn Thảo Trực Quan):"
+            helperText="Hỗ trợ đầy đủ tiêu đề các cấp (H2, H3, H4), in đậm, in nghiêng, căn lề, danh sách bullet và chèn ảnh minh họa kèm chú thích."
+            value={
+              langTab === "zh"
+                ? data.contentHtmlZh ??
+                  ((data.paragraphs || []).map((p: any) => `<p>${typeof p === "string" ? p : p.zh || ""}</p>`).join("\n") || "")
+                : langTab === "en"
+                ? data.contentHtmlEn ??
+                  ((data.paragraphs || []).map((p: any) => `<p>${typeof p === "string" ? p : p.en || ""}</p>`).join("\n") || "")
+                : data.contentHtml ??
+                  ((data.paragraphs || []).map((p: any) => `<p>${typeof p === "string" ? p : p.vi || ""}</p>`).join("\n") || "")
+            }
+            onChange={(html) => {
+              setData((prev: any) => ({
+                ...prev,
+                ...(langTab === "zh"
+                  ? { contentHtmlZh: html }
+                  : langTab === "en"
+                  ? { contentHtmlEn: html }
+                  : { contentHtml: html }),
+              }));
+            }}
+            minHeight="350px"
+            placeholder="Soạn thảo lời giới thiệu, lịch sử phát triển, quy mô đội xe và năng lực của GT Logistics…"
+          />
         </div>
       </div>
 

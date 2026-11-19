@@ -5,6 +5,7 @@ import { Save, CheckCircle2, AlertCircle, Loader2, Image as ImageIcon } from "lu
 import Image from "next/image";
 import { updateServiceContent } from "@/modules/services/actions";
 import { MediaPickerModal } from "@/components/admin/MediaPickerModal";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 
 interface ServiceItem {
   id: string;
@@ -201,17 +202,14 @@ export function ServicesPageEditor({ initialServices = [] }: { initialServices: 
           </div>
         </div>
 
-        <div>
-          <label className="text-xs font-bold text-slate-700 block mb-1">
-            Nội Dung Chi Tiết Năng Lực (HTML / Chi Tiết):
-          </label>
-          <textarea
-            rows={12}
-            value={(activeService as any)[contentField] || ""}
-            onChange={(e) => updateActive(contentField, e.target.value)}
-            className="w-full p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-mono text-xs leading-relaxed focus:border-azure-500 focus:bg-white focus:outline-none"
-          />
-        </div>
+        <RichTextEditor
+          label="Nội Dung Chi Tiết Năng Lực & Quy Trình Dịch Vụ (Soạn Thảo Trực Quan):"
+          helperText="Hỗ trợ đầy đủ tiêu đề các cấp, in đậm, in nghiêng, căn lề, danh sách bullet và chèn ảnh minh họa kèm chú thích."
+          value={(activeService as any)[contentField] || ""}
+          onChange={(html) => updateActive(contentField, html)}
+          minHeight="380px"
+          placeholder="Nhập nội dung quy trình, năng lực và bảng cam kết tiến độ dịch vụ tại đây…"
+        />
       </div>
 
       <MediaPickerModal

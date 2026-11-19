@@ -211,6 +211,9 @@ export const DEFAULT_ABOUT_CONTENT = {
   subtitleZh:
     "中越跨境公路集装箱联运、北部四大口岸正规通关与广宁姑苏群岛专业海运驳船综合运营服务商.",
   storyImage: "/images/vietphuc/hero_office_panoramic.webp",
+  contentHtml: "",
+  contentHtmlEn: "",
+  contentHtmlZh: "",
   paragraphs: [
     {
       vi: "Được thành lập với sứ mệnh trở thành cầu nối giao thương huyết mạch giữa Việt Nam, Trung Quốc và khu vực ASEAN, Công ty TNHH Logistics GT (MST: 5701750095) đã và đang khẳng định vị thế là một trong những đơn vị tiếp vận biên mậu và vận tải biển đảo uy tín hàng đầu tại miền Bắc.",

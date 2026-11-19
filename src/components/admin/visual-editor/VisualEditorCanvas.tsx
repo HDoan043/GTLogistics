@@ -44,6 +44,7 @@ import {
 import { MediaPickerModal } from "@/components/admin/MediaPickerModal";
 import { savePageSectionContent } from "@/modules/content/actions";
 import { updateServiceContent } from "@/modules/services/actions";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import {
   DEFAULT_ABOUT_CONTENT,
   DEFAULT_BORDER_GATES,
@@ -61,72 +62,6 @@ interface VisualEditorCanvasProps {
   initialContact?: any;
   initialServices: any[];
   settings: Record<string, string>;
-}
-
-interface ParsedServiceContent {
-  mainHeading: string;
-  introParagraph: string;
-  subHeading: string;
-  bullets: string[];
-  extraParagraphs: string[];
-}
-
-function parseServiceHtml(html: string): ParsedServiceContent {
-  if (!html) {
-    return {
-      mainHeading: "Thế mạnh và năng lực dịch vụ",
-      introParagraph: "Thông tin chi tiết về năng lực thực hiện dịch vụ.",
-      subHeading: "Năng lực chuyên tuyến:",
-      bullets: ["Điểm mạnh 1", "Điểm mạnh 2"],
-      extraParagraphs: [],
-    };
-  }
-
-  const h3Match = html.match(/<h3[^>]*>([\s\S]*?)<\/h3>/i);
-  const mainHeading = h3Match ? h3Match[1].trim() : "Thế mạnh chuyên tuyến";
-
-  const h4Match = html.match(/<h4[^>]*>([\s\S]*?)<\/h4>/i);
-  const subHeading = h4Match ? h4Match[1].trim() : "Năng lực dịch vụ:";
-
-  const pMatches = [...html.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)].map((m) => m[1].trim());
-  const introParagraph = pMatches.length > 0 ? pMatches[0] : "";
-  const extraParagraphs = pMatches.length > 1 ? pMatches.slice(1) : [];
-
-  const liMatches = [...html.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)].map((m) => m[1].trim());
-  const bullets =
-    liMatches.length > 0
-      ? liMatches
-      : ["Năng lực vận chuyển và thông quan nhanh chóng tại Cửa khẩu Móng Cái."];
-
-  return {
-    mainHeading,
-    introParagraph,
-    subHeading,
-    bullets,
-    extraParagraphs,
-  };
-}
-
-function serializeServiceHtml(parsed: ParsedServiceContent): string {
-  const bulletsHtml = parsed.bullets
-    .filter((b) => b.trim().length > 0)
-    .map((b) => `    <li>${b.trim()}</li>`)
-    .join("\n");
-
-  const extraHtml = (parsed.extraParagraphs || [])
-    .filter((p) => p.trim().length > 0)
-    .map((p) => `  <p>${p.trim()}</p>`)
-    .join("\n");
-
-  return `
-  <h3>${parsed.mainHeading}</h3>
-  <p>${parsed.introParagraph}</p>
-  <h4>${parsed.subHeading}</h4>
-  <ul>
-${bulletsHtml}
-  </ul>
-${extraHtml}
-  `.trim();
 }
 
 export function VisualEditorCanvas({
@@ -182,9 +117,6 @@ export function VisualEditorCanvas({
   const [saving, setSaving] = useState(false);
   const [notification, setNotification] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  // Service Content Mode: visual vs code
-  const [serviceContentMode, setServiceContentMode] = useState<"visual" | "code">("visual");
-
   // Active current service if page is a service slug
   const currentService = services.find((s) => s.slug === selectedPage);
 
@@ -196,43 +128,6 @@ export function VisualEditorCanvas({
       ? currentService.fullContentEn || ""
       : currentService.fullContent || ""
     : "";
-
-  const [parsedContent, setParsedContent] = useState<ParsedServiceContent>(() =>
-    parseServiceHtml(activeServiceContentRaw)
-  );
-
-  // Sync parsed content when service or locale changes
-  useEffect(() => {
-    if (currentService) {
-      const raw =
-        locale === "zh"
-          ? currentService.fullContentZh || ""
-          : locale === "en"
-          ? currentService.fullContentEn || ""
-          : currentService.fullContent || "";
-      setParsedContent(parseServiceHtml(raw));
-    }
-  }, [selectedPage, locale]);
-
-  // Update parsed service content and sync raw HTML
-  const updateParsedContent = (updater: (prev: ParsedServiceContent) => ParsedServiceContent) => {
-    setParsedContent((prev) => {
-      const next = updater(prev);
-      const newHtml = serializeServiceHtml(next);
-
-      setServices((prevServices) =>
-        prevServices.map((s) => {
-          if (s.slug === currentService?.slug) {
-            if (locale === "zh") return { ...s, fullContentZh: newHtml };
-            if (locale === "en") return { ...s, fullContentEn: newHtml };
-            return { ...s, fullContent: newHtml };
-          }
-          return s;
-        })
-      );
-      return next;
-    });
-  };
 
   // Helper to get active banner configuration for current page
   const getActiveBannerConfig = () => {
@@ -1625,73 +1520,34 @@ export function VisualEditorCanvas({
                 </h2>
                 <div className="h-0.5 w-16 bg-slate-900" />
 
-                <div className="space-y-3 pt-2">
-                  <span className="text-xs font-bold text-azure-700 bg-azure-50 px-2.5 py-1 rounded-md border border-azure-200 inline-block mb-1">
-                    Các đoạn văn giới thiệu (Nhấp trực tiếp để sửa)
-                  </span>
-                  {about.paragraphs.map((p: any, idx: number) => {
-                    const currentText =
-                      locale === "zh" ? p.zh || "" : locale === "en" ? p.en || "" : p.vi || "";
-
-                    return (
-                      <div key={idx} className="relative group/p flex items-start gap-2">
-                        <span className="w-5 h-5 rounded-full bg-azure-500/20 text-azure-600 flex items-center justify-center font-bold text-xs shrink-0 mt-1">
-                          {idx + 1}
-                        </span>
-                        <textarea
-                          rows={3}
-                          value={currentText}
-                          onChange={(e) => {
-                            const text = e.target.value;
-                            setAbout((prev: any) => {
-                              const nextP = [...prev.paragraphs];
-                              const cur = { ...nextP[idx] };
-                              if (locale === "zh") cur.zh = text;
-                              else if (locale === "en") cur.en = text;
-                              else cur.vi = text;
-                              nextP[idx] = cur;
-                              return { ...prev, paragraphs: nextP };
-                            });
-                          }}
-                          className="w-full bg-slate-50 hover:bg-white text-slate-700 hover:outline hover:outline-dashed hover:outline-azure-400 rounded p-2 text-sm leading-relaxed border border-slate-200"
-                          title="Nhấp để sửa đoạn văn này"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setAbout((prev: any) => ({
-                              ...prev,
-                              paragraphs: prev.paragraphs.filter((_: any, i: number) => i !== idx),
-                            }));
-                          }}
-                          className="opacity-0 group-hover/p:opacity-100 p-1 text-slate-400 hover:text-rose-500 transition-opacity"
-                          title="Xóa đoạn này"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    );
-                  })}
-                  <button
-                    type="button"
-                    onClick={() => {
+                {/* Soạn thảo trực quan nội dung bài giới thiệu */}
+                <div className="pt-2">
+                  <RichTextEditor
+                    label={`Nội Dung Giới Thiệu Doanh Nghiệp (${locale.toUpperCase()}) - Soạn Thảo Trực Quan:`}
+                    helperText="Hỗ trợ đầy đủ tiêu đề các cấp (H2, H3, H4), in đậm, in nghiêng, căn lề, danh sách bullet và chèn ảnh minh họa kèm chú thích."
+                    value={
+                      locale === "zh"
+                        ? about.contentHtmlZh ??
+                          ((about.paragraphs || []).map((p: any) => `<p>${typeof p === "string" ? p : p.zh || ""}</p>`).join("\n") || "")
+                        : locale === "en"
+                        ? about.contentHtmlEn ??
+                          ((about.paragraphs || []).map((p: any) => `<p>${typeof p === "string" ? p : p.en || ""}</p>`).join("\n") || "")
+                        : about.contentHtml ??
+                          ((about.paragraphs || []).map((p: any) => `<p>${typeof p === "string" ? p : p.vi || ""}</p>`).join("\n") || "")
+                    }
+                    onChange={(html) => {
                       setAbout((prev: any) => ({
                         ...prev,
-                        paragraphs: [
-                          ...prev.paragraphs,
-                          {
-                            vi: "Thêm đoạn văn bản mới giới thiệu về năng lực...",
-                            en: "New paragraph...",
-                            zh: "新增介绍段落...",
-                          },
-                        ],
+                        ...(locale === "zh"
+                          ? { contentHtmlZh: html }
+                          : locale === "en"
+                          ? { contentHtmlEn: html }
+                          : { contentHtml: html }),
                       }));
                     }}
-                    className="inline-flex items-center gap-1.5 text-xs text-azure-600 hover:text-azure-700 font-bold bg-azure-50 px-3 py-1.5 rounded-lg border border-azure-200 transition-colors"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Thêm đoạn văn mới</span>
-                  </button>
+                    minHeight="350px"
+                    placeholder="Soạn thảo lời giới thiệu, lịch sử phát triển, quy mô đội xe và năng lực của GT Logistics…"
+                  />
                 </div>
 
                 {/* Ảnh minh họa trụ sở */}
@@ -3252,184 +3108,32 @@ export function VisualEditorCanvas({
                       </div>
                     </div>
 
-                    {/* Bộ chuyển chế độ biên tập bài viết: Trực quan vs HTML */}
-                    <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-azure-700 bg-azure-50 px-2.5 py-1 rounded-md border border-azure-200">
-                          Nội dung bài viết ({locale.toUpperCase()})
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs">
-                        <button
-                          type="button"
-                          onClick={() => setServiceContentMode("visual")}
-                          className={`flex items-center gap-1.5 px-3 py-1 rounded-lg font-bold transition-colors ${
-                            serviceContentMode === "visual"
-                              ? "bg-white text-slate-900 shadow-xs"
-                              : "text-slate-500 hover:text-slate-900"
-                          }`}
-                        >
-                          <Layout className="w-3.5 h-3.5 text-azure-600" />
-                          <span>Chế độ trực quan</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setServiceContentMode("code")}
-                          className={`flex items-center gap-1.5 px-3 py-1 rounded-lg font-bold transition-colors ${
-                            serviceContentMode === "code"
-                              ? "bg-white text-slate-900 shadow-xs"
-                              : "text-slate-500 hover:text-slate-900"
-                          }`}
-                        >
-                          <Code className="w-3.5 h-3.5 text-azure-600" />
-                          <span>Mã HTML</span>
-                        </button>
-                      </div>
+                    {/* Bộ soạn thảo trực quan nội dung chi tiết dịch vụ */}
+                    <div className="pt-2">
+                      <RichTextEditor
+                        label={`Nội Dung Bài Viết Dịch Vụ (${locale.toUpperCase()}) - Soạn Thảo Trực Quan Trực Tiếp:`}
+                        helperText="Hỗ trợ đầy đủ tiêu đề các cấp (H2, H3, H4), in đậm, in nghiêng, căn lề, danh sách bullet và chèn ảnh minh họa kèm chú thích."
+                        value={activeServiceContentRaw}
+                        onChange={(html) => {
+                          setServices((prev) =>
+                            prev.map((s) =>
+                              s.slug === currentService.slug
+                                ? {
+                                    ...s,
+                                    ...(locale === "zh"
+                                      ? { fullContentZh: html }
+                                      : locale === "en"
+                                      ? { fullContentEn: html }
+                                      : { fullContent: html }),
+                                  }
+                                : s
+                            )
+                          );
+                        }}
+                        minHeight="420px"
+                        placeholder="Nhập nội dung quy trình, bảng năng lực phương tiện và cam kết tiến độ dịch vụ tại đây…"
+                      />
                     </div>
-
-                    {/* 1. CHẾ ĐỘ TRỰC QUAN (WYSIWYG ĐÚNG TYPOGRAPHY NGUYÊN BẢN CỦA WEB) */}
-                    {serviceContentMode === "visual" ? (
-                      <div className="rich-content space-y-6 pt-2">
-                        {/* Tiêu đề mục chính (h3) */}
-                        <div className="space-y-1">
-                          <span className="text-xs font-bold text-azure-700 block">
-                            Tiêu đề chính bài viết (h3)
-                          </span>
-                          <input
-                            type="text"
-                            value={parsedContent.mainHeading}
-                            onChange={(e) => {
-                              const val = e.target.value;
-                              updateParsedContent((prev) => ({ ...prev, mainHeading: val }));
-                            }}
-                            className="w-full text-xl sm:text-2xl font-black text-slate-950 bg-slate-50 hover:bg-white border border-slate-200 hover:border-azure-400 rounded-xl p-2.5"
-                            title="Sửa tiêu đề chính bài viết"
-                          />
-                        </div>
-
-                        {/* Đoạn văn giới thiệu (p) */}
-                        <div className="space-y-1">
-                          <span className="text-xs font-bold text-azure-700 block">
-                            Đoạn văn mở đầu (p)
-                          </span>
-                          <textarea
-                            rows={3}
-                            value={parsedContent.introParagraph}
-                            onChange={(e) => {
-                              const val = e.target.value;
-                              updateParsedContent((prev) => ({ ...prev, introParagraph: val }));
-                            }}
-                            className="w-full text-sm leading-relaxed text-slate-700 bg-slate-50 hover:bg-white border border-slate-200 hover:border-azure-400 rounded-xl p-3 resize-none"
-                            title="Sửa đoạn văn mở đầu"
-                          />
-                        </div>
-
-                        {/* Tiêu đề phân mục năng lực (h4) */}
-                        <div className="space-y-1">
-                          <span className="text-xs font-bold text-azure-700 block">
-                            Tiêu đề danh sách năng lực (h4)
-                          </span>
-                          <input
-                            type="text"
-                            value={parsedContent.subHeading}
-                            onChange={(e) => {
-                              const val = e.target.value;
-                              updateParsedContent((prev) => ({ ...prev, subHeading: val }));
-                            }}
-                            className="w-full text-base sm:text-lg font-bold text-slate-900 bg-slate-50 hover:bg-white border border-slate-200 hover:border-azure-400 rounded-xl p-2.5"
-                            title="Sửa tiêu đề danh sách"
-                          />
-                        </div>
-
-                        {/* Danh sách các điểm mạnh gạch đầu dòng (ul > li) */}
-                        <div className="space-y-3">
-                          <span className="text-xs font-bold text-azure-700 block">
-                            Các điểm mạnh năng lực (Gạch đầu dòng):
-                          </span>
-                          <ul className="space-y-2.5 pl-0">
-                            {parsedContent.bullets.map((b, idx) => (
-                              <li key={idx} className="flex items-start gap-2 group/bullet">
-                                <span className="w-2 h-2 rounded-full bg-azure-600 shrink-0 mt-3" />
-                                <div className="flex-1 flex items-start gap-2">
-                                  <textarea
-                                    rows={2}
-                                    value={b}
-                                    onChange={(e) => {
-                                      const text = e.target.value;
-                                      updateParsedContent((prev) => {
-                                        const nextB = [...prev.bullets];
-                                        nextB[idx] = text;
-                                        return { ...prev, bullets: nextB };
-                                      });
-                                    }}
-                                    className="w-full bg-slate-50 hover:bg-white text-slate-700 border border-slate-200 hover:border-azure-400 rounded-xl p-2.5 text-xs sm:text-sm leading-relaxed resize-none"
-                                    title="Sửa gạch đầu dòng này"
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      updateParsedContent((prev) => ({
-                                        ...prev,
-                                        bullets: prev.bullets.filter((_, i) => i !== idx),
-                                      }));
-                                    }}
-                                    className="opacity-0 group-hover/bullet:opacity-100 p-1.5 text-slate-400 hover:text-rose-500 transition-opacity"
-                                    title="Xóa gạch đầu dòng này"
-                                  >
-                                    <Trash2 className="w-4 h-4" />
-                                  </button>
-                                </div>
-                              </li>
-                            ))}
-                          </ul>
-
-                          <button
-                            type="button"
-                            onClick={() => {
-                              updateParsedContent((prev) => ({
-                                ...prev,
-                                bullets: [
-                                  ...prev.bullets,
-                                  "Thêm điểm mạnh năng lực mới cho dịch vụ...",
-                                ],
-                              }));
-                            }}
-                            className="inline-flex items-center gap-1.5 text-xs text-azure-600 hover:text-azure-700 font-bold bg-azure-50 px-3 py-1.5 rounded-lg border border-azure-200 transition-colors whitespace-nowrap"
-                          >
-                            <Plus className="w-3.5 h-3.5" />
-                            <span>Thêm gạch đầu dòng năng lực</span>
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      /* 2. CHẾ ĐỘ MÃ HTML CHO NGƯỜI DÙNG NÂNG CAO */
-                      <div className="space-y-2">
-                        <textarea
-                          rows={14}
-                          value={activeServiceContentRaw}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setServices((prev) =>
-                              prev.map((s) =>
-                                s.slug === currentService.slug
-                                  ? {
-                                      ...s,
-                                      ...(locale === "zh"
-                                        ? { fullContentZh: val }
-                                        : locale === "en"
-                                        ? { fullContentEn: val }
-                                        : { fullContent: val }),
-                                    }
-                                  : s
-                              )
-                            );
-                            setParsedContent(parseServiceHtml(val));
-                          }}
-                          className="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 font-mono text-xs text-slate-200 leading-relaxed focus:border-azure-500 focus:outline-none"
-                        />
-                      </div>
-                    )}
                   </div>
 
                   {/* Cột phải: Sidebar dịch vụ y như thật */}

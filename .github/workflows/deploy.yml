@@ -55,9 +55,10 @@ jobs:
             echo "⚙️ Đang build Next.js..."
             npm run build
 
-            # 7. Khởi động lại dịch vụ qua PM2
-            echo "🔄 Khởi động lại ứng dụng qua PM2..."
-            pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
+            # 7. Khởi động lại dịch vụ qua PM2 (hỗ trợ chuyển đổi mượt mà sang Cluster Mode)
+            echo "🔄 Khởi động lại ứng dụng qua PM2 Cluster Mode..."
+            pm2 delete gt-logistics 2>/dev/null || true
+            pm2 start ecosystem.config.js
             pm2 save
 
             echo "==========================================="

@@ -57,6 +57,15 @@ export async function middleware(request: NextRequest) {
     "Permissions-Policy",
     "camera=(), microphone=(), geolocation=()"
   );
+  response.headers.set(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'self';"
+  );
+
+  const proto = request.headers.get("x-forwarded-proto");
+  if (proto === "https") {
+    response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  }
 
   return response;
 }

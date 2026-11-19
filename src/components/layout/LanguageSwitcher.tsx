@@ -29,7 +29,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
             type="button"
             onClick={() => setLocale(lang.code)}
             title={lang.title}
-            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
+            className={`min-h-[38px] px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
               isActive
                 ? "bg-gold-500 text-slate-950 font-bold shadow-sm"
                 : "text-slate-600 hover:text-slate-900 hover:bg-white"

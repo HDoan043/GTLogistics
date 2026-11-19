@@ -12,6 +12,7 @@ export async function submitLead(rawInput: unknown, clientIp: string = "anon") {
   if (!limiter.success) {
     return {
       success: false,
+      rateLimited: true,
       message: "Bạn đã gửi quá nhiều yêu cầu liên tiếp. Vui lòng chờ ít phút hoặc gọi hotline trực tiếp.",
     };
   }

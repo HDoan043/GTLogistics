@@ -3,12 +3,29 @@ import { submitLead } from "@/modules/leads/actions";
 
 export async function POST(req: NextRequest) {
   try {
-    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "anon";
+    const realIp = req.headers.get("x-real-ip");
+    const forwardedFor = req.headers.get("x-forwarded-for");
+    const ip =
+      realIp?.trim() ||
+      forwardedFor?.split(",")[0]?.trim() ||
+      "anon";
+
     const body = await req.json();
 
     const result = await submitLead(body, ip);
 
     if (!result.success) {
+      if ((result as any).rateLimited) {
+        return NextResponse.json(
+          { error: result.message },
+          {
+            status: 429,
+            headers: {
+              "Retry-After": "60",
+            },
+          }
+        );
+      }
       return NextResponse.json({ error: result.message }, { status: 400 });
     }
 

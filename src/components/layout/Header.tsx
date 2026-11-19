@@ -239,11 +239,11 @@ export function Header({
           </div>
 
           {/* Mobile Menu Button & Language Switcher */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-3 lg:hidden">
             <LanguageSwitcher />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+              className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6 text-slate-700" />}

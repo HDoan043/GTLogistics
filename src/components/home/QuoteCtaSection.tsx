@@ -159,10 +159,12 @@ export function QuoteCtaSection({
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label htmlFor="quote-fullname" className="block text-xs font-semibold text-slate-700 mb-1">
                       {t.quoteForm.fullName} *
                     </label>
                     <input
+                      id="quote-fullname"
+                      name="fullName"
                       type="text"
                       required
                       value={formData.fullName}
@@ -174,10 +176,12 @@ export function QuoteCtaSection({
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label htmlFor="quote-phone" className="block text-xs font-semibold text-slate-700 mb-1">
                       {t.quoteForm.phone} *
                     </label>
                     <input
+                      id="quote-phone"
+                      name="phone"
                       type="tel"
                       required
                       value={formData.phone}
@@ -192,10 +196,12 @@ export function QuoteCtaSection({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label htmlFor="quote-servicetype" className="block text-xs font-semibold text-slate-700 mb-1">
                       {t.quoteForm.serviceType} *
                     </label>
                     <select
+                      id="quote-servicetype"
+                      name="serviceType"
                       value={formData.serviceType}
                       onChange={(e) =>
                         setFormData({ ...formData, serviceType: e.target.value })
@@ -220,10 +226,12 @@ export function QuoteCtaSection({
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label htmlFor="quote-company" className="block text-xs font-semibold text-slate-700 mb-1">
                       {t.quoteForm.company}
                     </label>
                     <input
+                      id="quote-company"
+                      name="company"
                       type="text"
                       value={formData.company}
                       onChange={(e) =>
@@ -237,10 +245,12 @@ export function QuoteCtaSection({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label htmlFor="quote-route-origin" className="block text-xs font-semibold text-slate-700 mb-1">
                       {t.quoteForm.routeOrigin}
                     </label>
                     <input
+                      id="quote-route-origin"
+                      name="routeOrigin"
                       type="text"
                       value={formData.routeOrigin}
                       onChange={(e) =>
@@ -251,10 +261,12 @@ export function QuoteCtaSection({
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label htmlFor="quote-route-destination" className="block text-xs font-semibold text-slate-700 mb-1">
                       {t.quoteForm.routeDestination}
                     </label>
                     <input
+                      id="quote-route-destination"
+                      name="routeDestination"
                       type="text"
                       value={formData.routeDestination}
                       onChange={(e) =>
@@ -270,10 +282,12 @@ export function QuoteCtaSection({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="quote-cargo-details" className="block text-xs font-semibold text-slate-700 mb-1">
                     {t.quoteForm.cargoDetails}
                   </label>
                   <textarea
+                    id="quote-cargo-details"
+                    name="cargoDetails"
                     rows={2}
                     value={formData.cargoDetails}
                     onChange={(e) =>
@@ -285,10 +299,12 @@ export function QuoteCtaSection({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="quote-message" className="block text-xs font-semibold text-slate-700 mb-1">
                     {t.quoteForm.message}
                   </label>
                   <input
+                    id="quote-message"
+                    name="message"
                     type="text"
                     value={formData.message}
                     onChange={(e) =>

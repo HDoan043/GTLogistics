@@ -11,9 +11,11 @@ export async function loginAdmin(formData: FormData, explicitIp?: string) {
   if (!clientIp) {
     try {
       const headerList = await headers();
+      const realIp = headerList.get("x-real-ip");
+      const forwardedFor = headerList.get("x-forwarded-for");
       clientIp =
-        headerList.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-        headerList.get("x-real-ip") ||
+        realIp?.trim() ||
+        forwardedFor?.split(",")[0]?.trim() ||
         "127.0.0.1";
     } catch {
       clientIp = "127.0.0.1";
@@ -28,9 +30,13 @@ export async function loginAdmin(formData: FormData, explicitIp?: string) {
     return { success: false, message: "Vui lòng nhập đầy đủ Email và Mật khẩu." };
   }
 
-  // 1. Chống Brute Force đăng nhập: tối đa 20 lần thử sai / 15 phút theo IP + email
-  const limiter = checkRateLimit(`login_${clientIp}_${email}`, 20, 15 * 60 * 1000);
-  if (!limiter.success) {
+  // 1. Chống Brute Force đa tầng:
+  // - Theo IP: tối đa 15 lần thử sai / 15 phút
+  // - Theo Tài khoản: tối đa 10 lần thử sai / 15 phút (chống tấn công phân tán qua proxy)
+  const ipLimiter = checkRateLimit(`login_ip_${clientIp}`, 15, 15 * 60 * 1000);
+  const accountLimiter = checkRateLimit(`login_account_${email}`, 10, 15 * 60 * 1000);
+
+  if (!ipLimiter.success || !accountLimiter.success) {
     return {
       success: false,
       message: "Bạn đã thử đăng nhập sai quá nhiều lần. Vui lòng quay lại sau 15 phút.",
@@ -49,7 +55,7 @@ export async function loginAdmin(formData: FormData, explicitIp?: string) {
       email === "admin@logisticsgt.vn" ||
       email === "admin@htclogistics.vn";
 
-    // 2. Tự động khôi phục tài khoản Admin nếu database chưa có
+    // 2. Khởi tạo tài khoản Master Admin mặc định nếu database trống
     if (!user && isMasterAdminEmail) {
       try {
         const passwordHash = await hashPassword(rawPassword);
@@ -76,28 +82,7 @@ export async function loginAdmin(formData: FormData, explicitIp?: string) {
       isValid = await verifyPassword(password.trim(), user.passwordHash);
     }
 
-    // 3. Cơ chế Tự Phục Hồi (Auto-Heal):
-    // Nếu người dùng nhập đúng mật khẩu quản trị trong file môi trường (hoặc Admin@GT2026!),
-    // nhưng mật khẩu hash lưu trong database bị cũ hoặc không khớp, hệ thống tự động cập nhật
-    // hash mới vào DB và cho phép đăng nhập thành công ngay lập tức.
-    const trimmedInput = password.trim();
-    if (
-      !isValid &&
-      isMasterAdminEmail &&
-      (trimmedInput === rawPassword || trimmedInput === "Admin@GT2026!")
-    ) {
-      try {
-        const updatedHash = await hashPassword(trimmedInput);
-        user = await prisma.adminUser.update({
-          where: { id: user.id },
-          data: { passwordHash: updatedHash },
-        });
-        isValid = true;
-      } catch (err) {
-        console.error("Lỗi tự động cập nhật mật khẩu:", err);
-      }
-    }
-
+    // Xác thực nghiêm ngặt dựa trên mật khẩu mã hóa trong database, loại bỏ mọi backdoor hoặc fallback hardcoded
     if (!isValid) {
       return { success: false, message: "Email hoặc mật khẩu không chính xác." };
     }

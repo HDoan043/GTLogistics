@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getCurrentAdmin } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { sanitizeExcelField } from "@/lib/excel";
 import * as XLSX from "xlsx";
 
 function getStatusLabel(status: string) {
@@ -83,18 +84,18 @@ export async function POST(request: NextRequest) {
 
       return {
         "STT": idx + 1,
-        "Mã Yêu Cầu": lead.id,
+        "Mã Yêu Cầu": sanitizeExcelField(lead.id),
         "Thời Gian Gửi": formattedDate,
-        "Họ Và Tên": lead.fullName,
-        "Số Điện Thoại": lead.phone,
-        "Email": lead.email || "-",
-        "Công Ty / Doanh Nghiệp": lead.company || "-",
-        "Dịch Vụ Quan Tâm": lead.serviceType,
-        "Tuyến Xuất Phát (Đi)": lead.routeOrigin || "-",
-        "Tuyến Đến (Đích)": lead.routeDestination || "-",
-        "Chi Tiết Lô Hàng / Yêu Cầu": lead.cargoDetails || lead.message || "-",
+        "Họ Và Tên": sanitizeExcelField(lead.fullName),
+        "Số Điện Thoại": sanitizeExcelField(lead.phone),
+        "Email": sanitizeExcelField(lead.email),
+        "Công Ty / Doanh Nghiệp": sanitizeExcelField(lead.company),
+        "Dịch Vụ Quan Tâm": sanitizeExcelField(lead.serviceType),
+        "Tuyến Xuất Phát (Đi)": sanitizeExcelField(lead.routeOrigin),
+        "Tuyến Đến (Đích)": sanitizeExcelField(lead.routeDestination),
+        "Chi Tiết Lô Hàng / Yêu Cầu": sanitizeExcelField(lead.cargoDetails || lead.message),
         "Trạng Thái Xử Lý": getStatusLabel(lead.status),
-        "Ghi Chú Nội Bộ": lead.notes || "",
+        "Ghi Chú Nội Bộ": sanitizeExcelField(lead.notes || ""),
       };
     });
 

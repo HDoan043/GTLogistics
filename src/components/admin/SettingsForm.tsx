@@ -53,7 +53,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
           Thông Tin Doanh Nghiệp
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">
               Tên Doanh Nghiệp *
@@ -72,7 +72,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
 
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">
-              Mã Số Thuế
+              Mã Số Thuế *
             </label>
             <div className="relative">
               <FileText className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
@@ -80,7 +80,24 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                 type="text"
                 name="taxCode"
                 defaultValue={initialSettings.taxCode}
-                className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white font-mono"
+                required
+                className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white font-mono font-bold"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">
+              Đại Diện Pháp Luật *
+            </label>
+            <div className="relative">
+              <FileText className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+              <input
+                type="text"
+                name="legalRep"
+                defaultValue={initialSettings.legalRep || "Lê Thanh Tâm"}
+                required
+                className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white font-semibold"
               />
             </div>
           </div>
@@ -157,52 +174,86 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
 
       <div className="space-y-4 pt-4 border-t border-slate-200">
         <h3 className="font-bold text-sm text-slate-950 border-b border-slate-200 pb-2">
-          Địa Chỉ Văn Phòng & Chi Nhánh
+          Hệ Thống Trụ Sở & Điểm Trực Cửa Khẩu (Đồng Bộ Chân Trang & Liên Hệ)
         </h3>
 
         <div>
           <label className="block text-xs font-bold text-slate-700 mb-1">
-            Địa Chỉ Trụ Sở Chính (Hải Phòng) *
+            Địa Chỉ Trụ Sở Chính (Móng Cái - Bắc Luân 2) *
           </label>
           <div className="relative">
-            <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+            <MapPin className="w-4 h-4 text-azure-600 absolute left-3 top-2.5" />
             <input
               type="text"
               name="headquarters"
               defaultValue={initialSettings.headquarters}
               required
-              className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white"
+              className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white font-medium"
             />
           </div>
         </div>
 
-        <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">
-            Địa Chỉ Chi Nhánh (Móng Cái / Quảng Ninh) *
-          </label>
-          <div className="relative">
-            <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-            <input
-              type="text"
-              name="branchQuangNinh"
-              defaultValue={initialSettings.branchQuangNinh}
-              className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white"
-            />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">
+              Điểm Trực Lạng Sơn (Hữu Nghị / Tân Thanh / Chi Ma)
+            </label>
+            <div className="relative">
+              <MapPin className="w-4 h-4 text-gold-500 absolute left-3 top-2.5" />
+              <input
+                type="text"
+                name="branchLangSon"
+                defaultValue={initialSettings.branchLangSon || initialSettings.borderHuuNghiTanThanh || "CK Hữu Nghị, CK Tân Thanh & CK Chi Ma"}
+                className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">
+              Văn Phòng Cảng Hải Phòng (Đình Vũ)
+            </label>
+            <div className="relative">
+              <MapPin className="w-4 h-4 text-azure-500 absolute left-3 top-2.5" />
+              <input
+                type="text"
+                name="branchHaiPhong"
+                defaultValue={initialSettings.branchHaiPhong || "Cụm Cảng Đình Vũ, Q. Hải An, TP. Hải Phòng"}
+                className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white"
+              />
+            </div>
           </div>
         </div>
 
-        <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">
-            Thời Gian Làm Việc
-          </label>
-          <div className="relative">
-            <Clock className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-            <input
-              type="text"
-              name="workingHours"
-              defaultValue={initialSettings.workingHours}
-              className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white"
-            />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">
+              Đầu Mối Biển Đảo Cô Tô (Vân Đồn / Cẩm Phả)
+            </label>
+            <div className="relative">
+              <MapPin className="w-4 h-4 text-emerald-500 absolute left-3 top-2.5" />
+              <input
+                type="text"
+                name="branchCoTo"
+                defaultValue={initialSettings.branchCoTo || initialSettings.portCoTo || "Bến Vân Đồn / Cẩm Phả & Quần đảo Cô Tô"}
+                className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">
+              Thời Gian Làm Việc & Trực Hiện Trường
+            </label>
+            <div className="relative">
+              <Clock className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+              <input
+                type="text"
+                name="workingHours"
+                defaultValue={initialSettings.workingHours || "Trực hiện trường kiểm hóa & thông quan: 24/7 cả Thứ Bảy, Chủ Nhật"}
+                className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-azure-500 focus:bg-white"
+              />
+            </div>
           </div>
         </div>
       </div>

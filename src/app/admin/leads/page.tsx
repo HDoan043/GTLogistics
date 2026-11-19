@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/Badge";
 import { updateLeadStatus } from "@/modules/leads/actions";
 import { ExportLeadsButton } from "@/components/admin/leads/ExportLeadsButton";
 import { CleanupLeadsModal } from "@/components/admin/leads/CleanupLeadsModal";
+import { RefreshLeadsButton } from "@/components/admin/leads/RefreshLeadsButton";
 
 function formatDateTag(d?: Date | null): string {
   if (!d) return "";
@@ -103,8 +104,9 @@ export default async function AdminLeadsPage({
           </p>
         </div>
 
-        {/* Nút Xuất Excel & Dọn Dẹp Định Kỳ */}
+        {/* Nút Làm Mới, Xuất Excel & Dọn Dẹp Định Kỳ */}
         <div className="flex items-center gap-2.5 flex-wrap">
+          <RefreshLeadsButton />
           <ExportLeadsButton currentStatus={currentStatus} totalCount={leads.length} />
           <CleanupLeadsModal
             totalLeads={totalAll}

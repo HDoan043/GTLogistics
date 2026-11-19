@@ -72,8 +72,13 @@ export function HeroSection({ hotline = "0904.382.268", heroData }: HeroSectionP
       ? heroData.btnQuoteEn
       : heroData?.btnQuote || "Nhận Báo Giá Trong 15 Phút";
 
-  const btnHotlineText =
-    heroData?.btnHotline || `Hotline Tư Vấn 24/7: ${hotline}`;
+  const btnHotlinePrefix =
+    locale === "zh"
+      ? "24/7 咨询专线: "
+      : locale === "en"
+      ? "24/7 Hotline: "
+      : "Hotline Tư Vấn 24/7: ";
+  const btnHotlineText = `${btnHotlinePrefix}${hotline}`;
 
   const bgImage = heroData?.bgImage || "/images/vietphuc/hero_fleet_6k3a8950.webp";
   const bgScale = heroData?.bgScale || 100;

@@ -49,14 +49,10 @@ export function Header({
   const pathname = usePathname();
   const { t, locale } = useLanguage();
 
-  // Không hiển thị Header công khai bên trong khu vực quản trị (/admin/*)
-  if (pathname?.startsWith("/admin")) {
-    return null;
-  }
-
   const cleanPhone = hotline.replace(/[^0-9]/g, "");
 
   // Smart Scroll: Cuộn xuống ẩn đi, cuộn lên hiện ra, ở đỉnh trang luôn hiện
+  // Tuân thủ Rules of Hooks: useEffect bắt buộc phải gọi trước bất kỳ return điều kiện nào
   useEffect(() => {
     let prevScrollY = window.scrollY;
     let ticking = false;
@@ -93,6 +89,12 @@ export function Header({
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Không hiển thị Header công khai bên trong khu vực quản trị (/admin/*)
+  // Đặt sau tất cả hooks để tránh lỗi React Error #310 khi chuyển trang từ /admin/login về /
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   const getNavLabel = (href: string, fallback: string) => {
     switch (href) {

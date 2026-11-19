@@ -73,8 +73,12 @@ export default async function RootLayout({
             zaloPhone={settings.zaloPhone}
             email={settings.email}
             headquarters={settings.headquarters}
+            branchLangSon={settings.branchLangSon || settings.borderHuuNghiTanThanh}
             branchHaiPhong={settings.branchHaiPhong}
+            branchCoTo={settings.branchCoTo || settings.portCoTo}
             taxCode={settings.taxCode}
+            legalRep={settings.legalRep}
+            workingHours={settings.workingHours}
           />
           <FloatingContact
             hotline={settings.hotline}

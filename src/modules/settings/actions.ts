@@ -40,11 +40,40 @@ export async function updateSiteSettings(
           update: { value },
           create: { key, value },
         });
+
+        // Tương thích ngược với các key cũ
+        if (key === "branchLangSon") {
+          await prisma.siteSetting.upsert({
+            where: { key: "borderHuuNghiTanThanh" },
+            update: { value },
+            create: { key: "borderHuuNghiTanThanh", value },
+          });
+        }
+        if (key === "branchCoTo") {
+          await prisma.siteSetting.upsert({
+            where: { key: "portCoTo" },
+            update: { value },
+            create: { key: "portCoTo", value },
+          });
+        }
+        if (key === "hotline") {
+          await prisma.siteSetting.upsert({
+            where: { key: "hotlineDisplay" },
+            update: { value },
+            create: { key: "hotlineDisplay", value },
+          });
+        }
       }
     }
 
     revalidateTag("settings");
+    revalidateTag("content");
     revalidatePath("/", "layout");
+    revalidatePath("/about");
+    revalidatePath("/services");
+    revalidatePath("/contact");
+    revalidatePath("/news");
+    revalidatePath("/quote");
     return { success: true, message: "Cập nhật cấu hình website thành công!" };
   } catch (err) {
     console.error("Lỗi khi lưu cấu hình:", err);

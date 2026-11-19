@@ -23,8 +23,12 @@ interface FooterProps {
   zaloPhone?: string;
   email?: string;
   headquarters?: string;
+  branchLangSon?: string;
   branchHaiPhong?: string;
+  branchCoTo?: string;
   taxCode?: string;
+  legalRep?: string;
+  workingHours?: string;
 }
 
 export function Footer({
@@ -33,7 +37,12 @@ export function Footer({
   zaloPhone = "0904382268",
   email = "contact@logisticsgt.vn",
   headquarters = "Căn ĐLTC-41, KĐT Vinhomes Golden Avenue, Cửa khẩu Bắc Luân 2, Phường Hải Hòa, TP. Móng Cái, Tỉnh Quảng Ninh",
+  branchLangSon = "CK Hữu Nghị, CK Tân Thanh & CK Chi Ma",
+  branchHaiPhong = "Cụm Cảng Đình Vũ, Q. Hải An, TP. Hải Phòng",
+  branchCoTo = "Bến Vân Đồn / Cẩm Phả & Quần đảo Cô Tô",
   taxCode = "5701750095",
+  legalRep = "Lê Thanh Tâm",
+  workingHours = "Trực hiện trường kiểm hóa & thông quan: 24/7 cả Thứ Bảy, Chủ Nhật",
 }: FooterProps) {
   const pathname = usePathname();
   const { t, locale } = useLanguage();
@@ -71,7 +80,7 @@ export function Footer({
                 <span className="text-gold-400 font-mono font-bold">{taxCode}</span>
               </div>
               <div>
-                <span className="font-semibold text-slate-200">Đại diện pháp luật:</span> Lê Thanh Tâm
+                <span className="font-semibold text-slate-200">Đại diện pháp luật:</span> {legalRep}
               </div>
               <div>
                 <span className="font-semibold text-slate-200">Hotline 24/7:</span>{" "}
@@ -174,7 +183,7 @@ export function Footer({
                 <Truck className="w-4 h-4 text-gold-400 mt-0.5 shrink-0" />
                 <div>
                   <strong className="text-slate-200 block">Điểm Trực Lạng Sơn:</strong>
-                  <span>CK Hữu Nghị, CK Tân Thanh & CK Chi Ma</span>
+                  <span>{branchLangSon}</span>
                 </div>
               </div>
 
@@ -182,7 +191,7 @@ export function Footer({
                 <Building className="w-4 h-4 text-azure-400 mt-0.5 shrink-0" />
                 <div>
                   <strong className="text-slate-200 block">Văn Phòng Cảng Hải Phòng:</strong>
-                  <span>Cụm Cảng Đình Vũ, Q. Hải An, TP. Hải Phòng</span>
+                  <span>{branchHaiPhong}</span>
                 </div>
               </div>
 
@@ -190,7 +199,7 @@ export function Footer({
                 <Ship className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
                 <div>
                   <strong className="text-slate-200 block">Đầu Mối Tàu Đảo Cô Tô:</strong>
-                  <span>Bến Vân Đồn / Cẩm Phả & Quần đảo Cô Tô</span>
+                  <span>{branchCoTo}</span>
                 </div>
               </div>
             </div>
@@ -204,7 +213,7 @@ export function Footer({
           </div>
           <div className="flex items-center gap-2 text-slate-400">
             <Clock className="w-3.5 h-3.5 text-gold-400" />
-            <span>Trực hiện trường kiểm hóa & thông quan: 24/7 cả Thứ Bảy, Chủ Nhật</span>
+            <span>{workingHours}</span>
           </div>
         </div>
       </div>

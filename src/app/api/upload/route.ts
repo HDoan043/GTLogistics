@@ -103,9 +103,37 @@ export async function POST(req: NextRequest) {
     const ext = path.extname(file.name).toLowerCase();
     if (!validExtensions.includes(ext)) {
       return NextResponse.json(
-        { error: "Định dạng file không hỗ trợ. Vui lòng chọn ảnh PNG, JPG, JPEG hoặc WEBP." },
+        { error: "Định dạng file không hỗ trợ. Vui lòng chọn ảnh PNG, JPG, JPEG, WEBP hoặc SVG." },
         { status: 400 }
       );
+    }
+
+    // 2.1 Kiểm tra an toàn chống Stored XSS đối với file SVG
+    if (ext === ".svg") {
+      const svgText = await file.text();
+      const dangerousPatterns = [
+        /<script\b/i,
+        /onload\s*=/i,
+        /onerror\s*=/i,
+        /onclick\s*=/i,
+        /onmouseover\s*=/i,
+        /onfocus\s*=/i,
+        /javascript\s*:/i,
+        /<foreignObject\b/i,
+        /<iframe\b/i,
+        /<object\b/i,
+        /<embed\b/i,
+      ];
+      const isDangerous = dangerousPatterns.some((pattern) => pattern.test(svgText));
+      if (isDangerous) {
+        return NextResponse.json(
+          {
+            error:
+              "Tệp SVG chứa mã script hoặc thuộc tính không an toàn (XSS Protection). Vui lòng sử dụng tệp SVG đồ họa thuần túy hoặc chuyển đổi sang PNG/WebP.",
+          },
+          { status: 400 }
+        );
+      }
     }
 
     // Giới hạn từng file ảnh tối đa 15MB

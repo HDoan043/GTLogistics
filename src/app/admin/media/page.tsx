@@ -8,7 +8,7 @@ import { getStorageStats } from "@/lib/storage";
 import { MediaStorageManager, MediaItem, PostItem } from "@/components/admin/media/MediaStorageManager";
 
 export const metadata = {
-  title: "Kho Lưu Trữ & Quản Lý Media - HTC Logistics Admin",
+  title: "Kho Lưu Trữ & Quản Lý Media - GT Logistics Admin",
   description: "Quản lý hình ảnh tải lên, dọn dẹp dung lượng máy chủ và lưu trữ bài viết",
 };
 

@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "path";
 
-// Hạn mức dung lượng tối đa dành cho ảnh và file tải lên trên máy chủ: 500 MB
-export const MAX_STORAGE_BYTES = 500 * 1024 * 1024; // 500 MB
-// Ngưỡng cảnh báo màu vàng: 80% (400 MB)
+// Hạn mức dung lượng tối đa dành cho ảnh và file tải lên trên máy chủ: 5 GB (5.120 MB)
+export const MAX_STORAGE_BYTES = 5 * 1024 * 1024 * 1024; // 5 GB
+// Ngưỡng cảnh báo màu vàng: 80% (4 GB)
 export const WARN_THRESHOLD_PERCENT = 80;
-// Ngưỡng nghiêm trọng màu đỏ: 95% (475 MB)
+// Ngưỡng nghiêm trọng màu đỏ: 95% (4.75 GB)
 export const CRITICAL_THRESHOLD_PERCENT = 95;
 
 export interface StorageStats {

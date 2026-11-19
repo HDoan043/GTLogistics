@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/db";
 import { hashPassword, verifyPassword, createSession, deleteSession, getCurrentAdmin } from "@/lib/auth";
-import { checkRateLimit } from "@/lib/rate-limit";
+import { checkClusterRateLimit } from "@/lib/rate-limit";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 
@@ -30,11 +30,13 @@ export async function loginAdmin(formData: FormData, explicitIp?: string) {
     return { success: false, message: "Vui lòng nhập đầy đủ Email và Mật khẩu." };
   }
 
-  // 1. Chống Brute Force đa tầng:
+  // 1. Chống Brute Force đa tầng hợp nhất toàn bộ PM2 Cluster:
   // - Theo IP: tối đa 15 lần thử sai / 15 phút
   // - Theo Tài khoản: tối đa 10 lần thử sai / 15 phút (chống tấn công phân tán qua proxy)
-  const ipLimiter = checkRateLimit(`login_ip_${clientIp}`, 15, 15 * 60 * 1000);
-  const accountLimiter = checkRateLimit(`login_account_${email}`, 10, 15 * 60 * 1000);
+  const [ipLimiter, accountLimiter] = await Promise.all([
+    checkClusterRateLimit(`login_ip_${clientIp}`, 15, 15 * 60 * 1000),
+    checkClusterRateLimit(`login_account_${email}`, 10, 15 * 60 * 1000),
+  ]);
 
   if (!ipLimiter.success || !accountLimiter.success) {
     return {

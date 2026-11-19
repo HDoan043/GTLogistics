@@ -9,6 +9,8 @@ import { PageBanner } from "@/components/layout/PageBanner";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getLocalizedService } from "@/lib/i18n";
 
+export const revalidate = 300;
+
 export async function generateMetadata({
   params,
 }: {

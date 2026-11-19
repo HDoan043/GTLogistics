@@ -8,6 +8,8 @@ import { getServerDictionary } from "@/lib/i18n/server";
 import { getPageSectionContent } from "@/modules/content/actions";
 import { DEFAULT_ABOUT_CONTENT, DEFAULT_BANNERS_CONTENT } from "@/modules/content/constants";
 
+export const revalidate = 300;
+
 export const metadata = {
   title: "Giới Thiệu Về Chúng Tôi | GT Logistics",
   description:

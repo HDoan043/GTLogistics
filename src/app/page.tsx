@@ -13,7 +13,7 @@ import {
   DEFAULT_BORDER_GATES,
 } from "@/modules/content/constants";
 
-export const revalidate = 60; // ISR cache 60s cho trang chủ để chịu tải cực tốt
+export const revalidate = 300; // ISR cache 5 phút cho trang chủ để triệt tiêu độ trễ DB xuyên quốc gia
 
 export default async function HomePage() {
   const [services, settings, heroContent, whyUsContent, homeServicesContent, borderGatesContent] =

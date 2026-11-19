@@ -2,6 +2,8 @@ import React from "react";
 import { QuoteCtaSection } from "@/components/home/QuoteCtaSection";
 import { getSiteSettings } from "@/modules/settings/actions";
 
+export const revalidate = 300;
+
 export const metadata = {
   title: "Yêu Cầu Báo Giá Cước Trực Tuyến | GT Logistics",
   description:

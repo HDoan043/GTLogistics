@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/Button";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getLocalizedPost } from "@/lib/i18n";
 
+export const revalidate = 180;
+
 export async function generateMetadata({
   params,
 }: {

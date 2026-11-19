@@ -2,21 +2,29 @@
 
 import { prisma } from "@/lib/db";
 import { DEFAULT_COMPANY_INFO } from "@/lib/constants";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, unstable_cache, revalidateTag } from "next/cache";
+
+const getCachedSiteSettings = unstable_cache(
+  async (): Promise<Record<string, string>> => {
+    try {
+      const settings = await prisma.siteSetting.findMany();
+      const result: Record<string, string> = { ...DEFAULT_COMPANY_INFO };
+
+      for (const s of settings) {
+        result[s.key] = s.value;
+      }
+      return result;
+    } catch (err) {
+      console.error("Lỗi khi tải SiteSettings:", err);
+      return { ...DEFAULT_COMPANY_INFO };
+    }
+  },
+  ["site-settings"],
+  { revalidate: 300, tags: ["settings"] }
+);
 
 export async function getSiteSettings(): Promise<Record<string, string>> {
-  try {
-    const settings = await prisma.siteSetting.findMany();
-    const result: Record<string, string> = { ...DEFAULT_COMPANY_INFO };
-
-    for (const s of settings) {
-      result[s.key] = s.value;
-    }
-    return result;
-  } catch (err) {
-    console.error("Lỗi khi tải SiteSettings:", err);
-    return { ...DEFAULT_COMPANY_INFO };
-  }
+  return getCachedSiteSettings();
 }
 
 export async function updateSiteSettings(
@@ -35,6 +43,7 @@ export async function updateSiteSettings(
       }
     }
 
+    revalidateTag("settings");
     revalidatePath("/", "layout");
     return { success: true, message: "Cập nhật cấu hình website thành công!" };
   } catch (err) {

@@ -17,6 +17,8 @@ import { getLocalizedService } from "@/lib/i18n";
 import { getPageSectionContent } from "@/modules/content/actions";
 import { DEFAULT_BANNERS_CONTENT } from "@/modules/content/constants";
 
+export const revalidate = 300;
+
 export const metadata = {
   title: "Tất Cả Dịch Vụ Logistics & Hải Quan | GT Logistics",
   description:

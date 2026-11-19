@@ -10,6 +10,8 @@ import {
 } from "@/modules/content/constants";
 import { getPageSectionContent } from "@/modules/content/actions";
 
+export const revalidate = 300;
+
 export const metadata = {
   title: "Thông Tin Doanh Nghiệp & Hệ Thống Điểm Trực | GT Logistics",
   description:

@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/db";
 import { SERVICE_CATEGORIES } from "@/lib/constants";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 const OFFICIAL_SERVICE_DETAILS: Record<
   string,
@@ -168,8 +169,8 @@ const OFFICIAL_SERVICE_DETAILS: Record<
   },
 };
 
-export async function getServices() {
-  try {
+const getCachedServicesList = unstable_cache(
+  async () => {
     const services = await prisma.service.findMany({
       orderBy: { sortOrder: "asc" },
     });
@@ -214,14 +215,22 @@ export async function getServices() {
         updatedAt: match?.updatedAt || new Date(),
       };
     });
+  },
+  ["services-list"],
+  { revalidate: 300, tags: ["services"] }
+);
+
+export async function getServices() {
+  try {
+    return await getCachedServicesList();
   } catch (error) {
     console.error("Lỗi lấy danh sách dịch vụ:", error);
     return [];
   }
 }
 
-export async function getServiceBySlug(slug: string) {
-  try {
+const getCachedServiceDetail = unstable_cache(
+  async (slug: string) => {
     const rich = OFFICIAL_SERVICE_DETAILS[slug];
     const service = await prisma.service.findUnique({
       where: { slug },
@@ -262,6 +271,14 @@ export async function getServiceBySlug(slug: string) {
       };
     }
     return null;
+  },
+  ["service-detail"],
+  { revalidate: 300, tags: ["services"] }
+);
+
+export async function getServiceBySlug(slug: string) {
+  try {
+    return await getCachedServiceDetail(slug);
   } catch (error) {
     console.error("Lỗi lấy chi tiết dịch vụ:", error);
     return null;
@@ -289,6 +306,7 @@ export async function updateServiceContent(
       where: { slug },
       data,
     });
+    revalidateTag("services");
     revalidatePath("/", "layout");
     revalidatePath("/services");
     revalidatePath(`/services/${slug}`);

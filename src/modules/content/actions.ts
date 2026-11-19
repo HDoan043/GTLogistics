@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/db";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, unstable_cache, revalidateTag } from "next/cache";
 import {
   DEFAULT_HOME_HERO,
   DEFAULT_HOME_WHY_US,
@@ -13,16 +13,26 @@ import {
   DEFAULT_CONTACT_CONTENT,
 } from "./constants";
 
-// Hàm lấy nội dung một section (kèm fallback mặc định)
-export async function getPageSectionContent<T>(key: string, defaultValue: T): Promise<T> {
-  try {
+// Cache tầng Data Cache cho các section để triệt tiêu độ trễ Database xuyên quốc gia
+const getCachedSectionValue = unstable_cache(
+  async (key: string) => {
     const setting = await prisma.siteSetting.findUnique({
       where: { key },
     });
-    if (!setting?.value) {
+    return setting?.value || null;
+  },
+  ["page-section-content"],
+  { revalidate: 300, tags: ["content"] }
+);
+
+// Hàm lấy nội dung một section (kèm fallback mặc định)
+export async function getPageSectionContent<T>(key: string, defaultValue: T): Promise<T> {
+  try {
+    const rawValue = await getCachedSectionValue(key);
+    if (!rawValue) {
       return defaultValue;
     }
-    return JSON.parse(setting.value) as T;
+    return JSON.parse(rawValue) as T;
   } catch (err) {
     console.error(`Lỗi đọc section ${key}:`, err);
     return defaultValue;
@@ -43,6 +53,7 @@ export async function savePageSectionContent<T>(
       create: { key, value: jsonString, description: description || `Cấu hình ${key}` },
     });
 
+    revalidateTag("content");
     revalidatePath("/", "layout");
     revalidatePath("/about");
     revalidatePath("/services");

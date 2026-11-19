@@ -10,6 +10,8 @@ import { getLocalizedPost } from "@/lib/i18n";
 import { DEFAULT_BANNERS_CONTENT } from "@/modules/content/constants";
 import { getPageSectionContent } from "@/modules/content/actions";
 
+export const revalidate = 180;
+
 export const metadata = {
   title: "Tin Tức & Cẩm Nang Xuất Nhập Khẩu | GT Logistics",
   description:

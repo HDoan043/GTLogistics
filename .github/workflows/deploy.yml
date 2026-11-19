@@ -61,6 +61,16 @@ jobs:
             pm2 start ecosystem.config.js
             pm2 save
 
+            # 8. Cấu hình Bảo mật Nginx (server_tokens off)
+            echo "🛡️ Cập nhật cấu hình bảo mật Nginx (server_tokens off)..."
+            if command -v nginx >/dev/null 2>&1; then
+              sudo sed -i 's/# server_tokens off;/server_tokens off;/g' /etc/nginx/nginx.conf 2>/dev/null || true
+              if ! grep -q "server_tokens off;" /etc/nginx/nginx.conf 2>/dev/null; then
+                sudo sed -i '/http {/a \    server_tokens off;' /etc/nginx/nginx.conf 2>/dev/null || true
+              fi
+              sudo nginx -t 2>/dev/null && sudo nginx -s reload 2>/dev/null || true
+            fi
+
             echo "==========================================="
             echo "✅ DEPLOY THÀNH CÔNG! WEBSITE ĐÃ ĐƯỢC CẬP NHẬT."
             echo "==========================================="

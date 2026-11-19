@@ -95,3 +95,4 @@ ehthumbs_vista.db
 # 9. DOCKER OVERRIDES NỘI BỘ & SKILLS KIỂM THỬ NGOÀI
 docker-compose.override.yml
 .agents/skills/playwright-skill/
+.agents/skills/dogfood/

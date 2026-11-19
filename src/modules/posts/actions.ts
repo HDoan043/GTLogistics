@@ -4,7 +4,32 @@ import { prisma } from "@/lib/db";
 import { generateSlug, sanitizeHtml } from "@/lib/security";
 import { getCurrentAdmin } from "@/lib/auth";
 import { PostSchema } from "./schema";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, unstable_cache, revalidateTag } from "next/cache";
+
+const getCachedPostsList = unstable_cache(
+  async (category?: string, limit?: number, publishedOnly?: boolean) => {
+    const where: Record<string, unknown> = {};
+    if (publishedOnly ?? true) {
+      where.isPublished = true;
+    }
+    if (category && category !== "Tất cả") {
+      where.category = category;
+    }
+
+    return await prisma.post.findMany({
+      where,
+      orderBy: { publishedAt: "desc" },
+      take: limit || 20,
+      include: {
+        author: {
+          select: { fullName: true, email: true },
+        },
+      },
+    });
+  },
+  ["posts-list"],
+  { revalidate: 180, tags: ["posts"] }
+);
 
 export async function getPosts(params?: {
   category?: string;
@@ -12,24 +37,7 @@ export async function getPosts(params?: {
   publishedOnly?: boolean;
 }) {
   try {
-    const where: Record<string, unknown> = {};
-    if (params?.publishedOnly ?? true) {
-      where.isPublished = true;
-    }
-    if (params?.category && params.category !== "Tất cả") {
-      where.category = params.category;
-    }
-
-    return await prisma.post.findMany({
-      where,
-      orderBy: { publishedAt: "desc" },
-      take: params?.limit || 20,
-      include: {
-        author: {
-          select: { fullName: true, email: true },
-        },
-      },
-    });
+    return await getCachedPostsList(params?.category, params?.limit, params?.publishedOnly);
   } catch (error) {
     console.error("Lỗi khi tải danh sách bài viết:", error);
     return [];
@@ -96,6 +104,7 @@ export async function createPost(rawInput: unknown) {
       },
     });
 
+    revalidateTag("posts");
     revalidatePath("/news");
     revalidatePath("/admin/posts");
     return { success: true, message: "Đăng bài viết thành công!", post: newPost };
@@ -131,6 +140,7 @@ export async function updatePost(id: string, rawInput: unknown) {
       },
     });
 
+    revalidateTag("posts");
     revalidatePath("/news");
     revalidatePath("/admin/posts");
     return { success: true, message: "Cập nhật bài viết thành công!" };
@@ -148,6 +158,7 @@ export async function deletePost(id: string) {
 
   try {
     await prisma.post.delete({ where: { id } });
+    revalidateTag("posts");
     revalidatePath("/news");
     revalidatePath("/admin/posts");
     return { success: true, message: "Đã xóa bài viết thành công!" };

@@ -2,13 +2,13 @@
 
 import { prisma } from "@/lib/db";
 import { LeadSchema } from "./schema";
-import { checkRateLimit } from "@/lib/rate-limit";
+import { checkClusterRateLimit } from "@/lib/rate-limit";
 import { getCurrentAdmin } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 export async function submitLead(rawInput: unknown, clientIp: string = "anon") {
-  // 1. Kiểm tra Rate Limit chống spam (tối đa 5 lần gửi / 2 phút đối với 1 IP)
-  const limiter = checkRateLimit(`lead_${clientIp}`, 5, 2 * 60 * 1000);
+  // 1. Kiểm tra Rate Limit chống spam hợp nhất trên toàn bộ PM2 Cluster (tối đa 5 lần gửi / 2 phút)
+  const limiter = await checkClusterRateLimit(`lead_${clientIp}`, 5, 2 * 60 * 1000);
   if (!limiter.success) {
     return {
       success: false,

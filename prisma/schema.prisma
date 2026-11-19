@@ -107,3 +107,12 @@ model SiteSetting {
   description String?
   updatedAt   DateTime @updatedAt
 }
+
+// Kiểm soát tần suất truy cập tập trung giữa các worker PM2 Cluster (chống phân mảnh in-memory)
+model RateLimitRecord {
+  key       String   @id
+  count     Int      @default(1)
+  expiresAt DateTime
+
+  @@index([expiresAt])
+}
